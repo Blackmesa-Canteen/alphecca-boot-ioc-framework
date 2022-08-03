@@ -5,7 +5,7 @@ package io.swen90007sm2.app.security.constant;
  * @description Constants for security domin
  * @create 2022-08-03 23:26
  */
-public class SecurityConstant {
+public interface SecurityConstant {
 
     public static String JWT_HEADER_NAME = "Authorization";
     public static String JWT_PAYLOAD_USERNAME = "username";
