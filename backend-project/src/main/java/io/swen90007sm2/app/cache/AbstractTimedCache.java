@@ -29,7 +29,7 @@ public abstract class AbstractTimedCache<K, V> implements ICacheStorage<K, V> {
     public Optional<V> get(K key) {
         Assert.notNull(key, "cache key must not null.");
 
-        // check prev key existence, and check expiration
+        // check expiration
         return __get(key).map(item -> {
             if (item.getExpiresAt() != null && item.getExpiresAt().before(TimeUtil.now())) {
                 // if the item is expired
