@@ -1,4 +1,4 @@
-package io.swen90007sm2.app.filter.security;
+package io.swen90007sm2.app.security.filter;
 
 import com.alibaba.fastjson.JSON;
 import io.swen90007sm2.alpheccaboot.annotation.filter.Filter;

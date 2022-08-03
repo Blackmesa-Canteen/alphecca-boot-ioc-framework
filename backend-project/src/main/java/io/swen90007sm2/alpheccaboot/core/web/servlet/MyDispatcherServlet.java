@@ -9,6 +9,7 @@ import io.swen90007sm2.alpheccaboot.core.web.handler.IRequestHandler;
 import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.alpheccaboot.exception.ResourceNotFoundException;
+import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,15 +66,16 @@ public class MyDispatcherServlet extends HttpServlet {
         } catch (ConstraintViolationException e) {
             R responseBean = ResponseFactory.getValidationErrResponseBean(e.getConstraintViolations());
             IRequestHandler.respondRequestWithJson(responseBean, resp);
-        } catch (IllegalArgumentException | RequestException e) {
-            R responseBean = ResponseFactory.getRequestErrorResponseBean(e.toString());
+        } catch (RequestException e) {
+            R responseBean = ResponseFactory.getRequestErrorResponseBean(e.getCode(), e.getMsg());
             IRequestHandler.respondRequestWithJson(responseBean, resp);
-        } catch (InternalException e) {
-            R responseBean = ResponseFactory.getServerInternalErrorResponseBean(e.toString());
+        }
+        catch (InternalException e) {
+            R responseBean = ResponseFactory.getServerInternalErrorResponseBean(e.getCode(), e.toString());
             IRequestHandler.respondRequestWithJson(responseBean, resp);
         } catch (Exception e) {
             LOGGER.error("Servlet caught an Internal exception: ", e);
-            R responseBean = ResponseFactory.getServerInternalErrorResponseBean("Internal error, please contact admin.");
+            R responseBean = ResponseFactory.getServerInternalErrorResponseBean(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.toString());
             IRequestHandler.respondRequestWithJson(responseBean, resp);
         }
     }

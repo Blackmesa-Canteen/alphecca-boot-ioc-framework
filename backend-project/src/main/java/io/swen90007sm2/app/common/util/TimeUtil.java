@@ -1,6 +1,10 @@
 package io.swen90007sm2.app.common.util;
 
+import io.swen90007sm2.alpheccaboot.AlpheccaBootApplication;
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -13,11 +17,13 @@ import java.util.concurrent.TimeUnit;
  * @author 996Worker
  * @author johnniang https://github.com/halo-dev/halo-admin
  * @author guqing https://github.com/halo-dev/halo-admin
- *
  * @description util for time
  * @create 2022-08-03 21:50
  */
 public class TimeUtil {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimeUtil.class);
+
 
     /**
      * default start day from monday
@@ -26,6 +32,7 @@ public class TimeUtil {
 
     /**
      * get current Date
+     *
      * @return current date
      */
     public static Date now() {
@@ -48,8 +55,9 @@ public class TimeUtil {
 
     /**
      * given a date, add a time period, then get result date obj
-     * @param date original date
-     * @param time time needs to be added
+     *
+     * @param date     original date
+     * @param time     time needs to be added
      * @param timeUnit unit
      * @return result date after addition
      */
@@ -93,6 +101,54 @@ public class TimeUtil {
     }
 
     /**
+     * get time delta between two date
+     *
+     * @param one      Date
+     * @param two      Date
+     * @param timeUnit unit
+     * @return delta period, default is ms.
+     */
+    public static long getDeltaBetweenDate(Date one, Date two, TimeUnit timeUnit) {
+        long day = 0;
+        long hour = 0;
+        long min = 0;
+        long sec = 0;
+        try {
+
+            long time1 = one.getTime();
+            long time2 = two.getTime();
+            long diff;
+            if (time1 < time2) {
+                diff = time2 - time1;
+            } else {
+                diff = time1 - time2;
+            }
+
+            switch (timeUnit) {
+                case DAYS:
+                    return diff / (24 * 60 * 60 * 1000);
+                case HOURS:
+                    day = diff / (24 * 60 * 60 * 1000);
+                    return (diff / (60 * 60 * 1000) - day * 24);
+                case MINUTES:
+                    day = diff / (24 * 60 * 60 * 1000);
+                    hour = (diff / (60 * 60 * 1000) - day * 24);
+                    return ((diff / (60 * 1000)) - day * 24 * 60 - hour * 60);
+                case SECONDS:
+                    day = diff / (24 * 60 * 60 * 1000);
+                    hour = (diff / (60 * 60 * 1000) - day * 24);
+                    min = ((diff / (60 * 1000)) - day * 24 * 60 - hour * 60);
+                    return (diff / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+                default:
+                    return diff;
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.toString());
+            throw new InternalException("Date caculation error.");
+        }
+    }
+
+    /**
      * Parses a string date,
      * using the default date format symbols for the default locale.
      *
@@ -105,12 +161,13 @@ public class TimeUtil {
 
     /**
      * parse string date
-     * @param str date str
+     *
+     * @param str    date str
      * @param locale If null, the system locale is used
      * @return date obj
      */
     public static Date parseDate(String str, Locale locale) {
-        String[] patterns = new String[] {"yyyy-MM-dd HH:mm:ss",
+        String[] patterns = new String[]{"yyyy-MM-dd HH:mm:ss",
                 "yyyy/MM/dd HH:mm:ss",
                 "yyyy.MM.dd HH:mm:ss",
                 "yyyy-MM-dd",
@@ -131,7 +188,8 @@ public class TimeUtil {
         try {
             return DateUtils.parseDate(str, locale, patterns);
         } catch (ParseException e) {
-            throw new IllegalArgumentException(e);
+            LOGGER.error("parsing date String error: {}", e.toString());
+            throw new InternalException(e.toString());
         }
     }
 
@@ -190,6 +248,7 @@ public class TimeUtil {
     /**
      * Convert date obj to calendar obj.
      * with locale, time zone
+     *
      * @param date
      * @param zone
      * @param locale
