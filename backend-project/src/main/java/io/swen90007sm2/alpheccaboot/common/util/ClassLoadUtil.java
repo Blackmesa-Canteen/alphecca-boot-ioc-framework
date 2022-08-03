@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -65,6 +66,11 @@ public class ClassLoadUtil {
             Enumeration<URL> urls = getContextClassLoader().getResources(packageName.replace(".", "/"));
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
+
+                // handles chinese/special path name
+                String decodedString = URLDecoder.decode(url.toString(), "utf-8");
+                url = new URL(decodedString);
+
                 if (url != null) {
                     // protocol name of the url, file:// or jar://
                     String protocol = url.getProtocol();

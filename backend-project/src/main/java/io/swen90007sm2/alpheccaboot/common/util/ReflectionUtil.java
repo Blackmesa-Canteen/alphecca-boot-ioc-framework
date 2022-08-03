@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolationException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,7 +29,10 @@ public class ReflectionUtil {
     public static Object genNewInstanceByClass(Class<?> clazz) {
         Object instance;
         try {
-            instance = clazz.getDeclaredConstructor().newInstance();
+            Constructor<?> declaredConstructor = clazz.getDeclaredConstructor();
+            declaredConstructor.setAccessible(true);
+            instance = declaredConstructor.newInstance();
+            declaredConstructor.setAccessible(false);
         } catch (Exception e) {
             LOGGER.error("new instance failure", e);
             throw new RuntimeException(e);
