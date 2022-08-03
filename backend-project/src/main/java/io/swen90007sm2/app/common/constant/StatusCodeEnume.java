@@ -1,16 +1,25 @@
 package io.swen90007sm2.app.common.constant;
 
+import org.apache.http.HttpStatus;
+
 /**
  * @author xiaotian
  */
 public enum StatusCodeEnume {
 
+    /* General code*/
     SUCCESS(200, "Ok"),
-    UNKNOW_EXCEPTION(10000,"Unknown exception."),
-    VAILDATION_EXCEPTION(10001,"Param format exception."),
-    TO_MANY_REQUEST(10002,"Too many requests, please try again"),
-    USER_EXIST_EXCEPTION(15001,"Duplicated user"),
-    LOGIN_PASSWORD_EXCEPTION(15002,"Wrong passwords or username"),
+    SERVER_INTERNAL_EXCEPTION(500, "Server Internal Error, please contact admin."),
+    GENERAL_INTERNAL_EXCEPTION(400, "Bad request."),
+    RESOURCE_NOT_FOUND_EXCEPTION(404, "Resource not found"),
+
+    /* auth */
+    USER_EXIST_EXCEPTION(15001,"Duplicated user."),
+    LOGIN_PASSWORD_EXCEPTION(15002,"Wrong passwords or username."),
+    CUSTOMER_AUTH_FAILED_EXCEPTION(15010, "Customer Access Only."),
+    HOTELIER_AUTH_FAILED_EXCEPTION(15011, "Hotelier Access Only."),
+    ADMIN_AUTH_FAILED_EXCEPTION(15012, "Admin Access Only."),
+
     ;
 
     private final Integer code;
