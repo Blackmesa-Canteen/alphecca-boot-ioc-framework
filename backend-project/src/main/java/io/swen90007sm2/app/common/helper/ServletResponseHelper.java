@@ -2,6 +2,7 @@ package io.swen90007sm2.app.common.helper;
 
 import com.alibaba.fastjson.JSON;
 import io.swen90007sm2.alpheccaboot.bean.R;
+import io.swen90007sm2.alpheccaboot.core.web.handler.IRequestHandler;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,13 +25,7 @@ public class ServletResponseHelper {
     private void responseWithFailure(HttpServletResponse response, int code, String message) throws IOException {
         R jsonObj = R.error(code, message);
         if (response != null) {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter writer = response.getWriter();
-            String json = JSON.toJSON(jsonObj).toString();
-            writer.write(json);
-            writer.flush();
-            writer.close();
+            IRequestHandler.respondRequestWithJson(jsonObj, response);
         }
     }
 }

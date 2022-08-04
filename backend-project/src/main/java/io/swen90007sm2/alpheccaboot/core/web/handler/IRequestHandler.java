@@ -17,6 +17,19 @@ public interface IRequestHandler {
         if (responseObj != null) {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
+
+            // CORS
+            /* 允许跨域的主机地址 */
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            /* 允许跨域的请求方法GET, POST, HEAD 等 */
+            response.setHeader("Access-Control-Allow-Methods", "*");
+            /* 重新预检验跨域的缓存时间 (s) */
+            response.setHeader("Access-Control-Max-Age", "4200");
+            /* 允许跨域的请求头 */
+            response.setHeader("Access-Control-Allow-Headers", "*");
+            /* 是否携带cookie */
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+
             PrintWriter writer = response.getWriter();
             String json = JSON.toJSON(responseObj).toString();
             writer.write(json);
