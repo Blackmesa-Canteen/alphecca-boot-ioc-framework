@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
  * @param <V> value
  *
  * @author xiaotian
+ * @author johnniang https://github.com/halo-dev/halo-admin
  */
 public interface ICacheStorage<K, V> {
 
