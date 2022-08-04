@@ -49,6 +49,8 @@ public class CustomerAuthFilter extends AbstractAuthFilter {
                     StatusCodeEnume.NOT_LOGIN_EXCEPTION.getCode()
             );
         }
+
+        // TODO check token equality
         return true;
     }
 

@@ -15,7 +15,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author 996Worker
- * @author johnniang https://github.com/halo-dev/halo-admin
  *
  * @description simple memory timed cache for k-object
  * @create 2022-08-03 22:23

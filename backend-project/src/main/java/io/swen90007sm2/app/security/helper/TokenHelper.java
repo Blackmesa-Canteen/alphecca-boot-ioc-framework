@@ -63,6 +63,10 @@ public class TokenHelper {
      * @return AuthToken bean
      */
     public static AuthToken parseAuthTokenString(String tokenStr) {
+        if (tokenStr == null) {
+            // parsed no token str from header, not login at all
+            throw new RequestException(StatusCodeEnume.NOT_LOGIN_EXCEPTION.getMessage(), StatusCodeEnume.NOT_LOGIN_EXCEPTION.getCode());
+        }
         JwtParser jwtParser = Jwts.parser();
 
         // private key to decrypt and check the payload

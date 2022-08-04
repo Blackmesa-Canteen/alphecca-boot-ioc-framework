@@ -6,6 +6,7 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Handler;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.PathVariable;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.cache.ICacheStorage;
@@ -15,6 +16,7 @@ import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +40,7 @@ public class TestLoginHandler {
         }
 
         cache.put(CacheConstant.TOKEN_KEY_PREFIX + userId, token, SecurityConstant.DEFAULT_TOKEN_EXPIRATION_TIME_MS, TimeUnit.MILLISECONDS);
-        return R.ok();
+        return R.ok().setData(token);
     }
 
     @HandlesRequest(path = "/logout", method = RequestMethod.GET)
@@ -50,14 +52,14 @@ public class TestLoginHandler {
     }
 
     @HandlesRequest(path = "/profile", method = RequestMethod.GET)
-    public R getTokenInServer() {
-        String userId = "asd";
-        Optional<Object> resObj = cache.get(CacheConstant.TOKEN_KEY_PREFIX + userId);
+    public R getTokenInServer(HttpServletRequest request, @QueryParam(value = "name") String name) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        Optional<Object> resObj = cache.get(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
         if (resObj.isPresent()) {
-            String o = (String) resObj.get();
-            return R.ok().setData(o);
+            return R.ok().setData(authToken);
         } else {
-            return R.error().setData("Not login");
+            return R.error().setData("Not login (from handler)");
         }
     }
 
