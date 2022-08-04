@@ -8,6 +8,7 @@ import java.io.File;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -68,32 +69,30 @@ public class ClassLoadUtil {
                 URL url = urls.nextElement();
 
                 // handles chinese/special path name
-                String decodedString = URLDecoder.decode(url.toString(), "utf-8");
+                String decodedString = URLDecoder.decode(url.toString(), StandardCharsets.UTF_8);
                 url = new URL(decodedString);
 
-                if (url != null) {
-                    // protocol name of the url, file:// or jar://
-                    String protocol = url.getProtocol();
-                    if (protocol.equals("file")) {
+                // protocol name of the url, file:// or jar://
+                String protocol = url.getProtocol();
+                if (protocol.equals("file")) {
 
-                        // replace %20 space from url to string " "
-                        String packagePath = url.getPath().replaceAll("%20", " ");
-                        addClassToSetFromFile(classSet, packagePath, packageName);
-                    } else if (protocol.equals("jar")) {
-                        // jar:// can establish jar connection directly
-                        JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
-                        if (jarURLConnection != null) {
-                            JarFile jarFile = jarURLConnection.getJarFile();
-                            if (jarFile != null) {
-                                Enumeration<JarEntry> jarEntries = jarFile.entries();
-                                while (jarEntries.hasMoreElements()) {
-                                    JarEntry jarEntry = jarEntries.nextElement();
-                                    String jarEntryName = jarEntry.getName();
-                                    if (jarEntryName.endsWith(".class")) {
-                                        // change io/swen90007sm2/core/Some.class to io.swen90007sm2.framework.core.Some
-                                        String className = jarEntryName.substring(0, jarEntryName.lastIndexOf(".")).replaceAll("/", ".");
-                                        addClassToSetWithClassName(classSet, className);
-                                    }
+                    // replace %20 space from url to string " "
+                    String packagePath = url.getPath().replaceAll("%20", " ");
+                    addClassToSetFromFile(classSet, packagePath, packageName);
+                } else if (protocol.equals("jar")) {
+                    // jar:// can establish jar connection directly
+                    JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+                    if (jarURLConnection != null) {
+                        JarFile jarFile = jarURLConnection.getJarFile();
+                        if (jarFile != null) {
+                            Enumeration<JarEntry> jarEntries = jarFile.entries();
+                            while (jarEntries.hasMoreElements()) {
+                                JarEntry jarEntry = jarEntries.nextElement();
+                                String jarEntryName = jarEntry.getName();
+                                if (jarEntryName.endsWith(".class")) {
+                                    // change io/swen90007sm2/core/Some.class to io.swen90007sm2.framework.core.Some
+                                    String className = jarEntryName.substring(0, jarEntryName.lastIndexOf(".")).replaceAll("/", ".");
+                                    addClassToSetWithClassName(classSet, className);
                                 }
                             }
                         }
