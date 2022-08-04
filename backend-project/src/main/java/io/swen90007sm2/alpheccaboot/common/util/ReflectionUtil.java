@@ -1,5 +1,6 @@
 package io.swen90007sm2.alpheccaboot.common.util;
 
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -54,6 +55,8 @@ public class ReflectionUtil {
                 throw (ConstraintViolationException) e.getCause();
             } else if (e.getCause() instanceof RequestException) {
                 throw (RequestException) e.getCause();
+            } else if (e.getCause() instanceof InternalException) {
+                throw (InternalException) e.getCause();
             }
             LOGGER.error("invoke method failure, exception: ", e);
             throw new RuntimeException(e);

@@ -47,9 +47,16 @@ public class AdminAuthFilter extends AbstractAuthFilter {
                     StatusCodeEnume.NOT_LOGIN_EXCEPTION.getMessage(),
                     StatusCodeEnume.NOT_LOGIN_EXCEPTION.getCode()
             );
+        } else {
+            // check token correctness
+            AuthToken tokenBeanInCache = (AuthToken)tokenRecord.get();
+            if (!tokenBean.getToken().equals(tokenBeanInCache.getToken())) {
+                throw new RequestException(
+                        StatusCodeEnume.LOGIN_PASSWORD_EXCEPTION.getMessage(),
+                        StatusCodeEnume.LOGIN_PASSWORD_EXCEPTION.getCode()
+                );
+            }
         }
-
-        // TODO check token equality
         return true;
     }
 }
