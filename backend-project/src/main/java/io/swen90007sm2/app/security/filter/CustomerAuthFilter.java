@@ -39,6 +39,8 @@ public class CustomerAuthFilter extends AbstractAuthFilter {
 
         // check cache to compare token
         String key = CacheConstant.TOKEN_KEY_PREFIX + tokenBean.getUserId();
+
+        // TODO 依赖注入bug, cacheStorage为空
         Optional<Object> tokenRecord = cacheStorage.get(key);
         if(tokenRecord.isEmpty()) {
             // Don't have corresponding token in server cache, it could be: Not login or login expired

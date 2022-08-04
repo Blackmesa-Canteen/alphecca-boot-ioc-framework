@@ -59,7 +59,7 @@ public class InjectionHelper {
 
                 // usually, we use interface or super class as type,
                 // so need to find the implementation class
-                Class<?> fieldImplClass = findImplementation(fieldClass, field);
+                Class<?> fieldImplClass = findImplementation(beanInstance, fieldClass, field);
 
                 // get object instance from bean map
                 Object fieldInstance = beanMap.get(fieldImplClass);
@@ -86,7 +86,7 @@ public class InjectionHelper {
         }
     }
 
-    private static Class<?> findImplementation(Class<?> fieldClass, Field field) {
+    private static Class<?> findImplementation(Object beanInstance, Class<?> fieldClass, Field field) {
         Class<?> res = fieldClass;
         // find impl/son class based on super
         Set<Class<?>> set = ClassManager.getRootClassSetBySuperClass(fieldClass);
@@ -97,7 +97,8 @@ public class InjectionHelper {
                 Qualifier qualifierAnno = field.getAnnotation(Qualifier.class);
                 // if there are multiple impl class, the injected field shoud have qualifier anno
                 if (qualifierAnno == null) {
-                    LOGGER.error("Dependency Injection Error: can not decide which bean to inject in {}", field.getName());
+                    LOGGER.error("Dependency Injection Error: can not decide which bean to inject in [{}] field in [{}]",
+                            field.getName(), beanInstance.getClass().getName());
                     throw new RuntimeException("Dependency Injection Error: can not decide which bean to inject.");
                 }
 

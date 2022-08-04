@@ -25,8 +25,11 @@ public class FilterManager {
     static {
         FILTER_MAP = new HashMap<>();
         Set<Class<?>> filterAnnotatedClassSet = ClassManager.getFilterAnnotatedClassSet();
+
+        // Filter has been instantiated as Component beans in the bean map
+        Map<Class<?>, Object> beanMap = BeanManager.getBeanMap();
         for (Class<?> filterClass : filterAnnotatedClassSet) {
-            IFilter filterObj = (IFilter) ReflectionUtil.genNewInstanceByClass(filterClass);
+            IFilter filterObj = (IFilter) beanMap.get(filterClass);
             Filter annotation = filterClass.getAnnotation(Filter.class);
             String filterName = annotation.name();
 
