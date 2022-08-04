@@ -9,6 +9,12 @@ public class CustomerBlo implements ICustomerBlo {
 
     @Override
     public String getTokenByLoginParam(LoginParam loginParam) throws Exception {
+
+        // check username password with db
+
+        // get role from db
+
+        // build token by TokenHelper, then return token
         return null;
     }
 }
