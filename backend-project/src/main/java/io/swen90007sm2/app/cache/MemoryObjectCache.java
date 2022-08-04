@@ -17,18 +17,18 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author 996Worker
  * @author johnniang https://github.com/halo-dev/halo-admin
  *
- * @description simple memory timed cache for string k-v
+ * @description simple memory timed cache for k-object
  * @create 2022-08-03 22:23
  */
-@Component(beanName = CacheConstant.STRING_CACHE_BEAN)
-public class MemoryStringCache extends AbstractTimedCache<String, String> {
+@Component(beanName = CacheConstant.OBJECT_CACHE_BEAN)
+public class MemoryObjectCache extends AbstractTimedCache<String, Object> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryStringCache.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryObjectCache.class);
 
     /**
      * memory cache
      */
-    private final ConcurrentHashMap<String,TimedCacheItem<String>> CACHE
+    private final ConcurrentHashMap<String,TimedCacheItem<Object>> CACHE
             = new ConcurrentHashMap<>();
 
     private final Lock lock = new ReentrantLock();
@@ -37,10 +37,10 @@ public class MemoryStringCache extends AbstractTimedCache<String, String> {
     /**
      * can not init manully, use singleton in the ioc container
      */
-    private MemoryStringCache() {}
+    private MemoryObjectCache() {}
 
     @Override
-    void __put(String key, TimedCacheItem<String> item) {
+    void __put(String key, TimedCacheItem<Object> item) {
         Assert.hasText(key, "Cache key must not be blank");
         Assert.notNull(item, "Cache wrapper must not be null");
 
@@ -48,7 +48,7 @@ public class MemoryStringCache extends AbstractTimedCache<String, String> {
 
         try {
             // prev is the previous value associated with key, or null if there was no mapping for key
-            TimedCacheItem<String> prev = CACHE.put(key, item);
+            TimedCacheItem<Object> prev = CACHE.put(key, item);
             LOGGER.debug("cache put: [{}] -> [{}], previous v is: [{}]", key, item, prev);
         } finally {
             lock.unlock();
@@ -56,7 +56,7 @@ public class MemoryStringCache extends AbstractTimedCache<String, String> {
     }
 
     @Override
-    boolean __putIfAbsent(String key, TimedCacheItem<String> item) {
+    boolean __putIfAbsent(String key, TimedCacheItem<Object> item) {
         Assert.hasText(key, "Cache key must not be blank");
         Assert.notNull(item, "Cache wrapper must not be null");
 
@@ -64,7 +64,7 @@ public class MemoryStringCache extends AbstractTimedCache<String, String> {
 
         lock.lock();
         try {
-            Optional<String> valueOptinal = get(key);
+            Optional<Object> valueOptinal = get(key);
 
             if (valueOptinal.isPresent()) {
                 LOGGER.debug("key [{}] is already in cache, putIfAbsent Failed", key);
@@ -79,7 +79,7 @@ public class MemoryStringCache extends AbstractTimedCache<String, String> {
     }
 
     @Override
-    Optional<TimedCacheItem<String>> __get(String key) {
+    Optional<TimedCacheItem<Object>> __get(String key) {
         Assert.hasText(key, "key need have text");
 
         // returns an Optional describing the given value, if non-null, otherwise returns an empty Optional.
@@ -108,10 +108,10 @@ public class MemoryStringCache extends AbstractTimedCache<String, String> {
      * @return current cache map view
      */
     @Override
-    public LinkedHashMap<String, String> getCacheLinkedHashMap() {
+    public LinkedHashMap<String, Object> getCacheLinkedHashMap() {
         lock.lock();
         try {
-            LinkedHashMap<String, String> res = new LinkedHashMap<>();
+            LinkedHashMap<String, Object> res = new LinkedHashMap<>();
             CACHE.forEach((k, v) -> {
                 res.put(k, v.getData());
             });

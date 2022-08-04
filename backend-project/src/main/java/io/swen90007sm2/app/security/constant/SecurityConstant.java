@@ -7,17 +7,21 @@ package io.swen90007sm2.app.security.constant;
  */
 public interface SecurityConstant {
 
-    public static String JWT_HEADER_NAME = "Authorization";
-    public static String JWT_PAYLOAD_USERNAME = "username";
-    public static String JWT_PAYLOAD_ROLE = "role";
+    String JWT_HEADER_NAME = "Authorization";
+    String JWT_PAYLOAD_USER_ID = "userId";
+    String JWT_PAYLOAD_ROLE = "role";
 
-    public static String JWT_TOKEN_SUBJECT = "security";
+    String JWT_ISSUED_DATE = "issued-date";
 
-    public static String JWT_PRIVATE = "R53YQvJnVt3DNnFtqE5n";
+    String JWT_EXPIRATION_DATE = "expired-date";
 
-    public static long DEFAULT_TOKEN_EXPIRATION_TIME_MS = 24 * 60 * 60 * 1000;
+    String JWT_TOKEN_SUBJECT = "security";
 
-    public static String CUSTOMER_ROLE = "customer_role";
-    public static String ADMIN_ROLE = "admin_role";
-    public static String HOTELIER_ROLE = "hotelier_role";
+    String JWT_PRIVATE = "R53YQvJnVt3DNnFtqE5n";
+
+    long DEFAULT_TOKEN_EXPIRATION_TIME_MS = 24 * 60 * 60 * 1000;
+
+    String CUSTOMER_ROLE_NAME = "customer_role";
+    String ADMIN_ROLE_NAME = "admin_role";
+    String HOTELIER_ROLE_NAME = "hotelier_role";
 }

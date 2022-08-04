@@ -1,7 +1,9 @@
 package io.swen90007sm2.app.security.helper;
 
 import io.jsonwebtoken.*;
+import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
+import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.security.bean.AuthToken;
@@ -26,28 +28,32 @@ public class TokenHelper {
 
     /**
      * generate auth-use JWT token string
-     * @param username username
+     * @param userId userId
      * @param role AuthRole, 3 types
      * @return string token
      */
-    public static String genAuthToken(String username, AuthRole role) {
+    public static String genAuthToken(String userId, AuthRole role) {
         JwtBuilder builder = Jwts.builder();
         HashMap<String, Object> payloadMap = new HashMap<>();
 
-        payloadMap.put(SecurityConstant.JWT_PAYLOAD_USERNAME, username);
+        payloadMap.put(SecurityConstant.JWT_PAYLOAD_USER_ID, userId);
         payloadMap.put(SecurityConstant.JWT_PAYLOAD_ROLE, role.getRoleName());
+
+        // expiration
+        Date nowDate = TimeUtil.now();
+        payloadMap.put(SecurityConstant.JWT_ISSUED_DATE, nowDate);
+        payloadMap.put(SecurityConstant.JWT_EXPIRATION_DATE,
+                TimeUtil.add(
+                nowDate,
+                SecurityConstant.DEFAULT_TOKEN_EXPIRATION_TIME_MS,
+                TimeUnit.MILLISECONDS
+            )
+        );
 
         return builder
                 .setSubject(SecurityConstant.JWT_TOKEN_SUBJECT)
-                .setIssuedAt(TimeUtil.now())
                 .setClaims(payloadMap)
-                .setExpiration(
-                        TimeUtil.add(
-                            TimeUtil.now(),
-                            SecurityConstant.DEFAULT_TOKEN_EXPIRATION_TIME_MS,
-                            TimeUnit.MILLISECONDS
-                        )
-                ).signWith(SignatureAlgorithm.ES256, SecurityConstant.JWT_PRIVATE)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstant.JWT_PRIVATE)
                 .compact();
     }
 
@@ -66,29 +72,41 @@ public class TokenHelper {
             Jws<Claims> claimsJws = jwtParser.parseClaimsJws(tokenStr);
             // get info from jwt payload
             Claims claimsBody = claimsJws.getBody();
-            String username = claimsBody.get(SecurityConstant.JWT_PAYLOAD_USERNAME, String.class);
+            String username = claimsBody.get(SecurityConstant.JWT_PAYLOAD_USER_ID, String.class);
             String roleName = claimsBody.get(SecurityConstant.JWT_PAYLOAD_ROLE, String.class);
-            Date issuedDate = claimsBody.getIssuedAt();
-            Date expirationDate = claimsBody.getExpiration();
+            Date issuedDate = claimsBody.get(SecurityConstant.JWT_ISSUED_DATE, Date.class);
+            Date expirationDate = claimsBody.get(SecurityConstant.JWT_EXPIRATION_DATE, Date.class);
 
             AuthToken authToken = new AuthToken();
-            authToken.setRole(roleName);
-            authToken.setUserName(username);
+            authToken.setToken(tokenStr);
+            authToken.setRoleName(roleName);
+            authToken.setUserId(username);
             authToken.setIssuedDate(issuedDate);
             authToken.setExpirationDate(expirationDate);
 
             return authToken;
 
-        } catch (ExpiredJwtException e) {
-            throw new RequestException("Token expired, login again", StatusCodeEnume.TOKEN_EXPIRED_EXCEPTION.getCode());
         } catch (MalformedJwtException | SignatureException e) {
-            throw new RequestException("Invalid token.", StatusCodeEnume.TOKEN_INVALID_EXCEPTION.getCode());
+            throw new RequestException(
+                    StatusCodeEnume.TOKEN_INVALID_EXCEPTION.getMessage(),
+                    StatusCodeEnume.TOKEN_INVALID_EXCEPTION.getCode()
+            );
         } catch (Exception e) {
             LOGGER.error("invalid token!");
             throw new RequestException(
-                    "parse incoming auth token string error!",
+                    StatusCodeEnume.TOKEN_PARSE_EXCEPTION.getMessage(),
                     StatusCodeEnume.TOKEN_PARSE_EXCEPTION.getCode()
             );
         }
+    }
+
+    // test
+    public static void main(String[] args) {
+        String token = genAuthToken("tiantian", AuthRole.CUSTOMER_ROLE);
+        System.out.println(token);
+
+        AuthToken authToken = parseAuthTokenString(token);
+
+        System.out.println(authToken);
     }
 }

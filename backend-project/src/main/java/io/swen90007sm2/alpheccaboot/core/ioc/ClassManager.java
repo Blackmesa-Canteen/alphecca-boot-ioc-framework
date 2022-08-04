@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -120,6 +121,7 @@ public class ClassManager {
         set.addAll(getBloClassSet());
         set.addAll(getHandlerClassSet());
         set.addAll(getDaoClassSet());
+        set.addAll(getFilterAnnotatedClassSet());
         set.addAll(getComponentAnnotatedClassSet());
         return set;
     }
@@ -146,15 +148,16 @@ public class ClassManager {
     }
 
     /**
-     * get class from his super class, used to hold class objects that are inhereted from an abstact class or interface
+     * get the root class from his super class, used to hold class objects that are inhereted from an abstact class or interface
      */
-    public static Set<Class<?>> getClassSetBySuperClass(Class<?> superClass) {
+    public static Set<Class<?>> getRootClassSetBySuperClass(Class<?> superClass) {
         Set<Class<?>> set = new HashSet<>();
         for (Class<?> clazz : CLASS_SET) {
             // Determines if the class or interface represented by this Class object is either the same as,
             // or is a superclass or superinterface of, the class or interface represented
             // by the specified Class parameter.
-            if (superClass.isAssignableFrom(clazz) && !superClass.equals(clazz)) {
+            // !!! implementation class is not interface and abstract class !!!
+            if (superClass.isAssignableFrom(clazz) && !superClass.equals(clazz) && !Modifier.isAbstract(clazz.getModifiers())) {
                 set.add(clazz);
             }
         }

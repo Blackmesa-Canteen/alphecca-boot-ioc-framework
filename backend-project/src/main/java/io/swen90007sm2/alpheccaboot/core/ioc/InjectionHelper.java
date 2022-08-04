@@ -1,6 +1,8 @@
 package io.swen90007sm2.alpheccaboot.core.ioc;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil;
 import io.swen90007sm2.alpheccaboot.core.aop.factory.AopBeanPostProcessorFactory;
 import io.swen90007sm2.alpheccaboot.core.aop.processor.IBeanPostProcessor;
@@ -57,7 +59,7 @@ public class InjectionHelper {
 
                 // usually, we use interface or super class as type,
                 // so need to find the implementation class
-                Class<?> fieldImplClass = findImplementation(fieldClass);
+                Class<?> fieldImplClass = findImplementation(fieldClass, field);
 
                 // get object instance from bean map
                 Object fieldInstance = beanMap.get(fieldImplClass);
@@ -76,18 +78,45 @@ public class InjectionHelper {
                             beanInstance.getClass().getName(),
                             fieldClass.getName()
                             );
+                } else {
+                    LOGGER.error("Dependency Injection Error: can not find bean to inject in [{}] of [{}]", fieldClass.getName(), beanInstance.getClass().getName());
+                    throw new RuntimeException("Dependency Injection Error: can not find bean to inject.");
                 }
             }
         }
     }
 
-    private static Class<?> findImplementation(Class<?> fieldClass) {
+    private static Class<?> findImplementation(Class<?> fieldClass, Field field) {
         Class<?> res = fieldClass;
         // find impl/son class based on super
-        Set<Class<?>> set = ClassManager.getClassSetBySuperClass(fieldClass);
+        Set<Class<?>> set = ClassManager.getRootClassSetBySuperClass(fieldClass);
         if (!set.isEmpty()) {
-            // get the first impl class
-            res = set.iterator().next();
+            // it can be multiple implementation class
+            if (set.size() > 1) {
+                Iterator<Class<?>> iterator = set.iterator();
+                Qualifier qualifierAnno = field.getAnnotation(Qualifier.class);
+                // if there are multiple impl class, the injected field shoud have qualifier anno
+                if (qualifierAnno == null) {
+                    LOGGER.error("Dependency Injection Error: can not decide which bean to inject in {}", field.getName());
+                    throw new RuntimeException("Dependency Injection Error: can not decide which bean to inject.");
+                }
+
+                String beanNameRequired = qualifierAnno.name();;
+                while (iterator.hasNext()) {
+                    Class<?> clazz = iterator.next();
+
+                    Component anno = clazz.getAnnotation(Component.class);
+                    String beanName = anno.beanName();
+
+                    // return qulifier matched implementation bean
+                    if (beanName.equals(beanNameRequired)) {
+                        return clazz;
+                    }
+                }
+            } else {
+                // get the first impl class
+                res = set.iterator().next();
+            }
         }
         return res;
     }

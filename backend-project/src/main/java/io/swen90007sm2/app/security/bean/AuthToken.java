@@ -11,9 +11,9 @@ public class AuthToken {
 
     private String token;
 
-    private String role;
+    private String roleName;
 
-    private String userName;
+    private String userId;
 
     private Date issuedDate;
 
@@ -22,10 +22,10 @@ public class AuthToken {
     public AuthToken() {
     }
 
-    public AuthToken(String token, String role, String userName, Date issuedDate, Date expirationDate) {
+    public AuthToken(String token, String roleName, String userId, Date issuedDate, Date expirationDate) {
         this.token = token;
-        this.role = role;
-        this.userName = userName;
+        this.roleName = roleName;
+        this.userId = userId;
         this.issuedDate = issuedDate;
         this.expirationDate = expirationDate;
     }
@@ -38,20 +38,20 @@ public class AuthToken {
         this.token = token;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Date getIssuedDate() {
@@ -68,5 +68,16 @@ public class AuthToken {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthToken{" +
+                "token='" + token + '\'' +
+                ", role='" + roleName + '\'' +
+                ", userName='" + userId + '\'' +
+                ", issuedDate=" + issuedDate +
+                ", expirationDate=" + expirationDate +
+                '}';
     }
 }
