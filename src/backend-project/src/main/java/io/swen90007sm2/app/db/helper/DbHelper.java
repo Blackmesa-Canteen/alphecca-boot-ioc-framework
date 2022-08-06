@@ -12,7 +12,7 @@ import java.sql.*;
  * helper to get database connection, and perform unified CRUD Operation
  * <br/>
  * supports: PostgreSql
- *
+ * https://www.jianshu.com/p/3e2535700159
  * @author xiaotian
  */
 
@@ -29,23 +29,19 @@ public class DbHelper {
         H2,
     }
 
-    private final Logger logger = LoggerFactory.getLogger(DbHelper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DbHelper.class);
 
-    private final String datasource = "";// data source from pool
-    private final DBType type = DBType.PostgreSql;
-    private final String dbUserName;
-    private final String dbPassword;
-    private final String dbPoolDriverName;
-    private final String dbIp;
+    private static final String datasource = "";// data source from pool
+    private static final DBType type = DBType.PostgreSql;
+    private static final String dbUserName;
+    private static final String dbPassword;
+    private static final String dbPoolDriverName;
+    private static final String dbIp;
 
-    private final String dbSchemeName;
+    private static final String dbSchemeName;
 
 
-    private Connection conn = null;
-    private PreparedStatement pstmt = null;
-    protected ResultSet rs = null;
-
-    public DbHelper() {
+    static {
         dbPoolDriverName = ConfigFileManager.getDbDriver();
         Assert.hasText(dbPoolDriverName, "configuration DbDriver field missing!");
         dbIp = ConfigFileManager.getDbIp();
@@ -60,37 +56,37 @@ public class DbHelper {
 
     /**
      * get connection pool connection
+     *
+     * @return database connection
      */
-    private void getConnection() {
+    public static Connection getConnection() {
         // get connection from postgre connection pool
         try {
             Class.forName(dbPoolDriverName);
             String dbUrl = "jdbc:postgresql://" + dbIp + "/" + dbSchemeName;
-            conn = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+            return DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
         } catch (Exception e) {
-            logger.error("get database connection error. ", e);
-            throw new InternalException("get database connection error: " + e.toString());
+            LOGGER.error("get database connection error. ", e);
+            throw new InternalException("get database connection error.");
         }
     }
 
     /**
      * close db connection
      */
-    private void closeAll() {
+    public static void closeDbResource(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
-            if (this.rs != null) {
+            if (rs != null) {
                 rs.close();
             }
-            if (this.pstmt != null) {
+            if (pstmt != null) {
                 pstmt.close();
             }
-            if (this.conn != null) {
+            if (conn != null) {
                 conn.close();
             }
         } catch (SQLException e) {
-            logger.error("Close db connection error: ", e);
+            LOGGER.error("Close db connection error: ", e);
         }
     }
-
-    // TODO CRUD
 }
