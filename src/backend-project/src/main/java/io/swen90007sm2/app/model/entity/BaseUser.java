@@ -9,7 +9,11 @@ import java.util.Date;
  */
 public abstract class BaseUser extends BaseEntity {
 
-    private String loginId;
+    private String userId;
+
+    private String name;
+
+    private String description;
 
     private String password;
 
@@ -18,25 +22,45 @@ public abstract class BaseUser extends BaseEntity {
     public BaseUser() {
     }
 
-    public BaseUser(String loginId, String password, String avatarUrl) {
-        this.loginId = loginId;
+    public BaseUser(String userId, String name, String description, String password, String avatarUrl) {
+        this.userId = userId;
+        this.name = name;
+        this.description = description;
         this.password = password;
         this.avatarUrl = avatarUrl;
     }
 
-    public BaseUser(Date createTime, Date updateTime, String loginId, String password, String avatarUrl) {
+    public BaseUser(Date createTime, Date updateTime, String userId, String name, String description, String password, String avatarUrl) {
         super(createTime, updateTime);
-        this.loginId = loginId;
+        this.userId = userId;
+        this.name = name;
+        this.description = description;
         this.password = password;
         this.avatarUrl = avatarUrl;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public String getName() {
+        return name;
     }
 
-    public void setLoginId(String loginId) {
-        this.loginId = loginId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getPassword() {

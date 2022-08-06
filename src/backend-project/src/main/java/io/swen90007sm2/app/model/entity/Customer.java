@@ -9,4 +9,16 @@ import java.util.Date;
  */
 public class Customer extends BaseUser {
 
+    public Customer() {
+    }
+
+    public Customer(String userId, String name, String description, String password, String avatarUrl) {
+        super(userId, name, description, password, avatarUrl);
+    }
+
+    public Customer(Date createTime, Date updateTime, String userId, String name, String description, String password, String avatarUrl) {
+        super(createTime, updateTime, userId, name, description, password, avatarUrl);
+    }
+
+
 }

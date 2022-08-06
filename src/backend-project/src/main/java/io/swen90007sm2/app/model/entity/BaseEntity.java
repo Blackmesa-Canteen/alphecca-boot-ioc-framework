@@ -16,7 +16,7 @@ public abstract class BaseEntity {
     private Date createTime;
     private Date updateTime;
 
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     public BaseEntity() {
     }
