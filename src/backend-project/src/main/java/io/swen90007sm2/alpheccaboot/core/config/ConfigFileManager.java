@@ -36,6 +36,11 @@ public class ConfigFileManager {
         return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_PASSWORD);
     }
 
+    public static String getDbDbName() {
+        return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_DB_NAME);
+
+    }
+
     public static String getDbSchemeName() {
         return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_SCHEME_NAME);
     }

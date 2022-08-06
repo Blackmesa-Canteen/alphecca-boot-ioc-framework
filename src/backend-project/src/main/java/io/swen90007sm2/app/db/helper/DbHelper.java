@@ -24,6 +24,8 @@ public class DbHelper {
     private static final String dbPoolDriverName;
     private static final String dbIp;
 
+    private static final String dbDbName;
+
     private static final String dbSchemeName;
 
 
@@ -36,6 +38,8 @@ public class DbHelper {
         Assert.hasText(dbPoolDriverName, "configuration DbUsername field missing!");
         dbPassword = ConfigFileManager.getDbPassword();
         Assert.hasText(dbPoolDriverName, "configuration DbPassword field missing!");
+        dbDbName = ConfigFileManager.getDbDbName();
+        Assert.hasText(dbDbName, "configuration dbDbName field missing!");
         dbSchemeName = ConfigFileManager.getDbSchemeName();
         Assert.hasText(dbSchemeName, "configuration dbSchemeName field missing!");
     }
@@ -49,7 +53,7 @@ public class DbHelper {
         // get connection from postgre connection pool
         try {
             Class.forName(dbPoolDriverName);
-            String dbUrl = "jdbc:postgresql://" + dbIp + "/" + dbSchemeName;
+            String dbUrl = "jdbc:postgresql://" + dbIp + "/" + dbDbName + "?currentSchema=" + dbSchemeName;
             return DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
         } catch (Exception e) {
             LOGGER.error("get database connection error. ", e);

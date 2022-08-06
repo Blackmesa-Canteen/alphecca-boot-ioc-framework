@@ -22,5 +22,6 @@ public interface ConfigFileConstant {
     String DB_IP = "io.swen90007sm2.db.ip";
     String DB_USERNAME = "io.swen90007sm2.db.username";
     String DB_PASSWORD = "io.swen90007sm2.db.password";
+    String DB_DB_NAME = "io.swen90007sm2.db.dbName";
     String DB_SCHEME_NAME = "io.swen90007sm2.db.schemeName";
 }
