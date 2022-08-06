@@ -22,12 +22,6 @@
             <version>8.0.29</version>
             <scope>runtime</scope>
         </dependency>
-        <!--db connection pool-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>2.9.0</version>
-        </dependency>
         <!--JDBC-->
         <dependency>
             <groupId>commons-dbutils</groupId>
@@ -40,7 +34,6 @@
             <artifactId>postgresql</artifactId>
             <version>42.4.1</version>
         </dependency>
-
 
         <!-- Servlet -->
         <dependency>

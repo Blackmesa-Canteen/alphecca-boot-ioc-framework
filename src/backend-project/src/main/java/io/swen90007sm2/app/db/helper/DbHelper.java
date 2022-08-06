@@ -18,21 +18,7 @@ import java.sql.*;
 
 public class DbHelper {
 
-    /**
-     * db type
-     */
-    static enum DBType {
-        MySQL,
-        Oracle,
-        PostgreSql,
-        SQLite,
-        H2,
-    }
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DbHelper.class);
-
-    private static final String datasource = "";// data source from pool
-    private static final DBType type = DBType.PostgreSql;
     private static final String dbUserName;
     private static final String dbPassword;
     private static final String dbPoolDriverName;
