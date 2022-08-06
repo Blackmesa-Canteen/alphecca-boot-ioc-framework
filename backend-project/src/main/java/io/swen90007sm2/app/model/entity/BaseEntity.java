@@ -16,12 +16,15 @@ public abstract class BaseEntity {
     private Date createTime;
     private Date updateTime;
 
+    private boolean isDeleted;
+
     public BaseEntity() {
     }
 
     public BaseEntity(Date createTime, Date updateTime) {
         this.createTime = createTime;
         this.updateTime = updateTime;
+        isDeleted = false;
     }
 
     public Date getCreateTime() {
@@ -40,6 +43,11 @@ public abstract class BaseEntity {
         this.updateTime = updateTime;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
     public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }
