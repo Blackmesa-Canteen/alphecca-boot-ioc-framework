@@ -19,7 +19,8 @@ public interface ConfigFileConstant {
 
     // database
     String DB_DRIVER = "io.swen90007sm2.db.driver";
-    String DB_URL = "io.swen90007sm2.db.url";
+    String DB_IP = "io.swen90007sm2.db.ip";
     String DB_USERNAME = "io.swen90007sm2.db.username";
     String DB_PASSWORD = "io.swen90007sm2.db.password";
+    String DB_SCHEME_NAME = "io.swen90007sm2.db.schemeName";
 }

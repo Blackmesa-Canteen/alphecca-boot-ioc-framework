@@ -24,8 +24,8 @@ public class ConfigFileManager {
         return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_DRIVER);
     }
 
-    public static String getDbUrl() {
-        return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_URL);
+    public static String getDbIp() {
+        return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_IP);
     }
 
     public static String getDbUsername() {
@@ -34,6 +34,10 @@ public class ConfigFileManager {
 
     public static String getDbPassword() {
         return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_PASSWORD);
+    }
+
+    public static String getDbSchemeName() {
+        return ConfigFileUtil.getString(CONFIG_FILE_PROPS, ConfigFileConstant.DB_SCHEME_NAME);
     }
 
     public static String getServerHostName() {

@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.common.util;
 
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,22 +16,22 @@ public class Assert {
 
     public static void notNull (Object obj, String msg) {
         if (obj == null) {
-            LOGGER.error("Assertion not null: {}", msg);
-            System.exit(-1);
+            LOGGER.error("Assertion must not null: {}", msg);
+            throw new InternalException("Assertion must not null: " + msg);
         }
     }
 
     public static void isTrue(boolean isTrue, String msg) {
         if(!isTrue) {
-            LOGGER.error("Assertion is true: {}", msg);
-            System.exit(-1);
+            LOGGER.error("Assertion must be true: {}", msg);
+            throw new InternalException("Assertion must be true: " + msg);
         }
     }
 
     public static void hasText(Object obj, String msg) {
         if (!(obj instanceof String && StringUtils.isNotEmpty((String) obj))) {
-            LOGGER.error("Assertion has text: {}", msg);
-            System.exit(-1);
+            LOGGER.error("Assertion must have text: {}", msg);
+            throw new InternalException("Assertion must have text: " + msg);
         }
     }
 }
