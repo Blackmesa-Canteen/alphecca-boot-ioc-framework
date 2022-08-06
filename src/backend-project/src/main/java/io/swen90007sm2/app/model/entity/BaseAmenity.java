@@ -7,7 +7,7 @@ import java.util.Date;
  * @description
  * @create 2022-08-06 23:37
  */
-public abstract class Amenity extends BaseEntity {
+public abstract class BaseAmenity extends BaseEntity {
 
     private String amenityId;
 
@@ -15,20 +15,20 @@ public abstract class Amenity extends BaseEntity {
 
     private String description;
 
-    public Amenity() {
+    public BaseAmenity() {
     }
 
-    public Amenity(Date createTime, Date updateTime) {
+    public BaseAmenity(Date createTime, Date updateTime) {
         super(createTime, updateTime);
     }
 
-    public Amenity(String amenityId, String iconUrl, String description) {
+    public BaseAmenity(String amenityId, String iconUrl, String description) {
         this.amenityId = amenityId;
         this.iconUrl = iconUrl;
         this.description = description;
     }
 
-    public Amenity(Date createTime, Date updateTime, String amenityId, String iconUrl, String description) {
+    public BaseAmenity(Date createTime, Date updateTime, String amenityId, String iconUrl, String description) {
         super(createTime, updateTime);
         this.amenityId = amenityId;
         this.iconUrl = iconUrl;

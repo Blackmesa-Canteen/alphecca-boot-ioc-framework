@@ -2,7 +2,7 @@ package io.swen90007sm2.app.model.entity;
 
 import java.util.Date;
 
-public class HotelAmenity extends Amenity {
+public class HotelAmenity extends BaseAmenity {
     public HotelAmenity() {
     }
 
