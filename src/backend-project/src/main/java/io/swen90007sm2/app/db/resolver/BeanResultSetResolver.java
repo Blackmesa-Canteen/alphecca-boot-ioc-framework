@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.db.resolver;
 
+import com.google.common.base.CaseFormat;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -27,7 +29,10 @@ public class BeanResultSetResolver<T> implements IResultSetResolver<T>{
             // get all fields
             PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor descriptor : propertyDescriptors) {
-                Object resultSetObject = resultSet.getObject(descriptor.getName());
+                // change java bean field camel type to database lower underscore type
+                String lowerUnderscoreName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, descriptor.getName());
+
+                Object resultSetObject = resultSet.getObject(lowerUnderscoreName);
                 descriptor.getWriteMethod().invoke(beanObject, resultSetObject);
             }
 
