@@ -15,4 +15,6 @@ public interface ICustomerDao {
      * @return Customer Entity
      */
     Customer findCustomerByUserId(String UserId);
+
+    int addNewCustomer(Customer customer);
 }

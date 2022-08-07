@@ -1,10 +1,8 @@
 package io.swen90007sm2.app.db.util;
 
 import io.swen90007sm2.alpheccaboot.exception.InternalException;
-import io.swen90007sm2.app.db.helper.DbHelper;
 import io.swen90007sm2.app.db.resolver.BeanListResultSetResolver;
 import io.swen90007sm2.app.db.resolver.BeanResultSetResolver;
-import io.swen90007sm2.app.db.resolver.IResultSetResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import static io.swen90007sm2.app.db.helper.DbHelper.*;
 
@@ -44,7 +43,7 @@ public class CRUDTemplate {
             LOGGER.info("Execute non query SQL [{}] with param [{}]", sql, params);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Execute SQL ERROR in [{}] with param [{}]", sql, params);
+            LOGGER.error("Execute SQL ERROR in [{}] with param [{}]", sql, params, e);
             throw new InternalException("database error， try again later");
         } finally {
             closeDbResource(conn, preparedStatement, null);
@@ -52,14 +51,13 @@ public class CRUDTemplate {
     }
 
     /**
-     * parform query
+     * parform query to get one result
      * @param beanType bean type of return
      * @param sql sql
      * @param params input param
-     * @return Bean or beanList
+     * @return Bean
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T executeQuery(Class<T> beanType, String sql, Object... params) {
+    public static <T> T executeQueryWithOneRes(Class<T> beanType, String sql, Object... params) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -71,23 +69,57 @@ public class CRUDTemplate {
             }
 
             resultSet = preparedStatement.executeQuery();
-            if (resultSet == null || resultSet.getFetchSize() == 0) {
+            if (resultSet == null) {
                 return null;
-            } else if (resultSet.getFetchSize() == 1) {
+            } else  {
                 // one result bean
                 BeanResultSetResolver<T> resolver = new BeanResultSetResolver<>(beanType);
                 return resolver.resolveResultSet(resultSet);
-            } else {
-                // multiple result bean
-                BeanListResultSetResolver<T> resolver = new BeanListResultSetResolver<>(beanType);
-                return (T) resolver.resolveResultSet(resultSet);
             }
         } catch (SQLException e) {
-            LOGGER.error("Execute SQL ERROR in [{}] with param [{}]", sql, params);
+            LOGGER.error("Execute SQL ERROR in [{}] with param [{}]", sql, params, e);
             throw new InternalException("database error， try again later");
         } catch (Exception e) {
             LOGGER.error("ResolveResultSet ERROR.", e);
+            throw new InternalException("database error， try again later", e);
+        } finally {
+            closeDbResource(conn, preparedStatement, resultSet);
+        }
+    }
+
+    /**
+     * query to get result bean list
+     * @param beanType bean type
+     * @param sql sql
+     * @param params params
+     * @return List of bean
+     * @param <T> result bean type
+     */
+    public static <T> List<T> executeQueryWithMultiRes(Class<T> beanType, String sql, Object... params) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            conn = getConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i +1, params[i]);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet == null) {
+                return null;
+            } else {
+                // multiple result bean
+                BeanListResultSetResolver<T> resolver = new BeanListResultSetResolver<>(beanType);
+                return resolver.resolveResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Execute SQL ERROR in [{}] with param [{}]", sql, params, e);
             throw new InternalException("database error， try again later");
+        } catch (Exception e) {
+            LOGGER.error("ResolveResultSet ERROR.", e);
+            throw new InternalException("database error， try again later", e);
         } finally {
             closeDbResource(conn, preparedStatement, resultSet);
         }

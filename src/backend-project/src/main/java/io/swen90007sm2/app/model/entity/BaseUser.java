@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.model.entity;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -9,12 +11,16 @@ import java.util.Date;
  */
 public abstract class BaseUser extends BaseEntity {
 
+    @NotBlank(message = "user login ID should be not blank")
+    @Email(message = "user login ID should be email!")
     private String userId;
 
+    @NotBlank(message = "userName should be not blank")
     private String userName;
 
     private String description;
 
+    @NotBlank(message = "password should be not blank")
     private String password;
 
     private String avatarUrl;
