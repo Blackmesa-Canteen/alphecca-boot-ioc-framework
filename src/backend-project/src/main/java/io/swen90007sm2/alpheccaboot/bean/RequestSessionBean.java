@@ -16,7 +16,6 @@ public class RequestSessionBean {
      */
     private Worker workerNeeded;
 
-    // TODO
     private HttpServletRequest httpServletRequest;
     private HttpServletResponse httpServletResponse;
 

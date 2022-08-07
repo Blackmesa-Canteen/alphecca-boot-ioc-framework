@@ -7,5 +7,4 @@ package io.swen90007sm2.alpheccaboot.bean;
  */
 public class UploadedFile {
 
-    // todo
 }
