@@ -11,7 +11,7 @@ public abstract class BaseUser extends BaseEntity {
 
     private String userId;
 
-    private String name;
+    private String userName;
 
     private String description;
 
@@ -22,29 +22,29 @@ public abstract class BaseUser extends BaseEntity {
     public BaseUser() {
     }
 
-    public BaseUser(String userId, String name, String description, String password, String avatarUrl) {
+    public BaseUser(String userId, String userName, String description, String password, String avatarUrl) {
         this.userId = userId;
-        this.name = name;
+        this.userName = userName;
         this.description = description;
         this.password = password;
         this.avatarUrl = avatarUrl;
     }
 
-    public BaseUser(Date createTime, Date updateTime, String userId, String name, String description, String password, String avatarUrl) {
+    public BaseUser(Date createTime, Date updateTime, String userId, String userName, String description, String password, String avatarUrl) {
         super(createTime, updateTime);
         this.userId = userId;
-        this.name = name;
+        this.userName = userName;
         this.description = description;
         this.password = password;
         this.avatarUrl = avatarUrl;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getDescription() {
