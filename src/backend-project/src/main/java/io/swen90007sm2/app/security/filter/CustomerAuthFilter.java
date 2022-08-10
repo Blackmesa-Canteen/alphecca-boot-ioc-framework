@@ -52,8 +52,8 @@ public class CustomerAuthFilter extends AbstractAuthFilter {
             AuthToken tokenBeanInCache = (AuthToken)tokenRecord.get();
             if (!tokenBean.getToken().equals(tokenBeanInCache.getToken())) {
                 throw new RequestException(
-                        StatusCodeEnume.LOGIN_PASSWORD_EXCEPTION.getMessage(),
-                        StatusCodeEnume.LOGIN_PASSWORD_EXCEPTION.getCode()
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode()
                 );
             }
         }

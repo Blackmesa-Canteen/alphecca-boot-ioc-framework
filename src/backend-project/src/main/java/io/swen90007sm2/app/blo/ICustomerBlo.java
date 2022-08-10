@@ -1,6 +1,7 @@
 package io.swen90007sm2.app.blo;
 
 import io.swen90007sm2.app.model.param.LoginParam;
+import io.swen90007sm2.app.security.bean.AuthToken;
 
 public interface ICustomerBlo {
 
@@ -9,5 +10,5 @@ public interface ICustomerBlo {
      * @param loginParam loginParam from handler
      * @return valid token. If null. loginParam is not valid
      */
-    String getTokenByLoginParam(LoginParam loginParam) throws Exception;
+    AuthToken doLoginAndGenToken(LoginParam loginParam) throws Exception;
 }

@@ -4,10 +4,12 @@ import io.swen90007sm2.alpheccaboot.bean.MethodCalling;
 import io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil;
 import io.swen90007sm2.alpheccaboot.core.aop.interceptor.AbstractInterceptor;
 import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.bind.annotation.*;
 import net.bytebuddy.matcher.ElementMatchers;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
@@ -27,31 +29,34 @@ public class ByteBuddyProxy {
 
     @RuntimeType
     public static Object intercept(@This Object self,
-                            @Origin Method method,
-                            @AllArguments Object[] args,
-                            @SuperMethod Method superMethod) throws Throwable {
+                                   @Origin Method method,
+                                   @AllArguments Object[] args,
+                                   @SuperMethod Method superMethod) throws Throwable {
 
         MethodCalling methodCalling = new MethodCalling(targetObj, method, args);
 
         return interceptor.intercept(methodCalling);
     }
 
-    public static synchronized Object enhanceWithProxy (Object targetObj, AbstractInterceptor interceptor) {
+    public static synchronized Object enhanceWithProxy(Object targetObj, AbstractInterceptor interceptor) {
         Class<?> targetClass = targetObj.getClass();
 
         ByteBuddyProxy.interceptor = interceptor;
         ByteBuddyProxy.targetObj = targetObj;
 
-        Class<?> proxyClass = new ByteBuddy()
+        try (DynamicType.Unloaded<?> make = new ByteBuddy()
                 .subclass(targetClass)
                 .method(
                         ElementMatchers.any()
                 ).intercept(MethodDelegation.to(ByteBuddyProxy.class))
-                .make()
-                .load(targetClass.getClassLoader())
-                .getLoaded();
+                .make()) {
 
-        return ReflectionUtil.genNewInstanceByClass(proxyClass);
+            Class<?> proxyClass = make.load(targetClass.getClassLoader()).getLoaded();
+            return ReflectionUtil.genNewInstanceByClass(proxyClass);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

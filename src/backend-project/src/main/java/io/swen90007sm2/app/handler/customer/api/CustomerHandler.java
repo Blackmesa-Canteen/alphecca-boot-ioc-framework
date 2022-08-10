@@ -11,6 +11,7 @@ import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
+import io.swen90007sm2.app.security.bean.AuthToken;
 
 import javax.validation.Valid;
 
@@ -25,17 +26,11 @@ public class CustomerHandler {
     ICustomerDao customerDao;
 
     @HandlesRequest(path = "/login", method = RequestMethod.POST)
-    public R login(@RequestJsonBody @Valid LoginParam loginParam) {
-        try {
-            int a = 1 / 0;
-        } catch (Exception e) {
-            throw new RequestException(
-                    StatusCodeEnume.LOGIN_PASSWORD_EXCEPTION.getMessage(),
-                    StatusCodeEnume.LOGIN_PASSWORD_EXCEPTION.getCode()
-                    );
-        }
+    public R login(@RequestJsonBody @Valid LoginParam loginParam) throws Exception {
 
-        return R.ok();
+        AuthToken authToken = customerBlo.doLoginAndGenToken(loginParam);
+
+        return R.ok().setData(authToken);
     }
 
     @HandlesRequest(path = "/test", method = RequestMethod.GET)

@@ -28,4 +28,9 @@ public class EncryptUtil {
     public static boolean isOriginMatchCypher(String origin, String cypher) {
         return BCrypt.checkpw(origin, cypher);
     }
+
+    public static void main(String[] args) {
+        String originalPwd = "123456";
+        System.out.println(encrypt(originalPwd));
+    }
 }
