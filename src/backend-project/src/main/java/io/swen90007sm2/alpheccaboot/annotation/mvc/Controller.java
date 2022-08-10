@@ -7,14 +7,14 @@ import java.lang.annotation.*;
 /**
  * An annotation used in a class in the handler level.
  *
- *  level structure:  Handler -> Blo -> Dao
+ *  level structure:  Controller -> Blo -> Dao
  *
  * @author Xiaotian
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface Handler {
+public @interface Controller {
 
     /**
      * Request URL/Path

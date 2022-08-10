@@ -1,6 +1,6 @@
 package io.swen90007sm2.alpheccaboot.core.mvc;
 
-import io.swen90007sm2.alpheccaboot.annotation.mvc.Handler;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
 import io.swen90007sm2.alpheccaboot.bean.Request;
 import io.swen90007sm2.alpheccaboot.bean.Worker;
@@ -18,7 +18,7 @@ import java.util.Set;
  * helper for Handler level
  * @author xiaotian
  */
-public class HandlerManager {
+public class ControllerManager {
 
     /**
      * This map holds: [RequestParam(Method + URL)] to [Handler method].
@@ -31,7 +31,7 @@ public class HandlerManager {
     }
 
     static {
-        Set<Class<?>> handlerClassSet = ClassManager.getHandlerClassSet();
+        Set<Class<?>> handlerClassSet = ClassManager.getControllerClassSet();
         if(!handlerClassSet.isEmpty()) {
             for (Class<?> handlerClass :handlerClassSet) {
                 mapRequestWithWorkerInTheHandler(handlerClass);
@@ -45,8 +45,8 @@ public class HandlerManager {
 
         String requestRootPath = "";
         // get Handler's root request path
-        Handler handlerAnnotationObj = handlerClass.getAnnotation(Handler.class);
-        String basePathFromAnno = handlerAnnotationObj.path();
+        Controller controllerAnnotationObj = handlerClass.getAnnotation(Controller.class);
+        String basePathFromAnno = controllerAnnotationObj.path();
         if (StringUtils.isNotEmpty(basePathFromAnno)) {
             requestRootPath += basePathFromAnno;
         }

@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * an annotation used in methods in Handler classes.
+ * an annotation used in methods in Controller classes.
  *
  * @author Xiaotian
  */

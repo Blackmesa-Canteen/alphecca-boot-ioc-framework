@@ -1,9 +1,9 @@
-package io.swen90007sm2.app.handler;
+package io.swen90007sm2.app.controller;
 
 import io.swen90007sm2.alpheccaboot.annotation.filter.AppliesFilter;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
-import io.swen90007sm2.alpheccaboot.annotation.mvc.Handler;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.PathVariable;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-@Handler(path = "/test_user")
-public class TestLoginHandler {
+@Controller(path = "/test_user")
+public class TestLoginController {
 
     @AutoInjected
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)

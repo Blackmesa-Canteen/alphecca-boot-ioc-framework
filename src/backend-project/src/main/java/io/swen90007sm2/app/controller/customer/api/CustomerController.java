@@ -1,11 +1,10 @@
-package io.swen90007sm2.app.handler.customer.api;
+package io.swen90007sm2.app.controller.customer.api;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.*;
 import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
-import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.ICustomerBlo;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
@@ -15,9 +14,9 @@ import io.swen90007sm2.app.security.bean.AuthToken;
 
 import javax.validation.Valid;
 
-@Handler(path = "/api/customer")
+@Controller(path = "/api/customer")
 @Validated
-public class CustomerHandler {
+public class CustomerController {
 
     @AutoInjected
     ICustomerBlo customerBlo;

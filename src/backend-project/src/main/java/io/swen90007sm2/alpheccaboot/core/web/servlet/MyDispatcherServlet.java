@@ -2,7 +2,7 @@ package io.swen90007sm2.alpheccaboot.core.web.servlet;
 
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.bean.RequestSessionBean;
-import io.swen90007sm2.alpheccaboot.core.mvc.HandlerManager;
+import io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager;
 import io.swen90007sm2.alpheccaboot.core.web.factory.RequestHandlerFactory;
 import io.swen90007sm2.alpheccaboot.core.web.factory.ResponseFactory;
 import io.swen90007sm2.alpheccaboot.core.web.handler.IRequestHandler;
@@ -86,7 +86,7 @@ public class MyDispatcherServlet extends HttpServlet {
     public static RequestSessionBean genRequestSessionBean(String requestMethodText, String requestPath) {
         RequestSessionBean requestSessionBean = new RequestSessionBean();
 
-        HandlerManager.getRequestMap().forEach(
+        ControllerManager.getRequestMap().forEach(
                 (requestBean, workerBean) -> {
                     Pattern pattern = Pattern.compile(requestBean.getRequestPathPattern());
                     String urlDefinedInHandler = requestBean.getRequestPath();

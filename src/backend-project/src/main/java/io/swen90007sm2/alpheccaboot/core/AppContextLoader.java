@@ -5,7 +5,7 @@ import io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager;
 import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.alpheccaboot.core.ioc.ClassManager;
 import io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper;
-import io.swen90007sm2.alpheccaboot.core.mvc.HandlerManager;
+import io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager;
 import io.swen90007sm2.alpheccaboot.common.util.ClassLoadUtil;
 import io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class  AppContextLoader {
                 InterceptorManager.class,
                 InjectionHelper.class,
                 FilterManager.class,
-                HandlerManager.class
+                ControllerManager.class
         };
 
         // run static blocks one by one

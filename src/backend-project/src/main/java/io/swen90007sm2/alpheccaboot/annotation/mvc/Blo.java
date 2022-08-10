@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * An annotation that used in a class to mark it as a component of business logic level.
- * level structure:  Handler -> Blo -> Dao
+ * level structure:  Controller -> Blo -> Dao
  *
  * @author Xiaotian
  */

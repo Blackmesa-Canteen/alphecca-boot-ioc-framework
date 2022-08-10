@@ -1,16 +1,13 @@
-package io.swen90007sm2.app.handler;
+package io.swen90007sm2.app.controller;
 
-import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
-import io.swen90007sm2.alpheccaboot.annotation.mvc.Handler;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.PathVariable;
-import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
-import io.swen90007sm2.app.blo.IDemoBlo;
 
-@Handler(path = "/hello")
-public class HelloWorldHandler {
+@Controller(path = "/hello")
+public class HelloWorldController {
 
     @HandlesRequest(path = "/test", method = RequestMethod.GET)
     public R handleHello() {

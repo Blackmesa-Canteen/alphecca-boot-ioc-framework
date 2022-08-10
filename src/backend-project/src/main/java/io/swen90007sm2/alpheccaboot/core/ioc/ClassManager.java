@@ -3,7 +3,7 @@ package io.swen90007sm2.alpheccaboot.core.ioc;
 import io.swen90007sm2.alpheccaboot.annotation.filter.Filter;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
-import io.swen90007sm2.alpheccaboot.annotation.mvc.Handler;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
 import io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil;
 import io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager;
@@ -44,13 +44,13 @@ public class ClassManager {
     }
 
     /**
-     * get set of class object whose class file annotated with @Handler
+     * get set of class object whose class file annotated with @Controller
      * @return Set of Handler class objects
      */
-    public static Set<Class<?>> getHandlerClassSet() {
+    public static Set<Class<?>> getControllerClassSet() {
         Set<Class<?>> set = new HashSet<>();
         for (Class<?> clazz : CLASS_SET) {
-            if (clazz.isAnnotationPresent(Handler.class)) {
+            if (clazz.isAnnotationPresent(Controller.class)) {
                 set.add(clazz);
             }
         }
@@ -119,7 +119,7 @@ public class ClassManager {
     public static Set<Class<?>> getComponentClassSet() {
         Set<Class<?>> set = new HashSet<>();
         set.addAll(getBloClassSet());
-        set.addAll(getHandlerClassSet());
+        set.addAll(getControllerClassSet());
         set.addAll(getDaoClassSet());
         set.addAll(getFilterAnnotatedClassSet());
         set.addAll(getComponentAnnotatedClassSet());
