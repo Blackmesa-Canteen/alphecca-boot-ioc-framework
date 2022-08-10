@@ -18,7 +18,6 @@ public class PhotoController {
     @AutoInjected
     private IPhotoBlo photoBlo;
 
-    /* Test Only!!! */
     @HandlesRequest(path = "/photo", method = RequestMethod.POST)
     public R handleUploadPhoto(HttpServletRequest request, HttpServletResponse response) {
         String userId = "admin@996workers.icu";

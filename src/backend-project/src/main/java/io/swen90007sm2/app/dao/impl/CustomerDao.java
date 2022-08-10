@@ -22,11 +22,10 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int addNewCustomer(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "INSERT INTO customer (user_id, password, description, avatar_url, user_name) values (?, ?, ?, ?, ?)",
+                "INSERT INTO customer (user_id, password, description, user_name) values (?, ?, ?, ?)",
                 customer.getUserId(),
                 customer.getPassword(),
                 customer.getDescription(),
-                customer.getAvatarUrl(),
                 customer.getUserName()
         );
 

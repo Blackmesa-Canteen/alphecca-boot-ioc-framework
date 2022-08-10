@@ -11,6 +11,7 @@ import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
+import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -68,5 +69,41 @@ public class CustomerBlo implements ICustomerBlo {
 
         // return the token string
         return authToken;
+    }
+
+    @Override
+    public Customer getUserInfoBasedOnToken(String tokenString) {
+        AuthToken authToken = TokenHelper.parseAuthTokenString(tokenString);
+        String userId = authToken.getUserId();
+        Customer customerBean = customerDao.findCustomerByUserId(userId);
+        // remove sensitive info
+        customerBean.setPassword(null);
+        return customerBean;
+    }
+
+    @Override
+    public void doRegisterUser(UserRegisterParam registerParam) {
+        String userName = registerParam.getUserName();
+        String userId = registerParam.getUserId();
+
+        // check existence
+        Customer prevResult = customerDao.findCustomerByUserId(userId);
+        if (prevResult != null) {
+            throw new RequestException(
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode()
+            );
+        }
+
+        // encrypt password before store it in db
+        String cypher = EncryptUtil.encrypt(registerParam.getPassword());
+
+        Customer customer = new Customer();
+        customer.setUserId(userId);
+        customer.setUserName(userName);
+        customer.setPassword(cypher);
+        customer.setDescription("New User");
+
+        customerDao.addNewCustomer(customer);
     }
 }
