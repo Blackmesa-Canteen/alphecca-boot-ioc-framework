@@ -46,7 +46,7 @@ public class GetRequestHandler implements IRequestHandler {
         Worker worker = requestSessionBean.getWorkerNeeded();
 
         if (worker != null) {
-            Method targetMethod = worker.getHandlerMethod();
+            Method targetMethod = worker.getControllerMethod();
 
             // perform request filter logic
             if (targetMethod.isAnnotationPresent(AppliesFilter.class)) {
@@ -91,7 +91,7 @@ public class GetRequestHandler implements IRequestHandler {
                 }
             }
 
-            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getHandlerClazz());
+            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
 
             try {
                 if (targetMethod.getReturnType().equals(void.class)) {

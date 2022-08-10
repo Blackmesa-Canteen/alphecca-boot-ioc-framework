@@ -10,44 +10,44 @@ import java.lang.reflect.Method;
 public class Worker {
 
     /**
-     * Handler class object from reflection, maps the method and it's handler class
+     * Controller class object from reflection, maps the method and it's handler class
      */
-    private Class<?> handlerClazz;
+    private Class<?> controllerClazz;
 
     /**
      * the handler method that handles some request
      */
-    private Method handlerMethod;
+    private Method controllerMethod;
 
     public Worker() {
     }
 
-    public Worker(Class<?> handlerClazz, Method handlerMethod) {
-        this.handlerClazz = handlerClazz;
-        this.handlerMethod = handlerMethod;
+    public Worker(Class<?> controllerClazz, Method controllerMethod) {
+        this.controllerClazz = controllerClazz;
+        this.controllerMethod = controllerMethod;
     }
 
-    public Class<?> getHandlerClazz() {
-        return handlerClazz;
+    public Class<?> getControllerClazz() {
+        return controllerClazz;
     }
 
-    public void setHandlerClazz(Class<?> handlerClazz) {
-        this.handlerClazz = handlerClazz;
+    public void setControllerClazz(Class<?> controllerClazz) {
+        this.controllerClazz = controllerClazz;
     }
 
-    public Method getHandlerMethod() {
-        return handlerMethod;
+    public Method getControllerMethod() {
+        return controllerMethod;
     }
 
-    public void setHandlerMethod(Method handlerMethod) {
-        this.handlerMethod = handlerMethod;
+    public void setControllerMethod(Method controllerMethod) {
+        this.controllerMethod = controllerMethod;
     }
 
     @Override
     public String toString() {
         return "Worker{" +
-                "handlerClazz=" + handlerClazz +
-                ", handlerMethod=" + handlerMethod +
+                "handlerClazz=" + controllerClazz +
+                ", handlerMethod=" + controllerMethod +
                 '}';
     }
 }

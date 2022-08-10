@@ -100,9 +100,9 @@ public class MyDispatcherServlet extends HttpServlet {
                         );
 
                         requestSessionBean.setWorkerNeeded(workerBean);
-                        LOGGER.info("Handler Mapping: Handler [{}], method [{}]",
-                                workerBean.getHandlerClazz().getName(),
-                                workerBean.getHandlerMethod().getName());
+                        LOGGER.info("Controller Mapping: Controller [{}], method [{}]",
+                                workerBean.getControllerClazz().getName(),
+                                workerBean.getControllerMethod().getName());
                     }
                 });
 
@@ -112,12 +112,12 @@ public class MyDispatcherServlet extends HttpServlet {
     /**
      * parse the path variable from incoming request path based on url defined in handler @HandlesRequest
      * @param requestPath incoming request
-     * @param urlInHandler url defined in handler @HandlesRequest
+     * @param urlInController url defined in controller @HandlesRequest
      * @return Map : {variableName: value}
      */
-    private static Map<String, String> parseIncomingPath2pathVariableMap(String requestPath, String urlInHandler) {
+    private static Map<String, String> parseIncomingPath2pathVariableMap(String requestPath, String urlInController) {
         String[] requestParams = requestPath.split("/");
-        String[] urlParams = urlInHandler.split("/");
+        String[] urlParams = urlInController.split("/");
         Map<String, String> res = new HashMap<>();
         for (int i = 1; i < urlParams.length; i++) {
             res.put(urlParams[i].replace("{", "").replace("}", ""), requestParams[i]);

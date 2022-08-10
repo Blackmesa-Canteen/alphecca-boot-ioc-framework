@@ -52,7 +52,7 @@ public class PostRequestHandler implements IRequestHandler {
     private static void handleBasicRequest(HttpServletRequest req, HttpServletResponse resp, RequestSessionBean requestSessionBean) throws Exception {
         Worker worker = requestSessionBean.getWorkerNeeded();
         if (worker != null) {
-            Method targetMethod = worker.getHandlerMethod();
+            Method targetMethod = worker.getControllerMethod();
 
             // perform request filter logic
             if (targetMethod.isAnnotationPresent(AppliesFilter.class)) {
@@ -93,7 +93,7 @@ public class PostRequestHandler implements IRequestHandler {
                 }
             }
 
-            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getHandlerClazz());
+            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
 
             if (targetMethod.getReturnType().equals(void.class)) {
                 ReflectionUtil.invokeMethodWithoutResult(handlerBean, targetMethod, paramObjList.toArray());
@@ -113,7 +113,7 @@ public class PostRequestHandler implements IRequestHandler {
         if (worker != null) {
             String jsonStr = parseJsonString(req);
             requestSessionBean.setJsonBodyString(jsonStr);
-            Method targetMethod = worker.getHandlerMethod();
+            Method targetMethod = worker.getControllerMethod();
 
             Parameter[] targetMethodParameters = targetMethod.getParameters();
 
@@ -127,7 +127,7 @@ public class PostRequestHandler implements IRequestHandler {
                 }
             }
 
-            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getHandlerClazz());
+            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
 
             try {
                 if (targetMethod.getReturnType().equals(void.class)) {

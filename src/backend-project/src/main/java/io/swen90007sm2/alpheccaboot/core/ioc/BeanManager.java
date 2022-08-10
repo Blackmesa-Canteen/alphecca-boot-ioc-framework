@@ -33,7 +33,7 @@ public class BeanManager {
     static {
         BEAN_MAP = new HashMap<>();
 
-        // (Component) Handler + Blo + Dao
+        // (Component) Controller + Blo + Dao
         Set<Class<?>> beanClassSet = ClassManager.getBeanClassSet();
 
         // instantiate objects from class object, then put in the map

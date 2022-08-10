@@ -16,7 +16,7 @@ We implemented a mini IoC supporter called *Alphecca Boot*:
 - IoC singleton bean container, class scan. Dependency injection with @AutoInjected annotation.
 - Injection qualifier to inject specific bean you have defined.
 - RESTful API support, can also support basic `HttpServletRequest` or `HttpServletResponse`.
-- Annotation support for MVC: @Handler, @Blo, @Dao.
+- Annotation support for MVC: @Controller, @Blo, @Dao.
 - JSR303 Validation for Json Body parameter.
 - Filter for request, helpful in authorization.
 - Demo Configuration file support.

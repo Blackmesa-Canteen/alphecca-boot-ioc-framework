@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * helper for Handler level
+ * helper for Controller level
  * @author xiaotian
  */
 public class ControllerManager {
@@ -31,28 +31,28 @@ public class ControllerManager {
     }
 
     static {
-        Set<Class<?>> handlerClassSet = ClassManager.getControllerClassSet();
-        if(!handlerClassSet.isEmpty()) {
-            for (Class<?> handlerClass :handlerClassSet) {
-                mapRequestWithWorkerInTheHandler(handlerClass);
+        Set<Class<?>> controllerClassSet = ClassManager.getControllerClassSet();
+        if(!controllerClassSet.isEmpty()) {
+            for (Class<?> controllerClass :controllerClassSet) {
+                mapRequestWithWorkerInTheController(controllerClass);
             }
         }
     }
 
-    private static void mapRequestWithWorkerInTheHandler(Class<?> handlerClass) {
+    private static void mapRequestWithWorkerInTheController(Class<?> controllerClass) {
         // get all methods from this class using reflect
-        Method[] handlerMethods = ReflectionUtil.getMethods(handlerClass);
+        Method[] controllerMethods = ReflectionUtil.getMethods(controllerClass);
 
         String requestRootPath = "";
-        // get Handler's root request path
-        Controller controllerAnnotationObj = handlerClass.getAnnotation(Controller.class);
+        // get Controller's root request path
+        Controller controllerAnnotationObj = controllerClass.getAnnotation(Controller.class);
         String basePathFromAnno = controllerAnnotationObj.path();
         if (StringUtils.isNotEmpty(basePathFromAnno)) {
             requestRootPath += basePathFromAnno;
         }
 
-        if (ArrayUtils.isNotEmpty(handlerMethods)) {
-            for (Method handlerMethod : handlerMethods) {
+        if (ArrayUtils.isNotEmpty(controllerMethods)) {
+            for (Method handlerMethod : controllerMethods) {
                 // check RequestMapper annotation on this method
                 if (handlerMethod.isAnnotationPresent(HandlesRequest.class)) {
                     HandlesRequest annotationObj = handlerMethod.getAnnotation(HandlesRequest.class);
@@ -63,7 +63,7 @@ public class ControllerManager {
 
                     // seal up into request map
                     Request request = new Request(requestMethod, requestPath);
-                    Worker worker = new Worker(handlerClass, handlerMethod);
+                    Worker worker = new Worker(controllerClass, handlerMethod);
                     REQUEST_WORKER_MAP.put(request, worker);
                 }
             }

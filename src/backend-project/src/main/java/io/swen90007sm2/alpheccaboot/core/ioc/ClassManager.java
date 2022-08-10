@@ -45,7 +45,7 @@ public class ClassManager {
 
     /**
      * get set of class object whose class file annotated with @Controller
-     * @return Set of Handler class objects
+     * @return Set of Controller class objects
      */
     public static Set<Class<?>> getControllerClassSet() {
         Set<Class<?>> set = new HashSet<>();
@@ -55,7 +55,7 @@ public class ClassManager {
             }
         }
 
-        LOGGER.info("Scanned {} Handler Classes.", set.size());
+        LOGGER.info("Scanned {} Controller Classes.", set.size());
         return set;
     }
 
