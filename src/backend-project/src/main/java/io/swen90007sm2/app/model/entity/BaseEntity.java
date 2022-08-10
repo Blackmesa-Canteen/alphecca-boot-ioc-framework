@@ -1,14 +1,14 @@
 package io.swen90007sm2.app.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * base entity that contains public field for all
  *
  * @author xiaotian
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable {
 
     /**
      * It is a good practice to record time fields
