@@ -6,6 +6,9 @@ public class Photo extends BaseEntity {
 
     private String photoId;
     private String photoUrl;
+
+    // the photo resource belongs to user
+    private String userId;
     private String description;
 
     public Photo() {
@@ -15,16 +18,18 @@ public class Photo extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Photo(String photoId, String photoUrl, String description) {
+    public Photo(String photoId, String photoUrl, String userId, String description) {
         this.photoId = photoId;
         this.photoUrl = photoUrl;
+        this.userId = userId;
         this.description = description;
     }
 
-    public Photo(Date createTime, Date updateTime, String photoId, String photoUrl, String description) {
+    public Photo(Date createTime, Date updateTime, String photoId, String photoUrl, String userId, String description) {
         super(createTime, updateTime);
         this.photoId = photoId;
         this.photoUrl = photoUrl;
+        this.userId = userId;
         this.description = description;
     }
 
@@ -52,11 +57,20 @@ public class Photo extends BaseEntity {
         this.description = description;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
                 "photoId='" + photoId + '\'' +
                 ", photoUrl='" + photoUrl + '\'' +
+                ", userId='" + userId + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }
