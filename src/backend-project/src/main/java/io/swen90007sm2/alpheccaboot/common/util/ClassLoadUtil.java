@@ -16,7 +16,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * class manager, handler reflection logic.
+ * class manager, reflection logic.
  * Scan and load class file!
  *
  * @author xiaotian

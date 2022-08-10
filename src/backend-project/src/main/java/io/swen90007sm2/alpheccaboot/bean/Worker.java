@@ -3,19 +3,19 @@ package io.swen90007sm2.alpheccaboot.bean;
 import java.lang.reflect.Method;
 
 /**
- * Used to seal up one handler method with relative params.
+ * Used to seal up one controller method with relative params.
  *
  * @author Xiaotian
  */
 public class Worker {
 
     /**
-     * Controller class object from reflection, maps the method and it's handler class
+     * Controller class object from reflection, maps the method and it's controller class
      */
     private Class<?> controllerClazz;
 
     /**
-     * the handler method that handles some request
+     * the controller method that handles some request
      */
     private Method controllerMethod;
 
@@ -46,8 +46,8 @@ public class Worker {
     @Override
     public String toString() {
         return "Worker{" +
-                "handlerClazz=" + controllerClazz +
-                ", handlerMethod=" + controllerMethod +
+                "controllerClazz=" + controllerClazz +
+                ", controllerMethod=" + controllerMethod +
                 '}';
     }
 }

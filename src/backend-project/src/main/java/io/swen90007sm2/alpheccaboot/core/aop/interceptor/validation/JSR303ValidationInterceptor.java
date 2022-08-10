@@ -47,14 +47,14 @@ public class JSR303ValidationInterceptor extends AbstractInterceptor {
      */
     @Override
     public boolean supports(Object bean) {
-        // if this bean (usually the handler obj) marked with Validated, we can enhance it's method calling
+        // if this bean (usually the controller obj) marked with Validated, we can enhance it's method calling
         return (bean != null && bean.getClass().isAnnotationPresent(Validated.class));
     }
 
     @Override
     public Object intercept(MethodCalling methodCalling) {
 
-        LOGGER.info("JSR303 Validation Interceptor Calling for [{}] 's [{}] handler",
+        LOGGER.info("JSR303 Validation Interceptor Calling for [{}] 's [{}] controller",
                 methodCalling.getTargetObject().getClass().getName(),
                 methodCalling.getTargetMethod().getName());
         // when call methods from this bean, interception will be triggered

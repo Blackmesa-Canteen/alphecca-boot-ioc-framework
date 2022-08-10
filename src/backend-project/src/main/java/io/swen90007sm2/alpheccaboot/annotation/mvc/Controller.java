@@ -5,7 +5,7 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
 import java.lang.annotation.*;
 
 /**
- * An annotation used in a class in the handler level.
+ * An annotation used in a class in the handler/controller level.
  *
  *  level structure:  Controller -> Blo -> Dao
  *

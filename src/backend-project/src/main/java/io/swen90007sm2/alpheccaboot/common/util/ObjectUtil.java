@@ -12,7 +12,7 @@ public class ObjectUtil {
 
     /**
      * convert string to object with specific type，
-     * used to convert incoming param to the corresponding type declared in handler method param.
+     * used to convert incoming param to the corresponding type declared in controller method param.
      *
      * This technique is used in the Spring Boot framework src code.
      *

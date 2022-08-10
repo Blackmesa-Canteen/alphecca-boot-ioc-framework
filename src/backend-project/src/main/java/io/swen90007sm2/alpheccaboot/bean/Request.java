@@ -15,7 +15,7 @@ public class Request {
     private String requestMethod;
 
     /*
-        request path defined in handler: "like/{xxx}"
+        request path defined in controller: "like/{xxx}"
      */
     private String requestPath;
 

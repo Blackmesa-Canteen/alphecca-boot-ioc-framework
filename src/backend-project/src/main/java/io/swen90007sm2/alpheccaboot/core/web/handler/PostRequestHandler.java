@@ -40,14 +40,14 @@ public class PostRequestHandler implements IRequestHandler {
             handleJsonRequest(req, resp, requestSessionBean);
 
         } else {
-            // if request body is not JSON body, use basic handler
+            // if request body is not JSON body, use basic controller
             // expose HttpServletRequest and HttpServletResponse to handler parameter
             handleBasicRequest(req, resp, requestSessionBean);
         }
     }
 
     /**
-     * handler with HttpServletRequest, HttpServletResponse param
+     * controller with HttpServletRequest, HttpServletResponse param
      */
     private static void handleBasicRequest(HttpServletRequest req, HttpServletResponse resp, RequestSessionBean requestSessionBean) throws Exception {
         Worker worker = requestSessionBean.getWorkerNeeded();
@@ -93,13 +93,13 @@ public class PostRequestHandler implements IRequestHandler {
                 }
             }
 
-            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
+            Object controllerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
 
             if (targetMethod.getReturnType().equals(void.class)) {
-                ReflectionUtil.invokeMethodWithoutResult(handlerBean, targetMethod, paramObjList.toArray());
+                ReflectionUtil.invokeMethodWithoutResult(controllerBean, targetMethod, paramObjList.toArray());
                 IRequestHandler.closeRequestConnection(resp);
             } else {
-                Object methodCallingResult = ReflectionUtil.invokeMethod(handlerBean, targetMethod, paramObjList.toArray());
+                Object methodCallingResult = ReflectionUtil.invokeMethod(controllerBean, targetMethod, paramObjList.toArray());
                 IRequestHandler.respondRequestWithJson((R) methodCallingResult, resp);
             }
 
@@ -127,14 +127,14 @@ public class PostRequestHandler implements IRequestHandler {
                 }
             }
 
-            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
+            Object controllerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
 
             try {
                 if (targetMethod.getReturnType().equals(void.class)) {
-                    ReflectionUtil.invokeMethodWithoutResult(handlerBean, targetMethod, paramObjList.toArray());
+                    ReflectionUtil.invokeMethodWithoutResult(controllerBean, targetMethod, paramObjList.toArray());
                     IRequestHandler.closeRequestConnection(resp);
                 } else {
-                    Object methodCallingResult = ReflectionUtil.invokeMethod(handlerBean, targetMethod, paramObjList.toArray());
+                    Object methodCallingResult = ReflectionUtil.invokeMethod(controllerBean, targetMethod, paramObjList.toArray());
                     IRequestHandler.respondRequestWithJson((R) methodCallingResult, resp);
                 }
             } catch (IOException e) {

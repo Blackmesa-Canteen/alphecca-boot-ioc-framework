@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * annotation for JSR303 validation to input param, marks a handler to be enhanced with validator
+ * annotation for JSR303 validation to input param, marks a controller to be enhanced with validator
  * @author xiaotian
  */
 @Target({ElementType.TYPE})

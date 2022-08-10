@@ -80,7 +80,7 @@ public class GetRequestHandler implements IRequestHandler {
 
             List<Object> paramObjList = new ArrayList<>();
 
-            // traverse params in handler method, then generate correct param object for method calling
+            // traverse params in controller method, then generate correct param object for method calling
             for (Parameter param : targetMethodParameters) {
                 // get correct resolver type for the param
                 IParameterResolver parameterResolver = ParameterResolverFactory.getResolverForParameter(param);
@@ -91,14 +91,14 @@ public class GetRequestHandler implements IRequestHandler {
                 }
             }
 
-            Object handlerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
+            Object controllerBean = BeanManager.getBeanFromBeanMapByClass(worker.getControllerClazz());
 
             try {
                 if (targetMethod.getReturnType().equals(void.class)) {
-                    ReflectionUtil.invokeMethodWithoutResult(handlerBean, targetMethod, paramObjList.toArray());
+                    ReflectionUtil.invokeMethodWithoutResult(controllerBean, targetMethod, paramObjList.toArray());
                     IRequestHandler.closeRequestConnection(resp);
                 } else {
-                    Object methodCallingResult = ReflectionUtil.invokeMethod(handlerBean, targetMethod, paramObjList.toArray());
+                    Object methodCallingResult = ReflectionUtil.invokeMethod(controllerBean, targetMethod, paramObjList.toArray());
                     IRequestHandler.respondRequestWithJson((R) methodCallingResult, resp);
                 }
             } catch (IOException e) {

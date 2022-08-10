@@ -7,7 +7,7 @@ public interface ICustomerBlo {
 
     /**
      * Get JWT token if the loginParam is correct
-     * @param loginParam loginParam from handler
+     * @param loginParam loginParam from controller
      * @return valid token. If null. loginParam is not valid
      */
     AuthToken doLoginAndGenToken(LoginParam loginParam) throws Exception;

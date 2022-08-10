@@ -30,7 +30,7 @@ public class NoneAnnotatedParameterResolver implements IParameterResolver {
         } else if (parameter.getType().equals(HttpServletResponse.class)) {
             return resp;
         } else {
-            throw new RequestException("handler missing Param Annotation, " +
+            throw new RequestException("controller missing Param Annotation, " +
                     "only HttpServletRequest and HttpServletResponse type params can have no param annotation.");
         }
     }

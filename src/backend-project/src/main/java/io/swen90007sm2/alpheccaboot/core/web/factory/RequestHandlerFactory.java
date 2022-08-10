@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * factor for instantiate request handler to different request method
+ * factor for instantiate request controller to different request method
  * @author xiaotian
  */
 public class RequestHandlerFactory {

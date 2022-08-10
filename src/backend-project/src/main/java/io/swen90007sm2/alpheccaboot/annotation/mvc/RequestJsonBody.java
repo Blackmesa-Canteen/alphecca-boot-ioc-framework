@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * used in handler method. take a JSON body request
+ * used in controller method. take a JSON body request
  *
  * @author xiaotian
  */

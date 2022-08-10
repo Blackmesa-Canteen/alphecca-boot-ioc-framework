@@ -53,8 +53,8 @@ public class MyDispatcherServlet extends HttpServlet {
                 // handle the request
                 requestHandler.handle(req, resp, sessionBean);
             } else {
-                LOGGER.warn("handler mismatched with request: [" + requestMethod + "] " + requestPath);
-                throw new ResourceNotFoundException("handler mismatched with request: [" + requestMethod + "] " + requestPath);
+                LOGGER.warn("controller mismatched with request: [" + requestMethod + "] " + requestPath);
+                throw new ResourceNotFoundException("controller mismatched with request: [" + requestMethod + "] " + requestPath);
             }
 
             LOGGER.info("Finished handling request: [{}] {}", requestMethod, requestPath);
@@ -110,7 +110,7 @@ public class MyDispatcherServlet extends HttpServlet {
     }
 
     /**
-     * parse the path variable from incoming request path based on url defined in handler @HandlesRequest
+     * parse the path variable from incoming request path based on url defined in controller @HandlesRequest
      * @param requestPath incoming request
      * @param urlInController url defined in controller @HandlesRequest
      * @return Map : {variableName: value}

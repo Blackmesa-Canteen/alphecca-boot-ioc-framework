@@ -12,7 +12,7 @@ import java.util.Map;
 public class RequestSessionBean {
 
     /**
-     * the handler method bean that is needed for this serving session
+     * the controller method bean that is needed for this serving session
      */
     private Worker workerNeeded;
 

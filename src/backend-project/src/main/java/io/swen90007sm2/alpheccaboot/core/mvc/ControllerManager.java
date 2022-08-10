@@ -21,8 +21,8 @@ import java.util.Set;
 public class ControllerManager {
 
     /**
-     * This map holds: [RequestParam(Method + URL)] to [Handler method].
-     * Worker object is a map of Handler class and a method
+     * This map holds: [RequestParam(Method + URL)] to [controller method].
+     * Worker object is a map of Controller class and a method
      */
     private static final Map<Request, Worker> REQUEST_WORKER_MAP = new HashMap<>();
 
@@ -52,10 +52,10 @@ public class ControllerManager {
         }
 
         if (ArrayUtils.isNotEmpty(controllerMethods)) {
-            for (Method handlerMethod : controllerMethods) {
+            for (Method controllerMethod : controllerMethods) {
                 // check RequestMapper annotation on this method
-                if (handlerMethod.isAnnotationPresent(HandlesRequest.class)) {
-                    HandlesRequest annotationObj = handlerMethod.getAnnotation(HandlesRequest.class);
+                if (controllerMethod.isAnnotationPresent(HandlesRequest.class)) {
+                    HandlesRequest annotationObj = controllerMethod.getAnnotation(HandlesRequest.class);
 
                     // fetch from annotation metadata
                     String requestMethod = annotationObj.method().name();
@@ -63,7 +63,7 @@ public class ControllerManager {
 
                     // seal up into request map
                     Request request = new Request(requestMethod, requestPath);
-                    Worker worker = new Worker(controllerClass, handlerMethod);
+                    Worker worker = new Worker(controllerClass, controllerMethod);
                     REQUEST_WORKER_MAP.put(request, worker);
                 }
             }
