@@ -22,4 +22,20 @@ public interface ICustomerDao {
      * @return 1 if successed
      */
     int addNewCustomer(Customer customer);
+
+    /**
+     * update Customer, except password
+     * @param customerId target id
+     * @param customer new obj
+     * @return num of influenced rows
+     */
+    int updateCustomer(String customerId, Customer customer);
+
+    /**
+     * update password cypher
+     * @param customerId target userId
+     * @param newCypher pwd cypher
+     * @return num of influenced rows
+     */
+    int updatePassword(String customerId, String newCypher);
 }

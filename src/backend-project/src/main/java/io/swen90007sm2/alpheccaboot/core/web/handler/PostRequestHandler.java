@@ -111,9 +111,38 @@ public class PostRequestHandler implements IRequestHandler {
     private static void handleJsonRequest(HttpServletRequest req, HttpServletResponse resp, RequestSessionBean requestSessionBean) throws Exception {
         Worker worker = requestSessionBean.getWorkerNeeded();
         if (worker != null) {
+
             String jsonStr = parseJsonString(req);
             requestSessionBean.setJsonBodyString(jsonStr);
             Method targetMethod = worker.getControllerMethod();
+
+            // perform request filter logic
+            if (targetMethod.isAnnotationPresent(AppliesFilter.class)) {
+                AppliesFilter annotation = targetMethod.getAnnotation(AppliesFilter.class);
+                String[] filterNames = annotation.filterNames();
+                List<IFilter> filterList = new LinkedList<>();
+                for (String filterName : filterNames) {
+                    IFilter filterObj = FilterManager.getRequestFilterByName(filterName);
+                    if (filterObj != null) {
+                        filterList.add(filterObj);
+                    } else {
+                        LOGGER.error("Filter [{}] not found on method [{}]",
+                                filterName, targetMethod.getName());
+                    }
+
+                }
+
+                for(IFilter filter : filterList) {
+                    boolean passed = filter.doFilter(req, resp);
+
+                    if (!passed) {
+                        LOGGER.info("Didn't pass request filter: [{}]", filter.getClass().getName());
+                        IRequestHandler.closeRequestConnection(resp);
+                        return;
+                    }
+                    LOGGER.info("passed request filter: [{}]", filter.getClass().getName());
+                }
+            }
 
             Parameter[] targetMethodParameters = targetMethod.getParameters();
 

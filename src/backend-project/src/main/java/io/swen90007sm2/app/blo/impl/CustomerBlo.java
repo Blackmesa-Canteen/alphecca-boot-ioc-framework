@@ -16,8 +16,9 @@ import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
-import io.swen90007sm2.app.security.util.EncryptUtil;
+import io.swen90007sm2.app.security.util.SecurityUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
 @Blo
@@ -31,14 +32,19 @@ public class CustomerBlo implements ICustomerBlo {
     ICacheStorage<String, Object> cache;
 
     @Override
-    public AuthToken doLoginAndGenToken(LoginParam loginParam) throws Exception {
-
-
-
+    public AuthToken doLoginAndGenToken(LoginParam loginParam) {
         // get role from db
         String userId = loginParam.getUserId();
         String password = loginParam.getPassword();
         Customer customer = customerDao.findCustomerByUserId(userId);
+
+        // prevent double login
+        if (cache.get(CacheConstant.TOKEN_KEY_PREFIX + userId).isPresent()) {
+            throw new RequestException(
+                    StatusCodeEnume.ALREADY_LOGIN_EXCEPTION.getMessage(),
+                    StatusCodeEnume.ALREADY_LOGIN_EXCEPTION.getCode()
+            );
+        }
 
         // if no such customer
         if (customer == null) {
@@ -49,7 +55,7 @@ public class CustomerBlo implements ICustomerBlo {
 
         // check username password with db
         String cypherRecord = customer.getPassword();
-        boolean isPasswordMatched = EncryptUtil.isOriginMatchCypher(password, cypherRecord);
+        boolean isPasswordMatched = SecurityUtil.isOriginMatchCypher(password, cypherRecord);
         if (!isPasswordMatched) {
             throw new RequestException (
                     StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
@@ -72,10 +78,26 @@ public class CustomerBlo implements ICustomerBlo {
     }
 
     @Override
+    public void doLogout(HttpServletRequest request) {
+        // get current user id
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+
+        // remove cache state from cache
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + userId);
+    }
+
+    @Override
     public Customer getUserInfoBasedOnToken(String tokenString) {
         AuthToken authToken = TokenHelper.parseAuthTokenString(tokenString);
         String userId = authToken.getUserId();
         Customer customerBean = customerDao.findCustomerByUserId(userId);
+        if (customerBean == null) {
+            throw new RequestException(
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode());
+        }
         // remove sensitive info
         customerBean.setPassword(null);
         return customerBean;
@@ -90,13 +112,13 @@ public class CustomerBlo implements ICustomerBlo {
         Customer prevResult = customerDao.findCustomerByUserId(userId);
         if (prevResult != null) {
             throw new RequestException(
-                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
-                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode()
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode()
             );
         }
 
         // encrypt password before store it in db
-        String cypher = EncryptUtil.encrypt(registerParam.getPassword());
+        String cypher = SecurityUtil.encrypt(registerParam.getPassword());
 
         Customer customer = new Customer();
         customer.setUserId(userId);
@@ -105,5 +127,48 @@ public class CustomerBlo implements ICustomerBlo {
         customer.setDescription("New User");
 
         customerDao.addNewCustomer(customer);
+    }
+
+    @Override
+    public Customer getUserInfoBasedByUserId(String userId) {
+        Customer customerBean = customerDao.findCustomerByUserId(userId);
+        if (customerBean == null) {
+            throw new RequestException(
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+        }
+        // remove sensitive info
+        customerBean.setPassword(null);
+        return customerBean;
+    }
+
+    @Override
+    public void doUpdateUserExceptPassword(HttpServletRequest request, Customer customer) {
+        // get current user id
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        customerDao.updateCustomer(authToken.getUserId(), customer);
+    }
+
+    @Override
+    public void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword) {
+        // get current user id
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+
+        // get record
+        Customer originalCustomerRecord = customerDao.findCustomerByUserId(userId);
+        String originalCypher = originalCustomerRecord.getPassword();
+
+        if (!SecurityUtil.isOriginMatchCypher(originalPassword, originalCypher)) {
+            throw new RequestException(
+                    StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
+                    StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode()
+            );
+        }
+
+        // update the password
+        customerDao.updatePassword(userId, SecurityUtil.encrypt(newPassword));
     }
 }

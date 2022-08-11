@@ -16,6 +16,8 @@ public enum StatusCodeEnume {
     USER_EXIST_EXCEPTION(15001,"Duplicated user."),
     LOGIN_AUTH_EXCEPTION(15002,"Wrong passwords or username."),
     NOT_LOGIN_EXCEPTION(15003, "Please login."),
+    USER_NOT_EXIST_EXCEPTION(15004, "User Not Exist."),
+    ALREADY_LOGIN_EXCEPTION(15005, "User Already login."),
     CUSTOMER_AUTH_FAILED_EXCEPTION(15010, "Customer Access Only."),
     HOTELIER_AUTH_FAILED_EXCEPTION(15011, "Hotelier Access Only."),
     ADMIN_AUTH_FAILED_EXCEPTION(15012, "Admin Access Only."),
