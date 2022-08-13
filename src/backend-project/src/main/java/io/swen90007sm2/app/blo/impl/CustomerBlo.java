@@ -160,6 +160,9 @@ public class CustomerBlo implements ICustomerBlo {
         // get start row for page query
         int start = pageBean.getStartRow();
         List<Customer> customers = customerDao.findCustomersByPage(start, pageSize);
+
+        // remove sensitive info
+        customers.forEach(customer -> customer.setPassword(null));
         pageBean.setBeans(customers);
 
         return pageBean;
