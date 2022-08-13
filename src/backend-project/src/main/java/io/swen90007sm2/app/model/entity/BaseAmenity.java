@@ -4,13 +4,14 @@ import java.util.Date;
 
 /**
  * @author 996Worker
- * @description
+ * @description Amenity will be prefilled by developers in the database
  * @create 2022-08-06 23:37
  */
 public abstract class BaseAmenity extends BaseEntity {
 
     private String amenityId;
 
+    // url from front-end static, no need to store the amenity photo in the backend
     private String iconUrl;
 
     private String description;
