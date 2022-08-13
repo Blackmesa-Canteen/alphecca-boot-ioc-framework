@@ -1,4 +1,4 @@
-package io.swen90007sm2.app.model.dto;
+package io.swen90007sm2.app.db.bean;
 
 import java.util.List;
 

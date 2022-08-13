@@ -1,6 +1,6 @@
 package io.swen90007sm2.app.blo;
 
-import io.swen90007sm2.app.model.dto.PageBean;
+import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
