@@ -2,12 +2,29 @@ package io.swen90007sm2.app.dao;
 
 import io.swen90007sm2.app.model.entity.Customer;
 
+import java.util.List;
+
 /**
  * data access layer for Customer
  *
  * @author xiaotian
  */
 public interface ICustomerDao {
+
+
+    /**
+     * Find total record counts.
+     * @return
+     */
+    int findTotalCount();
+
+    /**
+     * find customers by page
+     * @param start result starts from which row
+     * @param rows total rows needed
+     * @return list
+     */
+    List<Customer> findCustomersByPage(Integer start, Integer rows);
 
     /**
      * Find Customer in database by userID

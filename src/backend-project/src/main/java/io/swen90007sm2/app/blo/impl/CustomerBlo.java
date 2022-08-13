@@ -9,6 +9,7 @@ import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
+import io.swen90007sm2.app.model.dto.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
@@ -19,6 +20,7 @@ import io.swen90007sm2.app.security.helper.TokenHelper;
 import io.swen90007sm2.app.security.util.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Blo
@@ -140,6 +142,27 @@ public class CustomerBlo implements ICustomerBlo {
         // remove sensitive info
         customerBean.setPassword(null);
         return customerBean;
+    }
+
+    @Override
+    public PageBean<Customer> getCustomerByPage(int pageNo, int pageSize) {
+
+        // get total records num, which is important for paging
+        int totalRows = customerDao.findTotalCount();
+
+        // init page dto
+        PageBean<Customer> pageBean = new PageBean<>(
+                pageSize,
+                totalRows,
+                pageNo
+        );
+
+        // get start row for page query
+        int start = pageBean.getStartRow();
+        List<Customer> customers = customerDao.findCustomersByPage(start, pageSize);
+        pageBean.setBeans(customers);
+
+        return pageBean;
     }
 
     @Override

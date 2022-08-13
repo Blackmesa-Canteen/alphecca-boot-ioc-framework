@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.blo;
 
+import io.swen90007sm2.app.model.dto.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
@@ -43,11 +44,25 @@ public interface ICustomerBlo {
     Customer getUserInfoBasedByUserId(String userId);
 
     /**
+     * find customers by page
+     * @param pageNo page number required
+     * @param pageSize num rows in one page
+     * @return
+     */
+    PageBean<Customer> getCustomerByPage(int pageNo, int pageSize);
+
+    /**
      * update user info, except password.
      * will check request token to find target customer to modify on
      * @param customer customer info bean
      */
     void doUpdateUserExceptPassword(HttpServletRequest request, Customer customer);
 
+    /**
+     * update customer pwd
+     * @param request request
+     * @param originalPassword original pwd
+     * @param newPassword new pwd
+     */
     void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword);
 }

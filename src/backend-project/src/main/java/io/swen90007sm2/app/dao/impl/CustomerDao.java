@@ -6,8 +6,31 @@ import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.Customer;
 
+import java.util.List;
+
 @Dao
 public class CustomerDao implements ICustomerDao {
+
+    @Override
+    public int findTotalCount() {
+        Long totalRows = CRUDTemplate.executeQueryWithOneRes(
+                Long.class,
+                "SELECT count(*) FROM customer");
+
+        return (totalRows != null) ? totalRows.intValue() : 0;
+    }
+
+    @Override
+    public List<Customer> findCustomersByPage(Integer start, Integer rows) {
+        List<Customer> customers = CRUDTemplate.executeQueryWithMultiRes(
+                Customer.class,
+                "SELECT * FROM customer OFFSET ? LIMIT ?",
+                start,
+                rows
+        );
+
+        return customers;
+    }
 
     @Override
     public Customer findCustomerByUserId(String userId) {

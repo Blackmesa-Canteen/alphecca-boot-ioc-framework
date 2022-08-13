@@ -21,8 +21,13 @@ public class BeanResultSetResolver<T> implements IResultSetResolver<T>{
     }
 
     @Override
+    @SuppressWarnings("Unchecked")
     public T resolveResultSet(ResultSet resultSet) throws Exception {
         if (resultSet.next()) {
+            // handle Built-in objects, such as Integer for counting results
+            if (clazz.getName().equals(Long.class.getName()) || clazz.getName().equals(Integer.class.getName())) {
+                return (T) resultSet.getObject(1);
+            }
             T beanObject = clazz.getDeclaredConstructor().newInstance();
             // get class byte metadata
             BeanInfo beanInfo = Introspector.getBeanInfo(clazz, Object.class);

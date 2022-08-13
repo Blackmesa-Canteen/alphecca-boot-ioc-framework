@@ -10,6 +10,20 @@ import java.util.List;
 public interface IPhotoDao {
 
     /**
+     * Find total record counts.
+     * @return
+     */
+    int findTotalCount();
+
+    /**
+     * find photos by page
+     * @param start result starts from which row
+     * @param rows total rows needed
+     * @return list
+     */
+    List<Photo> findPhotosByPage(Integer start, Integer rows);
+
+    /**
      * find Photo metadata object from db
      * @param photoId photoId/photoname
      * @return Photo ORM object
