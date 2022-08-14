@@ -21,6 +21,8 @@ public class Transaction extends BaseEntity {
 
     private Date endDate;
 
+    private Double totalPrice;
+
     public Transaction() {
     }
 
@@ -28,13 +30,14 @@ public class Transaction extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate) {
+    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, Double totalPrice) {
         this.transactionId = transactionId;
         this.customerId = customerId;
         this.hotelId = hotelId;
         this.statusCode = statusCode;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.totalPrice = totalPrice;
     }
 
     public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate) {
@@ -95,6 +98,14 @@ public class Transaction extends BaseEntity {
         this.endDate = endDate;
     }
 
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
@@ -104,6 +115,7 @@ public class Transaction extends BaseEntity {
                 ", statusCode=" + statusCode +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 }
