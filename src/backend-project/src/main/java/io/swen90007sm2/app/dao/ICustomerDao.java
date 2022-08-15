@@ -42,7 +42,6 @@ public interface ICustomerDao extends IBaseDao<Customer> {
 
     /**
      * update Customer
-     * @param customerId target id
      * @param customer new obj
      * @return num of influenced rows
      */
@@ -50,7 +49,6 @@ public interface ICustomerDao extends IBaseDao<Customer> {
 
     /**
      * delete one customer by customerId
-     * @param customerId customerID
      * @return rows
      */
     int deleteOne(Customer customer);

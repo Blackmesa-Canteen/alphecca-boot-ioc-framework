@@ -5,6 +5,7 @@ import io.swen90007sm2.app.common.util.Assert;
 import io.swen90007sm2.app.dao.IBaseDao;
 import io.swen90007sm2.app.db.factory.DaoFactory;
 import io.swen90007sm2.app.model.entity.BaseEntity;
+import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.security.helper.TokenHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,22 +75,32 @@ public class UnitOfWorkHelper<T extends BaseEntity> {
     }
 
     public void commit() {
-//        for (T obj : newObjects) {
-//            IBaseDao<? extends BaseEntity> dao = DaoFactory.getDao(obj.getClass());
-//            if (dao != null) {
-//                dao.insertOne(obj);
-//            } else {
-//                LOGGER.error("dao for insertion should be not null, DaoFactory missing something.");
-//            }
-//
-//        }
+        for (T obj : newObjects) {
+            IBaseDao<T> dao = (IBaseDao<T>) DaoFactory.getDao(obj.getClass());
+            if (dao != null) {
+                dao.insertOne(obj);
+            } else {
+                LOGGER.error("dao for insertion should be not null, DaoFactory missing something.");
+            }
 
-//        for (T obj : dirtyObjects) {
-//            if (obj != null) DaoFactory.getDao(obj.getClass()).updateOne(obj);
-//        }
-//
-//        for (T obj : deletedObjects) {
-//            if (obj != null) DaoFactory.getDao(obj.getClass()).deleteOne(obj);
-//        }
+        }
+
+        for (T obj : dirtyObjects) {
+            IBaseDao<T> dao = (IBaseDao<T>) DaoFactory.getDao(obj.getClass());
+            if (dao != null) {
+                dao.updateOne(obj);
+            } else {
+                LOGGER.error("dao for updating should be not null, DaoFactory missing something.");
+            }
+        }
+
+        for (T obj : deletedObjects) {
+            IBaseDao<T> dao = (IBaseDao<T>) DaoFactory.getDao(obj.getClass());
+            if (dao != null) {
+                dao.deleteOne(obj);
+            } else {
+                LOGGER.error("dao for deletion should be not null, DaoFactory missing something.");
+            }
+        }
     }
 }

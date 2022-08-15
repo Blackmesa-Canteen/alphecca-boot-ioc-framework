@@ -38,7 +38,6 @@ public interface IPhotoDao extends IBaseDao<Photo>{
 
     /**
      * update one photo
-     * @param photoId photoId
      * @param photo photoEntity
      * @return rows
      */
@@ -47,7 +46,6 @@ public interface IPhotoDao extends IBaseDao<Photo>{
 
     /**
      * delete one photo
-     * @param photoId photoId
      * @return rows
      */
     @Override
