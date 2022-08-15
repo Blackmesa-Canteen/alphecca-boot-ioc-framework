@@ -76,9 +76,8 @@ public class UnitOfWorkHelper {
     /**
      * register a changed obj
      * @param obj obj that need changes
-     * @param cache cache instance, TODO update the cache with new obj
      */
-    public void registerDirty(BaseEntity obj, ICacheStorage<String, Object> cache) {
+    public void registerDirty(BaseEntity obj) {
         Assert.notNull(obj.getId(), "entity Id must be not null");
         Assert.isTrue(!deletedObjects.contains(obj), "entity must not be deleted");
         if (!dirtyObjects.contains(obj) && !newObjects.contains(obj)) {
@@ -89,9 +88,8 @@ public class UnitOfWorkHelper {
     /**
      * register a obj that need to be deleted
      * @param obj obj that will be deleted
-     * @param cache TODO delete the cache
      */
-    public void registerDeleted(BaseEntity obj, ICacheStorage<String, Object> cache) {
+    public void registerDeleted(BaseEntity obj) {
         Assert.notNull(obj.getId(), "entity Id must be not null");
         // if try to create new one before, cancel this try
         if (newObjects.remove(obj)) return;

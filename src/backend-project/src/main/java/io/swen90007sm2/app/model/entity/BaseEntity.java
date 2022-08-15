@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public abstract class BaseEntity implements Serializable {
 
-    // TODO should be String/CHAR(32) and generate_uid(32)
+    // should be String/CHAR(32) and generate_uid(32)
     private String id;
     /**
      * It is a good practice to record time fields

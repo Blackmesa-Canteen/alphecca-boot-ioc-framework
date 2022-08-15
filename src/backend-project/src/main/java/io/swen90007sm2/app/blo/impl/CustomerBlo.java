@@ -335,6 +335,9 @@ public class CustomerBlo implements ICustomerBlo {
 
         // cache destroy MUST be after the database updating
         cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
+
+        // logout
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 
     private void checkTokenValidity(AuthToken authToken) {
