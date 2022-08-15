@@ -9,6 +9,11 @@ import io.swen90007sm2.app.model.entity.BaseEntity;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Photo;
 
+/**
+ * a factory, is used for Unit of Work helper
+ *
+ * @author xiaotian
+ */
 @Component
 public class DaoFactory {
 
@@ -19,6 +24,11 @@ public class DaoFactory {
     static IPhotoDao photoDao;
 
 
+    /**
+     * getDao by entity class. register all Dao here!
+     * @param clazz entity class
+     * @return corresponding Dao
+     */
     public static IBaseDao<? extends BaseEntity> getDao(Class<?> clazz) {
 
         if (clazz.equals(Customer.class)) {
