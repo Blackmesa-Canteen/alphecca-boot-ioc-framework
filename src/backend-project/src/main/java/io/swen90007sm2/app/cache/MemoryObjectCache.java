@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.cache;
 
+import cn.hutool.cron.CronUtil;
+import cn.hutool.cron.task.Task;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
 import io.swen90007sm2.app.cache.bean.TimedCacheItem;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
@@ -36,7 +38,21 @@ public class MemoryObjectCache extends AbstractTimedCache<String, Object> {
     /**
      * can not init manully, use singleton in the ioc container
      */
-    private MemoryObjectCache() {}
+    private MemoryObjectCache() {
+
+        // auto cleanup, one clean up per 3 days
+//        CronUtil.schedule(
+//                "*/4329 * * * *",
+//                new Task() {
+//                    @Override
+//                    public void execute() {
+//                        MemoryObjectCache.this.clear();
+//                    }
+//                }
+//        );
+//
+//        CronUtil.start();
+    }
 
     @Override
     void __put(String key, TimedCacheItem<Object> item) {

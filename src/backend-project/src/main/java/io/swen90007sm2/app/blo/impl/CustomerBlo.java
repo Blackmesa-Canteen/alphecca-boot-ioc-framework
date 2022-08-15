@@ -2,6 +2,7 @@ package io.swen90007sm2.app.blo.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.cron.CronUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
@@ -108,26 +109,8 @@ public class CustomerBlo implements ICustomerBlo {
         // check token validity
         checkTokenValidity(authToken);
 
-        // cache result bean as the Identity map
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
-        Customer customerBean = null;
-        if (cacheItem.isEmpty()) {
-            customerBean = customerDao.findOneByBusinessId(userId);
-            if (customerBean == null) {
-                throw new RequestException(
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
-            }
-
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    customerBean,
-                    CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX,
-                    TimeUnit.MILLISECONDS
-            );
-        } else {
-            customerBean = (Customer) cacheItem.get();
-        }
+        // get cache result bean as the Identity map
+        Customer customerBean = getCustomerFromCacheOrDb(userId);
 
         // need to copy bean, because we need to remove sensitive data for showing,
         // without affecting the database record in cache
@@ -275,6 +258,10 @@ public class CustomerBlo implements ICustomerBlo {
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 
+    /**
+     * check whether the incoming token is valid for current user, or not
+     * @param authToken incoming token from header
+     */
     private void checkTokenValidity(AuthToken authToken) {
         String key = CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId();
         Optional<Object> tokenRecord = cache.get(key);
@@ -303,10 +290,14 @@ public class CustomerBlo implements ICustomerBlo {
      * if not, get from db.
      * <br/>
      * data in the cache will be expired to guarantee data eventually consistent
+     * <br/>
+     * using synchronized to prevent Cache Penetration, guarantee only one thread can update the cache,
+     * rather than multiple threads rushed to query database and refresh cache again and again.
+     *
      * @param userId customer's userId
      * @return customer object
      */
-    private Customer getCustomerFromCacheOrDb(String userId) {
+    private synchronized Customer getCustomerFromCacheOrDb(String userId) {
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
         Customer customer = null;
         if (cacheItem.isEmpty()) {
