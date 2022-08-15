@@ -13,6 +13,7 @@ import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.bean.PageBean;
+import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
@@ -48,10 +49,11 @@ public class CustomerBlo implements ICustomerBlo {
         /*
          * Identity Map's cache-Aside implementation
          * <br/>
-         * if the data exists, get from cache,
+         * if the data exists in cache, get from cache,
          * if not, get from db.
          * <br/>
          * data in the cache will be expired to guarantee data eventually consistent
+         * <br/>
          */
         Customer customer = getCustomerFromCacheOrDb(userId);
 
@@ -155,7 +157,7 @@ public class CustomerBlo implements ICustomerBlo {
         String cypher = SecurityUtil.encrypt(registerParam.getPassword());
 
         Customer customer = new Customer();
-        customer.setId(RandomStringUtils.randomAlphanumeric(32));
+        customer.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
         customer.setUserId(userId);
         customer.setUserName(userName);
         customer.setPassword(cypher);

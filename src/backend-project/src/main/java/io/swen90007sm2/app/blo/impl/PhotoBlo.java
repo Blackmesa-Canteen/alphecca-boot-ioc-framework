@@ -7,6 +7,7 @@ import io.swen90007sm2.app.blo.IPhotoBlo;
 import io.swen90007sm2.app.common.constant.ResourceConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.IPhotoDao;
+import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.model.entity.Photo;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -95,7 +96,7 @@ public class PhotoBlo implements IPhotoBlo {
 
                     // photo id is the fileName
                     Photo photo = new Photo();
-                    photo.setId(RandomStringUtils.randomAlphanumeric(32));
+                    photo.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
                     photo.setPhotoId(fileName);
                     photo.setDescription("New Photo.");
                     photo.setPhotoUrl(ResourceConstant.UPLOAD_PHOTO_URL_PREFIX + "?photoId=" + fileName);
