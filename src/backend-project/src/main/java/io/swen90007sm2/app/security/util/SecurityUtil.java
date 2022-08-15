@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.security.util;
 
+import io.swen90007sm2.app.security.bean.AuthToken;
+import io.swen90007sm2.app.security.helper.TokenHelper;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -7,7 +9,7 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author xiaotian
  */
-public class EncryptUtil {
+public class SecurityUtil {
 
 
     /**
@@ -27,6 +29,15 @@ public class EncryptUtil {
      */
     public static boolean isOriginMatchCypher(String origin, String cypher) {
         return BCrypt.checkpw(origin, cypher);
+    }
+
+    /**
+     * parse a token string to authToken obj
+     * @param tokenStr token string of jwt
+     * @return AuthToken obj
+     */
+    public static AuthToken parseAuthTokenString(String tokenStr) {
+        return TokenHelper.parseAuthTokenString(tokenStr);
     }
 
     public static void main(String[] args) {

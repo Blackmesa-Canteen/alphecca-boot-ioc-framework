@@ -6,6 +6,8 @@ public class Room extends BaseEntity {
 
     private String roomId;
 
+    private String hotelId;
+
     private String name;
 
     private String description;
@@ -25,8 +27,9 @@ public class Room extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Room(String roomId, String name, String description, Double pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
+    public Room(String roomId, String hotelId, String name, String description, Double pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
         this.roomId = roomId;
+        this.hotelId = hotelId;
         this.name = name;
         this.description = description;
         this.pricePerNight = pricePerNight;
@@ -35,9 +38,10 @@ public class Room extends BaseEntity {
         this.onSale = onSale;
     }
 
-    public Room(Date createTime, Date updateTime, String roomId, String name, String description, Double pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
+    public Room(Date createTime, Date updateTime, String roomId, String hotelId, String name, String description, Double pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
         super(createTime, updateTime);
         this.roomId = roomId;
+        this.hotelId = hotelId;
         this.name = name;
         this.description = description;
         this.pricePerNight = pricePerNight;
@@ -102,10 +106,19 @@ public class Room extends BaseEntity {
         this.onSale = onSale;
     }
 
+    public String getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(String hotelId) {
+        this.hotelId = hotelId;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
                 "roomId='" + roomId + '\'' +
+                ", hotelId='" + hotelId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", pricePerNight=" + pricePerNight +

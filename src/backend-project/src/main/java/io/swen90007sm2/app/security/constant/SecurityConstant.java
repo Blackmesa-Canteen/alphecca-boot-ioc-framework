@@ -24,4 +24,6 @@ public interface SecurityConstant {
     String CUSTOMER_ROLE_NAME = "customer_role";
     String ADMIN_ROLE_NAME = "admin_role";
     String HOTELIER_ROLE_NAME = "hotelier_role";
+
+    String LOGIN_USER = "login_user";
 }
