@@ -20,16 +20,16 @@ import java.util.Set;
  *
  * @author xiaotian li
  */
-public class UnitOfWorkHelper<T extends BaseEntity> {
+public class UnitOfWorkHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UnitOfWorkHelper.class);
 
     // each request will be a thread
-    private static final ThreadLocal<UnitOfWorkHelper<? extends BaseEntity>> current = new ThreadLocal<>();
+    private static final ThreadLocal<UnitOfWorkHelper> current = new ThreadLocal<>();
 
-    private final Set<T> newObjects;
-    private final Set<T> dirtyObjects;
-    private final Set<T> deletedObjects;
+    private final Set<BaseEntity> newObjects;
+    private final Set<BaseEntity> dirtyObjects;
+    private final Set<BaseEntity> deletedObjects;
 
     public UnitOfWorkHelper() {
         newObjects = new HashSet<>();
@@ -38,18 +38,18 @@ public class UnitOfWorkHelper<T extends BaseEntity> {
     }
 
     public static void init() {
-        setCurrent(new UnitOfWorkHelper<>());
+        setCurrent(new UnitOfWorkHelper());
     }
 
-    public static UnitOfWorkHelper<? extends BaseEntity> getCurrent() {
+    public static UnitOfWorkHelper getCurrent() {
         return current.get();
     }
 
-    public static void setCurrent(UnitOfWorkHelper<? extends BaseEntity> uow) {
+    public static void setCurrent(UnitOfWorkHelper uow) {
         current.set(uow);
     }
 
-    public void registerNew(T obj) {
+    public void registerNew(BaseEntity obj) {
         Assert.notNull(obj.getId(), "entity Id must be not null");
         Assert.isTrue(!dirtyObjects.contains(obj), "entity must be not dirty");
         Assert.isTrue(!deletedObjects.contains(obj), "entity must not be deleted");
@@ -57,7 +57,7 @@ public class UnitOfWorkHelper<T extends BaseEntity> {
         newObjects.add(obj);
     }
 
-    public void registerDirty(T obj) {
+    public void registerDirty(BaseEntity obj) {
         Assert.notNull(obj.getId(), "entity Id must be not null");
         Assert.isTrue(!deletedObjects.contains(obj), "entity must not be deleted");
         if (!dirtyObjects.contains(obj) && !newObjects.contains(obj)) {
@@ -65,7 +65,7 @@ public class UnitOfWorkHelper<T extends BaseEntity> {
         }
     }
 
-    public void registerDeleted(T obj) {
+    public void registerDeleted(BaseEntity obj) {
         Assert.notNull(obj.getId(), "entity Id must be not null");
         // if try to create new one before, cancel this try
         if (newObjects.remove(obj)) return;
@@ -75,18 +75,17 @@ public class UnitOfWorkHelper<T extends BaseEntity> {
     }
 
     public void commit() {
-        for (T obj : newObjects) {
-            IBaseDao<T> dao = (IBaseDao<T>) DaoFactory.getDao(obj.getClass());
+        for (BaseEntity obj : newObjects) {
+            IBaseDao dao = DaoFactory.getDao(obj.getClass());
             if (dao != null) {
                 dao.insertOne(obj);
             } else {
                 LOGGER.error("dao for insertion should be not null, DaoFactory missing something.");
             }
-
         }
 
-        for (T obj : dirtyObjects) {
-            IBaseDao<T> dao = (IBaseDao<T>) DaoFactory.getDao(obj.getClass());
+        for (BaseEntity obj : dirtyObjects) {
+            IBaseDao dao = DaoFactory.getDao(obj.getClass());
             if (dao != null) {
                 dao.updateOne(obj);
             } else {
@@ -94,8 +93,8 @@ public class UnitOfWorkHelper<T extends BaseEntity> {
             }
         }
 
-        for (T obj : deletedObjects) {
-            IBaseDao<T> dao = (IBaseDao<T>) DaoFactory.getDao(obj.getClass());
+        for (BaseEntity obj : deletedObjects) {
+            IBaseDao dao = DaoFactory.getDao(obj.getClass());
             if (dao != null) {
                 dao.deleteOne(obj);
             } else {
