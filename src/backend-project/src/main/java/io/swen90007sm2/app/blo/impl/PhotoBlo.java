@@ -12,6 +12,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,9 +95,10 @@ public class PhotoBlo implements IPhotoBlo {
 
                     // photo id is the fileName
                     Photo photo = new Photo();
+                    photo.setId(RandomStringUtils.randomAlphanumeric(32));
                     photo.setPhotoId(fileName);
                     photo.setDescription("New Photo.");
-                    photo.setPhotoUrl(ResourceConstant.UPLOAD_PHOTO_URL_PREFIX + '/' + fileName);
+                    photo.setPhotoUrl(ResourceConstant.UPLOAD_PHOTO_URL_PREFIX + "?photoId=" + fileName);
                     photo.setUserId(userId);
                     photoDao.insertOne(photo);
 

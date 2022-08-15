@@ -114,12 +114,7 @@ public class CustomerController {
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
     public R updateUserInfo(HttpServletRequest request, @RequestJsonBody @Valid UserUpdateParam userUpdateParam) {
 
-        Customer newObj = new Customer();
-        newObj.setDescription(userUpdateParam.getDescription());
-        newObj.setUserName(userUpdateParam.getUserName());
-        newObj.setAvatarUrl(userUpdateParam.getAvatarUrl());
-
-        customerBlo.doUpdateUserExceptPassword(request, newObj);
+        customerBlo.doUpdateUserExceptPassword(request, userUpdateParam);
         return R.ok();
     }
 

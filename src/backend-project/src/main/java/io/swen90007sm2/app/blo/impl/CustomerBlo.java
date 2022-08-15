@@ -7,17 +7,20 @@ import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.ICustomerBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
+import io.swen90007sm2.app.model.param.UserUpdateParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
 import io.swen90007sm2.app.security.util.SecurityUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -123,6 +126,7 @@ public class CustomerBlo implements ICustomerBlo {
         String cypher = SecurityUtil.encrypt(registerParam.getPassword());
 
         Customer customer = new Customer();
+        customer.setId(RandomStringUtils.randomAlphanumeric(32));
         customer.setUserId(userId);
         customer.setUserName(userName);
         customer.setPassword(cypher);
@@ -140,7 +144,7 @@ public class CustomerBlo implements ICustomerBlo {
                     StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
         }
         // remove sensitive info
-        customerBean.setPassword(null);
+        customerBean.setPassword(CommonConstant.NULL);
         return customerBean;
     }
 
@@ -162,20 +166,26 @@ public class CustomerBlo implements ICustomerBlo {
         List<Customer> customers = customerDao.findAllByPage(start, pageSize);
 
         // remove sensitive info
-        customers.forEach(customer -> customer.setPassword(null));
+        customers.forEach(customer -> customer.setPassword(CommonConstant.NULL));
         pageBean.setBeans(customers);
 
         return pageBean;
     }
 
     @Override
-    public void doUpdateUserExceptPassword(HttpServletRequest request, Customer customer) {
+    public void doUpdateUserExceptPassword(HttpServletRequest request, UserUpdateParam param) {
         // get current user id
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        // get record
+        Customer originalCustomerRecord = customerDao.findOneByBusinessId(userId);
+        // set new value
+        originalCustomerRecord.setDescription(param.getDescription());
+        originalCustomerRecord.setUserName(param.getUserName());
+        originalCustomerRecord.setAvatarUrl(param.getAvatarUrl());
 
-        customer.setUserId(authToken.getUserId());
-        customerDao.updateOne(customer);
+        customerDao.updateOne(originalCustomerRecord);
     }
 
     @Override
@@ -199,6 +209,5 @@ public class CustomerBlo implements ICustomerBlo {
         // update the password
         originalCustomerRecord.setPassword(SecurityUtil.encrypt(newPassword));
         customerDao.updateOne(originalCustomerRecord);
-//        customerDao.updatePasswordOne(userId, SecurityUtil.encrypt(newPassword));
     }
 }

@@ -47,7 +47,8 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int insertOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "INSERT INTO customer (user_id, password, description, user_name) values (?, ?, ?, ?)",
+                "INSERT INTO customer (id, user_id, password, description, user_name) values (?, ?, ?, ?, ?)",
+                customer.getId(),
                 customer.getUserId(),
                 customer.getPassword(),
                 customer.getDescription(),
@@ -59,26 +60,15 @@ public class CustomerDao implements ICustomerDao {
 
     @Override
     public int updateOne(Customer customer) {
-        int row = 0;
-        if (StringUtils.isEmpty(customer.getPassword())) {
-            // update without new password
-            row = CRUDTemplate.executeNonQuery(
-                    "UPDATE customer SET description=?, user_name=?, avatar_url=?, update_time=? WHERE user_id = ?",
-                    customer.getDescription(),
-                    customer.getUserName(),
-                    customer.getAvatarUrl(),
-                    new java.sql.Date(TimeUtil.now().getTime()),
-                    customer.getUserId()
-            );
-        } else {
-            // update with new password
-            row = CRUDTemplate.executeNonQuery(
-                    "UPDATE customer SET password=?, update_time=? WHERE user_id = ?",
-                    customer.getPassword(),
-                    new java.sql.Date(TimeUtil.now().getTime()),
-                    customer.getUserId()
-            );
-        }
+        int row = CRUDTemplate.executeNonQuery(
+                "UPDATE customer SET password = ?, description=?, user_name=?, avatar_url=?, update_time=? WHERE user_id = ?",
+                customer.getPassword(),
+                customer.getDescription(),
+                customer.getUserName(),
+                customer.getAvatarUrl(),
+                new java.sql.Date(TimeUtil.now().getTime()),
+                customer.getUserId()
+        );
 
         return row;
     }

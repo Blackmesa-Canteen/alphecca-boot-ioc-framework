@@ -4,6 +4,7 @@ import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
+import io.swen90007sm2.app.model.param.UserUpdateParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,9 +55,8 @@ public interface ICustomerBlo {
     /**
      * update user info, except password.
      * will check request token to find target customer to modify on
-     * @param customer customer info bean
      */
-    void doUpdateUserExceptPassword(HttpServletRequest request, Customer customer);
+    void doUpdateUserExceptPassword(HttpServletRequest request, UserUpdateParam param);
 
     /**
      * update customer pwd

@@ -96,7 +96,7 @@ public class GetRequestHandler implements IRequestHandler {
             try {
                 if (targetMethod.getReturnType().equals(void.class)) {
                     ReflectionUtil.invokeMethodWithoutResult(controllerBean, targetMethod, paramObjList.toArray());
-                    IRequestHandler.closeRequestConnection(resp);
+                    // IRequestHandler.closeRequestConnection(resp);
                 } else {
                     Object methodCallingResult = ReflectionUtil.invokeMethod(controllerBean, targetMethod, paramObjList.toArray());
                     IRequestHandler.respondRequestWithJson((R) methodCallingResult, resp);
