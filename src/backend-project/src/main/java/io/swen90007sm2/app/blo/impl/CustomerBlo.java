@@ -45,28 +45,15 @@ public class CustomerBlo implements ICustomerBlo {
         String userId = loginParam.getUserId();
         String password = loginParam.getPassword();
 
-        // cache result bean as the Identity map
-        // use random expiration time to prevent Cache avalanche
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
-        Customer customer = null;
-        if (cacheItem.isEmpty()) {
-            customer = customerDao.findOneByBusinessId(userId);
-            // if no such customer
-            if (customer == null) {
-                throw new RequestException (
-                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
-                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode());
-            }
-
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    customer,
-                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                    TimeUnit.MILLISECONDS
-            );
-        } else {
-            customer = (Customer) cacheItem.get();
-        }
+        /*
+         * Identity Map's cache-Aside implementation
+         * <br/>
+         * if the data exists, get from cache,
+         * if not, get from db.
+         * <br/>
+         * data in the cache will be expired to guarantee data eventually consistent
+         */
+        Customer customer = getCustomerFromCacheOrDb(userId);
 
         // prevent double login, check token cache
         // watch out: different Cache prefix
@@ -182,25 +169,7 @@ public class CustomerBlo implements ICustomerBlo {
 
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
-        Customer customerBean = null;
-        if (cacheItem.isEmpty()) {
-            customerBean = customerDao.findOneByBusinessId(userId);
-            if (customerBean == null) {
-                throw new RequestException(
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
-            }
-
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    customerBean,
-                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                    TimeUnit.MILLISECONDS
-            );
-        } else {
-            customerBean = (Customer) cacheItem.get();
-        }
+        Customer customerBean = getCustomerFromCacheOrDb(userId);
 
         // need to copy bean, because we need to remove sensitive data for showing,
         // without affecting the database record in cache
@@ -258,25 +227,7 @@ public class CustomerBlo implements ICustomerBlo {
         // get record
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
-        Customer customerBean = null;
-        if (cacheItem.isEmpty()) {
-            customerBean = customerDao.findOneByBusinessId(userId);
-            if (customerBean == null) {
-                throw new RequestException(
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
-            }
-
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    customerBean,
-                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                    TimeUnit.MILLISECONDS
-            );
-        } else {
-            customerBean = (Customer) cacheItem.get();
-        }
+        Customer customerBean = getCustomerFromCacheOrDb(userId);
         // set new value
         customerBean.setDescription(param.getDescription());
         customerBean.setUserName(param.getUserName());
@@ -299,25 +250,7 @@ public class CustomerBlo implements ICustomerBlo {
         // get record
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
-        Customer customerBean = null;
-        if (cacheItem.isEmpty()) {
-            customerBean = customerDao.findOneByBusinessId(userId);
-            if (customerBean == null) {
-                throw new RequestException(
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
-            }
-
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    customerBean,
-                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                    TimeUnit.MILLISECONDS
-            );
-        } else {
-            customerBean = (Customer) cacheItem.get();
-        }
+        Customer customerBean = getCustomerFromCacheOrDb(userId);
 
         String originalCypher = customerBean.getPassword();
 
@@ -359,5 +292,40 @@ public class CustomerBlo implements ICustomerBlo {
                 );
             }
         }
+    }
+
+    /**
+     * Identity Map's cache-Aside implementation
+     * <br/>
+     * if the data exists, get from cache,
+     * if not, get from db.
+     * <br/>
+     * data in the cache will be expired to guarantee data eventually consistent
+     * @param userId customer's userId
+     * @return customer object
+     */
+    private Customer getCustomerFromCacheOrDb(String userId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+        Customer customer = null;
+        if (cacheItem.isEmpty()) {
+            customer = customerDao.findOneByBusinessId(userId);
+            // if no such customer
+            if (customer == null) {
+                throw new RequestException (
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+            }
+
+            // use randomed expiration time to prevent Cache Avalanche
+            cache.put(
+                    CacheConstant.ENTITY_KEY_PREFIX + userId,
+                    customer,
+                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                    TimeUnit.MILLISECONDS
+            );
+        } else {
+            customer = (Customer) cacheItem.get();
+        }
+        return customer;
     }
 }
