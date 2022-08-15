@@ -4,6 +4,15 @@ public interface CacheConstant {
 
     String TOKEN_KEY_PREFIX = "token-for-";
 
+    String ENTITY_KEY_PREFIX = "entity-for-";
+
     String OBJECT_CACHE_BEAN = "object-cache-bean";
     String STRING_CACHE_BEAN = "string-cache-bean";
+
+    // normal data expiration time max is 1 Min
+    // need to use random period to prevent cache avalanche
+    Long CACHE_NORMAL_EXPIRATION_PERIOD_MAX = (long) (60 * 1000);
+    // Hot data expiration time max is 10 Second
+    // need to use random period to prevent cache avalanche
+    Long CACHE_HOT_EXPIRATION_PERIOD_MAX = (long) (10 * 1000);
 }

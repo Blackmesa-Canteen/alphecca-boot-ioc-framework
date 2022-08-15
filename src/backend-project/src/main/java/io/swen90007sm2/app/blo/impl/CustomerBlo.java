@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.blo.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.RandomUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
@@ -24,6 +26,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Blo
@@ -41,21 +44,37 @@ public class CustomerBlo implements ICustomerBlo {
         // get role from db
         String userId = loginParam.getUserId();
         String password = loginParam.getPassword();
-        Customer customer = customerDao.findOneByBusinessId(userId);
 
-        // prevent double login
+        // cache result bean as the Identity map
+        // use random expiration time to prevent Cache avalanche
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+        Customer customer = null;
+        if (cacheItem.isEmpty()) {
+            customer = customerDao.findOneByBusinessId(userId);
+            // if no such customer
+            if (customer == null) {
+                throw new RequestException (
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode());
+            }
+
+            cache.put(
+                    CacheConstant.ENTITY_KEY_PREFIX + userId,
+                    customer,
+                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                    TimeUnit.MILLISECONDS
+            );
+        } else {
+            customer = (Customer) cacheItem.get();
+        }
+
+        // prevent double login, check token cache
+        // watch out: different Cache prefix
         if (cache.get(CacheConstant.TOKEN_KEY_PREFIX + userId).isPresent()) {
             throw new RequestException(
                     StatusCodeEnume.ALREADY_LOGIN_EXCEPTION.getMessage(),
                     StatusCodeEnume.ALREADY_LOGIN_EXCEPTION.getCode()
             );
-        }
-
-        // if no such customer
-        if (customer == null) {
-            throw new RequestException (
-                    StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
-                    StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode());
         }
 
         // check username password with db
@@ -70,7 +89,7 @@ public class CustomerBlo implements ICustomerBlo {
         // generate token
         String token = TokenHelper.genAuthToken(userId, AuthRole.CUSTOMER_ROLE);
 
-        // store the token into cache with expiration time
+        // store the token into token cache with expiration time
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         cache.put(
                 CacheConstant.TOKEN_KEY_PREFIX + userId,
@@ -87,25 +106,47 @@ public class CustomerBlo implements ICustomerBlo {
         // get current user id
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
 
-        // remove cache state from cache
-        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + userId);
+        // remove cache state from token cache to logout
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 
     @Override
     public Customer getUserInfoBasedOnToken(String tokenString) {
         AuthToken authToken = TokenHelper.parseAuthTokenString(tokenString);
         String userId = authToken.getUserId();
-        Customer customerBean = customerDao.findOneByBusinessId(userId);
-        if (customerBean == null) {
-            throw new RequestException(
-                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
-                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode());
+
+        // check token validity
+        checkTokenValidity(authToken);
+
+        // cache result bean as the Identity map
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+        Customer customerBean = null;
+        if (cacheItem.isEmpty()) {
+            customerBean = customerDao.findOneByBusinessId(userId);
+            if (customerBean == null) {
+                throw new RequestException(
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+            }
+
+            cache.put(
+                    CacheConstant.ENTITY_KEY_PREFIX + userId,
+                    customerBean,
+                    CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX,
+                    TimeUnit.MILLISECONDS
+            );
+        } else {
+            customerBean = (Customer) cacheItem.get();
         }
+
+        // need to copy bean, because we need to remove sensitive data for showing,
+        // without affecting the database record in cache
+        Customer res = new Customer();
+        BeanUtil.copyProperties(customerBean, res);
         // remove sensitive info
-        customerBean.setPassword(null);
-        return customerBean;
+        res.setPassword(CommonConstant.NULL);
+        return res;
     }
 
     @Override
@@ -114,6 +155,7 @@ public class CustomerBlo implements ICustomerBlo {
         String userId = registerParam.getUserId();
 
         // check existence
+        // will not use cache to prevent inconsistent data
         Customer prevResult = customerDao.findOneByBusinessId(userId);
         if (prevResult != null) {
             throw new RequestException(
@@ -131,21 +173,42 @@ public class CustomerBlo implements ICustomerBlo {
         customer.setUserName(userName);
         customer.setPassword(cypher);
         customer.setDescription("New User");
-
+        // TODO user unit of work helper
         customerDao.insertOne(customer);
     }
 
     @Override
     public Customer getUserInfoBasedByUserId(String userId) {
-        Customer customerBean = customerDao.findOneByBusinessId(userId);
-        if (customerBean == null) {
-            throw new RequestException(
-                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+
+        // cache result bean as the Identity map
+        // use random expiration time to prevent Cache avalanche
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+        Customer customerBean = null;
+        if (cacheItem.isEmpty()) {
+            customerBean = customerDao.findOneByBusinessId(userId);
+            if (customerBean == null) {
+                throw new RequestException(
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+            }
+
+            cache.put(
+                    CacheConstant.ENTITY_KEY_PREFIX + userId,
+                    customerBean,
+                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                    TimeUnit.MILLISECONDS
+            );
+        } else {
+            customerBean = (Customer) cacheItem.get();
         }
+
+        // need to copy bean, because we need to remove sensitive data for showing,
+        // without affecting the database record in cache
+        Customer res = new Customer();
+        BeanUtil.copyProperties(customerBean, res);
         // remove sensitive info
-        customerBean.setPassword(CommonConstant.NULL);
-        return customerBean;
+        res.setPassword(CommonConstant.NULL);
+        return res;
     }
 
     @Override
@@ -163,11 +226,25 @@ public class CustomerBlo implements ICustomerBlo {
 
         // get start row for page query
         int start = pageBean.getStartRow();
-        List<Customer> customers = customerDao.findAllByPage(start, pageSize);
 
-        // remove sensitive info
-        customers.forEach(customer -> customer.setPassword(CommonConstant.NULL));
-        pageBean.setBeans(customers);
+        List<Customer> customers = customerDao.findAllByPage(start, pageSize);
+        // use result from db to update the cache
+        customers.forEach(customer -> {
+            if (customer != null) {
+                cache.put(
+                        CacheConstant.ENTITY_KEY_PREFIX + customer.getUserId(),
+                        customer,
+                        RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                        TimeUnit.MILLISECONDS
+                );
+            }
+        });
+
+        // remove sensitive info,
+        // need to copy to prevent impact on cached data
+        List<Customer> res = BeanUtil.copyToList(customers, Customer.class);
+        res.forEach(customer -> customer.setPassword(CommonConstant.NULL));
+        pageBean.setBeans(res);
 
         return pageBean;
     }
@@ -179,13 +256,37 @@ public class CustomerBlo implements ICustomerBlo {
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
         // get record
-        Customer originalCustomerRecord = customerDao.findOneByBusinessId(userId);
-        // set new value
-        originalCustomerRecord.setDescription(param.getDescription());
-        originalCustomerRecord.setUserName(param.getUserName());
-        originalCustomerRecord.setAvatarUrl(param.getAvatarUrl());
+        // cache result bean as the Identity map
+        // use random expiration time to prevent Cache avalanche
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+        Customer customerBean = null;
+        if (cacheItem.isEmpty()) {
+            customerBean = customerDao.findOneByBusinessId(userId);
+            if (customerBean == null) {
+                throw new RequestException(
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+            }
 
-        customerDao.updateOne(originalCustomerRecord);
+            cache.put(
+                    CacheConstant.ENTITY_KEY_PREFIX + userId,
+                    customerBean,
+                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                    TimeUnit.MILLISECONDS
+            );
+        } else {
+            customerBean = (Customer) cacheItem.get();
+        }
+        // set new value
+        customerBean.setDescription(param.getDescription());
+        customerBean.setUserName(param.getUserName());
+        customerBean.setAvatarUrl(param.getAvatarUrl());
+
+        // TODO unit of work helper
+        customerDao.updateOne(customerBean);
+
+        // cache destroy MUST be after the database updating
+        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
     }
 
     @Override
@@ -196,8 +297,29 @@ public class CustomerBlo implements ICustomerBlo {
         String userId = authToken.getUserId();
 
         // get record
-        Customer originalCustomerRecord = customerDao.findOneByBusinessId(userId);
-        String originalCypher = originalCustomerRecord.getPassword();
+        // cache result bean as the Identity map
+        // use random expiration time to prevent Cache avalanche
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+        Customer customerBean = null;
+        if (cacheItem.isEmpty()) {
+            customerBean = customerDao.findOneByBusinessId(userId);
+            if (customerBean == null) {
+                throw new RequestException(
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+            }
+
+            cache.put(
+                    CacheConstant.ENTITY_KEY_PREFIX + userId,
+                    customerBean,
+                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                    TimeUnit.MILLISECONDS
+            );
+        } else {
+            customerBean = (Customer) cacheItem.get();
+        }
+
+        String originalCypher = customerBean.getPassword();
 
         if (!SecurityUtil.isOriginMatchCypher(originalPassword, originalCypher)) {
             throw new RequestException(
@@ -207,7 +329,32 @@ public class CustomerBlo implements ICustomerBlo {
         }
 
         // update the password
-        originalCustomerRecord.setPassword(SecurityUtil.encrypt(newPassword));
-        customerDao.updateOne(originalCustomerRecord);
+        customerBean.setPassword(SecurityUtil.encrypt(newPassword));
+        // TODO unit of work
+        customerDao.updateOne(customerBean);
+
+        // cache destroy MUST be after the database updating
+        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
+    }
+
+    private void checkTokenValidity(AuthToken authToken) {
+        String key = CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId();
+        Optional<Object> tokenRecord = cache.get(key);
+        if(tokenRecord.isEmpty()) {
+            // Don't have corresponding token in server cache, it could be: Not login or login expired
+            throw new RequestException(
+                    StatusCodeEnume.NOT_LOGIN_EXCEPTION.getMessage(),
+                    StatusCodeEnume.NOT_LOGIN_EXCEPTION.getCode()
+            );
+        } else {
+            // check token correctness
+            AuthToken tokenBeanInCache = (AuthToken)tokenRecord.get();
+            if (!authToken.getToken().equals(tokenBeanInCache.getToken())) {
+                throw new RequestException(
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode()
+                );
+            }
+        }
     }
 }

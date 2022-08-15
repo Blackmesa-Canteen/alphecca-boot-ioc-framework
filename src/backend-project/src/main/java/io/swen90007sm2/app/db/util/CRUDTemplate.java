@@ -68,6 +68,7 @@ public class CRUDTemplate {
                 preparedStatement.setObject(i +1, params[i]);
             }
 
+            LOGGER.info("Execute non query SQL [{}] with param [{}]", sql, params);
             resultSet = preparedStatement.executeQuery();
             if (resultSet == null) {
                 return null;
@@ -106,6 +107,7 @@ public class CRUDTemplate {
                 preparedStatement.setObject(i +1, params[i]);
             }
 
+            LOGGER.info("Execute non query SQL [{}] with param [{}]", sql, params);
             resultSet = preparedStatement.executeQuery();
             if (resultSet == null) {
                 return null;
