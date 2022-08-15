@@ -2,7 +2,6 @@ package io.swen90007sm2.app.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * base entity that contains public field for all
@@ -11,8 +10,8 @@ import java.util.Objects;
  */
 public abstract class BaseEntity implements Serializable {
 
-    // TODO should be String and generate_uid(10)
-    private Integer Id;
+    // TODO should be String/CHAR(20) and generate_uid(20)
+    private Integer id;
     /**
      * It is a good practice to record time fields
      */
@@ -55,10 +54,10 @@ public abstract class BaseEntity implements Serializable {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 }
