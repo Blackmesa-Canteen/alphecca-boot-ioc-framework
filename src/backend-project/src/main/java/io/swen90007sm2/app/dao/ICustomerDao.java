@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author xiaotian
  */
-public interface ICustomerDao {
+public interface ICustomerDao extends IBaseDao<Customer> {
 
 
     /**
@@ -24,29 +24,36 @@ public interface ICustomerDao {
      * @param rows total rows needed
      * @return list
      */
-    List<Customer> findCustomersByPage(Integer start, Integer rows);
+    List<Customer> findAllByPage(Integer start, Integer rows);
 
     /**
      * Find Customer in database by userID
-     * @param UserId userId
+     * @param userId is business specific Id, not database id, in this case, is userId
      * @return Customer Entity
      */
-    Customer findCustomerByUserId(String UserId);
+    Customer findOneByBusinessId(String userId);
 
     /**
      * insert a new customer in db
      * @param customer new Customer obj
      * @return 1 if successed
      */
-    int addNewCustomer(Customer customer);
+    int insertOne(Customer customer);
 
     /**
-     * update Customer, except password
+     * update Customer
      * @param customerId target id
      * @param customer new obj
      * @return num of influenced rows
      */
-    int updateCustomer(String customerId, Customer customer);
+    int updateOne(Customer customer);
+
+    /**
+     * delete one customer by customerId
+     * @param customerId customerID
+     * @return rows
+     */
+    int deleteOne(Customer customer);
 
     /**
      * update password cypher
@@ -54,5 +61,8 @@ public interface ICustomerDao {
      * @param newCypher pwd cypher
      * @return num of influenced rows
      */
-    int updatePassword(String customerId, String newCypher);
+    @Deprecated
+    int updatePasswordOne(String customerId, String newCypher);
+
+
 }

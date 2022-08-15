@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author xiaotian
  */
-public interface IPhotoDao {
+public interface IPhotoDao extends IBaseDao<Photo>{
 
     /**
      * Find total record counts.
@@ -21,18 +21,35 @@ public interface IPhotoDao {
      * @param rows total rows needed
      * @return list
      */
-    List<Photo> findPhotosByPage(Integer start, Integer rows);
+    List<Photo> findAllByPage(Integer start, Integer rows);
 
     /**
      * find Photo metadata object from db
      * @param photoId photoId/photoname
      * @return Photo ORM object
      */
-    Photo findPhotoByPhotoId(String photoId);
+    Photo findOneByBusinessId(String photoId);
 
     /**
      * insert a new photo into db
      * @param photo photo entity contains photo metadata
      */
-    void insertPhoto(Photo photo);
+    int insertOne(Photo photo);
+
+    /**
+     * update one photo
+     * @param photoId photoId
+     * @param photo photoEntity
+     * @return rows
+     */
+    @Override
+    int updateOne(Photo photo);
+
+    /**
+     * delete one photo
+     * @param photoId photoId
+     * @return rows
+     */
+    @Override
+    int deleteOne(Photo photo);
 }

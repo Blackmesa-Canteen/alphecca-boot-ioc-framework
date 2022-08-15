@@ -2,6 +2,7 @@ package io.swen90007sm2.app.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * base entity that contains public field for all
@@ -10,6 +11,8 @@ import java.util.Date;
  */
 public abstract class BaseEntity implements Serializable {
 
+    // TODO should be String and generate_uid(10)
+    private Integer Id;
     /**
      * It is a good practice to record time fields
      */
@@ -49,5 +52,13 @@ public abstract class BaseEntity implements Serializable {
 
     public void setIsDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer id) {
+        Id = id;
     }
 }

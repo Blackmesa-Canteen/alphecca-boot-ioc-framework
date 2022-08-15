@@ -2,14 +2,10 @@ package io.swen90007sm2.app.blo.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
-import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IPhotoBlo;
 import io.swen90007sm2.app.common.constant.ResourceConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
-import io.swen90007sm2.app.common.util.FileUtil;
-import io.swen90007sm2.app.common.util.ResourceUtil;
-import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IPhotoDao;
 import io.swen90007sm2.app.model.entity.Photo;
 import org.apache.commons.fileupload.FileItem;
@@ -20,12 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -104,7 +98,7 @@ public class PhotoBlo implements IPhotoBlo {
                     photo.setDescription("New Photo.");
                     photo.setPhotoUrl(ResourceConstant.UPLOAD_PHOTO_URL_PREFIX + '/' + fileName);
                     photo.setUserId(userId);
-                    photoDao.insertPhoto(photo);
+                    photoDao.insertOne(photo);
 
                     LOGGER.info("uploaded a file, name: [{}] at [{}]", fileName, filePath);
                     return fileName;

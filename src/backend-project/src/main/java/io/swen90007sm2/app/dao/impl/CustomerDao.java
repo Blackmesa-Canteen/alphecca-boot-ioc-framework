@@ -5,6 +5,7 @@ import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.Customer;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class CustomerDao implements ICustomerDao {
     }
 
     @Override
-    public List<Customer> findCustomersByPage(Integer start, Integer rows) {
+    public List<Customer> findAllByPage(Integer start, Integer rows) {
         List<Customer> customers = CRUDTemplate.executeQueryWithMultiRes(
                 Customer.class,
                 "SELECT * FROM customer OFFSET ? LIMIT ?",
@@ -33,7 +34,7 @@ public class CustomerDao implements ICustomerDao {
     }
 
     @Override
-    public Customer findCustomerByUserId(String userId) {
+    public Customer findOneByBusinessId(String userId) {
         Customer customerBean = CRUDTemplate.executeQueryWithOneRes(
                 Customer.class,
                 "SELECT * FROM customer WHERE user_id = ?",
@@ -44,7 +45,7 @@ public class CustomerDao implements ICustomerDao {
     }
 
     @Override
-    public int addNewCustomer(Customer customer) {
+    public int insertOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
                 "INSERT INTO customer (user_id, password, description, user_name) values (?, ?, ?, ?)",
                 customer.getUserId(),
@@ -57,21 +58,34 @@ public class CustomerDao implements ICustomerDao {
     }
 
     @Override
-    public int updateCustomer(String customerId, Customer customer) {
-        int row = CRUDTemplate.executeNonQuery(
-                "UPDATE customer SET description=?, user_name=?, avatar_url=?, update_time=? WHERE user_id = ?",
-                customer.getDescription(),
-                customer.getUserName(),
-                customer.getAvatarUrl(),
-                new java.sql.Date(TimeUtil.now().getTime()),
-                customerId
-        );
+    public int updateOne(Customer customer) {
+        int row = 0;
+        if (StringUtils.isEmpty(customer.getPassword())) {
+            // update without new password
+            row = CRUDTemplate.executeNonQuery(
+                    "UPDATE customer SET description=?, user_name=?, avatar_url=?, update_time=? WHERE user_id = ?",
+                    customer.getDescription(),
+                    customer.getUserName(),
+                    customer.getAvatarUrl(),
+                    new java.sql.Date(TimeUtil.now().getTime()),
+                    customer.getUserId()
+            );
+        } else {
+            // update with new password
+            row = CRUDTemplate.executeNonQuery(
+                    "UPDATE customer SET password=?, update_time=? WHERE user_id = ?",
+                    customer.getPassword(),
+                    new java.sql.Date(TimeUtil.now().getTime()),
+                    customer.getUserId()
+            );
+        }
 
         return row;
     }
 
     @Override
-    public int updatePassword(String customerId, String newCypher) {
+    @Deprecated
+    public int updatePasswordOne(String customerId, String newCypher) {
         int row = CRUDTemplate.executeNonQuery(
                 "UPDATE customer SET password=?, update_time=? WHERE user_id = ?",
                 newCypher,
@@ -82,4 +96,13 @@ public class CustomerDao implements ICustomerDao {
         return row;
     }
 
+    @Override
+    public int deleteOne(Customer customer) {
+        int row = CRUDTemplate.executeNonQuery(
+                "DELETE FROM customer WHERE user_id = ?",
+                customer.getUserId()
+        );
+
+        return row;
+    }
 }

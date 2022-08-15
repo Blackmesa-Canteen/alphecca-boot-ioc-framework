@@ -38,7 +38,7 @@ public class CustomerBlo implements ICustomerBlo {
         // get role from db
         String userId = loginParam.getUserId();
         String password = loginParam.getPassword();
-        Customer customer = customerDao.findCustomerByUserId(userId);
+        Customer customer = customerDao.findOneByBusinessId(userId);
 
         // prevent double login
         if (cache.get(CacheConstant.TOKEN_KEY_PREFIX + userId).isPresent()) {
@@ -94,7 +94,7 @@ public class CustomerBlo implements ICustomerBlo {
     public Customer getUserInfoBasedOnToken(String tokenString) {
         AuthToken authToken = TokenHelper.parseAuthTokenString(tokenString);
         String userId = authToken.getUserId();
-        Customer customerBean = customerDao.findCustomerByUserId(userId);
+        Customer customerBean = customerDao.findOneByBusinessId(userId);
         if (customerBean == null) {
             throw new RequestException(
                     StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
@@ -111,7 +111,7 @@ public class CustomerBlo implements ICustomerBlo {
         String userId = registerParam.getUserId();
 
         // check existence
-        Customer prevResult = customerDao.findCustomerByUserId(userId);
+        Customer prevResult = customerDao.findOneByBusinessId(userId);
         if (prevResult != null) {
             throw new RequestException(
                     StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
@@ -128,12 +128,12 @@ public class CustomerBlo implements ICustomerBlo {
         customer.setPassword(cypher);
         customer.setDescription("New User");
 
-        customerDao.addNewCustomer(customer);
+        customerDao.insertOne(customer);
     }
 
     @Override
     public Customer getUserInfoBasedByUserId(String userId) {
-        Customer customerBean = customerDao.findCustomerByUserId(userId);
+        Customer customerBean = customerDao.findOneByBusinessId(userId);
         if (customerBean == null) {
             throw new RequestException(
                     StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
@@ -159,7 +159,7 @@ public class CustomerBlo implements ICustomerBlo {
 
         // get start row for page query
         int start = pageBean.getStartRow();
-        List<Customer> customers = customerDao.findCustomersByPage(start, pageSize);
+        List<Customer> customers = customerDao.findAllByPage(start, pageSize);
 
         // remove sensitive info
         customers.forEach(customer -> customer.setPassword(null));
@@ -173,7 +173,9 @@ public class CustomerBlo implements ICustomerBlo {
         // get current user id
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        customerDao.updateCustomer(authToken.getUserId(), customer);
+
+        customer.setUserId(authToken.getUserId());
+        customerDao.updateOne(customer);
     }
 
     @Override
@@ -184,7 +186,7 @@ public class CustomerBlo implements ICustomerBlo {
         String userId = authToken.getUserId();
 
         // get record
-        Customer originalCustomerRecord = customerDao.findCustomerByUserId(userId);
+        Customer originalCustomerRecord = customerDao.findOneByBusinessId(userId);
         String originalCypher = originalCustomerRecord.getPassword();
 
         if (!SecurityUtil.isOriginMatchCypher(originalPassword, originalCypher)) {
@@ -195,6 +197,8 @@ public class CustomerBlo implements ICustomerBlo {
         }
 
         // update the password
-        customerDao.updatePassword(userId, SecurityUtil.encrypt(newPassword));
+        originalCustomerRecord.setPassword(SecurityUtil.encrypt(newPassword));
+        customerDao.updateOne(originalCustomerRecord);
+//        customerDao.updatePasswordOne(userId, SecurityUtil.encrypt(newPassword));
     }
 }
