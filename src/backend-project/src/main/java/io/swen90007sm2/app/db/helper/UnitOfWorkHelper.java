@@ -49,10 +49,10 @@ public class UnitOfWorkHelper {
     public static UnitOfWorkHelper init(ICacheStorage<String, Object> cacheRef) {
         if (current.get() == null) {
             setCurrent(new UnitOfWorkHelper(cacheRef));
-            return getCurrent();
+            return current.get();
         }
 
-        return getCurrent();
+        return current.get();
     }
 
     public static UnitOfWorkHelper getCurrent() {
@@ -67,12 +67,11 @@ public class UnitOfWorkHelper {
      * register a new obj that will put into database
      *
      */
-    public void registerNew(BaseEntity entity, IBaseDao dao, String cacheKey) {
+    public void registerNew(BaseEntity entity, IBaseDao dao) {
         Assert.notNull(entity.getId(), "entity Id must be not null");
         UowBean uowBean = new UowBean();
         uowBean.setEntity(entity);
         uowBean.setEntityDao(dao);
-        uowBean.setCacheKey(cacheKey);
         Assert.isTrue(!dirtyUowBeans.contains(uowBean), "entity must be not dirty");
         Assert.isTrue(!deletedUowBeans.contains(uowBean), "entity must not be deleted");
         Assert.isTrue(!newUowBeans.contains(uowBean), "entity should not exist before");

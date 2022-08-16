@@ -15,6 +15,7 @@ import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.db.constant.DbConstant;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
@@ -149,7 +150,9 @@ public class CustomerBlo implements ICustomerBlo {
         customer.setPassword(cypher);
         customer.setDescription("New User");
         // TODO user unit of work helper
-        customerDao.insertOne(customer);
+        UnitOfWorkHelper current = UnitOfWorkHelper.getCurrent();
+        current.registerNew(customer, customerDao);
+//        customerDao.insertOne(customer);
     }
 
     @Override

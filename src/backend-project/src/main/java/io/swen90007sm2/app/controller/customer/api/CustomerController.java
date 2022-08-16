@@ -7,6 +7,8 @@ import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.ICustomerBlo;
+import io.swen90007sm2.app.cache.util.CacheUtil;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.PasswordUpdateParam;
@@ -77,7 +79,9 @@ public class CustomerController {
      */
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     public R register(@RequestJsonBody @Valid UserRegisterParam userRegisterParam) {
+        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         customerBlo.doRegisterUser(userRegisterParam);
+        UnitOfWorkHelper.getCurrent().commit();
         return R.ok();
     }
 
