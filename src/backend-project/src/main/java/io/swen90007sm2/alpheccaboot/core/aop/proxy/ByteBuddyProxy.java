@@ -11,9 +11,12 @@ import net.bytebuddy.matcher.ElementMatchers;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.Ref;
 
 /**
  * byte buddy is the replacement of CgLib for high version java
+ *
+ * TODO Not supporting chain proxy
  *
  * @author xiaotian
  */
@@ -28,31 +31,38 @@ public class ByteBuddyProxy {
 //    }
 
     @RuntimeType
-    public static Object intercept(@This Object self,
+    public static Object intercept(@This Object proxy,
                                    @Origin Method method,
                                    @AllArguments Object[] args,
                                    @SuperMethod Method superMethod) throws Throwable {
 
+        // TODO problem: not supporting chain proxy
         MethodCalling methodCalling = new MethodCalling(targetObj, method, args);
-
         return interceptor.intercept(methodCalling);
     }
 
     public static synchronized Object enhanceWithProxy(Object targetObj, AbstractInterceptor interceptor) {
         Class<?> targetClass = targetObj.getClass();
+        Class<?> proxyClass = targetClass;
 
         ByteBuddyProxy.interceptor = interceptor;
         ByteBuddyProxy.targetObj = targetObj;
 
+        if (targetObj.getClass().getName().contains("$ByteBuddy$")) {
+            proxyClass = targetClass.getSuperclass();
+        }
+
         try (DynamicType.Unloaded<?> make = new ByteBuddy()
-                .subclass(targetClass)
+                .subclass(proxyClass)
                 .method(
                         ElementMatchers.any()
                 ).intercept(MethodDelegation.to(ByteBuddyProxy.class))
                 .make()) {
 
-            Class<?> proxyClass = make.load(targetClass.getClassLoader()).getLoaded();
-            return ReflectionUtil.genNewInstanceByClass(proxyClass);
+            Class<?> enhancer = make.load(targetClass.getClassLoader()).getLoaded();
+
+            // TODO fix this!!
+            return ReflectionUtil.genNewInstanceByClass(enhancer);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

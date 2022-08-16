@@ -1,6 +1,7 @@
 package io.swen90007sm2.alpheccaboot.core.aop.factory;
 
 import io.swen90007sm2.alpheccaboot.core.aop.processor.ByteBuddyAopBeanProcessor;
+import io.swen90007sm2.alpheccaboot.core.aop.processor.CgLibAopBeanProcessor;
 import io.swen90007sm2.alpheccaboot.core.aop.processor.IBeanPostProcessor;
 import io.swen90007sm2.alpheccaboot.core.aop.processor.JdkAopBeanProcessor;
 

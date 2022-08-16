@@ -1,6 +1,5 @@
 package io.swen90007sm2.alpheccaboot.core.ioc;
 
-import io.swen90007sm2.alpheccaboot.annotation.aop.Aspect;
 import io.swen90007sm2.alpheccaboot.annotation.filter.Filter;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
@@ -111,18 +110,6 @@ public class ClassManager {
         }
 
         LOGGER.info("Scanned {} Filter Classes.", set.size());
-        return set;
-    }
-
-    public static Set<Class<?>> getAspectAnnotatedClassSet() {
-        Set<Class<?>> set = new HashSet<>();
-        for (Class<?> clazz : CLASS_SET) {
-            if (clazz.isAnnotationPresent(Aspect.class)) {
-                set.add(clazz);
-            }
-        }
-
-        LOGGER.info("Scanned {} Aspect Classes.", set.size());
         return set;
     }
 
