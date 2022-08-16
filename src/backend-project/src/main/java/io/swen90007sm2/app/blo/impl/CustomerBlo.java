@@ -27,9 +27,11 @@ import io.swen90007sm2.app.security.util.SecurityUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Blo
 public class CustomerBlo implements ICustomerBlo {
@@ -129,6 +131,7 @@ public class CustomerBlo implements ICustomerBlo {
         // check existence
         // will not use cache to prevent inconsistent data
         Customer prevResult = customerDao.findOneByBusinessId(userId);
+
         if (prevResult != null) {
             throw new RequestException(
                     StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
@@ -168,20 +171,27 @@ public class CustomerBlo implements ICustomerBlo {
     @Override
     public PageBean<Customer> getCustomerByPage(int pageNo, int pageSize) {
 
-        // get total records num, which is important for paging
-        int totalRows = customerDao.findTotalCount();
+        PageBean<Customer> pageBean = null;
+        List<Customer> customers = null;
 
-        // init page dto
-        PageBean<Customer> pageBean = new PageBean<>(
-                pageSize,
-                totalRows,
-                pageNo
-        );
+        // ensure the data consistency within multi query from db
+        synchronized (this) {
+            // get total records num, which is important for paging
+            int totalRows = customerDao.findTotalCount();
 
-        // get start row for page query
-        int start = pageBean.getStartRow();
+            // init page dto
+            pageBean = new PageBean<>(
+                    pageSize,
+                    totalRows,
+                    pageNo
+            );
 
-        List<Customer> customers = customerDao.findAllByPage(start, pageSize);
+            // get start row for page query
+            int start = pageBean.getStartRow();
+
+            customers = customerDao.findAllByPage(start, pageSize);
+        }
+
         // use result from db to update the cache
         customers.forEach(customer -> {
             if (customer != null) {

@@ -1,20 +1,18 @@
 package io.swen90007sm2.app.db.helper;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
+import cn.hutool.core.collection.ConcurrentHashSet;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.common.util.Assert;
 import io.swen90007sm2.app.dao.IBaseDao;
+import io.swen90007sm2.app.db.bean.UowBean;
 import io.swen90007sm2.app.db.factory.DaoFactory;
 import io.swen90007sm2.app.model.entity.BaseEntity;
-import io.swen90007sm2.app.model.entity.Customer;
-import io.swen90007sm2.app.security.helper.TokenHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * unit of work helper, handles dirty jobs.
@@ -30,23 +28,27 @@ public class UnitOfWorkHelper {
     // each request will be a thread, this field will make UnitOfWorkHelper instance thread private
     private static final ThreadLocal<UnitOfWorkHelper> current = new ThreadLocal<>();
 
-    private final Set<BaseEntity> newObjects;
-    private final Set<BaseEntity> dirtyObjects;
-    private final Set<BaseEntity> deletedObjects;
+    private final Set<UowBean> newUowBeans;
+    private final Set<UowBean> dirtyUowBeans;
+    private final Set<UowBean> deletedUowBeans;
 
-    public UnitOfWorkHelper() {
-        newObjects = new HashSet<>();
-        dirtyObjects = new HashSet<>();
-        deletedObjects = new HashSet<>();
+    private final ICacheStorage<String, Object> cacheRef;
+
+    public UnitOfWorkHelper(ICacheStorage<String, Object> cacheRef) {
+        // no need to have ConcurrentSet, because this Uow Helper is thread local
+        newUowBeans = new HashSet<>();
+        dirtyUowBeans = new HashSet<>();
+        deletedUowBeans = new HashSet<>();
+        this.cacheRef = cacheRef;
     }
 
     /**
      * init and get UnitOfWorkHelper. call at the start of the service, if the service needs update some data.
      * @return uow helper
      */
-    public static UnitOfWorkHelper init() {
+    public static UnitOfWorkHelper init(ICacheStorage<String, Object> cacheRef) {
         if (current.get() == null) {
-            setCurrent(new UnitOfWorkHelper());
+            setCurrent(new UnitOfWorkHelper(cacheRef));
             return getCurrent();
         }
 
@@ -63,39 +65,49 @@ public class UnitOfWorkHelper {
 
     /**
      * register a new obj that will put into database
-     * @param obj new object entity
+     *
      */
-    public void registerNew(BaseEntity obj) {
-        Assert.notNull(obj.getId(), "entity Id must be not null");
-        Assert.isTrue(!dirtyObjects.contains(obj), "entity must be not dirty");
-        Assert.isTrue(!deletedObjects.contains(obj), "entity must not be deleted");
-        Assert.isTrue(!newObjects.contains(obj), "entity should not exist before");
-        newObjects.add(obj);
+    public void registerNew(BaseEntity entity, IBaseDao dao, String cacheKey) {
+        Assert.notNull(entity.getId(), "entity Id must be not null");
+        UowBean uowBean = new UowBean();
+        uowBean.setEntity(entity);
+        uowBean.setEntityDao(dao);
+        uowBean.setCacheKey(cacheKey);
+        Assert.isTrue(!dirtyUowBeans.contains(uowBean), "entity must be not dirty");
+        Assert.isTrue(!deletedUowBeans.contains(uowBean), "entity must not be deleted");
+        Assert.isTrue(!newUowBeans.contains(uowBean), "entity should not exist before");
+        newUowBeans.add(uowBean);
     }
 
     /**
      * register a changed obj
-     * @param obj obj that need changes
      */
-    public void registerDirty(BaseEntity obj) {
-        Assert.notNull(obj.getId(), "entity Id must be not null");
-        Assert.isTrue(!deletedObjects.contains(obj), "entity must not be deleted");
-        if (!dirtyObjects.contains(obj) && !newObjects.contains(obj)) {
-            dirtyObjects.add(obj);
+    public void registerDirty(BaseEntity entity, IBaseDao dao, String cacheKey) {
+        Assert.notNull(entity.getId(), "entity Id must be not null");
+        UowBean uowBean = new UowBean();
+        uowBean.setEntity(entity);
+        uowBean.setEntityDao(dao);
+        uowBean.setCacheKey(cacheKey);
+        Assert.isTrue(!deletedUowBeans.contains(uowBean), "entity must not be deleted");
+        if (!dirtyUowBeans.contains(uowBean) && !newUowBeans.contains(uowBean)) {
+            dirtyUowBeans.add(uowBean);
         }
     }
 
     /**
      * register a obj that need to be deleted
-     * @param obj obj that will be deleted
      */
-    public void registerDeleted(BaseEntity obj) {
-        Assert.notNull(obj.getId(), "entity Id must be not null");
+    public void registerDeleted(BaseEntity entity, IBaseDao dao, String cacheKey) {
+        Assert.notNull(entity.getId(), "entity Id must be not null");
+        UowBean uowBean = new UowBean();
+        uowBean.setEntity(entity);
+        uowBean.setEntityDao(dao);
+        uowBean.setCacheKey(cacheKey);
         // if try to create new one before, cancel this try
-        if (newObjects.remove(obj)) return;
+        if (newUowBeans.remove(uowBean)) return;
         // it would be removed, so don't worry about this dirty object, just remove
-        dirtyObjects.remove(obj);
-        deletedObjects.add(obj);
+        dirtyUowBeans.remove(uowBean);
+        deletedUowBeans.add(uowBean);
     }
 
     /**
@@ -103,31 +115,41 @@ public class UnitOfWorkHelper {
      * <br/>
      * IMPORTANT: make sure DaoFactory contains all existing Dao!
      */
-    public void commit() {
-        for (BaseEntity obj : newObjects) {
-            IBaseDao dao = DaoFactory.getDao(obj.getClass());
-            if (dao != null) {
-                dao.insertOne(obj);
-            } else {
-                LOGGER.error("dao for insertion should be not null, DaoFactory missing something.");
+    public synchronized void commit() {
+
+        for (UowBean bean : newUowBeans) {
+            IBaseDao dao = bean.getEntityDao();
+            try {
+                dao.insertOne(bean.getEntity());
+            } catch (Exception e) {
+                LOGGER.error("Uow insertion error: ", e);
             }
         }
 
-        for (BaseEntity obj : dirtyObjects) {
-            IBaseDao dao = DaoFactory.getDao(obj.getClass());
-            if (dao != null) {
-                dao.updateOne(obj);
-            } else {
-                LOGGER.error("dao for updating should be not null, DaoFactory missing something.");
+        for (UowBean bean : dirtyUowBeans) {
+            IBaseDao dao = bean.getEntityDao();
+            try {
+                // update db
+                dao.updateOne(bean.getEntity());
+                // Cache evict model
+                // clean the cache after update the db
+                cacheRef.remove(bean.getCacheKey());
+            } catch (Exception e) {
+                LOGGER.error("Uow update error: ", e);
             }
         }
 
-        for (BaseEntity obj : deletedObjects) {
-            IBaseDao dao = DaoFactory.getDao(obj.getClass());
-            if (dao != null) {
-                dao.deleteOne(obj);
-            } else {
-                LOGGER.error("dao for deletion should be not null, DaoFactory missing something.");
+        for (UowBean bean : deletedUowBeans) {
+            IBaseDao dao = bean.getEntityDao();
+            try {
+                // update db
+                dao.deleteOne(bean.getEntity());
+                cacheRef.remove(bean.getCacheKey());
+                // Cache evict model
+                // clean the cache after update the db
+                cacheRef.remove(bean.getCacheKey());
+            } catch (Exception e) {
+                LOGGER.error("Uow deletion error: ", e);
             }
         }
     }
