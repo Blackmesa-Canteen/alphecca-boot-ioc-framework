@@ -10,6 +10,7 @@ import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.ICustomerBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
@@ -231,11 +232,11 @@ public class CustomerBlo implements ICustomerBlo {
         customerBean.setUserName(param.getUserName());
         customerBean.setAvatarUrl(param.getAvatarUrl());
 
-        // TODO unit of work helper
-        customerDao.updateOne(customerBean);
-
+        // unit of work helper
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, userId);
+//        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
-        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
+//        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
     }
 
     @Override
@@ -261,13 +262,13 @@ public class CustomerBlo implements ICustomerBlo {
 
         // update the password
         customerBean.setPassword(SecurityUtil.encrypt(newPassword));
-        // TODO unit of work
-        customerDao.updateOne(customerBean);
-
+        // unit of work
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, userId);
+//        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
-        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
+//        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
 
-        // logout
+        // logout, clear up login state
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 

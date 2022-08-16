@@ -49,11 +49,12 @@ public class CustomerController {
     @HandlesRequest(path = "/login", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
     public R changeUserPassword(HttpServletRequest request, @RequestJsonBody @Valid PasswordUpdateParam param) {
-
+        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         customerBlo.doUpdateUserPassword(request,
                 param.getOriginalPassword(),
                 param.getNewPassword()
         );
+        UnitOfWorkHelper.getCurrent().commit();
 
         return R.ok();
     }
@@ -117,8 +118,9 @@ public class CustomerController {
     @HandlesRequest(path = "/", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
     public R updateUserInfo(HttpServletRequest request, @RequestJsonBody @Valid UserUpdateParam userUpdateParam) {
-
+        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         customerBlo.doUpdateUserExceptPassword(request, userUpdateParam);
+        UnitOfWorkHelper.getCurrent().commit();
         return R.ok();
     }
 
