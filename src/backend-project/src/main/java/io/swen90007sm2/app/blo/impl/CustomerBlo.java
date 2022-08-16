@@ -135,8 +135,8 @@ public class CustomerBlo implements ICustomerBlo {
 
         if (prevResult != null) {
             throw new RequestException(
-                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode()
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode()
             );
         }
 
