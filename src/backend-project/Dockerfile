@@ -7,7 +7,7 @@ ADD ./src src/
 RUN mvn clean package
 
 # mini java 11 runtime
-From adoptopenjdk/openjdk11:jre-11.0.9_11.1-alpine
+FROM adoptopenjdk/openjdk11:jre-11.0.9_11.1-alpine
 
 # copy jar to docker to run
 
