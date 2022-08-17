@@ -1,5 +1,6 @@
 package io.swen90007sm2.alpheccaboot;
 
+import io.swen90007sm2.alpheccaboot.common.util.ArgumentsParser;
 import io.swen90007sm2.alpheccaboot.common.util.BannerUtil;
 import io.swen90007sm2.alpheccaboot.common.util.LogUtil;
 import io.swen90007sm2.alpheccaboot.core.AppContextLoader;
@@ -20,7 +21,7 @@ public class AlpheccaBootApplication {
     /**
      * Entrance to startup the IoC web application
      */
-    public static void run() {
+    public static void run(String[] args) {
 
         // print banner
         BannerUtil.printBanner();
@@ -38,6 +39,15 @@ public class AlpheccaBootApplication {
         LOGGER.info("Startup the web server...");
         // start server
         TomcatServer server = new TomcatServer();
+        // if running argument have port info, override server properties
+        ArgumentsParser argumentsParser = new ArgumentsParser(args);
+        if (argumentsParser.hasKey("port")) {
+            server.setPortNumber(argumentsParser.getInt("port", 8088));
+        }
+        if (argumentsParser.hasKey("host")) {
+            server.setHostName(argumentsParser.getString("host", "localhost"));
+        }
+
         try {
             server.run();
         } catch (LifecycleException e) {

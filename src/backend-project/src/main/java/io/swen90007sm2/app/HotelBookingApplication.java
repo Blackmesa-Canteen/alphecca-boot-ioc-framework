@@ -11,6 +11,6 @@ import io.swen90007sm2.alpheccaboot.AlpheccaBootApplication;
  */
 public class HotelBookingApplication {
     public static void main(String[] args) {
-        AlpheccaBootApplication.run();
+        AlpheccaBootApplication.run(args);
     }
 }
