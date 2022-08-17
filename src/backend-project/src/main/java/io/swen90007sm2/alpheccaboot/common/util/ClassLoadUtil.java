@@ -85,11 +85,14 @@ public class ClassLoadUtil {
                     if (jarURLConnection != null) {
                         JarFile jarFile = jarURLConnection.getJarFile();
                         if (jarFile != null) {
+                            LOGGER.info("Scanned jarFile : [{}]", jarFile.getName());
                             Enumeration<JarEntry> jarEntries = jarFile.entries();
                             while (jarEntries.hasMoreElements()) {
                                 JarEntry jarEntry = jarEntries.nextElement();
                                 String jarEntryName = jarEntry.getName();
-                                if (jarEntryName.endsWith(".class")) {
+                                String packagePath = packageName.replace(".", "/");
+                                if (jarEntryName.startsWith(packagePath) && jarEntryName.endsWith(".class")) {
+                                    LOGGER.info("Scanned jarEntry : [{}]", jarEntryName);
                                     // change io/swen90007sm2/core/Some.class to io.swen90007sm2.framework.core.Some
                                     String className = jarEntryName.substring(0, jarEntryName.lastIndexOf(".")).replaceAll("/", ".");
                                     addClassToSetWithClassName(classSet, className);
