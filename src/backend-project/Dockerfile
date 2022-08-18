@@ -17,11 +17,12 @@ COPY --from=builder target/app.jar app.jar
 #ADD ./out/artifacts/app_jar/alphecca-hotel-booking.jar app.jar
 
 # default export 8088
-ENV PORT=""
+ENV PORT=$port
+EXPOSE $PORT
 
 # docker build -t hotel-booking-app:v1 .
 # docker run --name hotel-booking-app -p 0.0.0.0:8088:8088 hotel-booking-app:v1
-CMD java -jar app.jar -port $PORT app
+CMD java -jar app.jar -port $PORT
 
 
 
