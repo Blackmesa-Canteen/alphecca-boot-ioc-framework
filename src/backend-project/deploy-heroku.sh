@@ -1,6 +1,8 @@
 #!/bin/sh
+# author: xiaotianli
 
-# firstly, please login the heroku
+# Install Heroku CI and docker first!
+# then, please login the heroku
 heroku login
 
 # then, login the heroku container
