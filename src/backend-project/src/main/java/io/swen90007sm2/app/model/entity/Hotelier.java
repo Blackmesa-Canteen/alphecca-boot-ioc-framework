@@ -5,6 +5,9 @@ import java.util.Date;
 public class Hotelier extends BaseUser {
     String hotelId;
 
+    public Hotelier() {
+    }
+
     public Hotelier(String hotelId) {
         this.hotelId = hotelId;
     }
