@@ -9,7 +9,7 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
 import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
-import io.swen90007sm2.app.blo.impl.IHotelierBlo;
+import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Hotelier;
