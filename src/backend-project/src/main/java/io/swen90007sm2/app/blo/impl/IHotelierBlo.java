@@ -17,7 +17,7 @@ public interface IHotelierBlo {
     AuthToken doLoginAndGenToken(LoginParam loginParam);
 
     /**
-     * logout current customer
+     * logout current hotelier
      * @param request http request
      */
     void doLogout(HttpServletRequest request);
@@ -25,7 +25,7 @@ public interface IHotelierBlo {
     /**
      * get userInfo bean from db with token
      * @param tokenString token string
-     * @return Customer bean
+     * @return Hotelier bean
      */
     Hotelier getUserInfoBasedOnToken(String tokenString);
 
@@ -38,26 +38,26 @@ public interface IHotelierBlo {
     /**
      * get userInfoBean by userId
      * @param userId user id string
-     * @return Customer bean
+     * @return Hotelier bean
      */
     Hotelier getUserInfoBasedByUserId(String userId);
 
 //    /**
-//     * find customers by page
+//     * find hoteliers by page
 //     * @param pageNo page number required
 //     * @param pageSize num rows in one page
 //     * @return
 //     */
-//    PageBean<Customer> getCustomerByPage(int pageNo, int pageSize);pageSize
+//    PageBean<Hotelier> getHotelierByPage(int pageNo, int pageSize);pageSize
 
     /**
      * update user info, except password.
-     * will check request token to find target customer to modify on
+     * will check request token to find target hotelier to modify on
      */
     void doUpdateUserExceptPassword(HttpServletRequest request, UserUpdateParam param);
 
     /**
-     * update customer pwd
+     * update hotelier pwd
      * @param request request
      * @param originalPassword original pwd
      * @param newPassword new pwd

@@ -1,8 +1,8 @@
 package io.swen90007sm2.app.dao.impl;
 
+import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IHotelierDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
-import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotelier;
 
 import java.util.List;
@@ -17,7 +17,11 @@ public class HotelierDao implements IHotelierDao {
      */
     @Override
     public int findTotalCount() {
-        return 0;
+        Long totalRows = CRUDTemplate.executeQueryWithOneRes(
+                Long.class,
+                "SELECT count(*) FROM hotelier");
+
+        return (totalRows != null) ? totalRows.intValue() : 0;
     }
 
     /**
@@ -29,7 +33,14 @@ public class HotelierDao implements IHotelierDao {
      */
     @Override
     public List<Hotelier> findAllByPage(Integer start, Integer rows) {
-        return null;
+        List<Hotelier> hoteliers = CRUDTemplate.executeQueryWithMultiRes(
+                Hotelier.class,
+                "SELECT * FROM hotelier OFFSET ? LIMIT ?",
+                start,
+                rows
+        );
+
+        return hoteliers;
     }
 
     /**
@@ -60,7 +71,17 @@ public class HotelierDao implements IHotelierDao {
      */
     @Override
     public int updateOne(Hotelier hotelier) {
-        return 0;
+        int row = CRUDTemplate.executeNonQuery(
+                "UPDATE hotelier SET password = ?, description=?, user_name=?, avatar_url=?, update_time=? WHERE user_id = ?",
+                hotelier.getPassword(),
+                hotelier.getDescription(),
+                hotelier.getUserName(),
+                hotelier.getAvatarUrl(),
+                new java.sql.Date(TimeUtil.now().getTime()),
+                hotelier.getUserId()
+        );
+
+        return row;
     }
 
     /**
@@ -71,8 +92,12 @@ public class HotelierDao implements IHotelierDao {
      */
     @Override
     public int deleteOne(Hotelier hotelier) {
-        return 0;
-    }
+        int row = CRUDTemplate.executeNonQuery(
+                "DELETE FROM hotelier WHERE user_id = ?",
+                hotelier.getUserId()
+        );
+
+        return row;    }
 
     /**
      * update password cypher
@@ -84,7 +109,14 @@ public class HotelierDao implements IHotelierDao {
      */
     @Override
     public int updatePasswordOne(String hotelierId, String newCypher) {
-        return 0;
+        int row = CRUDTemplate.executeNonQuery(
+                "UPDATE hotelier SET password=?, update_time=? WHERE user_id = ?",
+                newCypher,
+                new java.sql.Date(TimeUtil.now().getTime()),
+                hotelierId
+        );
+
+        return row;
     }
 
     /**

@@ -5,7 +5,7 @@ import io.swen90007sm2.app.model.entity.Hotelier;
 
 import java.util.List;
 
-public interface IHotelierDao {
+public interface IHotelierDao extends IBaseDao<Hotelier> {
 
     /**
      * Find total record counts.
