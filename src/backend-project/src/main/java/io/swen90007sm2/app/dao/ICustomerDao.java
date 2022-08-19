@@ -55,6 +55,7 @@ public interface ICustomerDao extends IBaseDao<Customer> {
 
     /**
      * update password cypher
+     * ！！！ Deprecated, do not use it ！！！
      * @param customerId target userId
      * @param newCypher pwd cypher
      * @return num of influenced rows
