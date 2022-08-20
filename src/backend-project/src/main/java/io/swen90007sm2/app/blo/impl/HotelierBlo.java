@@ -10,15 +10,22 @@ import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.IHotelierDao;
+import io.swen90007sm2.app.db.constant.DbConstant;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
+import io.swen90007sm2.app.model.entity.Hotelier;
+import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
+import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
 import io.swen90007sm2.app.security.util.SecurityUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -78,6 +85,70 @@ public class HotelierBlo implements IHotelierBlo {
 
         // return the token string
         return authToken;
+    }
+
+    @Override
+    public void doRegisterUser(UserRegisterParam userRegisterParam) {
+        String userName = userRegisterParam.getUserName();
+        String userId = userRegisterParam.getUserId();
+
+        // check existence
+        // will not use cache to prevent inconsistent data
+        Hotelier prevResult = hotelierDao.findOneByBusinessId(userId);
+
+        if (prevResult != null) {
+            throw new RequestException(
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode()
+            );
+        }
+
+        // encrypt password before store it in db
+        String cypher = SecurityUtil.encrypt(userRegisterParam.getPassword());
+
+        Hotelier hotelier = new Hotelier();
+        hotelier.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+        hotelier.setUserId(userId);
+        hotelier.setUserName(userName);
+        hotelier.setPassword(cypher);
+        hotelier.setDescription("New User");
+
+
+        UnitOfWorkHelper current = UnitOfWorkHelper.getCurrent();
+        current.registerNew(hotelier, hotelierDao);
+    }
+
+    @Override
+    public void doLogout(HttpServletRequest request) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        System.out.println("token: " + token);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        System.out.println(authToken.getUserId());
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
+
+    }
+    
+
+    @Override
+    public void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword) {
+        // get current user id
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+
+        Hotelier hotelierBean = getHotelierFromCacheOrDb(userId);
+
+        String originalCypher = hotelierBean.getPassword();
+
+        if (!SecurityUtil.isOriginMatchCypher(originalPassword, originalCypher)) {
+            throw new RequestException(
+                    StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
+                    StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode()
+            );
+        }
+        hotelierBean.setPassword(SecurityUtil.encrypt(newPassword));
+        UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, userId);
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 
     private synchronized Hotelier getHotelierFromCacheOrDb(String userId) {

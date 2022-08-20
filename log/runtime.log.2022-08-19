@@ -1,0 +1,1563 @@
+2022-08-19 21:10:05  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:10:05  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:10:05  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:10:05  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:10:05  [ main:25 ] - [ INFO ]  Scanned 74 Classes and interfaces in total.
+2022-08-19 21:10:05  [ main:25 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:10:05  [ main:31 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:10:05  [ main:32 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:10:05  [ main:32 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:10:05  [ main:33 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:10:05  [ main:33 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:10:05  [ main:34 ] - [ INFO ]  Instantiated 16 instances in the bean container.
+2022-08-19 21:10:05  [ main:34 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:10:05  [ main:104 ] - [ INFO ]  Reflections took 60 ms to scan 1 urls, producing 21 keys and 55 values
+2022-08-19 21:10:05  [ main:231 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:10:05  [ main:232 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:10:05  [ main:235 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:10:05  [ main:236 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:10:05  [ main:236 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:10:05  [ main:236 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:10:05  [ main:236 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:10:05  [ main:236 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:10:05  [ main:236 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:10:05  [ main:236 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:10:05  [ main:237 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:10:05  [ main:238 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:10:05  [ main:242 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:10:05  [ main:242 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:10:05  [ main:359 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:10:05  [ main:359 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:10:05  [ main:519 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:10:09  [ http-nio-8088-exec-1:4842 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:10:09  [ http-nio-8088-exec-1:4842 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:10:09  [ http-nio-8088-exec-1:4890 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 21:10:10  [ http-nio-8088-exec-1:5636 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 21:10:11  [ http-nio-8088-exec-1:6478 ] - [ INFO ]  Execute non query SQL [INSERT INTO customer (id, user_id, password, description, user_name) values (?, ?, ?, ?, ?)] with param [[u0WC9SV4RIlEwJK9iNofR3msZZGbhu6j, test@qq.com, $2a$10$NLrk1LtQO2fLEePoRyVa6egW4C7kZro2NtvGqV5ueGInL4rCg2fVS, New User, hdj]]
+2022-08-19 21:10:11  [ http-nio-8088-exec-1:6597 ] - [ INFO ]  Finished handling request: [POST] /api/customer
+2022-08-19 21:27:36  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:27:36  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:27:36  [ main:6 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:27:36  [ main:7 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:27:37  [ main:25 ] - [ INFO ]  Scanned 74 Classes and interfaces in total.
+2022-08-19 21:27:37  [ main:25 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:27:37  [ main:30 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:27:37  [ main:30 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:27:37  [ main:30 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:27:37  [ main:31 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:27:37  [ main:31 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:27:37  [ main:32 ] - [ INFO ]  Instantiated 16 instances in the bean container.
+2022-08-19 21:27:37  [ main:32 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:27:37  [ main:82 ] - [ INFO ]  Reflections took 42 ms to scan 1 urls, producing 21 keys and 55 values
+2022-08-19 21:27:37  [ main:166 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:27:37  [ main:166 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:27:37  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:27:37  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:27:37  [ main:171 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:27:37  [ main:172 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:27:37  [ main:175 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:27:37  [ main:176 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:27:37  [ main:289 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:27:37  [ main:289 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:27:37  [ main:445 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:27:45  [ http-nio-8088-exec-1:8727 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:27:45  [ http-nio-8088-exec-1:8727 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:27:45  [ http-nio-8088-exec-1:8771 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 21:27:46  [ http-nio-8088-exec-1:9541 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 21:28:24  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:28:24  [ main:4 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:28:24  [ main:11 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:28:24  [ main:12 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:28:25  [ main:33 ] - [ INFO ]  Scanned 74 Classes and interfaces in total.
+2022-08-19 21:28:25  [ main:33 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:28:25  [ main:39 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:28:25  [ main:39 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:28:25  [ main:39 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:28:25  [ main:40 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:28:25  [ main:40 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:28:25  [ main:41 ] - [ INFO ]  Instantiated 16 instances in the bean container.
+2022-08-19 21:28:25  [ main:41 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:28:25  [ main:93 ] - [ INFO ]  Reflections took 44 ms to scan 1 urls, producing 21 keys and 55 values
+2022-08-19 21:28:25  [ main:175 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:28:25  [ main:175 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:28:25  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:28:25  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:28:25  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:28:25  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:28:25  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:28:25  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:28:25  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:28:25  [ main:181 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:28:25  [ main:181 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:28:25  [ main:181 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:28:25  [ main:181 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:28:25  [ main:185 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:28:25  [ main:186 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:28:25  [ main:303 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:28:25  [ main:303 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:28:25  [ main:494 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:28:27  [ http-nio-8088-exec-1:3031 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:28:27  [ http-nio-8088-exec-1:3032 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:28:28  [ http-nio-8088-exec-1:3085 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 21:28:28  [ http-nio-8088-exec-1:3872 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 21:28:36  [ http-nio-8088-exec-3:11695 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-19 21:28:36  [ http-nio-8088-exec-3:11696 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-19 21:28:36  [ http-nio-8088-exec-3:11699 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-19 21:29:01  [ http-nio-8088-exec-4:36379 ] - [ INFO ]  Incoming request: [POST] /api/customer/login
+2022-08-19 21:29:01  [ http-nio-8088-exec-4:36380 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [login]
+2022-08-19 21:29:01  [ http-nio-8088-exec-4:36387 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [login] controller
+2022-08-19 21:29:01  [ http-nio-8088-exec-4:36995 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 21:29:02  [ http-nio-8088-exec-4:37299 ] - [ INFO ]  Finished handling request: [POST] /api/customer/login
+2022-08-19 21:29:11  [ http-nio-8088-exec-2:46262 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-19 21:29:11  [ http-nio-8088-exec-2:46263 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-19 21:29:11  [ http-nio-8088-exec-2:46264 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-19 21:31:53  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:31:53  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:31:53  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:31:53  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:31:53  [ main:28 ] - [ INFO ]  Scanned 76 Classes and interfaces in total.
+2022-08-19 21:31:53  [ main:28 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:31:53  [ main:33 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:31:53  [ main:33 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:31:53  [ main:33 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:31:53  [ main:34 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:31:53  [ main:34 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:31:53  [ main:35 ] - [ INFO ]  Instantiated 17 instances in the bean container.
+2022-08-19 21:31:53  [ main:35 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:31:53  [ main:84 ] - [ INFO ]  Reflections took 41 ms to scan 1 urls, producing 21 keys and 57 values
+2022-08-19 21:31:53  [ main:181 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:31:53  [ main:181 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:31:53  [ main:187 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:31:53  [ main:188 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:31:53  [ main:188 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:31:53  [ main:188 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:31:53  [ main:188 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:31:53  [ main:188 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:31:53  [ main:189 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:31:53  [ main:189 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:31:53  [ main:189 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:31:53  [ main:189 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:31:53  [ main:189 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:31:53  [ main:189 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:31:53  [ main:189 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:31:53  [ main:190 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:31:53  [ main:190 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:31:53  [ main:190 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:31:53  [ main:190 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:31:53  [ main:190 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:31:53  [ main:194 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:31:53  [ main:195 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:31:54  [ main:315 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelierController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:31:54  [ main:318 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:31:54  [ main:318 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:31:54  [ main:475 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:32:03  [ http-nio-8088-exec-1:9550 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:32:03  [ http-nio-8088-exec-1:9551 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:32:03  [ http-nio-8088-exec-1:9606 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.hotelier.api.HotelierController] 's [register] controller
+2022-08-19 21:32:03  [ http-nio-8088-exec-1:9635 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$uLFwQ8Qs.register(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2022-08-19 21:32:03  [ http-nio-8088-exec-1:9636 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$uLFwQ8Qs.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:32:03  [ http-nio-8088-exec-1:9637 ] - [ ERROR ]  Servlet caught an Internal exception: 
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 22 more
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$uLFwQ8Qs.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:33:30  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:33:30  [ main:0 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:33:30  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:33:30  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:33:30  [ main:27 ] - [ INFO ]  Scanned 76 Classes and interfaces in total.
+2022-08-19 21:33:30  [ main:27 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:33:30  [ main:32 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:33:30  [ main:32 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:33:30  [ main:32 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:33:30  [ main:33 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:33:30  [ main:33 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:33:30  [ main:34 ] - [ INFO ]  Instantiated 17 instances in the bean container.
+2022-08-19 21:33:30  [ main:34 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:33:30  [ main:82 ] - [ INFO ]  Reflections took 40 ms to scan 1 urls, producing 21 keys and 57 values
+2022-08-19 21:33:31  [ main:165 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:33:31  [ main:165 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:33:31  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:31  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:33:31  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:33:31  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:31  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:33:31  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:33:31  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:33:31  [ main:171 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:33:31  [ main:172 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:33:31  [ main:177 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:33:31  [ main:177 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:33:31  [ main:297 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelierController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:33:31  [ main:301 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:33:31  [ main:301 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:33:31  [ main:460 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:33:32  [ http-nio-8088-exec-1:1487 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:33:32  [ http-nio-8088-exec-1:1488 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:33:32  [ http-nio-8088-exec-1:1534 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.hotelier.api.HotelierController] 's [register] controller
+2022-08-19 21:33:32  [ http-nio-8088-exec-1:1562 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$kzEzq5wW.register(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2022-08-19 21:33:32  [ http-nio-8088-exec-1:1563 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$kzEzq5wW.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:33:32  [ http-nio-8088-exec-1:1564 ] - [ ERROR ]  Servlet caught an Internal exception: 
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 22 more
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$kzEzq5wW.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:33:33  [ http-nio-8088-exec-2:2174 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:33:33  [ http-nio-8088-exec-2:2174 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:33:33  [ http-nio-8088-exec-2:2175 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.hotelier.api.HotelierController] 's [register] controller
+2022-08-19 21:33:33  [ http-nio-8088-exec-2:2175 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$kzEzq5wW.register(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2022-08-19 21:33:33  [ http-nio-8088-exec-2:2176 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$kzEzq5wW.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:33:33  [ http-nio-8088-exec-2:2176 ] - [ ERROR ]  Servlet caught an Internal exception: 
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 22 more
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$kzEzq5wW.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:33:42  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:33:42  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:33:42  [ main:6 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:33:42  [ main:7 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:33:42  [ main:22 ] - [ INFO ]  Scanned 76 Classes and interfaces in total.
+2022-08-19 21:33:42  [ main:22 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:33:42  [ main:27 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:33:42  [ main:27 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:33:42  [ main:27 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:33:42  [ main:28 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:33:42  [ main:28 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:33:42  [ main:29 ] - [ INFO ]  Instantiated 16 instances in the bean container.
+2022-08-19 21:33:42  [ main:29 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:33:42  [ main:74 ] - [ INFO ]  Reflections took 38 ms to scan 1 urls, producing 21 keys and 55 values
+2022-08-19 21:33:42  [ main:149 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:33:42  [ main:149 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:33:42  [ main:152 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:42  [ main:152 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:33:42  [ main:152 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:33:42  [ main:153 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:33:42  [ main:154 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:33:42  [ main:154 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:42  [ main:154 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:33:42  [ main:154 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:33:42  [ main:154 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:33:42  [ main:154 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:33:42  [ main:154 ] - [ INFO ]  Scanned 4 Controller Classes.
+2022-08-19 21:33:42  [ main:158 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:33:42  [ main:158 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:33:42  [ main:268 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:33:42  [ main:268 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:33:42  [ main:419 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:33:44  [ http-nio-8088-exec-1:1755 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:33:44  [ http-nio-8088-exec-1:1756 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:33:44  [ http-nio-8088-exec-1:1795 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 21:33:44  [ http-nio-8088-exec-1:2507 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 21:34:57  [ http-nio-8088-exec-3:74780 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:34:57  [ http-nio-8088-exec-3:74781 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:34:57  [ http-nio-8088-exec-3:74781 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 21:34:57  [ http-nio-8088-exec-3:75388 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 21:35:01  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:35:01  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:35:01  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:35:01  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:35:01  [ main:31 ] - [ INFO ]  Scanned 76 Classes and interfaces in total.
+2022-08-19 21:35:01  [ main:31 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:35:01  [ main:36 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:35:01  [ main:36 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:35:01  [ main:36 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:35:01  [ main:37 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:35:01  [ main:37 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:35:01  [ main:38 ] - [ INFO ]  Instantiated 17 instances in the bean container.
+2022-08-19 21:35:01  [ main:39 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:35:01  [ main:85 ] - [ INFO ]  Reflections took 40 ms to scan 1 urls, producing 21 keys and 57 values
+2022-08-19 21:35:01  [ main:167 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:35:01  [ main:167 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:35:01  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:35:01  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:35:01  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:35:01  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:35:01  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:35:01  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:35:01  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:35:01  [ main:172 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:35:01  [ main:173 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:35:01  [ main:173 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:35:01  [ main:173 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:35:01  [ main:176 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:35:01  [ main:177 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:35:01  [ main:285 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelierController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:35:01  [ main:288 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:35:01  [ main:288 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:35:02  [ main:451 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:35:02  [ http-nio-8088-exec-1:1044 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:35:02  [ http-nio-8088-exec-1:1045 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:35:02  [ http-nio-8088-exec-1:1093 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.hotelier.api.HotelierController] 's [register] controller
+2022-08-19 21:35:02  [ http-nio-8088-exec-1:1122 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$SR4Fk49H.register(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2022-08-19 21:35:02  [ http-nio-8088-exec-1:1123 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$SR4Fk49H.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:35:02  [ http-nio-8088-exec-1:1123 ] - [ ERROR ]  Servlet caught an Internal exception: 
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 22 more
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.bean.MethodCalling.proceed(MethodCalling.java:42)
+	at io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor.intercept(JSR303ValidationInterceptor.java:89)
+	at io.swen90007sm2.alpheccaboot.core.aop.proxy.ByteBuddyProxy.intercept(ByteBuddyProxy.java:41)
+	at io.swen90007sm2.app.controller.customer.api.CustomerController$ByteBuddy$SR4Fk49H.register(Unknown Source)
+	... 27 more
+Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 31 more
+2022-08-19 21:38:05  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 21:38:05  [ main:0 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 21:38:05  [ main:9 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 21:38:05  [ main:11 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 21:38:05  [ main:31 ] - [ INFO ]  Scanned 76 Classes and interfaces in total.
+2022-08-19 21:38:05  [ main:31 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 21:38:05  [ main:35 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 21:38:05  [ main:36 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:38:05  [ main:36 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 21:38:05  [ main:37 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:38:05  [ main:37 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 21:38:05  [ main:38 ] - [ INFO ]  Instantiated 17 instances in the bean container.
+2022-08-19 21:38:05  [ main:38 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 21:38:05  [ main:90 ] - [ INFO ]  Reflections took 44 ms to scan 1 urls, producing 21 keys and 56 values
+2022-08-19 21:38:05  [ main:168 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 21:38:05  [ main:168 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 21:38:05  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:38:05  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:38:05  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:38:05  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:38:05  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 21:38:05  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 21:38:05  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:38:05  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 21:38:05  [ main:174 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 21:38:05  [ main:179 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 21:38:05  [ main:179 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 21:38:06  [ main:297 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 21:38:06  [ main:298 ] - [ INFO ]  Startup the web server...
+2022-08-19 21:38:06  [ main:483 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 21:38:08  [ http-nio-8088-exec-1:2566 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 21:38:08  [ http-nio-8088-exec-1:2567 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 21:38:08  [ http-nio-8088-exec-1:2620 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 21:38:09  [ http-nio-8088-exec-1:3346 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 22:06:35  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:06:35  [ main:0 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:06:35  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:06:35  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:06:35  [ main:29 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:06:35  [ main:29 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:06:35  [ main:35 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 22:06:35  [ main:35 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:06:35  [ main:35 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 22:06:35  [ main:36 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:06:35  [ main:36 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:06:35  [ main:37 ] - [ INFO ]  Instantiated 17 instances in the bean container.
+2022-08-19 22:06:35  [ main:37 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:06:35  [ main:87 ] - [ INFO ]  Reflections took 40 ms to scan 1 urls, producing 23 keys and 59 values
+2022-08-19 22:06:35  [ main:170 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:06:35  [ main:170 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:06:35  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:06:35  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 22:06:35  [ main:176 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:06:35  [ main:181 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 22:06:35  [ main:182 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 22:06:36  [ main:300 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 22:06:36  [ main:300 ] - [ INFO ]  Startup the web server...
+2022-08-19 22:06:36  [ main:475 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 22:06:42  [ http-nio-8088-exec-1:6404 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 22:06:42  [ http-nio-8088-exec-1:6404 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 22:06:42  [ http-nio-8088-exec-1:6453 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 22:06:42  [ http-nio-8088-exec-1:7183 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 22:07:02  [ http-nio-8088-exec-3:27140 ] - [ INFO ]  Incoming request: [POST] /api/customer/login
+2022-08-19 22:07:02  [ http-nio-8088-exec-3:27146 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [login]
+2022-08-19 22:07:02  [ http-nio-8088-exec-3:27157 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [login] controller
+2022-08-19 22:07:03  [ http-nio-8088-exec-3:27732 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 22:07:03  [ http-nio-8088-exec-3:28010 ] - [ INFO ]  Finished handling request: [POST] /api/customer/login
+2022-08-19 22:11:16  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:11:16  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:11:16  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:11:16  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:11:16  [ main:27 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:11:16  [ main:27 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:11:16  [ main:32 ] - [ INFO ]  Scanned 2 Blo Classes.
+2022-08-19 22:11:16  [ main:32 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:11:16  [ main:32 ] - [ INFO ]  Scanned 2 Dao Classes.
+2022-08-19 22:11:16  [ main:33 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:11:16  [ main:33 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:11:16  [ main:34 ] - [ INFO ]  Instantiated 17 instances in the bean container.
+2022-08-19 22:11:16  [ main:34 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:11:16  [ main:80 ] - [ INFO ]  Reflections took 39 ms to scan 1 urls, producing 23 keys and 59 values
+2022-08-19 22:11:17  [ main:163 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:11:17  [ main:163 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:11:17  [ main:167 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:11:17  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:11:17  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:11:17  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:11:17  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:11:17  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:11:17  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:11:17  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:11:17  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:11:17  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:11:17  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:11:17  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:11:17  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:11:17  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:11:17  [ main:169 ] - [ ERROR ]  Dependency Injection Error: can not find bean to inject in [io.swen90007sm2.app.blo.IHotelierBlo] of [io.swen90007sm2.app.controller.hotelier.api.HotelierController]
+2022-08-19 22:15:40  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:15:40  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:15:40  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:15:40  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:15:40  [ main:28 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:15:40  [ main:28 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:15:40  [ main:33 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 22:15:40  [ main:33 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:15:40  [ main:33 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 22:15:40  [ main:34 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:15:40  [ main:34 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:15:40  [ main:35 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 22:15:40  [ main:36 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:15:40  [ main:98 ] - [ INFO ]  Reflections took 54 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 22:15:40  [ main:187 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:15:40  [ main:188 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:15:40  [ main:192 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:192 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:193 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:194 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:15:40  [ main:194 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:15:40  [ main:194 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:194 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:15:40  [ main:194 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:15:40  [ main:194 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:15:40  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 22:15:40  [ main:195 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 22:15:40  [ main:195 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:15:40  [ main:195 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 22:15:40  [ main:195 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:15:40  [ main:200 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 22:15:40  [ main:201 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 22:15:40  [ main:323 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 22:15:40  [ main:323 ] - [ INFO ]  Startup the web server...
+2022-08-19 22:15:40  [ main:489 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 22:19:38  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:19:38  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:19:38  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:19:38  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:19:38  [ main:28 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:19:38  [ main:28 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:19:38  [ main:33 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 22:19:38  [ main:33 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:19:38  [ main:33 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 22:19:38  [ main:34 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:19:38  [ main:34 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:19:38  [ main:35 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 22:19:38  [ main:35 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:19:38  [ main:84 ] - [ INFO ]  Reflections took 42 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 22:19:38  [ main:164 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:19:38  [ main:164 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:19:38  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:19:38  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:19:38  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:19:38  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:19:38  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:19:38  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:19:38  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:19:38  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:19:38  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:19:38  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 22:19:38  [ main:171 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 22:19:38  [ main:171 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:19:38  [ main:171 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 22:19:38  [ main:172 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:19:38  [ main:176 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 22:19:38  [ main:177 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 22:19:38  [ main:289 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 22:19:38  [ main:289 ] - [ INFO ]  Startup the web server...
+2022-08-19 22:19:38  [ main:456 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 22:19:40  [ http-nio-8088-exec-1:2643 ] - [ INFO ]  Incoming request: [POST] /api/customer/login
+2022-08-19 22:19:40  [ http-nio-8088-exec-1:2643 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [login]
+2022-08-19 22:19:40  [ http-nio-8088-exec-1:2681 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [login] controller
+2022-08-19 22:19:41  [ http-nio-8088-exec-1:3385 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 22:19:41  [ http-nio-8088-exec-1:3679 ] - [ INFO ]  Finished handling request: [POST] /api/customer/login
+2022-08-19 22:28:33  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:28:33  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:28:33  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:28:33  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:28:33  [ main:27 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:28:33  [ main:27 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:28:33  [ main:31 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 22:28:33  [ main:32 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:28:33  [ main:32 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 22:28:33  [ main:33 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:28:33  [ main:33 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:28:33  [ main:34 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 22:28:33  [ main:34 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:28:33  [ main:82 ] - [ INFO ]  Reflections took 41 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 22:28:33  [ main:165 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:28:33  [ main:165 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:28:33  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 22:28:33  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:28:33  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:28:33  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:28:33  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:28:33  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:28:33  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:28:33  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:28:33  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:28:33  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 22:28:33  [ main:173 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 22:28:33  [ main:173 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:28:33  [ main:173 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 22:28:33  [ main:173 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:28:33  [ main:178 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 22:28:33  [ main:178 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 22:28:34  [ main:299 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 22:28:34  [ main:299 ] - [ INFO ]  Startup the web server...
+2022-08-19 22:28:34  [ main:472 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 22:28:36  [ http-nio-8088-exec-1:2356 ] - [ INFO ]  Incoming request: [POST] /api/customer/login
+2022-08-19 22:28:36  [ http-nio-8088-exec-1:2356 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [login]
+2022-08-19 22:28:36  [ http-nio-8088-exec-1:2404 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [login] controller
+2022-08-19 22:28:39  [ http-nio-8088-exec-1:5253 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 22:28:40  [ http-nio-8088-exec-1:6229 ] - [ INFO ]  Finished handling request: [POST] /api/customer/login
+2022-08-19 22:28:47  [ http-nio-8088-exec-2:14131 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 22:28:47  [ http-nio-8088-exec-2:14133 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 22:28:47  [ http-nio-8088-exec-2:14138 ] - [ ERROR ]  invoke method failure, exception: 
+java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.ClassCastException: class io.swen90007sm2.app.model.entity.Customer cannot be cast to class io.swen90007sm2.app.model.entity.Hotelier (io.swen90007sm2.app.model.entity.Customer and io.swen90007sm2.app.model.entity.Hotelier are in unnamed module of loader 'app')
+	at io.swen90007sm2.app.blo.impl.HotelierBlo.getHotelierFromCacheOrDb(HotelierBlo.java:103)
+	at io.swen90007sm2.app.blo.impl.HotelierBlo.doLoginAndGenToken(HotelierBlo.java:48)
+	at io.swen90007sm2.app.controller.hotelier.api.HotelierController.login(HotelierController.java:26)
+	... 27 more
+2022-08-19 22:28:47  [ http-nio-8088-exec-2:14142 ] - [ ERROR ]  Servlet caught an Internal exception: 
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:62)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handleJsonRequest(PostRequestHandler.java:166)
+	at io.swen90007sm2.alpheccaboot.core.web.handler.PostRequestHandler.handle(PostRequestHandler.java:40)
+	at io.swen90007sm2.alpheccaboot.core.web.servlet.MyDispatcherServlet.service(MyDispatcherServlet.java:54)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:543)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:366)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:639)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:881)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1647)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.reflect.InvocationTargetException
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil.invokeMethod(ReflectionUtil.java:51)
+	... 22 more
+Caused by: java.lang.ClassCastException: class io.swen90007sm2.app.model.entity.Customer cannot be cast to class io.swen90007sm2.app.model.entity.Hotelier (io.swen90007sm2.app.model.entity.Customer and io.swen90007sm2.app.model.entity.Hotelier are in unnamed module of loader 'app')
+	at io.swen90007sm2.app.blo.impl.HotelierBlo.getHotelierFromCacheOrDb(HotelierBlo.java:103)
+	at io.swen90007sm2.app.blo.impl.HotelierBlo.doLoginAndGenToken(HotelierBlo.java:48)
+	at io.swen90007sm2.app.controller.hotelier.api.HotelierController.login(HotelierController.java:26)
+	... 27 more
+2022-08-19 22:33:06  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:33:06  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:33:06  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:33:06  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:33:06  [ main:29 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:33:06  [ main:29 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:33:06  [ main:35 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 22:33:06  [ main:35 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:33:06  [ main:35 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 22:33:06  [ main:36 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:33:06  [ main:37 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:33:06  [ main:38 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 22:33:06  [ main:38 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:33:06  [ main:87 ] - [ INFO ]  Reflections took 41 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 22:33:06  [ main:178 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:33:06  [ main:179 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:33:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 22:33:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:33:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:33:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:33:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:33:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:33:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:33:06  [ main:186 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:33:06  [ main:186 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 22:33:06  [ main:186 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 22:33:06  [ main:186 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:33:06  [ main:186 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 22:33:06  [ main:186 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:33:06  [ main:191 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 22:33:06  [ main:191 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 22:33:06  [ main:302 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 22:33:06  [ main:302 ] - [ INFO ]  Startup the web server...
+2022-08-19 22:33:06  [ main:463 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 22:33:07  [ http-nio-8088-exec-1:1307 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 22:33:07  [ http-nio-8088-exec-1:1307 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 22:33:09  [ http-nio-8088-exec-1:3175 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 22:33:38  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:33:38  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:33:38  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:33:38  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:33:38  [ main:28 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:33:38  [ main:28 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:33:38  [ main:33 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 22:33:38  [ main:33 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:33:38  [ main:34 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 22:33:38  [ main:34 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:33:38  [ main:35 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:33:38  [ main:36 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 22:33:38  [ main:36 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:33:38  [ main:82 ] - [ INFO ]  Reflections took 40 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 22:33:38  [ main:159 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:33:38  [ main:159 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:33:38  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 22:33:38  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:33:38  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:165 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:33:38  [ main:165 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:33:38  [ main:165 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:33:38  [ main:165 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 22:33:38  [ main:165 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 22:33:38  [ main:166 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:33:38  [ main:166 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 22:33:38  [ main:166 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:33:38  [ main:170 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 22:33:38  [ main:171 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 22:33:38  [ main:284 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 22:33:38  [ main:285 ] - [ INFO ]  Startup the web server...
+2022-08-19 22:33:39  [ main:446 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 22:33:41  [ http-nio-8088-exec-1:2792 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 22:33:41  [ http-nio-8088-exec-1:2793 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 22:33:42  [ http-nio-8088-exec-1:3510 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 22:35:45  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 22:35:45  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 22:35:45  [ main:6 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 22:35:45  [ main:7 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 22:35:45  [ main:25 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 22:35:45  [ main:26 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 22:35:45  [ main:30 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 22:35:45  [ main:31 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:35:45  [ main:31 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 22:35:45  [ main:32 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:35:45  [ main:32 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 22:35:45  [ main:33 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 22:35:45  [ main:33 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 22:35:45  [ main:79 ] - [ INFO ]  Reflections took 39 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 22:35:45  [ main:167 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 22:35:45  [ main:167 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 22:35:45  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 22:35:45  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:35:45  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 22:35:45  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 22:35:45  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 22:35:45  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 22:35:45  [ main:174 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 22:35:45  [ main:174 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 22:35:45  [ main:174 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 22:35:45  [ main:174 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 22:35:45  [ main:179 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 22:35:45  [ main:179 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 22:35:45  [ main:294 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 22:35:45  [ main:294 ] - [ INFO ]  Startup the web server...
+2022-08-19 22:35:46  [ main:497 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 22:35:50  [ http-nio-8088-exec-1:5261 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 22:35:50  [ http-nio-8088-exec-1:5262 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 22:35:51  [ http-nio-8088-exec-1:6062 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 23:00:06  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 23:00:06  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 23:00:06  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 23:00:06  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 23:00:06  [ main:30 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 23:00:06  [ main:30 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 23:00:06  [ main:35 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 23:00:06  [ main:35 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:00:06  [ main:35 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 23:00:06  [ main:36 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:00:06  [ main:36 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 23:00:06  [ main:37 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 23:00:06  [ main:37 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 23:00:06  [ main:89 ] - [ INFO ]  Reflections took 45 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 23:00:06  [ main:179 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 23:00:06  [ main:179 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 23:00:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 23:00:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:183 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 23:00:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:00:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 23:00:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:184 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 23:00:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:00:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:00:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:00:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:00:06  [ main:185 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 23:00:06  [ main:185 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 23:00:06  [ main:186 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:00:06  [ main:186 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 23:00:06  [ main:186 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:00:06  [ main:190 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 23:00:06  [ main:192 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 23:00:06  [ main:312 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 23:00:06  [ main:312 ] - [ INFO ]  Startup the web server...
+2022-08-19 23:00:06  [ main:478 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 23:00:15  [ http-nio-8088-exec-1:9096 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 23:00:15  [ http-nio-8088-exec-1:9097 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 23:00:16  [ http-nio-8088-exec-1:9935 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 23:00:29  [ http-nio-8088-exec-3:23005 ] - [ INFO ]  Incoming request: [PUT] /api/hotelier/login
+2022-08-19 23:00:29  [ http-nio-8088-exec-3:23010 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [changeUserPassword]
+2022-08-19 23:12:31  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 23:12:31  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 23:12:31  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 23:12:31  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 23:12:31  [ main:27 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 23:12:31  [ main:27 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 23:12:31  [ main:32 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 23:12:31  [ main:32 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:12:31  [ main:32 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 23:12:31  [ main:33 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:12:31  [ main:34 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 23:12:31  [ main:35 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 23:12:31  [ main:35 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 23:12:32  [ main:84 ] - [ INFO ]  Reflections took 43 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 23:12:32  [ main:173 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 23:12:32  [ main:173 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 23:12:32  [ main:177 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:178 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 23:12:32  [ main:178 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:178 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 23:12:32  [ main:178 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:178 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:12:32  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:12:32  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:12:32  [ main:181 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 23:12:32  [ main:181 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 23:12:32  [ main:181 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:12:32  [ main:181 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 23:12:32  [ main:181 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:12:32  [ main:187 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 23:12:32  [ main:189 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 23:12:32  [ main:314 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 23:12:32  [ main:314 ] - [ INFO ]  Startup the web server...
+2022-08-19 23:12:32  [ main:474 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 23:12:37  [ http-nio-8088-exec-1:5813 ] - [ INFO ]  Incoming request: [PUT] /api/hotelier/login
+2022-08-19 23:12:37  [ http-nio-8088-exec-1:5815 ] - [ WARN ]  controller mismatched with request: [PUT] /api/hotelier/login
+2022-08-19 23:13:09  [ http-nio-8088-exec-3:37361 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 23:13:09  [ http-nio-8088-exec-3:37363 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 23:13:10  [ http-nio-8088-exec-3:38185 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 23:18:16  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 23:18:16  [ main:0 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 23:18:16  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 23:18:16  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 23:18:16  [ main:27 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 23:18:16  [ main:27 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 23:18:16  [ main:32 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 23:18:16  [ main:33 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:18:16  [ main:33 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 23:18:16  [ main:34 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:18:16  [ main:34 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 23:18:16  [ main:35 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 23:18:16  [ main:35 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 23:18:16  [ main:82 ] - [ INFO ]  Reflections took 40 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 23:18:16  [ main:159 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 23:18:16  [ main:159 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 23:18:16  [ main:162 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 23:18:16  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 23:18:16  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:18:16  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:163 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 23:18:16  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 23:18:16  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:18:16  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:18:16  [ main:164 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:18:16  [ main:165 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:18:16  [ main:165 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 23:18:16  [ main:165 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 23:18:16  [ main:166 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:18:16  [ main:166 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 23:18:16  [ main:166 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:18:16  [ main:171 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 23:18:16  [ main:172 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 23:18:16  [ main:297 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 23:18:16  [ main:298 ] - [ INFO ]  Startup the web server...
+2022-08-19 23:18:16  [ main:470 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 23:18:36  [ http-nio-8088-exec-1:20496 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/
+2022-08-19 23:18:36  [ http-nio-8088-exec-1:20497 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [register]
+2022-08-19 23:18:37  [ http-nio-8088-exec-1:21323 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 23:18:37  [ http-nio-8088-exec-1:21523 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/
+2022-08-19 23:18:44  [ http-nio-8088-exec-3:27985 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/
+2022-08-19 23:18:44  [ http-nio-8088-exec-3:27987 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [register]
+2022-08-19 23:18:44  [ http-nio-8088-exec-3:28671 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[test@qq.com]]
+2022-08-19 23:18:44  [ http-nio-8088-exec-3:28870 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/
+2022-08-19 23:18:53  [ http-nio-8088-exec-2:37097 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/
+2022-08-19 23:18:53  [ http-nio-8088-exec-2:37098 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [register]
+2022-08-19 23:18:53  [ http-nio-8088-exec-2:37763 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[testf@qq.com]]
+2022-08-19 23:18:54  [ http-nio-8088-exec-2:37985 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/
+2022-08-19 23:19:13  [ http-nio-8088-exec-4:57260 ] - [ INFO ]  Incoming request: [POST] /api/hotelier
+2022-08-19 23:19:13  [ http-nio-8088-exec-4:57260 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [register]
+2022-08-19 23:19:13  [ http-nio-8088-exec-4:57923 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[testf@qq.com]]
+2022-08-19 23:19:14  [ http-nio-8088-exec-4:58140 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier
+2022-08-19 23:20:54  [ http-nio-8088-exec-6:158402 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 23:20:54  [ http-nio-8088-exec-6:158404 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 23:20:55  [ http-nio-8088-exec-6:159092 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[testf@qq.com]]
+2022-08-19 23:23:56  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 23:23:56  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 23:23:56  [ main:9 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 23:23:56  [ main:10 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 23:23:56  [ main:33 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 23:23:56  [ main:33 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 23:23:56  [ main:38 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 23:23:56  [ main:38 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:23:56  [ main:39 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 23:23:56  [ main:40 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:23:56  [ main:40 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 23:23:56  [ main:41 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 23:23:56  [ main:41 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 23:23:56  [ main:87 ] - [ INFO ]  Reflections took 38 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 23:23:56  [ main:166 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 23:23:56  [ main:166 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 23:23:56  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 23:23:56  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 23:23:56  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:23:56  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:23:56  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:23:56  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:23:56  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 23:23:56  [ main:173 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 23:23:56  [ main:173 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:23:56  [ main:173 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 23:23:56  [ main:174 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:23:56  [ main:178 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 23:23:56  [ main:179 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 23:23:57  [ main:319 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 23:23:57  [ main:320 ] - [ INFO ]  Startup the web server...
+2022-08-19 23:23:57  [ main:494 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 23:24:01  [ http-nio-8088-exec-1:4706 ] - [ INFO ]  Incoming request: [POST] /api/hotelier
+2022-08-19 23:24:01  [ http-nio-8088-exec-1:4706 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [register]
+2022-08-19 23:24:02  [ http-nio-8088-exec-1:5532 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[testf@qq.com]]
+2022-08-19 23:24:02  [ http-nio-8088-exec-1:5767 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier
+2022-08-19 23:25:44  [ http-nio-8088-exec-4:108081 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 23:25:44  [ http-nio-8088-exec-4:108082 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 23:25:45  [ http-nio-8088-exec-4:108772 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[testf@qq.com]]
+2022-08-19 23:28:01  [ http-nio-8088-exec-5:244342 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/
+2022-08-19 23:28:01  [ http-nio-8088-exec-5:244343 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [register]
+2022-08-19 23:28:01  [ http-nio-8088-exec-5:245010 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[testf@qq.com]]
+2022-08-19 23:28:01  [ http-nio-8088-exec-5:245213 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/
+2022-08-19 23:31:33  [ http-nio-8088-exec-7:457089 ] - [ INFO ]  Incoming request: [POST] /api/customer
+2022-08-19 23:31:33  [ http-nio-8088-exec-7:457090 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [register]
+2022-08-19 23:31:33  [ http-nio-8088-exec-7:457092 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [register] controller
+2022-08-19 23:31:34  [ http-nio-8088-exec-7:457814 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[wanshanghao@qq.com]]
+2022-08-19 23:31:35  [ http-nio-8088-exec-7:458706 ] - [ INFO ]  Execute non query SQL [INSERT INTO customer (id, user_id, password, description, user_name) values (?, ?, ?, ?, ?)] with param [[b1YxZw1iVEqGUwCe7wwHUrp7TjzzNWUd, wanshanghao@qq.com, $2a$10$FH2ptKMUGakrL6bjhgOSquT.EexNYnS2F.DpzfeHkysGxbJZqUM4q, New User, wanshanghao]]
+2022-08-19 23:31:35  [ http-nio-8088-exec-7:458799 ] - [ INFO ]  Finished handling request: [POST] /api/customer
+2022-08-19 23:41:17  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-19 23:41:17  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-19 23:41:17  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-19 23:41:17  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-19 23:41:17  [ main:29 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-19 23:41:17  [ main:30 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-19 23:41:17  [ main:35 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-19 23:41:17  [ main:35 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:41:17  [ main:36 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-19 23:41:17  [ main:37 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:41:17  [ main:37 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-19 23:41:17  [ main:38 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-19 23:41:17  [ main:38 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-19 23:41:17  [ main:89 ] - [ INFO ]  Reflections took 43 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-19 23:41:18  [ main:190 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-19 23:41:18  [ main:190 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-19 23:41:18  [ main:194 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-19 23:41:18  [ main:195 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:196 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:196 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-19 23:41:18  [ main:196 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:41:18  [ main:196 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:196 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-19 23:41:18  [ main:196 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-19 23:41:18  [ main:196 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-19 23:41:18  [ main:197 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-19 23:41:18  [ main:197 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-19 23:41:18  [ main:197 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-19 23:41:18  [ main:197 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-19 23:41:18  [ main:197 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-19 23:41:18  [ main:202 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-19 23:41:18  [ main:203 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-19 23:41:18  [ main:346 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-19 23:41:18  [ main:346 ] - [ INFO ]  Startup the web server...
+2022-08-19 23:41:18  [ main:521 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-19 23:41:56  [ http-nio-8088-exec-1:38659 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 23:41:56  [ http-nio-8088-exec-1:38660 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 23:41:57  [ http-nio-8088-exec-1:39504 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier1@qq.com]]
+2022-08-19 23:42:16  [ http-nio-8088-exec-4:58817 ] - [ INFO ]  Incoming request: [POST] /api/hotelier
+2022-08-19 23:42:16  [ http-nio-8088-exec-4:58818 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [register]
+2022-08-19 23:42:17  [ http-nio-8088-exec-4:59486 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier1@qq.com]]
+2022-08-19 23:42:18  [ http-nio-8088-exec-4:60359 ] - [ INFO ]  Execute non query SQL [INSERT INTO hotelier (id, user_id, password, description, user_name) values (?, ?, ?, ?, ?)] with param [[OeKeoP4JsKxcqiksPmSmfVfHLFFXqyMh, hotelier1@qq.com, $2a$10$YIxe1Ek0KkxHLAbUNZ/L1O3SDyO7FDvULY.2YY5NOqbPMlrvKB6Wm, New User, hotelier1]]
+2022-08-19 23:42:18  [ http-nio-8088-exec-4:60454 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier
+2022-08-19 23:42:39  [ http-nio-8088-exec-2:82074 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-19 23:42:39  [ http-nio-8088-exec-2:82077 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-19 23:42:40  [ http-nio-8088-exec-2:82726 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier1@qq.com]]
+2022-08-19 23:42:40  [ http-nio-8088-exec-2:83033 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/login

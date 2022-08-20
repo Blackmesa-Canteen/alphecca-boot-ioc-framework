@@ -6,24 +6,43 @@ import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.BaseEntity;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
+import io.swen90007sm2.app.model.entity.Hotelier;
 
 @Dao
 public class HotelierDao implements IHotelierDao {
 
     @Override
-    public int insertOne(BaseEntity entity) {
-        return 0;
+    public int insertOne(Hotelier hotelier) {
+        int row = CRUDTemplate.executeNonQuery(
+                "INSERT INTO hotelier (id, user_id, password, description, user_name) values (?, ?, ?, ?, ?)",
+                hotelier.getId(),
+                hotelier.getUserId(),
+                hotelier.getPassword(),
+                hotelier.getDescription(),
+                hotelier.getUserName()
+        );
+
+        return row;
     }
 
     @Override
-    public int updateOne(BaseEntity entity) {
-        return 0;
+    public int updateOne(Hotelier entity) {
+        int row = CRUDTemplate.executeNonQuery(
+                "UPDATE hotelier SET user_id = ?, password = ?, description = ?, user_name = ? WHERE id = ?",
+                entity.getUserId(),
+                entity.getPassword(),
+                entity.getDescription(),
+                entity.getUserName(),
+                entity.getId()
+        );
+        return row;
     }
 
     @Override
-    public int deleteOne(BaseEntity entity) {
+    public int deleteOne(Hotelier entity) {
         return 0;
     }
+
 
     @Override
     public Hotelier findOneByBusinessId(String userId) {
