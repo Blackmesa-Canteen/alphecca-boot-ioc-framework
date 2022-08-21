@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.blo.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
@@ -8,6 +9,7 @@ import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.IHotelierDao;
 import io.swen90007sm2.app.db.constant.DbConstant;
@@ -121,13 +123,12 @@ public class HotelierBlo implements IHotelierBlo {
     @Override
     public void doLogout(HttpServletRequest request) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        System.out.println("token: " + token);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         System.out.println(authToken.getUserId());
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
 
     }
-    
+
 
     @Override
     public void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword) {
@@ -149,6 +150,29 @@ public class HotelierBlo implements IHotelierBlo {
         hotelierBean.setPassword(SecurityUtil.encrypt(newPassword));
         UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, userId);
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
+    }
+
+    @Override
+    public Hotelier getHotelierInfoByToken(String header) {
+        AuthToken authToken = TokenHelper.parseAuthTokenString(header);
+        String userId = authToken.getUserId();
+        checkTokenValidity(authToken);
+        Hotelier hotelierBean = getHotelierFromCacheOrDb(userId);
+        Hotelier res = new Hotelier();
+        // Return the hotelier info without password.
+        BeanUtil.copyProperties(hotelierBean, res);
+        res.setPassword(CommonConstant.NULL);
+        return res;
+    }
+
+    @Override
+    public Hotelier getHotelierInfoByUserId(String userId) {
+        Hotelier hotelierBean = getHotelierFromCacheOrDb(userId);
+        Hotelier res = new Hotelier();
+        // Return the hotelier info without password.
+        BeanUtil.copyProperties(hotelierBean, res);
+        res.setPassword(CommonConstant.NULL);
+        return res;
     }
 
     private synchronized Hotelier getHotelierFromCacheOrDb(String userId) {
@@ -174,4 +198,23 @@ public class HotelierBlo implements IHotelierBlo {
             hotelier = (Hotelier) cacheItem.get();
         }
         return hotelier;    }
+
+    private void checkTokenValidity(AuthToken authToken) {
+        String key = CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId();
+        Optional<Object> tokenRecord = cache.get(key);
+        if (tokenRecord.isEmpty()) {
+            throw new RequestException(
+                    StatusCodeEnume.NOT_LOGIN_EXCEPTION.getMessage(),
+                    StatusCodeEnume.NOT_LOGIN_EXCEPTION.getCode()
+            );
+        } else {
+            AuthToken tokenBeanInCache = (AuthToken)tokenRecord.get();
+            if (!authToken.getToken().equals(tokenBeanInCache.getToken())) {
+                throw new RequestException(
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getMessage(),
+                        StatusCodeEnume.LOGIN_AUTH_EXCEPTION.getCode()
+                );
+            }
+        }
+    }
 }
