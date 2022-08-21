@@ -98,12 +98,10 @@ public class CustomerController {
     public R getUserInfoWithUserId(HttpServletRequest request, @QueryParam(value = "userId") String userId) {
         Customer customerBean;
         if (StringUtils.isEmpty(userId)) {
-            System.out.println("get by token");
             customerBean = customerBlo.getUserInfoBasedOnToken(
                     request.getHeader(SecurityConstant.JWT_HEADER_NAME)
             );
         } else {
-            System.out.println("get by userId");
             customerBean = customerBlo.getUserInfoBasedByUserId(userId);
         }
 
