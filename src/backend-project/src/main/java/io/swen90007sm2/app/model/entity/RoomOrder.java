@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class RoomOrder extends BaseEntity{
@@ -10,32 +11,28 @@ public class RoomOrder extends BaseEntity{
 
     private String roomId;
 
-    private Date startDate;
+    private Integer orderedCount;
 
-    private Date endDate;
+    private BigDecimal pricePerRoom;
 
     public RoomOrder() {
     }
 
-    public RoomOrder(Date createTime, Date updateTime) {
-        super(createTime, updateTime);
-    }
-
-    public RoomOrder(String roomOrderId, String transactionId, String roomId, Date startDate, Date endDate) {
+    public RoomOrder(String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom) {
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.orderedCount = orderedCount;
+        this.pricePerRoom = pricePerRoom;
     }
 
-    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Date startDate, Date endDate) {
+    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom) {
         super(createTime, updateTime);
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.orderedCount = orderedCount;
+        this.pricePerRoom = pricePerRoom;
     }
 
     public String getRoomOrderId() {
@@ -62,20 +59,20 @@ public class RoomOrder extends BaseEntity{
         this.roomId = roomId;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Integer getOrderedCount() {
+        return orderedCount;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setOrderedCount(Integer orderedCount) {
+        this.orderedCount = orderedCount;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public BigDecimal getPricePerRoom() {
+        return pricePerRoom;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setPricePerRoom(BigDecimal pricePerRoom) {
+        this.pricePerRoom = pricePerRoom;
     }
 
     @Override
@@ -84,8 +81,8 @@ public class RoomOrder extends BaseEntity{
                 "roomOrderId='" + roomOrderId + '\'' +
                 ", transactionId='" + transactionId + '\'' +
                 ", roomId='" + roomId + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", orderedCount=" + orderedCount +
+                ", pricePerRoom=" + pricePerRoom +
                 '}';
     }
 }

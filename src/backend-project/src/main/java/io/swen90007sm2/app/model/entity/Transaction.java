@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -21,7 +22,7 @@ public class Transaction extends BaseEntity {
 
     private Date endDate;
 
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     public Transaction() {
     }
@@ -30,7 +31,7 @@ public class Transaction extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, Double totalPrice) {
+    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice) {
         this.transactionId = transactionId;
         this.customerId = customerId;
         this.hotelId = hotelId;
@@ -98,11 +99,11 @@ public class Transaction extends BaseEntity {
         this.endDate = endDate;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
