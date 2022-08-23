@@ -10,11 +10,14 @@ import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Photo;
 
 /**
- * a factory, is used for Unit of Work helper
+ * a factory, is used for Unit of Work helper.
+ *
+ *  Deprecated, never use it.
  *
  * @author xiaotian
  */
 @Component
+@Deprecated
 public class DaoFactory {
 
     @AutoInjected

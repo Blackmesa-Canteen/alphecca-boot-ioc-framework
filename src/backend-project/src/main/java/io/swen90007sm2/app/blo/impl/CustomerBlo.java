@@ -6,6 +6,7 @@ import cn.hutool.cron.CronUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.ICustomerBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
@@ -14,6 +15,7 @@ import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.dao.ICustomerDao;
+import io.swen90007sm2.app.dao.impl.CustomerDao;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
@@ -38,8 +40,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @Blo
 public class CustomerBlo implements ICustomerBlo {
 
-    @AutoInjected
-    ICustomerDao customerDao;
+    /* use lazy load, not using auto injected */
+//    @AutoInjected
+//    ICustomerDao customerDao;
 
     @AutoInjected
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
@@ -132,6 +135,8 @@ public class CustomerBlo implements ICustomerBlo {
 
         // check existence
         // will not use cache to prevent inconsistent data
+        // lazy load
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
         Customer prevResult = customerDao.findOneByBusinessId(userId);
 
         if (prevResult != null) {
@@ -177,6 +182,7 @@ public class CustomerBlo implements ICustomerBlo {
 
         PageBean<Customer> pageBean = null;
         List<Customer> customers = null;
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
 
         // ensure the data consistency within multi query from db
         synchronized (this) {
@@ -233,6 +239,7 @@ public class CustomerBlo implements ICustomerBlo {
         customerBean.setAvatarUrl(param.getAvatarUrl());
 
         // unit of work helper
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
         UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
@@ -263,6 +270,7 @@ public class CustomerBlo implements ICustomerBlo {
         // update the password
         customerBean.setPassword(SecurityUtil.encrypt(newPassword));
         // unit of work
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
         UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
@@ -315,6 +323,7 @@ public class CustomerBlo implements ICustomerBlo {
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
         Customer customer = null;
         if (cacheItem.isEmpty()) {
+            ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
             customer = customerDao.findOneByBusinessId(userId);
             // if no such customer
             if (customer == null) {

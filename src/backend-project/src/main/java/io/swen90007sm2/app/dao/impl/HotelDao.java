@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.dao.impl;
 
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IHotelDao;
@@ -15,6 +16,7 @@ import java.util.List;
  * @create 2022-08-23 10:16
  */
 @Dao
+@Lazy
 public class HotelDao implements IHotelDao{
 
     @Override

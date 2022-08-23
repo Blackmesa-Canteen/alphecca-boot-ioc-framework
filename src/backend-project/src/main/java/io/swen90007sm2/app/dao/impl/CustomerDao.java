@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.dao.impl;
 
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.ICustomerDao;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @Dao
+@Lazy
 public class CustomerDao implements ICustomerDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDao.class);
