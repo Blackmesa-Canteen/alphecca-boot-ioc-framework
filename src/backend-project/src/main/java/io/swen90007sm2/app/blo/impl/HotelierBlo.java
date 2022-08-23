@@ -148,7 +148,7 @@ public class HotelierBlo implements IHotelierBlo {
             );
         }
         hotelierBean.setPassword(SecurityUtil.encrypt(newPassword));
-        UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, userId);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 

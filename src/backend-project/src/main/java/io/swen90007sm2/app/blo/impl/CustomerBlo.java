@@ -233,7 +233,7 @@ public class CustomerBlo implements ICustomerBlo {
         customerBean.setAvatarUrl(param.getAvatarUrl());
 
         // unit of work helper
-        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, userId);
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
 //        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
@@ -263,7 +263,7 @@ public class CustomerBlo implements ICustomerBlo {
         // update the password
         customerBean.setPassword(SecurityUtil.encrypt(newPassword));
         // unit of work
-        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, userId);
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
 //        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
