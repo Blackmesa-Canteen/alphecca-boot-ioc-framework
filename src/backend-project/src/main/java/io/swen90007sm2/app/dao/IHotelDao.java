@@ -22,7 +22,7 @@ public interface IHotelDao extends IBaseDao<Hotel>{
     List<Hotel> findAllByPage(Integer start, Integer rows);
 
     /**
-     * Find Customer in database by userID
+     * Find Hotel in database by hotelId
      * @param hotelId is business specific Id, not database id
      * @return Customer Entity
      */

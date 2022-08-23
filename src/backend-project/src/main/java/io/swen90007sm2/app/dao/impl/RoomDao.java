@@ -1,0 +1,66 @@
+package io.swen90007sm2.app.dao.impl;
+
+import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.app.common.util.TimeUtil;
+import io.swen90007sm2.app.dao.IRoomDao;
+import io.swen90007sm2.app.db.util.CRUDTemplate;
+import io.swen90007sm2.app.model.entity.Room;
+
+/**
+ * @author 996Worker
+ * @description room dao
+ * @create 2022-08-23 11:39
+ */
+@Dao
+public class RoomDao implements IRoomDao {
+
+    @Override
+    public int insertOne(Room entity) {
+        return CRUDTemplate.executeNonQuery(
+                "INSERT INTO room (room_id, name, description, price_per_night, " +
+                        "sleeps_num, vacant_num, on_sale, hotel_id) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                entity.getRoomId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPricePerNight(),
+                entity.getSleepsNum(),
+                entity.getVacantNum(),
+                entity.getOnSale(),
+                entity.getHotelId()
+        );
+    }
+
+    @Override
+    public int updateOne(Room entity) {
+        return CRUDTemplate.executeNonQuery(
+                "UPDATE room SET name = ?, description = ?, price_per_night = ?, " +
+                        "sleeps_num = ?, vacant_num = ?, on_sale = ?, update_time = ? WHERE id = ?",
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPricePerNight(),
+                entity.getSleepsNum(),
+                entity.getVacantNum(),
+                entity.getOnSale(),
+                new java.sql.Date(TimeUtil.now().getTime()),
+                entity.getId()
+        );
+    }
+
+    @Override
+    public int deleteOne(Room entity) {
+        return CRUDTemplate.executeNonQuery(
+                "DELETE FROM room WHERE id = ?",
+                entity.getId()
+        );
+    }
+
+    @Override
+    public Room findOneByBusinessId(String roomId) {
+        return CRUDTemplate.executeQueryWithOneRes(
+                Room.class,
+                "SELECT * FROM room WHERE room_id = ?",
+                roomId
+        );
+    }
+}
