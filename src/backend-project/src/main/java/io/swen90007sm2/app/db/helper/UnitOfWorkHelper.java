@@ -143,7 +143,6 @@ public class UnitOfWorkHelper {
             try {
                 // update db
                 dao.deleteOne(bean.getEntity());
-                cacheRef.remove(bean.getCacheKey());
                 // Cache evict model
                 // clean the cache after update the db
                 cacheRef.remove(bean.getCacheKey());
