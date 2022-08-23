@@ -6,8 +6,6 @@ import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.Customer;
-import io.swen90007sm2.app.security.helper.TokenHelper;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +14,6 @@ import java.util.List;
 @Dao
 @Lazy
 public class CustomerDao implements ICustomerDao {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDao.class);
 
     @Override
     public int findTotalCount() {
@@ -56,12 +52,16 @@ public class CustomerDao implements ICustomerDao {
     }
 
     /**
-     * Lazy-loaded Singleton Mapper Class.
+     * Lazy-loaded Singleton Mapper helper Class.
      */
     private static class CustomerMapper {
+        private static final Logger LOGGER = LoggerFactory.getLogger(CustomerMapper.class);
+
+        // Lazy loaded singleton
         private static volatile CustomerMapper instance = null;
         private static CustomerMapper getInstance() {
 
+            // check existence without synchronized lock
             if (instance == null) {
                 synchronized (CustomerMapper.class) {
                     // double check to prevent duplicate instance
