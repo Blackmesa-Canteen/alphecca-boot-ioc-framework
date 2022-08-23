@@ -53,6 +53,9 @@ public class CustomerDao implements ICustomerDao {
 
     /**
      * Lazy-loaded Singleton Mapper helper Class.
+     * <br/>
+     * static class is in jvm meta space as static codes, need to be instantiated and load into JVM heap
+     * to use, the same as other classes.
      */
     private static class CustomerMapper {
         private static final Logger LOGGER = LoggerFactory.getLogger(CustomerMapper.class);

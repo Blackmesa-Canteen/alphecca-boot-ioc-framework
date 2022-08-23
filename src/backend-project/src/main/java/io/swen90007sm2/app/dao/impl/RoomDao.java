@@ -50,7 +50,12 @@ public class RoomDao implements IRoomDao {
         return RoomMapper.getInstance().findRoomsByHotelIdByPage(hotelId, start, rows);
     }
 
-    // helper class for lazy loading
+    /**
+     * helper class for lazy loading
+     * <br/>
+     * static class is in jvm meta space as static codes, need to be instantiated and load into JVM heap
+     * to use, the same as other classes.
+     */
     private static class RoomMapper {
         private static final Logger LOGGER = LoggerFactory.getLogger(RoomMapper.class);
         // Lazy loaded singleton

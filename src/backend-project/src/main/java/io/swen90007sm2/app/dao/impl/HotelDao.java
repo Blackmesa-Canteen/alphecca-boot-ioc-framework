@@ -52,6 +52,9 @@ public class HotelDao implements IHotelDao{
 
     /**
      * helper class for lazy load
+    * <br/>
+    * static class is in jvm meta space as static codes, need to be instantiated and load into JVM heap
+    * to use, the same as other classes.
      */
     private static class HotelMapper {
         // Lazy loaded singleton
