@@ -6,6 +6,8 @@ import io.swen90007sm2.app.dao.IRoomDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.Room;
 
+import java.util.List;
+
 /**
  * @author 996Worker
  * @description room dao
@@ -62,5 +64,26 @@ public class RoomDao implements IRoomDao {
                 "SELECT * FROM room WHERE room_id = ?",
                 roomId
         );
+    }
+
+    public int findTotalCountByHotelId(String hotelId) {
+        Long totalRows = CRUDTemplate.executeQueryWithOneRes(
+                Long.class,
+                "SELECT count(*) FROM room WHERE hotel_id = ?",
+                hotelId
+                );
+
+        return (totalRows != null) ? totalRows.intValue() : 0;
+    }
+
+    public List<Room> findRoomsByHotelIdByPage(String hotelId, Integer start, Integer rows) {
+        List<Room> rooms = CRUDTemplate.executeQueryWithMultiRes(
+                Room.class,
+                "SELECT * FROM room WHERE hotel_id = ? OFFSET ? LIMIT ?",
+                hotelId,
+                start,
+                rows
+        );
+        return rooms;
     }
 }
