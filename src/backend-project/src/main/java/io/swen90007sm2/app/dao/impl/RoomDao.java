@@ -21,7 +21,7 @@ public class RoomDao implements IRoomDao {
         return CRUDTemplate.executeNonQuery(
                 "INSERT INTO room (id, room_id, name, description, price_per_night, " +
                         "sleeps_num, vacant_num, on_sale, hotel_id) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 entity.getId(),
                 entity.getRoomId(),
                 entity.getName(),
