@@ -44,8 +44,7 @@ public class PhotoDao implements IPhotoDao {
     @Override
     public int insertOne(Photo photo) {
         int rows = CRUDTemplate.executeNonQuery(
-                "INSERT INTO photo (id, photo_id, user_id, description, photo_url) values (?, ?, ?, ?, ?)",
-                photo.getId(),
+                "INSERT INTO photo (photo_id, user_id, description, photo_url) values (?, ?, ?, ?, ?)",
                 photo.getPhotoId(),
                 photo.getUserId(),
                 photo.getDescription(),

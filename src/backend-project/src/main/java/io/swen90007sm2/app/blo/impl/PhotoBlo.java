@@ -94,9 +94,9 @@ public class PhotoBlo implements IPhotoBlo {
 
 
 
-                    // photo id is the fileName
+                    // photo_id is the fileName
                     Photo photo = new Photo();
-                    photo.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+//                    photo.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
                     photo.setPhotoId(fileName);
                     photo.setDescription("New Photo.");
                     photo.setPhotoUrl(ResourceConstant.UPLOAD_PHOTO_URL_PREFIX + "?photoId=" + fileName);

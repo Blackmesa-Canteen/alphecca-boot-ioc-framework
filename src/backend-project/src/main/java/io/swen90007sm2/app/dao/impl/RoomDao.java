@@ -66,6 +66,7 @@ public class RoomDao implements IRoomDao {
         );
     }
 
+    @Override
     public int findTotalCountByHotelId(String hotelId) {
         Long totalRows = CRUDTemplate.executeQueryWithOneRes(
                 Long.class,
@@ -76,6 +77,7 @@ public class RoomDao implements IRoomDao {
         return (totalRows != null) ? totalRows.intValue() : 0;
     }
 
+    @Override
     public List<Room> findRoomsByHotelIdByPage(String hotelId, Integer start, Integer rows) {
         List<Room> rooms = CRUDTemplate.executeQueryWithMultiRes(
                 Room.class,
