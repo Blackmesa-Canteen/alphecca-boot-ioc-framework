@@ -61,13 +61,13 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int updateOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "UPDATE customer SET password = ?, description=?, user_name=?, avatar_url=?, update_time=? WHERE user_id = ?",
+                "UPDATE customer SET password = ?, description=?, user_name=?, avatar_url=?, update_time=? WHERE id = ?",
                 customer.getPassword(),
                 customer.getDescription(),
                 customer.getUserName(),
                 customer.getAvatarUrl(),
                 new java.sql.Date(TimeUtil.now().getTime()),
-                customer.getUserId()
+                customer.getId()
         );
 
         return row;
@@ -89,8 +89,8 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int deleteOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "DELETE FROM customer WHERE user_id = ?",
-                customer.getUserId()
+                "DELETE FROM customer WHERE id = ?",
+                customer.getId()
         );
 
         return row;

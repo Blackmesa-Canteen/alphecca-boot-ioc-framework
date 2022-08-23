@@ -1,6 +1,7 @@
 package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IHotelierDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.BaseEntity;
@@ -28,11 +29,12 @@ public class HotelierDao implements IHotelierDao {
     @Override
     public int updateOne(Hotelier entity) {
         int row = CRUDTemplate.executeNonQuery(
-                "UPDATE hotelier SET user_id = ?, password = ?, description = ?, user_name = ? WHERE id = ?",
+                "UPDATE hotelier SET user_id = ?, password = ?, description = ?, user_name = ?, update_time=? WHERE id = ?",
                 entity.getUserId(),
                 entity.getPassword(),
                 entity.getDescription(),
                 entity.getUserName(),
+                new java.sql.Date(TimeUtil.now().getTime()),
                 entity.getId()
         );
         return row;
