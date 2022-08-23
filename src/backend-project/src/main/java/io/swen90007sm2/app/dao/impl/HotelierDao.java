@@ -15,7 +15,8 @@ public class HotelierDao implements IHotelierDao {
     @Override
     public int insertOne(Hotelier hotelier) {
         int row = CRUDTemplate.executeNonQuery(
-                "INSERT INTO hotelier (user_id, password, description, user_name) values (?, ?, ?, ?, ?)",
+                "INSERT INTO hotelier (id, user_id, password, description, user_name) values (?, ?, ?, ?, ?)",
+                hotelier.getId(),
                 hotelier.getUserId(),
                 hotelier.getPassword(),
                 hotelier.getDescription(),

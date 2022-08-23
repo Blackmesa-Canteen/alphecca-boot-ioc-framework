@@ -47,7 +47,8 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int insertOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "INSERT INTO customer (user_id, password, description, user_name) values (?, ?, ?, ?, ?)",
+                "INSERT INTO customer (id, user_id, password, description, user_name) values (?, ?, ?, ?, ?)",
+                customer.getId(),
                 customer.getUserId(),
                 customer.getPassword(),
                 customer.getDescription(),

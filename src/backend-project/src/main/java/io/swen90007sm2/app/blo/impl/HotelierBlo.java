@@ -109,7 +109,7 @@ public class HotelierBlo implements IHotelierBlo {
         String cypher = SecurityUtil.encrypt(userRegisterParam.getPassword());
 
         Hotelier hotelier = new Hotelier();
-//        hotelier.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+        hotelier.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
         hotelier.setUserId(userId);
         hotelier.setUserName(userName);
         hotelier.setPassword(cypher);

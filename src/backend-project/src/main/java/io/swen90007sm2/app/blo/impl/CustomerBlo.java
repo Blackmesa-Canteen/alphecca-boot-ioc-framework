@@ -145,7 +145,7 @@ public class CustomerBlo implements ICustomerBlo {
         String cypher = SecurityUtil.encrypt(registerParam.getPassword());
 
         Customer customer = new Customer();
-//        customer.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+        customer.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
         customer.setUserId(userId);
         customer.setUserName(userName);
         customer.setPassword(cypher);
