@@ -24,8 +24,8 @@ public class RoomDao implements IRoomDao {
     public int insertOne(Room entity) {
         return CRUDTemplate.executeNonQuery(
                 "INSERT INTO room (id, room_id, name, description, price_per_night, " +
-                        "sleeps_num, vacant_num, on_sale, hotel_id) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        "sleeps_num, vacant_num, on_sale, hotel_id, currency) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 entity.getId(),
                 entity.getRoomId(),
                 entity.getName(),
@@ -34,7 +34,8 @@ public class RoomDao implements IRoomDao {
                 entity.getSleepsNum(),
                 entity.getVacantNum(),
                 entity.getOnSale(),
-                entity.getHotelId()
+                entity.getHotelId(),
+                entity.getCurrency()
         );
     }
 
@@ -42,13 +43,14 @@ public class RoomDao implements IRoomDao {
     public int updateOne(Room entity) {
         return CRUDTemplate.executeNonQuery(
                 "UPDATE room SET name = ?, description = ?, price_per_night = ?, " +
-                        "sleeps_num = ?, vacant_num = ?, on_sale = ?, update_time = ? WHERE id = ?",
+                        "sleeps_num = ?, vacant_num = ?, on_sale = ?, currency = ?, update_time = ? WHERE id = ?",
                 entity.getName(),
                 entity.getDescription(),
                 entity.getPricePerNight(),
                 entity.getSleepsNum(),
                 entity.getVacantNum(),
                 entity.getOnSale(),
+                entity.getCurrency(),
                 new java.sql.Date(TimeUtil.now().getTime()),
                 entity.getId()
         );

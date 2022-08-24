@@ -10,6 +10,8 @@ public class Hotel extends BaseEntity{
     private String postCode;
     private Double minPrice;
 
+    private String currency;
+
     private Integer rank;
     private Boolean onSale;
 
@@ -20,18 +22,20 @@ public class Hotel extends BaseEntity{
         super(createTime, updateTime);
     }
 
-    public Hotel(String hotelId, String name, String description, String address, String postCode, Double minPrice, Integer rank, boolean onSale) {
+
+    public Hotel(String hotelId, String name, String description, String address, String postCode, Double minPrice, String currency, Integer rank, Boolean onSale) {
         this.hotelId = hotelId;
         this.name = name;
         this.description = description;
         this.address = address;
         this.postCode = postCode;
         this.minPrice = minPrice;
+        this.currency = currency;
         this.rank = rank;
         this.onSale = onSale;
     }
 
-    public Hotel(Date createTime, Date updateTime, String hotelId, String name, String description, String address, String postCode, Double minPrice, Integer rank, boolean onSale) {
+    public Hotel(Date createTime, Date updateTime, String hotelId, String name, String description, String address, String postCode, Double minPrice, String currency, Integer rank, Boolean onSale) {
         super(createTime, updateTime);
         this.hotelId = hotelId;
         this.name = name;
@@ -39,6 +43,7 @@ public class Hotel extends BaseEntity{
         this.address = address;
         this.postCode = postCode;
         this.minPrice = minPrice;
+        this.currency = currency;
         this.rank = rank;
         this.onSale = onSale;
     }
@@ -105,6 +110,14 @@ public class Hotel extends BaseEntity{
 
     public void setOnSale(boolean onSale) {
         this.onSale = onSale;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override

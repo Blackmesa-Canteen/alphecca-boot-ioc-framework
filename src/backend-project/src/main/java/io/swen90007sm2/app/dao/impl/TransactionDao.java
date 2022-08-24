@@ -23,7 +23,7 @@ public class TransactionDao implements ITransactionDao {
         return CRUDTemplate.executeNonQuery(
                 "INSERT INTO transaction (id, transaction_id, customer_id, " +
                         "hotel_id, status_code, start_date, " +
-                        "end_date, total_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
+                        "end_date, total_price, currency) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 entity.getId(),
                 entity.getTransactionId(),
                 entity.getCustomerId(),
@@ -31,7 +31,8 @@ public class TransactionDao implements ITransactionDao {
                 entity.getStatusCode(),
                 entity.getStartDate(),
                 entity.getEndDate(),
-                entity.getTotalPrice()
+                entity.getTotalPrice(),
+                entity.getCurrency()
         );
     }
 
@@ -39,12 +40,13 @@ public class TransactionDao implements ITransactionDao {
     public int updateOne(Transaction entity) {
         return CRUDTemplate.executeNonQuery(
                 "UPDATE transaction SET status_code = ?, " +
-                        "start_date = ?, end_date = ?, total_price = ?, " +
+                        "start_date = ?, end_date = ?, total_price = ?, currency = ?, " +
                         "update_time = ? WHERE id = ?",
                 entity.getStatusCode(),
                 entity.getStartDate(),
                 entity.getEndDate(),
                 entity.getTotalPrice(),
+                entity.getCurrency(),
                 new java.sql.Date(TimeUtil.now().getTime()),
                 entity.getId()
         );

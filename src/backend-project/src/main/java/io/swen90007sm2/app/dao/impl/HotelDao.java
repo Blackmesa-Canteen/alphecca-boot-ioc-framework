@@ -25,15 +25,16 @@ public class HotelDao implements IHotelDao{
     @Override
     public int insertOne(Hotel entity) {
         int row = CRUDTemplate.executeNonQuery(
-                "INSERT INTO hotel (id, hotel_id, name, description, address, post_code, on_sale) " +
-                        "values (?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO hotel (id, hotel_id, name, description, address, post_code, on_sale, currency) " +
+                        "values (?, ?, ?, ?, ?, ?, ?, ?)",
                 entity.getId(),
                 entity.getHotelId(),
                 entity.getName(),
                 entity.getDescription(),
                 entity.getAddress(),
                 entity.getPostCode(),
-                entity.getOnSale()
+                entity.getOnSale(),
+                entity.getCurrency()
         );
 
         return row;
@@ -44,7 +45,7 @@ public class HotelDao implements IHotelDao{
         int row = CRUDTemplate.executeNonQuery(
                 "UPDATE hotel SET " +
                         "name = ?, description = ?, address = ?, post_code = ?, " +
-                        "on_sale = ?, min_price = ?, rank = ?,  update_time = ? WHERE id = ?",
+                        "on_sale = ?, min_price = ?, rank = ?, currency = ?,  update_time = ? WHERE id = ?",
                 entity.getName(),
                 entity.getDescription(),
                 entity.getAddress(),
@@ -52,6 +53,7 @@ public class HotelDao implements IHotelDao{
                 entity.getOnSale(),
                 entity.getMinPrice(),
                 entity.getRank(),
+                entity.getCurrency(),
                 new java.sql.Date(TimeUtil.now().getTime()),
                 entity.getId()
         );

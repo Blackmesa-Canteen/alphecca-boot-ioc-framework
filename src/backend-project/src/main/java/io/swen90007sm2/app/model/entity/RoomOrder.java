@@ -15,15 +15,28 @@ public class RoomOrder extends BaseEntity{
 
     private BigDecimal pricePerRoom;
 
+    private String currency;
+
     public RoomOrder() {
     }
 
-    public RoomOrder(String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom) {
+    public RoomOrder(String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
         this.orderedCount = orderedCount;
         this.pricePerRoom = pricePerRoom;
+        this.currency = currency;
+    }
+
+    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
+        super(createTime, updateTime);
+        this.roomOrderId = roomOrderId;
+        this.transactionId = transactionId;
+        this.roomId = roomId;
+        this.orderedCount = orderedCount;
+        this.pricePerRoom = pricePerRoom;
+        this.currency = currency;
     }
 
     public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom) {
@@ -73,6 +86,14 @@ public class RoomOrder extends BaseEntity{
 
     public void setPricePerRoom(BigDecimal pricePerRoom) {
         this.pricePerRoom = pricePerRoom;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override

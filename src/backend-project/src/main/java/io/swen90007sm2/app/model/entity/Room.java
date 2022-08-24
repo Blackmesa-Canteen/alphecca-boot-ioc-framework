@@ -15,6 +15,8 @@ public class Room extends BaseEntity {
 
     private BigDecimal pricePerNight;
 
+    private String currency;
+
     private Integer sleepsNum;
 
     private Integer vacantNum;
@@ -28,12 +30,26 @@ public class Room extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Room(String roomId, String hotelId, String name, String description, BigDecimal pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
+    public Room(String roomId, String hotelId, String name, String description, BigDecimal pricePerNight, String currency, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
         this.roomId = roomId;
         this.hotelId = hotelId;
         this.name = name;
         this.description = description;
         this.pricePerNight = pricePerNight;
+        this.currency = currency;
+        this.sleepsNum = sleepsNum;
+        this.vacantNum = vacantNum;
+        this.onSale = onSale;
+    }
+
+    public Room(Date createTime, Date updateTime, String roomId, String hotelId, String name, String description, BigDecimal pricePerNight, String currency, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
+        super(createTime, updateTime);
+        this.roomId = roomId;
+        this.hotelId = hotelId;
+        this.name = name;
+        this.description = description;
+        this.pricePerNight = pricePerNight;
+        this.currency = currency;
         this.sleepsNum = sleepsNum;
         this.vacantNum = vacantNum;
         this.onSale = onSale;
@@ -113,6 +129,14 @@ public class Room extends BaseEntity {
 
     public void setHotelId(String hotelId) {
         this.hotelId = hotelId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override

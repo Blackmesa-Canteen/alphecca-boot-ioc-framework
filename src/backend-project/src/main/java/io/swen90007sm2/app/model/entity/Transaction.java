@@ -24,6 +24,8 @@ public class Transaction extends BaseEntity {
 
     private BigDecimal totalPrice;
 
+    private String currency;
+
     public Transaction() {
     }
 
@@ -31,7 +33,7 @@ public class Transaction extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice) {
+    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
         this.transactionId = transactionId;
         this.customerId = customerId;
         this.hotelId = hotelId;
@@ -39,6 +41,19 @@ public class Transaction extends BaseEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalPrice = totalPrice;
+        this.currency = currency;
+    }
+
+    public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
+        super(createTime, updateTime);
+        this.transactionId = transactionId;
+        this.customerId = customerId;
+        this.hotelId = hotelId;
+        this.statusCode = statusCode;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalPrice = totalPrice;
+        this.currency = currency;
     }
 
     public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate) {
@@ -105,6 +120,14 @@ public class Transaction extends BaseEntity {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override
