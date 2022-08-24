@@ -11,15 +11,35 @@ public interface IHotelDao extends IBaseDao<Hotel>{
      * Find total record counts.
      * @return int total records
      */
-    int findTotalCount();
+    int findTotalCount(boolean onSale);
 
     /**
-     * find customers by page
+     * find customers by page, from newest to latest
      * @param start result starts from which row
      * @param rows total rows needed
+     * @param onSale show hotels of that sale status
      * @return list
      */
-    List<Hotel> findAllByPage(Integer start, Integer rows);
+    List<Hotel> findAllByPage(Integer start, Integer rows, boolean onSale);
+
+    /**
+     * find customers by page, sort with price
+     * @param start result starts from which row
+     * @param rows total rows needed
+     * @param onSale show hotels of that sale status
+     * @return list
+     */
+    List<Hotel> findAllByPageSortByPrice(Integer start, Integer rows, int sortType, boolean onSale);
+
+    /**
+     * find all hotels sorted by rank
+     */
+    List<Hotel> findAllByPageSortByRank(Integer start, Integer rows, int sortType, boolean onSale);
+
+    /**
+     * find hotels by post code
+     */
+    List<Hotel> findAllByPageByPostCode(Integer start, Integer rows, boolean onSale, String postCode);
 
     /**
      * Find Hotel in database by hotelId

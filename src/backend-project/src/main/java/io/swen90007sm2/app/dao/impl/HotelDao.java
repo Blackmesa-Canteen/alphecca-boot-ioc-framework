@@ -2,6 +2,7 @@ package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IHotelDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
@@ -9,6 +10,7 @@ import io.swen90007sm2.app.model.entity.Hotel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,24 +70,89 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public int findTotalCount() {
+    public int findTotalCount(boolean onSale) {
         Long totalRows = CRUDTemplate.executeQueryWithOneRes(
                 Long.class,
-                "SELECT count(*) FROM hotel");
+                "SELECT count(*) FROM hotel WHERE on_sale = ?",
+                onSale
+        );
 
         return (totalRows != null) ? totalRows.intValue() : 0;
     }
 
     @Override
-    public List<Hotel> findAllByPage(Integer start, Integer rows) {
+    public List<Hotel> findAllByPage(Integer start, Integer rows, boolean onSale) {
         List<Hotel> hotels = CRUDTemplate.executeQueryWithMultiRes(
                 Hotel.class,
-                "SELECT * FROM hotel OFFSET ? LIMIT ?",
+                "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY create_time DESC",
+                onSale,
                 start,
                 rows
         );
 
         return hotels;
+    }
+
+    @Override
+    public List<Hotel> findAllByPageSortByPrice(Integer start, Integer rows, int sortType, boolean onSale) {
+        List<Hotel> hotels = null;
+
+        if (sortType == CommonConstant.SORT_UP) {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY min_price ASC",
+                    onSale,
+                    start,
+                    rows
+            );
+        } else {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY min_price DESC",
+                    onSale,
+                    start,
+                    rows
+            );
+        }
+
+        return hotels;
+    }
+
+    @Override
+    public List<Hotel> findAllByPageSortByRank(Integer start, Integer rows, int sortType, boolean onSale) {
+        List<Hotel> hotels = null;
+
+        if (sortType == CommonConstant.SORT_UP) {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY rank ASC",
+                    onSale,
+                    start,
+                    rows
+            );
+        } else {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY rank DESC",
+                    onSale,
+                    start,
+                    rows
+            );
+        }
+
+        return hotels;
+    }
+
+    @Override
+    public List<Hotel> findAllByPageByPostCode(Integer start, Integer rows, boolean onSale, String postCode) {
+        return CRUDTemplate.executeQueryWithMultiRes(
+                Hotel.class,
+                "SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? OFFSET ? LIMIT ? ORDER BY rank DESC",
+                onSale,
+                postCode,
+                start,
+                rows
+        );
     }
 
     @Override
