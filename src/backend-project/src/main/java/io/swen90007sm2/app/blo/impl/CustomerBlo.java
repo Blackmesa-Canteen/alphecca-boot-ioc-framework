@@ -14,6 +14,7 @@ import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
+import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.dao.impl.CustomerDao;
 import io.swen90007sm2.app.db.bean.PageBean;
@@ -150,7 +151,7 @@ public class CustomerBlo implements ICustomerBlo {
         String cypher = SecurityUtil.encrypt(registerParam.getPassword());
 
         Customer customer = new Customer();
-        customer.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+        customer.setId(IdFactory.genSnowFlakeId());
         customer.setUserId(userId);
         customer.setUserName(userName);
         customer.setPassword(cypher);

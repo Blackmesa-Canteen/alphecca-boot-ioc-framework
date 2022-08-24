@@ -6,6 +6,7 @@ import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IPhotoBlo;
 import io.swen90007sm2.app.common.constant.ResourceConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
+import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.IPhotoDao;
 import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.model.entity.Photo;
@@ -96,7 +97,7 @@ public class PhotoBlo implements IPhotoBlo {
 
                     // photo_id is the fileName
                     Photo photo = new Photo();
-                    photo.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+                    photo.setId(IdFactory.genSnowFlakeId());
                     photo.setPhotoId(fileName);
                     photo.setDescription("New Photo.");
                     photo.setPhotoUrl(ResourceConstant.UPLOAD_PHOTO_URL_PREFIX + "?photoId=" + fileName);

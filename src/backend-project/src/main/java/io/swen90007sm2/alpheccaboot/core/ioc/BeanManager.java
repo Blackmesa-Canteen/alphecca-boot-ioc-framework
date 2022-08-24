@@ -67,17 +67,20 @@ public class BeanManager {
 
     /**
      * called by outside to get lazy beans
-     * @param clazz
+     * @param clazz target class
      * @return lazy bean instance
      */
     @SuppressWarnings("unchecked")
     public static <T> T getLazyBeanByClass(Class<T> clazz) {
         Object instance = getBeanFromBeanMapByClass(clazz);
+
+        // check existence first without lock to guarantee performance
         if (instance == null) {
             synchronized (BeanManager.class) {
                 if (instance == null) {
                     instance = ReflectionUtil.genNewInstanceByClass(clazz);
                     BEAN_MAP.put(clazz, instance);
+                    LOGGER.info("Lazy loaded: [{}]", instance.getClass().getName());
                 }
             }
         }

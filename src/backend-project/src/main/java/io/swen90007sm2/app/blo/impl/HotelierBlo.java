@@ -11,6 +11,7 @@ import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
+import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.IHotelierDao;
 import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
@@ -109,7 +110,7 @@ public class HotelierBlo implements IHotelierBlo {
         String cypher = SecurityUtil.encrypt(userRegisterParam.getPassword());
 
         Hotelier hotelier = new Hotelier();
-        hotelier.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+        hotelier.setId(IdFactory.genSnowFlakeId());
         hotelier.setUserId(userId);
         hotelier.setUserName(userName);
         hotelier.setPassword(cypher);

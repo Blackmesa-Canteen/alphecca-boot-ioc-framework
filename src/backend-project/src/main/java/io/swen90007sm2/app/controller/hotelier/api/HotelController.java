@@ -24,7 +24,7 @@ public class HotelController {
 //    @AutoInjected
 //    IHotelDao hotelDao;
     @HandlesRequest(path = "/test_lazy", method = RequestMethod.GET)
-    public R logout(HttpServletRequest request) {
+    public R test(HttpServletRequest request) {
 //        if (hotelDao == null) {
 //            return R.error("hotelDao is lazy, is empty");
 //        }
@@ -33,6 +33,11 @@ public class HotelController {
         if (hotelDao == null) {
             return R.error("hotelDao is still empty!");
         }
+        return R.ok();
+    }
+
+    @HandlesRequest(path = "/", method = RequestMethod.POST)
+    public R registerNewHotel() {
         return R.ok();
     }
 }

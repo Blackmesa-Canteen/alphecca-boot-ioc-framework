@@ -22,131 +22,80 @@ public class HotelDao implements IHotelDao{
 
     @Override
     public int insertOne(Hotel entity) {
-        return HotelMapper.getInstance().insertOne(entity);
+        int row = CRUDTemplate.executeNonQuery(
+                "INSERT INTO hotel (id, hotel_id, name, description, address, post_code, on_sale) " +
+                        "values (?, ?, ?, ?, ?, ?, ?)",
+                entity.getId(),
+                entity.getHotelId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getAddress(),
+                entity.getPostCode(),
+                entity.getOnSale()
+        );
+
+        return row;
     }
 
     @Override
     public int updateOne(Hotel entity) {
-        return HotelMapper.getInstance().updateOne(entity);
+        int row = CRUDTemplate.executeNonQuery(
+                "UPDATE hotel SET " +
+                        "name = ?, description = ?, address = ?, post_code = ?, " +
+                        "on_sale = ?, min_price = ?, rank = ?,  update_time = ? WHERE id = ?",
+                entity.getName(),
+                entity.getDescription(),
+                entity.getAddress(),
+                entity.getPostCode(),
+                entity.getOnSale(),
+                entity.getMinPrice(),
+                entity.getRank(),
+                new java.sql.Date(TimeUtil.now().getTime()),
+                entity.getId()
+        );
+
+        return row;
     }
 
     @Override
     public int deleteOne(Hotel entity) {
-        return HotelMapper.getInstance().deleteOne(entity);
+        int row = CRUDTemplate.executeNonQuery(
+                "DELETE FROM hotel WHERE id = ?",
+                entity.getId()
+        );
+
+        return row;
     }
 
     @Override
     public int findTotalCount() {
-       return HotelMapper.getInstance().findTotalCount();
+        Long totalRows = CRUDTemplate.executeQueryWithOneRes(
+                Long.class,
+                "SELECT count(*) FROM hotel");
+
+        return (totalRows != null) ? totalRows.intValue() : 0;
     }
 
     @Override
     public List<Hotel> findAllByPage(Integer start, Integer rows) {
-       return HotelMapper.getInstance().findAllByPage(start, rows);
+        List<Hotel> hotels = CRUDTemplate.executeQueryWithMultiRes(
+                Hotel.class,
+                "SELECT * FROM hotel OFFSET ? LIMIT ?",
+                start,
+                rows
+        );
+
+        return hotels;
     }
 
     @Override
     public Hotel findOneByBusinessId(String hotelId) {
-        return HotelMapper.getInstance().findOneByBusinessId(hotelId);
-    }
+        Hotel hotel = CRUDTemplate.executeQueryWithOneRes(
+                Hotel.class,
+                "SELECT * FROM hotel WHERE hotel_id = ?",
+                hotelId
+        );
 
-    /**
-     * helper class for lazy load
-    * <br/>
-    * static class is in jvm meta space as static codes, need to be instantiated and load into JVM heap
-    * to use, the same as other classes.
-     */
-    private static class HotelMapper {
-        // Lazy loaded singleton
-        private static volatile HotelMapper instance = null;
-        private static final Logger LOGGER = LoggerFactory.getLogger(HotelMapper.class);
-        private static HotelMapper getInstance() {
-
-            // check existence without synchronized lock
-            if (instance == null) {
-                synchronized (HotelMapper.class) {
-                    // double check to prevent duplicate instance
-                    if (instance == null) {
-                        instance = new HotelMapper();
-                        LOGGER.info("Lazy loaded: [{}]", instance.getClass().getName());
-                    }
-                }
-            }
-
-            return instance;
-        }
-
-        public int insertOne(Hotel entity) {
-            int row = CRUDTemplate.executeNonQuery(
-                    "INSERT INTO hotel (id, hotel_id, name, description, address, post_code, on_sale) " +
-                            "values (?, ?, ?, ?, ?, ?, ?)",
-                    entity.getId(),
-                    entity.getHotelId(),
-                    entity.getName(),
-                    entity.getDescription(),
-                    entity.getAddress(),
-                    entity.getPostCode(),
-                    entity.getOnSale()
-            );
-
-            return row;
-        }
-
-        public int updateOne(Hotel entity) {
-            int row = CRUDTemplate.executeNonQuery(
-                    "UPDATE hotel SET " +
-                            "name = ?, description = ?, address = ?, post_code = ?, " +
-                            "on_sale = ?, min_price = ?, rank = ?,  update_time = ? WHERE id = ?",
-                    entity.getName(),
-                    entity.getDescription(),
-                    entity.getAddress(),
-                    entity.getPostCode(),
-                    entity.getOnSale(),
-                    entity.getMinPrice(),
-                    entity.getRank(),
-                    new java.sql.Date(TimeUtil.now().getTime()),
-                    entity.getId()
-            );
-
-            return row;
-        }
-
-        public int deleteOne(Hotel entity) {
-            int row = CRUDTemplate.executeNonQuery(
-                    "DELETE FROM hotel WHERE id = ?",
-                    entity.getId()
-            );
-
-            return row;
-        }
-
-        public int findTotalCount() {
-            Long totalRows = CRUDTemplate.executeQueryWithOneRes(
-                    Long.class,
-                    "SELECT count(*) FROM hotel");
-
-            return (totalRows != null) ? totalRows.intValue() : 0;
-        }
-
-        public List<Hotel> findAllByPage(Integer start, Integer rows) {
-            List<Hotel> hotels = CRUDTemplate.executeQueryWithMultiRes(
-                    Hotel.class,
-                    "SELECT * FROM hotel OFFSET ? LIMIT ?",
-                    start,
-                    rows
-            );
-
-            return hotels;
-        }
-
-        public Hotel findOneByBusinessId(String hotelId) {
-            Hotel hotel = CRUDTemplate.executeQueryWithOneRes(
-                    Hotel.class,
-                    "SELECT * FROM hotel WHERE hotel_id = ?",
-                    hotelId
-            );
-
-            return hotel;
-        }
+        return hotel;
     }
 }
