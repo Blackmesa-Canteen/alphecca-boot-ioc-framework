@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.dao.impl;
 
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.app.dao.IHotelAmenityDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
@@ -11,6 +13,8 @@ import java.util.List;
  * @description
  * @create 2022-08-24 21:44
  */
+@Dao
+@Lazy
 public class HotelAmenityDao implements IHotelAmenityDao {
 
     @Override
