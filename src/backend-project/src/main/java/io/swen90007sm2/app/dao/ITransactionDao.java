@@ -18,11 +18,17 @@ public interface ITransactionDao extends IBaseDao<Transaction>{
      * @param hotelId owner hotel ID
      * @return record count
      */
-    int findTotalCountByHotelId(String hotelId);
+    int findTotalCountByHotelId(String hotelId, int statusCode);
 
+    /**
+     * find all transactions for a hotel
+     */
     List<Transaction> findTransactionsByHotelIdByPage(String hotelId, Integer start, Integer rows, int statusCode);
 
-    int findTotalCountByCustomerId(String customerId);
+    int findTotalCountByCustomerId(String customerId, int statusCode);
 
+    /**
+     * find all transactions for a customer
+     */
     List<Transaction> findTransactionsByCustomerIdByPage(String customerId, Integer start, Integer rows, int statusCode);
 }

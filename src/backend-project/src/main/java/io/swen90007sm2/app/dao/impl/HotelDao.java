@@ -165,4 +165,5 @@ public class HotelDao implements IHotelDao{
 
         return hotel;
     }
+
 }
