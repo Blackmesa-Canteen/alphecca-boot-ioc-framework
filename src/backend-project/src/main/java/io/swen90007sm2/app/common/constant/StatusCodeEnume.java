@@ -26,8 +26,12 @@ public enum StatusCodeEnume {
 
     /* file */
     INVALID_UPLOAD_TYPE(16001, "Upload file form should should be in multipart/form-data type."),
-            ;
 
+
+    /* hotel and hotelier */
+    HOTELIER_ALREADY_HAS_HOTEL(17001, "Hotelier already has a hotel!")
+
+    ;
     private final Integer code;
     private final String message;
 

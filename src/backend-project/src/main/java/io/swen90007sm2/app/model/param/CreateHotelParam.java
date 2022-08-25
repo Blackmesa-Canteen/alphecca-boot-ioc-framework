@@ -26,18 +26,18 @@ public class CreateHotelParam {
     @NotNull(message = "on sale status should be not null")
     private Boolean onSale;
 
-    private List<String> amenity_ids;
+    private List<String> amenityIds;
 
     public CreateHotelParam() {
     }
 
-    public CreateHotelParam(String name, String description, String address, String postCode, Boolean onSale, List<String> amenity_ids) {
+    public CreateHotelParam(String name, String description, String address, String postCode, Boolean onSale, List<String> amenityIds) {
         this.name = name;
         this.description = description;
         this.address = address;
         this.postCode = postCode;
         this.onSale = onSale;
-        this.amenity_ids = amenity_ids;
+        this.amenityIds = amenityIds;
     }
 
     public String getName() {
@@ -72,12 +72,12 @@ public class CreateHotelParam {
         this.onSale = onSale;
     }
 
-    public List<String> getAmenity_ids() {
-        return amenity_ids;
+    public List<String> getAmenityIds() {
+        return amenityIds;
     }
 
-    public void setAmenity_ids(List<String> amenity_ids) {
-        this.amenity_ids = amenity_ids;
+    public void setAmenityIds(List<String> amenityIds) {
+        this.amenityIds = amenityIds;
     }
 
     public String getAddress() {

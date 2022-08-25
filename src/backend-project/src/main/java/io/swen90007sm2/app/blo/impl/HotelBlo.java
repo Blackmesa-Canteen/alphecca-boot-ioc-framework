@@ -20,6 +20,7 @@ import io.swen90007sm2.app.dao.impl.HotelierDao;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.CreateHotelParam;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,16 +35,27 @@ public class HotelBlo implements IHotelBlo {
 
 
     public void doCreateHotel(String hotelierId, CreateHotelParam createHotelParam) {
+
+        // check existence, one hotelier can only create one hotel
+        Hotelier currentHotelier = getHotelierFromCacheOrDb(hotelierId);
+        if (StringUtils.isNotEmpty(currentHotelier.getHotelId())) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_ALREADY_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_ALREADY_HAS_HOTEL.getCode()
+            );
+        }
+
         Hotel hotel = new Hotel();
-        hotel.setId(IdFactory.genSnowFlakeId());
-        hotel.setHotelId(IdFactory.genSnowFlaskIdString());
+        Long id = IdFactory.genSnowFlakeId();
+        hotel.setId(id);
+        hotel.setHotelId(id.toString());
         hotel.setName(createHotelParam.getName());
         hotel.setDescription(createHotelParam.getDescription());
         hotel.setAddress(createHotelParam.getAddress());
         hotel.setPostCode(createHotelParam.getPostCode());
         hotel.setOnSale(createHotelParam.getOnSale());
 
-        List<String> amenity_ids = createHotelParam.getAmenity_ids();
+        List<String> amenity_ids = createHotelParam.getAmenityIds();
         IHotelAmenityDao amenityDao = BeanManager.getLazyBeanByClass(HotelAmenityDao.class);
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);

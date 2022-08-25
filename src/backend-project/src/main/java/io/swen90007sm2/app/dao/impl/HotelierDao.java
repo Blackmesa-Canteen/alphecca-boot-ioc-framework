@@ -29,12 +29,15 @@ public class HotelierDao implements IHotelierDao {
     @Override
     public int updateOne(Hotelier entity) {
         int row = CRUDTemplate.executeNonQuery(
-                "UPDATE hotelier SET user_id = ?, password = ?, description = ?, user_name = ?, update_time=? WHERE id = ?",
-                entity.getUserId(),
+                "UPDATE hotelier SET password = ?, description = ?, " +
+                        "user_name = ?, update_time=?, avatar_url = ?, " +
+                        "hotel_id = ? WHERE id = ?",
                 entity.getPassword(),
                 entity.getDescription(),
                 entity.getUserName(),
                 new java.sql.Date(TimeUtil.now().getTime()),
+                entity.getAvatarUrl(),
+                entity.getHotelId(),
                 entity.getId()
         );
         return row;
