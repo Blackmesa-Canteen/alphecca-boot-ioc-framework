@@ -1,6 +1,7 @@
 package io.swen90007sm2.app.db.util;
 
 import io.swen90007sm2.alpheccaboot.exception.InternalException;
+import io.swen90007sm2.app.db.bean.BatchBean;
 import io.swen90007sm2.app.db.resolver.BeanListResultSetResolver;
 import io.swen90007sm2.app.db.resolver.BeanResultSetResolver;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class CRUDTemplate {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CRUDTemplate.class);
     /**
-     * execute sql of Update, deletion
+     * execute sql of Insertion Update, deletion
      * @return row num influenced
      */
     public static int executeNonQuery(String sql, Object... params) {
@@ -44,6 +45,40 @@ public class CRUDTemplate {
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error("Execute SQL ERROR in [{}] with param [{}]", sql, params, e);
+            throw new InternalException("database error， try again later");
+        } finally {
+            closeDbResource(conn, preparedStatement, null);
+        }
+    }
+
+    /**
+     * handles batch non queries
+     * @param batchBeans bean to hold one sql and params
+     */
+    public static void executeNonQueryBatch(List<BatchBean> batchBeans) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = getConnection();
+
+            for (BatchBean bean : batchBeans) {
+                String sql = bean.getSql();
+                Object[] params = bean.getParams();
+                preparedStatement = conn.prepareStatement(sql);
+                if (params != null) {
+                    for (int i = 0; i < params.length; i++) {
+                        // parameterIndex – the first parameter is 1, the second is 2, ...
+                        preparedStatement.setObject(i + 1, params[i]);
+                    }
+                }
+
+                LOGGER.info("Execute batch non query SQL [{}] with param [{}]", sql, params);
+                preparedStatement.executeUpdate();
+            }
+
+            LOGGER.info("batch operation finished.");
+        } catch (SQLException e) {
+            LOGGER.error("Execute batch SQL ERROR: ", e);
             throw new InternalException("database error， try again later");
         } finally {
             closeDbResource(conn, preparedStatement, null);

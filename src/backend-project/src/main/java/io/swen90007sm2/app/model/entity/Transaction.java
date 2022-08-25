@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.app.common.constant.CommonConstant;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -16,15 +18,15 @@ public class Transaction extends BaseEntity {
 
     private String hotelId;
 
-    private Integer statusCode;
+    private Integer statusCode = CommonConstant.TRANSACTION_PENDING;
 
     private Date startDate;
 
     private Date endDate;
 
-    private BigDecimal totalPrice;
+    private Double totalPrice;
 
-    private String currency;
+    private String currency = CommonConstant.AUD_CURRENCY;
 
     public Transaction() {
     }
@@ -33,7 +35,7 @@ public class Transaction extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
+    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, Double totalPrice, String currency) {
         this.transactionId = transactionId;
         this.customerId = customerId;
         this.hotelId = hotelId;
@@ -44,7 +46,7 @@ public class Transaction extends BaseEntity {
         this.currency = currency;
     }
 
-    public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
+    public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, Double totalPrice, String currency) {
         super(createTime, updateTime);
         this.transactionId = transactionId;
         this.customerId = customerId;
@@ -114,11 +116,11 @@ public class Transaction extends BaseEntity {
         this.endDate = endDate;
     }
 
-    public BigDecimal getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

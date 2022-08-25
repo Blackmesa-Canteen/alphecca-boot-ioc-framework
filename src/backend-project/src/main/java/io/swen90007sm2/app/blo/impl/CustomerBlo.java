@@ -2,7 +2,6 @@ package io.swen90007sm2.app.blo.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.cron.CronUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
@@ -11,14 +10,12 @@ import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.ICustomerBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
-import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.dao.impl.CustomerDao;
 import io.swen90007sm2.app.db.bean.PageBean;
-import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
@@ -29,14 +26,11 @@ import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
 import io.swen90007sm2.app.security.util.SecurityUtil;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Blo
 public class CustomerBlo implements ICustomerBlo {
@@ -207,7 +201,7 @@ public class CustomerBlo implements ICustomerBlo {
         customers.forEach(customer -> {
             if (customer != null) {
                 cache.put(
-                        CacheConstant.ENTITY_KEY_PREFIX + customer.getUserId(),
+                        CacheConstant.ENTITY_USER_KEY_PREFIX + customer.getUserId(),
                         customer,
                         RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                         TimeUnit.MILLISECONDS
@@ -241,7 +235,7 @@ public class CustomerBlo implements ICustomerBlo {
 
         // unit of work helper
         ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
-        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
 //        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
@@ -272,7 +266,7 @@ public class CustomerBlo implements ICustomerBlo {
         customerBean.setPassword(SecurityUtil.encrypt(newPassword));
         // unit of work
         ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
-        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
 //        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
@@ -320,26 +314,36 @@ public class CustomerBlo implements ICustomerBlo {
      * @param userId customer's userId
      * @return customer object
      */
-    private synchronized Customer getCustomerFromCacheOrDb(String userId) {
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+    private Customer getCustomerFromCacheOrDb(String userId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
         Customer customer = null;
         if (cacheItem.isEmpty()) {
-            ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
-            customer = customerDao.findOneByBusinessId(userId);
-            // if no such customer
-            if (customer == null) {
-                throw new RequestException (
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+            synchronized (this) {
+                cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
+                // if the result is still empty
+                if (cacheItem.isEmpty()) {
+                    ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
+                    customer = customerDao.findOneByBusinessId(userId);
+                    // if no such customer
+                    if (customer == null) {
+                        throw new RequestException (
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+                    }
+
+                    // use randomed expiration time to prevent Cache Avalanche
+                    cache.put(
+                            CacheConstant.ENTITY_USER_KEY_PREFIX + userId,
+                            customer,
+                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+                } else {
+                    // data is put by other thread, just get from cache.
+                    customer = (Customer) cacheItem.get();
+                }
             }
 
-            // use randomed expiration time to prevent Cache Avalanche
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    customer,
-                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                    TimeUnit.MILLISECONDS
-            );
         } else {
             customer = (Customer) cacheItem.get();
         }

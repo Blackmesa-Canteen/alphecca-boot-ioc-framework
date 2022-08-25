@@ -15,4 +15,20 @@ public interface IHotelAmenityDao extends IBaseDao<HotelAmenity>{
      * find the hotel amenity by amentity_id
      */
     HotelAmenity findOneAmenityByAmenityId(String amenityId);
+
+
+    /**
+     * Association query for all amenities belongs to one hotel
+     * @param hotelId hotelId
+     * @return List<HotelAmenity>
+     */
+    List<HotelAmenity> findAllAmenitiesByHotelId(String hotelId);
+
+    /**
+     * add amenity IDs to a hotel.
+     * @param amenityId
+     * @param hotelId
+     */
+    void  addAmenityIdsToHotel(List<String> amenityId, String hotelId);
 }
+

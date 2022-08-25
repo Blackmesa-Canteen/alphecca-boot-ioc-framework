@@ -3,9 +3,11 @@ package io.swen90007sm2.app.dao.impl;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.app.dao.IHotelAmenityDao;
+import io.swen90007sm2.app.db.bean.BatchBean;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -61,5 +63,34 @@ public class HotelAmenityDao implements IHotelAmenityDao {
                 "SELECT * FROM hotel_amenity WHERE amenity_id = ?",
                 amenityId
         );
+    }
+
+    @Override
+    // TODO need test
+    public List<HotelAmenity> findAllAmenitiesByHotelId(String hotelId) {
+        return CRUDTemplate.executeQueryWithMultiRes(
+                HotelAmenity.class,
+                "SELECT * FROM hotel_hotel_amenity INNER JOIN hotel_amenity USING (amenity_id) WHERE hotel_id = ?",
+                hotelId
+        );
+    }
+
+    @Override
+    // TODO need test
+    public void addAmenityIdsToHotel(List<String> amenityIds, String hotelId) {
+        String insertAssociationSql = "INSERT INTO hotel_hotel_amenity (amenity_id, hotel_id) values (?, ?)";
+
+        List<BatchBean> batchBeans = new LinkedList<>();
+        for (String amenityId : amenityIds) {
+            BatchBean batchBean = new BatchBean(
+                    insertAssociationSql,
+                    amenityId,
+                    hotelId
+            );
+
+            batchBeans.add(batchBean);
+        }
+
+        CRUDTemplate.executeNonQueryBatch(batchBeans);
     }
 }

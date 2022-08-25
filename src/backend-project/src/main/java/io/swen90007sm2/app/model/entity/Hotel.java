@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Hotel extends BaseEntity{
@@ -8,12 +9,12 @@ public class Hotel extends BaseEntity{
     private String description;
     private String address;
     private String postCode;
-    private Double minPrice;
+    private Double minPrice = 0.0;
 
-    private String currency;
+    private String currency = "AUD";
 
-    private Integer rank;
-    private Boolean onSale;
+    private Integer rank = 3;
+    private Boolean onSale = false;
 
     public Hotel() {
     }

@@ -13,11 +13,7 @@ import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.IHotelierDao;
-import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
-import io.swen90007sm2.app.model.entity.Hotelier;
-import io.swen90007sm2.app.model.entity.Hotelier;
-import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
@@ -26,7 +22,6 @@ import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
 import io.swen90007sm2.app.security.util.SecurityUtil;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -149,7 +144,7 @@ public class HotelierBlo implements IHotelierBlo {
             );
         }
         hotelierBean.setPassword(SecurityUtil.encrypt(newPassword));
-        UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, CacheConstant.ENTITY_KEY_PREFIX + userId);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 
@@ -176,29 +171,37 @@ public class HotelierBlo implements IHotelierBlo {
         return res;
     }
 
-    private synchronized Hotelier getHotelierFromCacheOrDb(String userId) {
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
+    private Hotelier getHotelierFromCacheOrDb(String userId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
         Hotelier hotelier = null;
         if (cacheItem.isEmpty()) {
-            hotelier = hotelierDao.findOneByBusinessId(userId);
-            // if no such hotelier
-            if (hotelier == null) {
-                throw new RequestException (
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
-            }
+            synchronized (this) {
+                cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
+                if (cacheItem.isEmpty()) {
+                    hotelier = hotelierDao.findOneByBusinessId(userId);
+                    // if no such hotelier
+                    if (hotelier == null) {
+                        throw new RequestException (
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+                    }
 
-            // use randomed expiration time to prevent Cache Avalanche
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    hotelier,
-                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                    TimeUnit.MILLISECONDS
-            );
+                    // use randomed expiration time to prevent Cache Avalanche
+                    cache.put(
+                            CacheConstant.ENTITY_USER_KEY_PREFIX + userId,
+                            hotelier,
+                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+                } else {
+                    hotelier = (Hotelier) cacheItem.get();
+                }
+            }
         } else {
             hotelier = (Hotelier) cacheItem.get();
         }
-        return hotelier;    }
+        return hotelier;
+    }
 
     private void checkTokenValidity(AuthToken authToken) {
         String key = CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId();
