@@ -94,11 +94,7 @@ public class CustomerBlo implements ICustomerBlo {
     }
 
     @Override
-    public void doLogout(HttpServletRequest request) {
-        // get current user id
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-
+    public void doLogout(AuthToken authToken) {
         // remove cache state from token cache to logout
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
@@ -219,11 +215,7 @@ public class CustomerBlo implements ICustomerBlo {
     }
 
     @Override
-    public void doUpdateUserExceptPassword(HttpServletRequest request, UserUpdateParam param) {
-        // get current user id
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
+    public void doUpdateUserExceptPassword(String userId, UserUpdateParam param) {
         // get record
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
@@ -242,11 +234,7 @@ public class CustomerBlo implements ICustomerBlo {
     }
 
     @Override
-    public void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword) {
-        // get current user id
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
+    public void doUpdateUserPassword(String userId, String originalPassword, String newPassword) {
 
         // get record
         // cache result bean as the Identity map
@@ -272,7 +260,7 @@ public class CustomerBlo implements ICustomerBlo {
 //        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
 
         // logout, clear up login state
-        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + userId);
     }
 
     /**

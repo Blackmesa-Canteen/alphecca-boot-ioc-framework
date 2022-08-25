@@ -117,22 +117,13 @@ public class HotelierBlo implements IHotelierBlo {
     }
 
     @Override
-    public void doLogout(HttpServletRequest request) {
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        System.out.println(authToken.getUserId());
+    public void doLogout(AuthToken authToken) {
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
-
     }
 
 
     @Override
-    public void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword) {
-        // get current user id
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
-
+    public void doUpdateUserPassword(String userId, String originalPassword, String newPassword) {
         Hotelier hotelierBean = getHotelierFromCacheOrDb(userId);
 
         String originalCypher = hotelierBean.getPassword();
@@ -145,7 +136,7 @@ public class HotelierBlo implements IHotelierBlo {
         }
         hotelierBean.setPassword(SecurityUtil.encrypt(newPassword));
         UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
-        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + userId);
     }
 
     @Override

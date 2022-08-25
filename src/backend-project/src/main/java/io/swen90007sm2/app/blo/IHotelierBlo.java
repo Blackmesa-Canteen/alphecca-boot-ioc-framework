@@ -12,9 +12,9 @@ public interface IHotelierBlo {
 
     void doRegisterUser(UserRegisterParam userRegisterParam);
 
-    void doLogout(HttpServletRequest request);
+    void doLogout(AuthToken authToken);
 
-    void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword);
+    void doUpdateUserPassword(String userId, String originalPassword, String newPassword);
 
     Hotelier getHotelierInfoByToken(String header);
 

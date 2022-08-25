@@ -17,6 +17,7 @@ import io.swen90007sm2.app.model.param.PasswordUpdateParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
+import io.swen90007sm2.app.security.helper.TokenHelper;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,15 +49,23 @@ public class HotelierController {
     @HandlesRequest(path = "/logout", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R logout(HttpServletRequest request) {
-        hotelierBlo.doLogout(request);
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+
+        hotelierBlo.doLogout(authToken);
         return R.ok();
     }
 
     @HandlesRequest(path = "/login", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R changeUserPassword(HttpServletRequest request, @RequestJsonBody @Valid PasswordUpdateParam param) {
+        // get current user id
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+
         UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
-        hotelierBlo.doUpdateUserPassword(request,
+        hotelierBlo.doUpdateUserPassword(userId,
                 param.getOriginalPassword(),
                 param.getNewPassword()
         );

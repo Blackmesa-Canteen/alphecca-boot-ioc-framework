@@ -20,9 +20,9 @@ public interface ICustomerBlo {
 
     /**
      * logout current customer
-     * @param request http request
+     * @param authToken token obj
      */
-    void doLogout(HttpServletRequest request);
+    void doLogout(AuthToken authToken);
 
     /**
      * get userInfo bean from db with token
@@ -56,13 +56,13 @@ public interface ICustomerBlo {
      * update user info, except password.
      * will check request token to find target customer to modify on
      */
-    void doUpdateUserExceptPassword(HttpServletRequest request, UserUpdateParam param);
+    void doUpdateUserExceptPassword(String userId, UserUpdateParam param);
 
     /**
      * update customer pwd
-     * @param request request
+     * @param userId current login user id
      * @param originalPassword original pwd
      * @param newPassword new pwd
      */
-    void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword);
+    void doUpdateUserPassword(String userId, String originalPassword, String newPassword);
 }
