@@ -25,16 +25,15 @@ public class HotelDao implements IHotelDao{
     @Override
     public int insertOne(Hotel entity) {
         int row = CRUDTemplate.executeNonQuery(
-                "INSERT INTO hotel (id, hotel_id, name, description, address, post_code, on_sale, currency) " +
-                        "values (?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO hotel (id, hotel_id, name, description, address, post_code, on_sale) " +
+                        "values (?, ?, ?, ?, ?, ?, ?)",
                 entity.getId(),
                 entity.getHotelId(),
                 entity.getName(),
                 entity.getDescription(),
                 entity.getAddress(),
                 entity.getPostCode(),
-                entity.getOnSale(),
-                entity.getCurrency()
+                entity.getOnSale()
         );
 
         return row;

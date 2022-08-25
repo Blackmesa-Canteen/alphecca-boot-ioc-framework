@@ -19,7 +19,6 @@ import static io.swen90007sm2.app.db.helper.DbHelper.*;
  * CRUD template
  *
  * @author xiaotain li
- * @author https://blog.csdn.net/guanmao4322/article/details/106084049
  */
 public class CRUDTemplate {
 
