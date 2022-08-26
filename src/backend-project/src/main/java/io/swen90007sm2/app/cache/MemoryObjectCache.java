@@ -42,7 +42,7 @@ public class MemoryObjectCache extends AbstractTimedCache<String, Object> {
 
         // auto cleanup, one clean up per 1 hour
         CronUtil.schedule(
-                "*/1 * * * *",
+                "*/59 * * * *",
                 new Task() {
                     @Override
                     public void execute() {
