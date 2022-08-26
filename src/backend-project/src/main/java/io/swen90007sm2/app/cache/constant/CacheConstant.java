@@ -25,5 +25,5 @@ public interface CacheConstant {
     // almost static data, like amenities, have 60 minutes expiration time
     Long CACHE_COLD_EXPIRATION_PERIOD_MAX = (long) (60 * 60 * 60 * 1000);
 
-    Integer CLEANING_THRESHOLD = 255;
+    Integer CLEANING_THRESHOLD = 127;
 }
