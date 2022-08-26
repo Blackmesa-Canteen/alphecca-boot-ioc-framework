@@ -9,6 +9,8 @@ import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IHotelBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.cache.util.CacheUtil;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.IHotelAmenityDao;
@@ -17,13 +19,13 @@ import io.swen90007sm2.app.dao.IHotelierDao;
 import io.swen90007sm2.app.dao.impl.HotelAmenityDao;
 import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.dao.impl.HotelierDao;
+import io.swen90007sm2.app.model.entity.BaseEntity;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.CreateHotelParam;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Blo
@@ -78,6 +80,82 @@ public class HotelBlo implements IHotelBlo {
                     hotel.getHotelId()
             );
         }
+    }
+
+    @Override
+    public List<Hotel> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize) {
+        return null;
+    }
+
+    @Override
+    public List<Hotel> getHotelsByPageSortedByPrice(Integer pageNum, Integer pageSize, Integer order) {
+        return null;
+    }
+
+    @Override
+    public List<Hotel> getHotelsByPageSortedByRank(Integer pageNum, Integer pageSize, Integer order) {
+        return null;
+    }
+
+    @Override
+    public List<Hotel> searchHotelsByPageByName(Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order) {
+        List<Hotel> hotels = null;
+        // cache method res
+        Object[] params = {name, sortBy, order};
+        String methodName = "searchHotelsByPageByName";
+        Object result = CacheUtil.getMethodResultFromCache(methodName, params);
+        if (result != null) {
+            hotels = (List<Hotel>) result;
+        } else {
+            synchronized (this) {
+                result = CacheUtil.getMethodResultFromCache(methodName, params);
+                if (result == null) {
+                    // fetch data from db
+                    IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+                    hotels = hotelDao.findAllByName(true, name);
+
+                    // need to sort the result, we are using logical paging, we fetch all data from db, and sort.
+                    // This is because search data has limited number
+                    if (sortBy == null || order == null) {
+                        // if there is no sort params come in...
+                        // by default, sort by rank desc
+                        hotels.sort((hotel1, hotel2)-> hotel2.getRank() - hotel1.getRank());
+
+                    } else {
+                        // sort the result, default is up and by rank
+                        if (sortBy.equals(CommonConstant.SORT_BY_PRICE)) {
+                            hotels.sort(Comparator.comparing(Hotel::getMinPrice));
+                        } else if (sortBy.equals(CommonConstant.SORT_BY_CREATE_TIME)) {
+                            hotels.sort(Comparator.comparing(Hotel::getCreateTime));
+                        } else {
+                            hotels.sort(Comparator.comparingInt(Hotel::getRank));
+                        }
+
+                        // if sort down, revert the list
+                        if (!order.equals(CommonConstant.SORT_UP)) {
+                            Collections.reverse(hotels);
+                        }
+                    }
+
+                    CacheUtil.putMethodResultInCache(
+                            methodName,
+                            hotels,
+                            RandomUtil.randomLong(CacheConstant.CACHE_HOT_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                            );
+
+                } else {
+                    hotels = (List<Hotel>) result;
+                }
+            }
+        }
+
+        return hotels;
+    }
+
+    @Override
+    public List<Hotel> searchHotelsByPageByPostCode(Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order) {
+        return null;
     }
 
     private Hotelier getHotelierFromCacheOrDb(String userId) {

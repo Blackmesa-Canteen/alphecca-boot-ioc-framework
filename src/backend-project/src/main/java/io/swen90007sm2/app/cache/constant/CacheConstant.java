@@ -4,6 +4,7 @@ public interface CacheConstant {
 
     String TOKEN_KEY_PREFIX = "token-for-";
 
+    String METHOD_CACHE_PREFIX = "mc-";
     String ENTITY_USER_KEY_PREFIX = "entity-user-";
     String ENTITY_HOTEL_KEY_PREFIX = "entity-hotel-";
 

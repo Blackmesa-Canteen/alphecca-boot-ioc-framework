@@ -145,14 +145,22 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public List<Hotel> findAllByPageByPostCode(Integer start, Integer rows, boolean onSale, String postCode) {
+    public List<Hotel> findAllByPostCode(boolean onSale, String postCode) {
         return CRUDTemplate.executeQueryWithMultiRes(
                 Hotel.class,
-                "SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? OFFSET ? LIMIT ? ORDER BY rank DESC",
+                "SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC",
                 onSale,
-                postCode,
-                start,
-                rows
+                postCode
+        );
+    }
+
+    @Override
+    public List<Hotel> findAllByName(boolean onSale, String name) {
+        return CRUDTemplate.executeQueryWithMultiRes(
+                Hotel.class,
+                "SELECT * FROM hotel WHERE on_sale = ? AND name ~ '^?' ORDER BY rank DESC",
+                onSale,
+                name
         );
     }
 

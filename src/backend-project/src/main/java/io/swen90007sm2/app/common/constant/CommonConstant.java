@@ -16,4 +16,8 @@ public interface CommonConstant {
     Integer TRANSACTION_FINISHED = 2;
     Integer TRANSACTION_CANCELLED = -1;
 
+    Integer SORT_BY_CREATE_TIME = 0;
+    Integer SORT_BY_PRICE = 1;
+    Integer SORT_BY_RANK = 2;
+
 }

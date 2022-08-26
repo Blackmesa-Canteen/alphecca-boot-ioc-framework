@@ -39,7 +39,9 @@ public interface IHotelDao extends IBaseDao<Hotel>{
     /**
      * find hotels by post code
      */
-    List<Hotel> findAllByPageByPostCode(Integer start, Integer rows, boolean onSale, String postCode);
+    List<Hotel> findAllByPostCode(boolean onSale, String postCode);
+
+    List<Hotel> findAllByName(boolean onSale, String name);
 
     /**
      * Find Hotel in database by hotelId
@@ -47,4 +49,5 @@ public interface IHotelDao extends IBaseDao<Hotel>{
      * @return Customer Entity
      */
     Hotel findOneByBusinessId(String hotelId);
+
 }
