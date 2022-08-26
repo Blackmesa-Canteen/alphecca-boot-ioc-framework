@@ -150,7 +150,23 @@ public class HotelBlo implements IHotelBlo {
             }
         }
 
-        return hotels;
+        // logical paging
+        int totalRowNum = hotels.size();
+        int totalPageNum = (totalRowNum % pageSize == 0 ? (totalRowNum / pageSize) : (totalRowNum / pageSize + 1));
+        int currentPageNo = 0;
+        if (pageNum == null || pageNum < 0) {
+            currentPageNo = 1;
+        } else if (pageNum > totalPageNum && totalPageNum > 0) {
+            currentPageNo = totalPageNum;
+        }
+
+        int startRow = (currentPageNo - 1) * pageSize;
+
+        if (startRow + pageSize <= totalRowNum) {
+            return hotels.subList(startRow, startRow + pageSize);
+        } else {
+            return hotels.subList(startRow, totalRowNum);
+        }
     }
 
     @Override
