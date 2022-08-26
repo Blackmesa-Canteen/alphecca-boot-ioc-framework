@@ -13,14 +13,14 @@ public class RoomOrder extends BaseEntity{
 
     private Integer orderedCount;
 
-    private Double pricePerRoom;
+    private BigDecimal pricePerRoom;
 
     private String currency;
 
     public RoomOrder() {
     }
 
-    public RoomOrder(String roomOrderId, String transactionId, String roomId, Integer orderedCount, Double pricePerRoom, String currency) {
+    public RoomOrder(String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
@@ -29,7 +29,7 @@ public class RoomOrder extends BaseEntity{
         this.currency = currency;
     }
 
-    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, Double pricePerRoom, String currency) {
+    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
         super(createTime, updateTime);
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
@@ -39,7 +39,7 @@ public class RoomOrder extends BaseEntity{
         this.currency = currency;
     }
 
-    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, Double pricePerRoom) {
+    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom) {
         super(createTime, updateTime);
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
@@ -80,11 +80,11 @@ public class RoomOrder extends BaseEntity{
         this.orderedCount = orderedCount;
     }
 
-    public Double getPricePerRoom() {
+    public BigDecimal getPricePerRoom() {
         return pricePerRoom;
     }
 
-    public void setPricePerRoom(Double pricePerRoom) {
+    public void setPricePerRoom(BigDecimal pricePerRoom) {
         this.pricePerRoom = pricePerRoom;
     }
 

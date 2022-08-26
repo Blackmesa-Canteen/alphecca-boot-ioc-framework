@@ -1,5 +1,7 @@
 package io.swen90007sm2.alpheccaboot.common.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 
@@ -19,7 +21,15 @@ public class ObjectUtil {
      */
     public static Object convertString2Object(String srcText, Class<?> targetClass) {
         PropertyEditor editor = PropertyEditorManager.findEditor(targetClass);
-        editor.setAsText(srcText);
+        if (targetClass.equals(String.class)) {
+            editor.setAsText(srcText);
+        } else {
+            if (StringUtils.isNotEmpty(srcText)) {
+                editor.setAsText(srcText);
+            } else {
+                editor.setValue(null);
+            }
+        }
         return editor.getValue();
     }
 }

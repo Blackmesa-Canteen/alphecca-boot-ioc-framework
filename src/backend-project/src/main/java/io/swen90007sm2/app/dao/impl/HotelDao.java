@@ -158,9 +158,9 @@ public class HotelDao implements IHotelDao{
     public List<Hotel> findAllByName(boolean onSale, String name) {
         return CRUDTemplate.executeQueryWithMultiRes(
                 Hotel.class,
-                "SELECT * FROM hotel WHERE on_sale = ? AND name ~ '^?' ORDER BY rank DESC",
+                "SELECT * FROM hotel WHERE on_sale = ? AND name LIKE ? ORDER BY rank DESC",
                 onSale,
-                name
+                "%" + name + "%"
         );
     }
 

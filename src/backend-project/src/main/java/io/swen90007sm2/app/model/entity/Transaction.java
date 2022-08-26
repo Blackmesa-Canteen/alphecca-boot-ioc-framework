@@ -24,7 +24,7 @@ public class Transaction extends BaseEntity {
 
     private Date endDate;
 
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     private String currency = CommonConstant.AUD_CURRENCY;
 
@@ -35,7 +35,7 @@ public class Transaction extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, Double totalPrice, String currency) {
+    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
         this.transactionId = transactionId;
         this.customerId = customerId;
         this.hotelId = hotelId;
@@ -46,7 +46,7 @@ public class Transaction extends BaseEntity {
         this.currency = currency;
     }
 
-    public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, Double totalPrice, String currency) {
+    public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
         super(createTime, updateTime);
         this.transactionId = transactionId;
         this.customerId = customerId;
@@ -116,11 +116,11 @@ public class Transaction extends BaseEntity {
         this.endDate = endDate;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

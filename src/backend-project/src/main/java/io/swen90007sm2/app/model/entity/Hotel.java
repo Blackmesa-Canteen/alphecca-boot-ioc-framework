@@ -9,7 +9,7 @@ public class Hotel extends BaseEntity{
     private String description;
     private String address;
     private String postCode;
-    private Double minPrice = 0.0;
+    private BigDecimal minPrice = BigDecimal.valueOf(0.0);
 
     private String currency = "AUD";
 
@@ -24,7 +24,7 @@ public class Hotel extends BaseEntity{
     }
 
 
-    public Hotel(String hotelId, String name, String description, String address, String postCode, Double minPrice, String currency, Integer rank, Boolean onSale) {
+    public Hotel(String hotelId, String name, String description, String address, String postCode, BigDecimal minPrice, String currency, Integer rank, Boolean onSale) {
         this.hotelId = hotelId;
         this.name = name;
         this.description = description;
@@ -36,7 +36,7 @@ public class Hotel extends BaseEntity{
         this.onSale = onSale;
     }
 
-    public Hotel(Date createTime, Date updateTime, String hotelId, String name, String description, String address, String postCode, Double minPrice, String currency, Integer rank, Boolean onSale) {
+    public Hotel(Date createTime, Date updateTime, String hotelId, String name, String description, String address, String postCode, BigDecimal minPrice, String currency, Integer rank, Boolean onSale) {
         super(createTime, updateTime);
         this.hotelId = hotelId;
         this.name = name;
@@ -89,11 +89,11 @@ public class Hotel extends BaseEntity{
         this.postCode = postCode;
     }
 
-    public Double getMinPrice() {
+    public BigDecimal getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(Double minPrice) {
+    public void setMinPrice(BigDecimal minPrice) {
         this.minPrice = minPrice;
     }
 

@@ -116,7 +116,7 @@ public class HotelBlo implements IHotelBlo {
 
                     // need to sort the result, we are using logical paging, we fetch all data from db, and sort.
                     // This is because search data has limited number
-                    if (sortBy == null || order == null) {
+                    if (sortBy == null) {
                         // if there is no sort params come in...
                         // by default, sort by rank desc
                         hotels.sort((hotel1, hotel2)-> hotel2.getRank() - hotel1.getRank());
@@ -141,7 +141,8 @@ public class HotelBlo implements IHotelBlo {
                             methodName,
                             hotels,
                             RandomUtil.randomLong(CacheConstant.CACHE_HOT_EXPIRATION_PERIOD_MAX),
-                            TimeUnit.MILLISECONDS
+                            TimeUnit.MILLISECONDS,
+                            params
                             );
 
                 } else {
@@ -153,11 +154,14 @@ public class HotelBlo implements IHotelBlo {
         // logical paging
         int totalRowNum = hotels.size();
         int totalPageNum = (totalRowNum % pageSize == 0 ? (totalRowNum / pageSize) : (totalRowNum / pageSize + 1));
-        int currentPageNo = 0;
-        if (pageNum == null || pageNum < 0) {
+        int currentPageNo;
+        if (pageNum == null || pageNum <= 0) {
             currentPageNo = 1;
         } else if (pageNum > totalPageNum && totalPageNum > 0) {
-            currentPageNo = totalPageNum;
+            // over range page no, return nothing
+            return new ArrayList<>();
+        } else {
+            currentPageNo = pageNum;
         }
 
         int startRow = (currentPageNo - 1) * pageSize;

@@ -6,6 +6,7 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 
 import java.util.Optional;
 import java.util.Random;
@@ -46,7 +47,12 @@ public class CacheUtil {
         sb.append(CacheConstant.METHOD_CACHE_PREFIX);
         sb.append(methodName);
         for (Object param : params) {
-            sb.append(param.toString());
+            if (param != null) {
+                sb.append(param.toString());
+            } else {
+                sb.append(CommonConstant.NULL);
+            }
+
         }
 
         return  sb.toString();
