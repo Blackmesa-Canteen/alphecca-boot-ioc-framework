@@ -7,8 +7,9 @@ public enum StatusCodeEnume {
 
     /* General code*/
     SUCCESS(200, "Ok"),
+    NOT_IMPLEMENTED_EXCEPTION(500, "This interface has not implemented yet"),
     SERVER_INTERNAL_EXCEPTION(500, "Server Internal Error, please contact admin."),
-    GENERAL_INTERNAL_EXCEPTION(400, "Bad request."),
+    GENERAL_REQUEST_EXCEPTION(400, "Bad request."),
     RESOURCE_NOT_FOUND_EXCEPTION(404, "Resource not found"),
     REQUEST_FORBIDDEN_EXCEPTION(403, "Request Forbidden."),
 

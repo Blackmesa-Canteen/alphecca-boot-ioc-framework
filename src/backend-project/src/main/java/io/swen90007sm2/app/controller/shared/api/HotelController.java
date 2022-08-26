@@ -7,6 +7,11 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IHotelBlo;
+import io.swen90007sm2.app.common.constant.StatusCodeEnume;
+import io.swen90007sm2.app.model.entity.Hotel;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * @author 996Worker
@@ -29,7 +34,26 @@ public class HotelController {
     public R searchHotels(@QueryParam("hotelName") String hotelName, @QueryParam("postCode") String postCode,
                           @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder,
                           @QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize) {
-        return R.ok();
+
+        List<Hotel> hotels = null;
+        if (StringUtils.isNotEmpty(hotelName)) {
+            hotels = hotelBlo.searchHotelsByPageByName(
+                    pageNum, pageSize, hotelName, sortBy, sortOrder
+            );
+
+        } else if (StringUtils.isNotEmpty(postCode)) {
+            return R.error(
+                    StatusCodeEnume.NOT_IMPLEMENTED_EXCEPTION.getCode(),
+                    StatusCodeEnume.NOT_IMPLEMENTED_EXCEPTION.getMessage()
+            );
+        } else {
+            return R.error(
+                    StatusCodeEnume.GENERAL_REQUEST_EXCEPTION.getCode(),
+                    "can not get search result by current search query param,"
+            );
+        }
+
+        return R.ok().setData(hotels);
     }
 
 }
