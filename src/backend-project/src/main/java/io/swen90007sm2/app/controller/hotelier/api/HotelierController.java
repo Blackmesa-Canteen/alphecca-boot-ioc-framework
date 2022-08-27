@@ -12,7 +12,6 @@ import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.common.constant.CommonConstant;
-import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.PasswordUpdateParam;
@@ -34,9 +33,7 @@ public class HotelierController {
 
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     public R register(@RequestJsonBody @Valid UserRegisterParam userRegisterParam) {
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         hotelierBlo.doRegisterUser(userRegisterParam);
-        UnitOfWorkHelper.getCurrent().commit();
         return R.ok();
     }
 
@@ -66,12 +63,10 @@ public class HotelierController {
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
 
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         hotelierBlo.doUpdateUserPassword(userId,
                 param.getOriginalPassword(),
                 param.getNewPassword()
         );
-        UnitOfWorkHelper.getCurrent().commit();
 
         return R.ok();
     }

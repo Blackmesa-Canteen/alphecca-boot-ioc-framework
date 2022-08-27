@@ -52,10 +52,12 @@ public class UnitOfWorkHelper {
             return current.get();
         }
 
+        LOGGER.info("Unit of work loaded.");
         return current.get();
     }
 
     public static UnitOfWorkHelper getCurrent() {
+        LOGGER.info("Unit of work startup.");
         return current.get();
     }
 
@@ -150,5 +152,7 @@ public class UnitOfWorkHelper {
                 LOGGER.error("Uow deletion error: ", e);
             }
         }
+
+        LOGGER.info("Unit of work committed.");
     }
 }

@@ -56,12 +56,10 @@ public class CustomerController {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         customerBlo.doUpdateUserPassword(userId,
                 param.getOriginalPassword(),
                 param.getNewPassword()
         );
-        UnitOfWorkHelper.getCurrent().commit();
 
         return R.ok();
     }
@@ -90,9 +88,7 @@ public class CustomerController {
      */
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     public R register(@RequestJsonBody @Valid UserRegisterParam userRegisterParam) {
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         customerBlo.doRegisterUser(userRegisterParam);
-        UnitOfWorkHelper.getCurrent().commit();
         return R.ok();
     }
 
@@ -136,9 +132,7 @@ public class CustomerController {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         customerBlo.doUpdateUserExceptPassword(userId, userUpdateParam);
-        UnitOfWorkHelper.getCurrent().commit();
         return R.ok();
     }
 

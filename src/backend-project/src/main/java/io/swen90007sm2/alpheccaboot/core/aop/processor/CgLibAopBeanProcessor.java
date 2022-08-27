@@ -13,7 +13,7 @@ import io.swen90007sm2.alpheccaboot.core.aop.proxy.CglibProxy;
  *
  * @author xiaotian
  */
-@Deprecated
+
 public class CgLibAopBeanProcessor extends AbstractAopBeanProcessor {
     @Override
     public Object enhanceBean(Object bean, AbstractInterceptor interceptor) {
