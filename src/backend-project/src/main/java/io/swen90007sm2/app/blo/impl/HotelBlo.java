@@ -67,13 +67,14 @@ public class HotelBlo implements IHotelBlo {
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
 
-        // get cooresponding hotelier info
-        Hotelier hotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
-        hotelier.setHotelId(hotel.getHotelId());
-
+        // Atom operations, need lock
         synchronized (this) {
             // firstly, insert new hotel
             hotelDao.insertOne(hotel);
+
+            // get cooresponding hotelier info
+            Hotelier hotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+            hotelier.setHotelId(hotel.getHotelId());
 
             // update hotelier info
             hotelierDao.updateOne(hotelier);
