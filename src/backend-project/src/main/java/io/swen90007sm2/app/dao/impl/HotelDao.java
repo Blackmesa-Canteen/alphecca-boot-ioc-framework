@@ -82,14 +82,25 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public List<Hotel> findAllByPage(Integer start, Integer rows, boolean onSale) {
-        List<Hotel> hotels = CRUDTemplate.executeQueryWithMultiRes(
-                Hotel.class,
-                "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY create_time DESC",
-                onSale,
-                start,
-                rows
-        );
+    public List<Hotel> findAllByPageByDate(Integer start, Integer rows, int sortType, boolean onSale) {
+        List<Hotel> hotels;
+        if (sortType == CommonConstant.SORT_UP) {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY create_time ASC",
+                    onSale,
+                    start,
+                    rows
+            );
+        } else {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY create_time DESC",
+                    onSale,
+                    start,
+                    rows
+            );
+        }
 
         return hotels;
     }

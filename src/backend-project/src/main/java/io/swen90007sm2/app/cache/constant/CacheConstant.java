@@ -22,6 +22,9 @@ public interface CacheConstant {
     // need to use random period to prevent cache avalanche
     Long CACHE_HOT_EXPIRATION_PERIOD_MAX = (long) (30 * 1000);
 
+    // used for data that requires consistency
+    Long CACHE_POPULAR_EXPIRATION_PERIOD_MAX = (long) (10 * 1000);
+
     // almost static data, like amenities, have 60 minutes expiration time
     Long CACHE_COLD_EXPIRATION_PERIOD_MAX = (long) (60 * 60 * 60 * 1000);
 

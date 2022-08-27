@@ -50,7 +50,7 @@ public class HotelierBlo implements IHotelierBlo {
          * data in the cache will be expired to guarantee data eventually consistent
          * <br/>
          */
-        Hotelier hotelier = getHotelierFromCacheOrDb(userId);
+        Hotelier hotelier = getHotelierInfoByUserId(userId);
 
         // prevent double login, check token cache
         // watch out: different Cache prefix
@@ -124,7 +124,7 @@ public class HotelierBlo implements IHotelierBlo {
 
     @Override
     public void doUpdateUserPassword(String userId, String originalPassword, String newPassword) {
-        Hotelier hotelierBean = getHotelierFromCacheOrDb(userId);
+        Hotelier hotelierBean = getHotelierInfoByUserId(userId);
 
         String originalCypher = hotelierBean.getPassword();
 
@@ -144,7 +144,7 @@ public class HotelierBlo implements IHotelierBlo {
         AuthToken authToken = TokenHelper.parseAuthTokenString(header);
         String userId = authToken.getUserId();
         checkTokenValidity(authToken);
-        Hotelier hotelierBean = getHotelierFromCacheOrDb(userId);
+        Hotelier hotelierBean = getHotelierInfoByUserId(userId);
         Hotelier res = new Hotelier();
         // Return the hotelier info without password.
         BeanUtil.copyProperties(hotelierBean, res);
@@ -154,15 +154,6 @@ public class HotelierBlo implements IHotelierBlo {
 
     @Override
     public Hotelier getHotelierInfoByUserId(String userId) {
-        Hotelier hotelierBean = getHotelierFromCacheOrDb(userId);
-        Hotelier res = new Hotelier();
-        // Return the hotelier info without password.
-        BeanUtil.copyProperties(hotelierBean, res);
-        res.setPassword(CommonConstant.NULL);
-        return res;
-    }
-
-    private Hotelier getHotelierFromCacheOrDb(String userId) {
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
         Hotelier hotelier = null;
         if (cacheItem.isEmpty()) {

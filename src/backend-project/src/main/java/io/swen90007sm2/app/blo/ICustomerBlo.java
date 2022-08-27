@@ -38,9 +38,18 @@ public interface ICustomerBlo {
     void doRegisterUser(UserRegisterParam registerParam);
 
     /**
-     * get userInfoBean by userId
-     * @param userId user id string
-     * @return Customer bean
+     * Identity Map's cache-Aside implementation
+     * <br/>
+     * if the data exists, get from cache,
+     * if not, get from db.
+     * <br/>
+     * data in the cache will be expired to guarantee data eventually consistent
+     * <br/>
+     * using synchronized to prevent Cache Penetration, guarantee only one thread can update the cache,
+     * rather than multiple threads rushed to query database and refresh cache again and again.
+     *
+     * @param userId customer's userId
+     * @return customer object
      */
     Customer getUserInfoBasedByUserId(String userId);
 

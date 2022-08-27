@@ -42,9 +42,8 @@ public class HotelController {
             );
 
         } else if (StringUtils.isNotEmpty(postCode)) {
-            return R.error(
-                    StatusCodeEnume.NOT_IMPLEMENTED_EXCEPTION.getCode(),
-                    StatusCodeEnume.NOT_IMPLEMENTED_EXCEPTION.getMessage()
+            hotels = hotelBlo.searchHotelsByPageByPostCode(
+                    pageNum, pageSize, postCode, sortBy, sortOrder
             );
         } else {
             return R.error(

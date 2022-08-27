@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.controller.hotelier.api;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.swen90007sm2.alpheccaboot.annotation.filter.AppliesFilter;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
@@ -10,6 +11,7 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.cache.util.CacheUtil;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
@@ -84,7 +86,12 @@ public class HotelierController {
             System.out.println("get by userId");
             hotelierBean = hotelierBlo.getHotelierInfoByUserId(userId);
         }
-        return R.ok().setData(hotelierBean);
+
+        Hotelier res = new Hotelier();
+        // Return the hotelier info without password.
+        BeanUtil.copyProperties(hotelierBean, res);
+        res.setPassword(CommonConstant.NULL);
+        return R.ok().setData(res);
     }
 
 }

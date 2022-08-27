@@ -14,7 +14,14 @@ public interface IHotelBlo {
      */
     void doCreateHotel(String hotelierId, CreateHotelParam createHotelParam);
 
-    List<Hotel> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize);
+    /**
+     * returns hotel entity by hotelId
+     * @param hotelId hotelId
+     * @return hotel entity
+     */
+    Hotel getHotelInfoByHotelId(String hotelId);
+
+    List<Hotel> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize, Integer order);
 
     List<Hotel> getHotelsByPageSortedByPrice(Integer pageNum, Integer pageSize, Integer order);
 

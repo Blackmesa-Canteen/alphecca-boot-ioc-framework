@@ -58,7 +58,7 @@ public class CustomerBlo implements ICustomerBlo {
          * data in the cache will be expired to guarantee data eventually consistent
          * <br/>
          */
-        Customer customer = getCustomerFromCacheOrDb(userId);
+        Customer customer = getUserInfoBasedByUserId(userId);
 
         // prevent double login, check token cache
         // watch out: different Cache prefix
@@ -108,7 +108,7 @@ public class CustomerBlo implements ICustomerBlo {
         checkTokenValidity(authToken);
 
         // get cache result bean as the Identity map
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+        Customer customerBean = getUserInfoBasedByUserId(userId);
 
         // need to copy bean, because we need to remove sensitive data for showing,
         // without affecting the database record in cache
@@ -152,20 +152,55 @@ public class CustomerBlo implements ICustomerBlo {
 //        customerDao.insertOne(customer);
     }
 
+    /**
+     * Identity Map's cache-Aside implementation
+     * <br/>
+     * if the data exists, get from cache,
+     * if not, get from db.
+     * <br/>
+     * data in the cache will be expired to guarantee data eventually consistent
+     * <br/>
+     * using synchronized to prevent Cache Penetration, guarantee only one thread can update the cache,
+     * rather than multiple threads rushed to query database and refresh cache again and again.
+     *
+     * @param userId customer's userId
+     * @return customer object
+     */
     @Override
     public Customer getUserInfoBasedByUserId(String userId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
+        Customer customer = null;
+        if (cacheItem.isEmpty()) {
+            synchronized (this) {
+                cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
+                // if the result is still empty
+                if (cacheItem.isEmpty()) {
+                    ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
+                    customer = customerDao.findOneByBusinessId(userId);
+                    // if no such customer
+                    if (customer == null) {
+                        throw new RequestException (
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+                    }
 
-        // cache result bean as the Identity map
-        // use random expiration time to prevent Cache avalanche
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+                    // use randomed expiration time to prevent Cache Avalanche
+                    cache.put(
+                            CacheConstant.ENTITY_USER_KEY_PREFIX + userId,
+                            customer,
+                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+                } else {
+                    // data is put by other thread, just get from cache.
+                    customer = (Customer) cacheItem.get();
+                }
+            }
 
-        // need to copy bean, because we need to remove sensitive data for showing,
-        // without affecting the database record in cache
-        Customer res = new Customer();
-        BeanUtil.copyProperties(customerBean, res);
-        // remove sensitive info
-        res.setPassword(CommonConstant.NULL);
-        return res;
+        } else {
+            customer = (Customer) cacheItem.get();
+        }
+        return customer;
     }
 
     @Override
@@ -219,7 +254,7 @@ public class CustomerBlo implements ICustomerBlo {
         // get record
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+        Customer customerBean = getUserInfoBasedByUserId(userId);
         // set new value
         customerBean.setDescription(param.getDescription());
         customerBean.setUserName(param.getUserName());
@@ -239,7 +274,7 @@ public class CustomerBlo implements ICustomerBlo {
         // get record
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+        Customer customerBean = getUserInfoBasedByUserId(userId);
 
         String originalCypher = customerBean.getPassword();
 
@@ -286,55 +321,5 @@ public class CustomerBlo implements ICustomerBlo {
                 );
             }
         }
-    }
-
-    /**
-     * Identity Map's cache-Aside implementation
-     * <br/>
-     * if the data exists, get from cache,
-     * if not, get from db.
-     * <br/>
-     * data in the cache will be expired to guarantee data eventually consistent
-     * <br/>
-     * using synchronized to prevent Cache Penetration, guarantee only one thread can update the cache,
-     * rather than multiple threads rushed to query database and refresh cache again and again.
-     *
-     * @param userId customer's userId
-     * @return customer object
-     */
-    private Customer getCustomerFromCacheOrDb(String userId) {
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
-        Customer customer = null;
-        if (cacheItem.isEmpty()) {
-            synchronized (this) {
-                cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
-                // if the result is still empty
-                if (cacheItem.isEmpty()) {
-                    ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
-                    customer = customerDao.findOneByBusinessId(userId);
-                    // if no such customer
-                    if (customer == null) {
-                        throw new RequestException (
-                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
-                    }
-
-                    // use randomed expiration time to prevent Cache Avalanche
-                    cache.put(
-                            CacheConstant.ENTITY_USER_KEY_PREFIX + userId,
-                            customer,
-                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                            TimeUnit.MILLISECONDS
-                    );
-                } else {
-                    // data is put by other thread, just get from cache.
-                    customer = (Customer) cacheItem.get();
-                }
-            }
-
-        } else {
-            customer = (Customer) cacheItem.get();
-        }
-        return customer;
     }
 }

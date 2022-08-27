@@ -1,6 +1,5 @@
 package io.swen90007sm2.app.dao;
 
-import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotel;
 
 import java.util.List;
@@ -17,10 +16,11 @@ public interface IHotelDao extends IBaseDao<Hotel>{
      * find customers by page, from newest to latest
      * @param start result starts from which row
      * @param rows total rows needed
+     * @param sortType up or down, defined in common constant
      * @param onSale show hotels of that sale status
      * @return list
      */
-    List<Hotel> findAllByPage(Integer start, Integer rows, boolean onSale);
+    List<Hotel> findAllByPageByDate(Integer start, Integer rows, int sortType, boolean onSale);
 
     /**
      * find customers by page, sort with price
