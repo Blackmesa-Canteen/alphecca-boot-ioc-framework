@@ -8,4 +8,6 @@ import java.util.List;
 public interface IHotelAmenityBlo {
 
     List<HotelAmenity> getAllAmenities();
+
+    HotelAmenity getHotelAmenityInfoByAmenityId(String amenityId);
 }

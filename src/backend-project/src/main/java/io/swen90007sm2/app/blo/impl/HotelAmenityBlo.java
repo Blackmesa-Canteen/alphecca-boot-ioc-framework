@@ -55,4 +55,32 @@ public class HotelAmenityBlo implements IHotelAmenityBlo {
 
         return hotelAmenities;
     }
+
+    @Override
+    public HotelAmenity getHotelAmenityInfoByAmenityId(String amenityId) {
+        Optional<Object> cachedItem = cache.get(CacheConstant.ENTITY_ROOM_AMENITY_KEY_PREFIX + amenityId);
+        HotelAmenity hotelAmenity;
+        if (cachedItem.isEmpty()) {
+            synchronized (this) {
+                cachedItem = cache.get(CacheConstant.ENTITY_ROOM_AMENITY_KEY_PREFIX + amenityId);
+                if (cachedItem.isEmpty()) {
+                    IHotelAmenityDao amenityDao = BeanManager.getLazyBeanByClass(HotelAmenityDao.class);
+                    hotelAmenity = amenityDao.findOneAmenityByAmenityId(amenityId);
+
+                    cache.put(
+                            CacheConstant.ENTITY_ROOM_AMENITY_KEY_PREFIX + amenityId,
+                            hotelAmenity,
+                            RandomUtil.randomLong(CacheConstant.CACHE_COLD_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+                } else {
+                    hotelAmenity = (HotelAmenity) cachedItem.get();
+                }
+            }
+        } else {
+            hotelAmenity = (HotelAmenity) cachedItem.get();
+        }
+
+        return hotelAmenity;
+    }
 }

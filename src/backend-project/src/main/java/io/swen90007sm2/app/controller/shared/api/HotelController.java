@@ -7,6 +7,7 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IHotelBlo;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.model.entity.Hotel;
 import org.apache.commons.lang3.StringUtils;
@@ -27,13 +28,39 @@ public class HotelController {
     @HandlesRequest(path = "/", method = RequestMethod.GET)
     public R getHotelsByPage(@QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize,
                              @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder) {
-        return R.ok();
+        if (pageNum == null || pageSize == null) {
+            return R.error(StatusCodeEnume.GENERAL_REQUEST_EXCEPTION.getCode(),
+                    "need to define page info in query param"
+            );
+        }
+
+        List<Hotel> hotels = null;
+        if (sortBy == null || sortOrder == null) {
+            // by default, sort by create time, DESC
+            hotels  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, CommonConstant.SORT_DOWN);
+        } else {
+            if (sortBy.equals(CommonConstant.SORT_BY_RANK)) {
+                hotels  = hotelBlo.getHotelsByPageSortedByRank(pageNum, pageSize, sortOrder);
+            } else if (sortBy.equals(CommonConstant.SORT_BY_PRICE)) {
+                hotels  = hotelBlo.getHotelsByPageSortedByPrice(pageNum, pageSize, sortOrder);
+            } else {
+                hotels  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, sortOrder);
+            }
+        }
+
+        return R.ok().setData(hotels);
     }
 
     @HandlesRequest(path = "/search", method = RequestMethod.GET)
     public R searchHotels(@QueryParam("hotelName") String hotelName, @QueryParam("postCode") String postCode,
                           @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder,
                           @QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize) {
+
+        if (pageNum == null || pageSize == null) {
+            return R.error(StatusCodeEnume.GENERAL_REQUEST_EXCEPTION.getCode(),
+                    "need to define page info in query param"
+                    );
+        }
 
         List<Hotel> hotels = null;
         if (StringUtils.isNotEmpty(hotelName)) {

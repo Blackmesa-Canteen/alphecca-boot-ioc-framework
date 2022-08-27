@@ -16,6 +16,6 @@ public class MainController {
 
     @HandlesRequest(path = "/", method = RequestMethod.GET)
     public R welcome() {
-        return R.ok().setData("Hello, This is alphecca hotel booking backend api server");
+        return R.ok().setData("Hello, This is alphecca hotel booking backend api server. API reference: https://api.996workers.icu");
     }
 }

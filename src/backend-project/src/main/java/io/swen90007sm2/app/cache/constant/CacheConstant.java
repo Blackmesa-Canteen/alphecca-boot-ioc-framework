@@ -5,8 +5,14 @@ public interface CacheConstant {
     String TOKEN_KEY_PREFIX = "token-for-";
 
     String METHOD_CACHE_PREFIX = "mc-";
-    String ENTITY_USER_KEY_PREFIX = "entity-user-";
-    String ENTITY_HOTEL_KEY_PREFIX = "entity-hotel-";
+    String ENTITY_USER_KEY_PREFIX = "e-user-";
+    String ENTITY_HOTEL_KEY_PREFIX = "e-hotel-";
+    String ENTITY_ROOM_KEY_PREFIX = "e-room-";
+
+    String ENTITY_HOTEL_AMENITY_KEY_PREFIX = "e-hotel-am-";
+    String ENTITY_ROOM_AMENITY_KEY_PREFIX = "e-room-am-";
+    String ENTITY_ROOM_REVIEW_KEY_PREFIX = "e-review-";
+    String ENTITY_ROOM_REVIEW_RESPONSE_KEY_PREFIX = "e-review-r-";
 
     String CACHED_HOTEL_AMENITIES = "hotel-amenities";
     String CACHED_ROOM_AMENITIES = "room-amenities";
@@ -22,7 +28,7 @@ public interface CacheConstant {
     // need to use random period to prevent cache avalanche
     Long CACHE_HOT_EXPIRATION_PERIOD_MAX = (long) (30 * 1000);
 
-    // used for data that requires consistency
+    // used for data that requires consistency, such as search results
     Long CACHE_POPULAR_EXPIRATION_PERIOD_MAX = (long) (10 * 1000);
 
     // almost static data, like amenities, have 60 minutes expiration time
