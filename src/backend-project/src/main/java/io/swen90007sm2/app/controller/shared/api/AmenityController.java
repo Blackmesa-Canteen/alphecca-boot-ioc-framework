@@ -22,12 +22,19 @@ public class AmenityController {
     @AutoInjected
     IHotelAmenityBlo hotelAmenityBlo;
 
+    /**
+     * list all hotel amenities
+     */
     @HandlesRequest(path = "/hotel_amenity/all", method = RequestMethod.GET)
     public R getAllHotelAmenities() {
         List<HotelAmenity> allAmenities = hotelAmenityBlo.getAllAmenities();
         return R.ok().setData(allAmenities);
     }
 
+    /**
+     * get a hotel amenity with amenity id
+     * @param amenityId string, amenityId. NOT id
+     */
     @HandlesRequest(path = "/hotel_amenity", method = RequestMethod.GET)
     public R getHotelAmenityById(@QueryParam(value = "amenityId") String amenityId) {
         HotelAmenity res = hotelAmenityBlo.getHotelAmenityInfoByAmenityId(amenityId);

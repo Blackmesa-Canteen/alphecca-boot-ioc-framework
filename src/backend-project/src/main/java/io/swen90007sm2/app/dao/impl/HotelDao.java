@@ -87,7 +87,7 @@ public class HotelDao implements IHotelDao{
         if (sortType == CommonConstant.SORT_UP) {
             hotels = CRUDTemplate.executeQueryWithMultiRes(
                     Hotel.class,
-                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY create_time ASC",
+                    "SELECT * FROM hotel WHERE on_sale = ?  ORDER BY create_time ASC OFFSET ? LIMIT ?",
                     onSale,
                     start,
                     rows
@@ -95,7 +95,7 @@ public class HotelDao implements IHotelDao{
         } else {
             hotels = CRUDTemplate.executeQueryWithMultiRes(
                     Hotel.class,
-                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY create_time DESC",
+                    "SELECT * FROM hotel WHERE on_sale = ? ORDER BY create_time DESC OFFSET ? LIMIT ?",
                     onSale,
                     start,
                     rows
@@ -112,7 +112,7 @@ public class HotelDao implements IHotelDao{
         if (sortType == CommonConstant.SORT_UP) {
             hotels = CRUDTemplate.executeQueryWithMultiRes(
                     Hotel.class,
-                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY min_price ASC",
+                    "SELECT * FROM hotel WHERE on_sale = ? ORDER BY min_price ASC OFFSET ? LIMIT ?",
                     onSale,
                     start,
                     rows
@@ -120,7 +120,7 @@ public class HotelDao implements IHotelDao{
         } else {
             hotels = CRUDTemplate.executeQueryWithMultiRes(
                     Hotel.class,
-                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY min_price DESC",
+                    "SELECT * FROM hotel WHERE on_sale = ? ORDER BY min_price DESC OFFSET ? LIMIT ?",
                     onSale,
                     start,
                     rows
@@ -137,7 +137,7 @@ public class HotelDao implements IHotelDao{
         if (sortType == CommonConstant.SORT_UP) {
             hotels = CRUDTemplate.executeQueryWithMultiRes(
                     Hotel.class,
-                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY rank ASC",
+                    "SELECT * FROM hotel WHERE on_sale = ? ORDER BY rank ASC OFFSET ? LIMIT ?",
                     onSale,
                     start,
                     rows
@@ -145,7 +145,7 @@ public class HotelDao implements IHotelDao{
         } else {
             hotels = CRUDTemplate.executeQueryWithMultiRes(
                     Hotel.class,
-                    "SELECT * FROM hotel WHERE on_sale = ? OFFSET ? LIMIT ? ORDER BY rank DESC",
+                    "SELECT * FROM hotel WHERE on_sale = ? ORDER BY rank DESC OFFSET ? LIMIT ?",
                     onSale,
                     start,
                     rows

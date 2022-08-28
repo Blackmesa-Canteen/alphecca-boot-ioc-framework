@@ -256,9 +256,9 @@ public class CustomerBlo implements ICustomerBlo {
         // use random expiration time to prevent Cache avalanche
         Customer customerBean = getUserInfoBasedByUserId(userId);
         // set new value
-        customerBean.setDescription(param.getDescription());
-        customerBean.setUserName(param.getUserName());
-        customerBean.setAvatarUrl(param.getAvatarUrl());
+        if (param.getDescription() != null) customerBean.setDescription(param.getDescription());
+        if (param.getUserName() != null) customerBean.setUserName(param.getUserName());
+        if (param.getAvatarUrl() != null) customerBean.setAvatarUrl(param.getAvatarUrl());
 
         // unit of work helper
         ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);

@@ -25,6 +25,13 @@ public class HotelController {
     @AutoInjected
     IHotelBlo hotelBlo;
 
+    /**
+     * used in index, show all hotels
+     * @param pageNum page number
+     * @param pageSize number of results in one page
+     * @param sortBy see CommonConstant.java
+     * @param sortOrder see CommonConstant.java
+     */
     @HandlesRequest(path = "/", method = RequestMethod.GET)
     public R getHotelsByPage(@QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize,
                              @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder) {
@@ -51,6 +58,16 @@ public class HotelController {
         return R.ok().setData(hotels);
     }
 
+    /**
+     * used in searching hotels
+     * @param hotelName hotelName. Fuzzy search. Case sensitive.
+     * @param postCode Can not show up with hotelName at the same time. Postcode search
+     * @param sortBy see CommonConstant.java
+     * @param sortOrder see CommonConstant.java
+     * @param pageNum page number
+     * @param pageSize page size
+     * @return
+     */
     @HandlesRequest(path = "/search", method = RequestMethod.GET)
     public R searchHotels(@QueryParam("hotelName") String hotelName, @QueryParam("postCode") String postCode,
                           @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder,

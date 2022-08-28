@@ -7,7 +7,15 @@ import java.util.List;
 
 public interface IHotelAmenityBlo {
 
+    /**
+     * get all hotel amenities
+     */
     List<HotelAmenity> getAllAmenities();
 
+    /**
+     * get hotel amenity info by amenityId
+     * @param amenityId string
+     * @return hotelAmenity entity
+     */
     HotelAmenity getHotelAmenityInfoByAmenityId(String amenityId);
 }

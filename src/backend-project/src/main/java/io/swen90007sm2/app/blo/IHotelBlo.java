@@ -21,13 +21,32 @@ public interface IHotelBlo {
      */
     Hotel getHotelInfoByHotelId(String hotelId);
 
+    /**
+     * page query, used in index to show hotels
+     * @param pageNum required page num
+     * @param pageSize page size
+     * @param order see CommonConstant
+     * @return list of hotels
+     */
     List<Hotel> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize, Integer order);
 
+    /**
+     * page query, used in index to show hotels
+     */
     List<Hotel> getHotelsByPageSortedByPrice(Integer pageNum, Integer pageSize, Integer order);
 
+    /**
+     * page query, used in index to show hotels
+     */
     List<Hotel> getHotelsByPageSortedByRank(Integer pageNum, Integer pageSize, Integer order);
 
+    /**
+     * page query, used in search page. Name fuzzy search, case sensitive.
+     */
     List<Hotel> searchHotelsByPageByName(Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order);
 
+    /**
+     * page query, used in search page. postCode string match.
+     */
     List<Hotel> searchHotelsByPageByPostCode(Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order);
 }
