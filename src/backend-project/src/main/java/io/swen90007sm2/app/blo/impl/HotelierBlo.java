@@ -5,6 +5,7 @@ import cn.hutool.core.util.RandomUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
@@ -13,6 +14,7 @@ import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.IHotelierDao;
+import io.swen90007sm2.app.dao.impl.HotelierDao;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
@@ -29,8 +31,6 @@ import java.util.concurrent.TimeUnit;
 
 @Blo
 public class HotelierBlo implements IHotelierBlo {
-    @AutoInjected
-    IHotelierDao hotelierDao;
 
     @AutoInjected
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
@@ -92,6 +92,7 @@ public class HotelierBlo implements IHotelierBlo {
 
         // check existence
         // will not use cache to prevent inconsistent data
+        IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
         Hotelier prevResult = hotelierDao.findOneByBusinessId(userId);
 
         if (prevResult != null) {
@@ -135,6 +136,7 @@ public class HotelierBlo implements IHotelierBlo {
             );
         }
         hotelierBean.setPassword(SecurityUtil.encrypt(newPassword));
+        IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
         UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + userId);
     }
@@ -160,6 +162,7 @@ public class HotelierBlo implements IHotelierBlo {
             synchronized (this) {
                 cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
                 if (cacheItem.isEmpty()) {
+                    IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
                     hotelier = hotelierDao.findOneByBusinessId(userId);
                     // if no such hotelier
                     if (hotelier == null) {
