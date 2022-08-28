@@ -9,7 +9,7 @@ heroku login
 heroku container:login
 
 # then build the docker thing
-docker build -t swen90007-backend-app .
+docker build --no-cache -t swen90007-backend-app .
 
 # tag the image to heroku repo
 docker tag swen90007-backend-app:latest registry.heroku.com/swen90007-alphecca-backend-app/web
@@ -20,4 +20,6 @@ docker push registry.heroku.com/swen90007-alphecca-backend-app/web
 # release the container
 heroku container:release web --app swen90007-alphecca-backend-app
 
-# then it works
+# clean-up
+docker rmi swen90007-backend-app
+docker rmi registry.heroku.com/swen90007-alphecca-backend-app/web
