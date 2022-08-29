@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.List;
 
 /**
  * helper to get database connection, and perform unified CRUD Operation
@@ -72,6 +73,31 @@ public class DbHelper {
             if (pstmt != null) {
                 pstmt.close();
             }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Close db connection error: ", e);
+        }
+    }
+
+    /**
+     * release batched db connection
+     */
+    public static void closeDbResourceBatch(Connection conn, List<PreparedStatement> pstmtList, List<ResultSet> rsList) {
+        try {
+            if (rsList != null) {
+                for (ResultSet rs: rsList) {
+                    if (rs != null) rs.close();
+                }
+            }
+
+            if (pstmtList != null) {
+                for (PreparedStatement pstmt : pstmtList) {
+                    if (pstmt != null) pstmt.close();
+                }
+            }
+
             if (conn != null) {
                 conn.close();
             }

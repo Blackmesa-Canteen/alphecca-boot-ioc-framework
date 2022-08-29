@@ -93,4 +93,12 @@ public class HotelAmenityDao implements IHotelAmenityDao {
 
         CRUDTemplate.executeNonQueryBatch(batchBeans);
     }
+
+    @Override
+    public int clearAmenityIdsForHotel(String hotelId) {
+        return CRUDTemplate.executeNonQuery(
+                "DELETE FROM hotel_amenity WHERE hotel_id = ?",
+                hotelId
+        );
+    }
 }

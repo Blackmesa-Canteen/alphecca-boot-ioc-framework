@@ -10,6 +10,7 @@ import io.swen90007sm2.app.blo.IHotelBlo;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.model.entity.Hotel;
+import io.swen90007sm2.app.model.vo.HotelVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -41,21 +42,21 @@ public class HotelController {
             );
         }
 
-        List<Hotel> hotels = null;
+        List<HotelVo> hotelVos = null;
         if (sortBy == null || sortOrder == null) {
             // by default, sort by create time, DESC
-            hotels  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, CommonConstant.SORT_DOWN);
+            hotelVos  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, CommonConstant.SORT_DOWN);
         } else {
             if (sortBy.equals(CommonConstant.SORT_BY_RANK)) {
-                hotels  = hotelBlo.getHotelsByPageSortedByRank(pageNum, pageSize, sortOrder);
+                hotelVos  = hotelBlo.getHotelsByPageSortedByRank(pageNum, pageSize, sortOrder);
             } else if (sortBy.equals(CommonConstant.SORT_BY_PRICE)) {
-                hotels  = hotelBlo.getHotelsByPageSortedByPrice(pageNum, pageSize, sortOrder);
+                hotelVos  = hotelBlo.getHotelsByPageSortedByPrice(pageNum, pageSize, sortOrder);
             } else {
-                hotels  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, sortOrder);
+                hotelVos  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, sortOrder);
             }
         }
 
-        return R.ok().setData(hotels);
+        return R.ok().setData(hotelVos);
     }
 
     /**
@@ -79,14 +80,14 @@ public class HotelController {
                     );
         }
 
-        List<Hotel> hotels = null;
+        List<HotelVo> hotelVos = null;
         if (StringUtils.isNotEmpty(hotelName)) {
-            hotels = hotelBlo.searchHotelsByPageByName(
+            hotelVos = hotelBlo.searchHotelsByPageByName(
                     pageNum, pageSize, hotelName, sortBy, sortOrder
             );
 
         } else if (StringUtils.isNotEmpty(postCode)) {
-            hotels = hotelBlo.searchHotelsByPageByPostCode(
+            hotelVos = hotelBlo.searchHotelsByPageByPostCode(
                     pageNum, pageSize, postCode, sortBy, sortOrder
             );
         } else {
@@ -96,7 +97,7 @@ public class HotelController {
             );
         }
 
-        return R.ok().setData(hotels);
+        return R.ok().setData(hotelVos);
     }
 
 }

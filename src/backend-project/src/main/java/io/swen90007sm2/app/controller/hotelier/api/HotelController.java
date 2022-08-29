@@ -32,6 +32,9 @@ public class HotelController {
     @AutoInjected
     IHotelBlo hotelBlo;
 
+    /**
+     * Regester a new Hotel
+     */
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R registerNewHotel(HttpServletRequest request, @RequestJsonBody @Valid CreateHotelParam param) {
@@ -39,6 +42,21 @@ public class HotelController {
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
         hotelBlo.doCreateHotel(userId, param);
+
+        return R.ok();
+    }
+
+    /**
+     * edit an existing hotel
+     * the hotel is the one that this hotelier is managing
+     */
+    @HandlesRequest(path = "/", method = RequestMethod.PUT)
+    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
+    public R editOwnedHotel(HttpServletRequest request, @RequestJsonBody @Valid CreateHotelParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        hotelBlo.editOwnedHotel(userId, param);
 
         return R.ok();
     }

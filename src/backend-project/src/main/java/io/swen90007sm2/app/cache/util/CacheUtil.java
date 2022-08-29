@@ -75,4 +75,12 @@ public class CacheUtil {
         String cacheKey = genMethodCacheKey(methodName, params);
         objectCache.put(cacheKey, result, timeout, timeUnit);
     }
+
+    /**
+     * remove a cache key
+     */
+    public static void clearMethodResultInCache(String methodName, Object... params) {
+        String cacheKey = genMethodCacheKey(methodName, params);
+        objectCache.remove(cacheKey);
+    }
 }

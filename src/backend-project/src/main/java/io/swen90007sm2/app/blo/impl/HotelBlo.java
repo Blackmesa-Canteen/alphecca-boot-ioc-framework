@@ -1,11 +1,13 @@
 package io.swen90007sm2.app.blo.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
 import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
+import io.swen90007sm2.app.blo.IHotelAmenityBlo;
 import io.swen90007sm2.app.blo.IHotelBlo;
 import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
@@ -21,10 +23,14 @@ import io.swen90007sm2.app.dao.impl.HotelAmenityDao;
 import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.dao.impl.HotelierDao;
 import io.swen90007sm2.app.db.bean.PageBean;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.BaseEntity;
 import io.swen90007sm2.app.model.entity.Hotel;
+import io.swen90007sm2.app.model.entity.HotelAmenity;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.CreateHotelParam;
+import io.swen90007sm2.app.model.pojo.Money;
+import io.swen90007sm2.app.model.vo.HotelVo;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -35,6 +41,9 @@ public class HotelBlo implements IHotelBlo {
 
     @AutoInjected
     IHotelierBlo hotelierBlo;
+
+    @AutoInjected
+    IHotelAmenityBlo hotelAmenityBlo;
 
     @AutoInjected
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
@@ -89,16 +98,56 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public Hotel getHotelInfoByHotelId(String hotelId) {
+    public void editOwnedHotel(String hotelierId, CreateHotelParam createHotelParam) {
+        Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+        String hotelId= currentHotelier.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        Hotel hotel = getHotelInfoByHotelId(hotelId);
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        if (createHotelParam.getOnSale() != null) hotel.setOnSale(createHotelParam.getOnSale());
+        if (createHotelParam.getAddress() != null) hotel.setAddress(createHotelParam.getAddress());
+        if (createHotelParam.getName() != null) hotel.setName(createHotelParam.getName());
+        if (createHotelParam.getDescription() != null) hotel.setName(createHotelParam.getName());
+        if (createHotelParam.getPostCode() != null) hotel.setPostCode(createHotelParam.getPostCode());
+
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+        // atom operation
+        synchronized (this) {
+            // update hotel
+            hotelDao.updateOne(hotel);
+
+            // update amenity (atom update the associate table)
+            hotelAmenityBlo.updateAmenityIdsForHotel(createHotelParam.getAmenityIds(), hotelId);
+
+            // clean up cache
+            cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
+        }
+
+    }
+
+    @Override
+    public HotelVo getHotelInfoByHotelId(String hotelId) {
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
-        Hotel hotel = null;
+        HotelVo hotelVo = null;
         if (cacheItem.isEmpty()) {
             synchronized (this) {
                 cacheItem = cache.get(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
                 // if the cache is still empty
                 if (cacheItem.isEmpty()) {
-                    HotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
-                    hotel = hotelDao.findOneByBusinessId(hotelId);
+                    IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+                    Hotel hotel = hotelDao.findOneByBusinessId(hotelId);
                     // if no such
                     if (hotel == null) {
                         throw new RequestException(
@@ -106,35 +155,50 @@ public class HotelBlo implements IHotelBlo {
                                 StatusCodeEnume.RESOURCE_NOT_FOUND_EXCEPTION.getCode());
                     }
 
+                    // generate hotel vo
+                    hotelVo = new HotelVo();
+                    // copy properties, TODO need test
+                    BeanUtil.copyProperties(hotel, hotelVo);
+
+                    // embedded value
+                    Money money = new Money();
+                    money.setAmount(hotel.getMinPrice());
+                    money.setCurrency(hotel.getCurrency());
+                    hotelVo.setMoney(money);
+
+                    // list amenities
+                    List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotelId);
+                    hotelVo.setAmenities(amenities);
+
                     // use random expiration time to prevent Cache Avalanche
                     cache.put(
                             CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId,
-                            hotel,
+                            hotelVo,
                             RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS
                     );
                 } else {
                     // data is put by other thread, just get from cache.
-                    hotel = (Hotel) cacheItem.get();
+                    hotelVo = (HotelVo) cacheItem.get();
                 }
             }
 
         } else {
-            hotel = (Hotel) cacheItem.get();
+            hotelVo = (HotelVo) cacheItem.get();
         }
 
-        return hotel;
+        return hotelVo;
     }
 
     @Override
-    public List<Hotel> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize, Integer order) {
-        List<Hotel> hotels = null;
+    public List<HotelVo> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize, Integer order) {
+        List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {pageNum, pageSize, order};
         String methodName = "getHotelsByPageSortedByCreateTime";
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
-            hotels = (List<Hotel>) result;
+            hotelVos = (List<HotelVo>) result;
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -154,49 +218,69 @@ public class HotelBlo implements IHotelBlo {
                     // calculate start row in database
                     int start = pageBean.getStartRow();
 
+                    List<Hotel> hotels;
                     if (order == null) {
                         hotels = hotelDao.findAllByPageByDate(start, pageSize, CommonConstant.SORT_DOWN, true);
                     } else {
                         hotels = hotelDao.findAllByPageByDate(start, pageSize, order, true);
                     }
 
+                    for (Hotel hotel : hotels) {
+                        // generate hotel vo
+                        HotelVo hotelVo = new HotelVo();
+                        // copy properties
+                        BeanUtil.copyProperties(hotel, hotelVo);
+
+                        // embedded value
+                        Money money = new Money();
+                        money.setAmount(hotel.getMinPrice());
+                        money.setCurrency(hotel.getCurrency());
+                        hotelVo.setMoney(money);
+
+                        // list amenities
+                        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
+                        hotelVo.setAmenities(amenities);
+
+                        hotelVos.add(hotelVo);
+                    }
+
                     // cache method result
                     CacheUtil.putMethodResultInCache(
                             methodName,
-                            hotels,
+                            hotelVos,
                             RandomUtil.randomLong(CacheConstant.CACHE_POPULAR_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS,
                             params
                     );
 
                     // cache each hotel res
-                    hotels.forEach(hotel -> {
+                    hotelVos.forEach(hotelVo -> {
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
-                                hotel,
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
                     });
 
                 } else {
-                    hotels = (List<Hotel>) result;
+                    hotelVos = (List<HotelVo>) result;
                 }
             }
         }
 
-        return hotels;
+        return hotelVos;
     }
 
     @Override
-    public List<Hotel> getHotelsByPageSortedByPrice(Integer pageNum, Integer pageSize, Integer order) {
-        List<Hotel> hotels = null;
+    public List<HotelVo> getHotelsByPageSortedByPrice(Integer pageNum, Integer pageSize, Integer order) {
+        List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {pageNum, pageSize, order};
         String methodName = "getHotelsByPageSortedByCreateTime";
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
-            hotels = (List<Hotel>) result;
+            hotelVos = (List<HotelVo>) result;
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -215,50 +299,69 @@ public class HotelBlo implements IHotelBlo {
 
                     // calculate start row in database
                     int start = pageBean.getStartRow();
-
+                    List<Hotel> hotels;
                     if (order == null) {
                         hotels = hotelDao.findAllByPageSortByPrice(start, pageSize, CommonConstant.SORT_DOWN, true);
                     } else {
                         hotels = hotelDao.findAllByPageSortByPrice(start, pageSize, order, true);
                     }
 
+                    for (Hotel hotel : hotels) {
+                        // generate hotel vo
+                        HotelVo hotelVo = new HotelVo();
+                        // copy properties
+                        BeanUtil.copyProperties(hotel, hotelVo);
+
+                        // embedded value
+                        Money money = new Money();
+                        money.setAmount(hotel.getMinPrice());
+                        money.setCurrency(hotel.getCurrency());
+                        hotelVo.setMoney(money);
+
+                        // list amenities
+                        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
+                        hotelVo.setAmenities(amenities);
+
+                        hotelVos.add(hotelVo);
+                    }
+
                     // cache method result
                     CacheUtil.putMethodResultInCache(
                             methodName,
-                            hotels,
+                            hotelVos,
                             RandomUtil.randomLong(CacheConstant.CACHE_POPULAR_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS,
                             params
                     );
 
                     // cache each hotel res
-                    hotels.forEach(hotel -> {
+                    hotelVos.forEach(hotelVo -> {
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
-                                hotel,
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
                     });
 
                 } else {
-                    hotels = (List<Hotel>) result;
+                    hotelVos = (List<HotelVo>) result;
                 }
             }
         }
 
-        return hotels;
+        return hotelVos;
     }
 
     @Override
-    public List<Hotel> getHotelsByPageSortedByRank(Integer pageNum, Integer pageSize, Integer order) {
-        List<Hotel> hotels = null;
+    public List<HotelVo> getHotelsByPageSortedByRank(Integer pageNum, Integer pageSize, Integer order) {
+        List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {pageNum, pageSize, order};
         String methodName = "getHotelsByPageSortedByCreateTime";
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
-            hotels = (List<Hotel>) result;
+            hotelVos = (List<HotelVo>) result;
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -277,50 +380,69 @@ public class HotelBlo implements IHotelBlo {
 
                     // calculate start row in database
                     int start = pageBean.getStartRow();
-
+                    List<Hotel> hotels;
                     if (order == null) {
                         hotels = hotelDao.findAllByPageSortByRank(start, pageSize, CommonConstant.SORT_DOWN, true);
                     } else {
                         hotels = hotelDao.findAllByPageSortByRank(start, pageSize, order, true);
                     }
 
+                    for (Hotel hotel : hotels) {
+                        // generate hotel vo
+                        HotelVo hotelVo = new HotelVo();
+                        // copy properties
+                        BeanUtil.copyProperties(hotel, hotelVo);
+
+                        // embedded value
+                        Money money = new Money();
+                        money.setAmount(hotel.getMinPrice());
+                        money.setCurrency(hotel.getCurrency());
+                        hotelVo.setMoney(money);
+
+                        // list amenities
+                        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
+                        hotelVo.setAmenities(amenities);
+
+                        hotelVos.add(hotelVo);
+                    }
+
                     // cache method result
                     CacheUtil.putMethodResultInCache(
                             methodName,
-                            hotels,
+                            hotelVos,
                             RandomUtil.randomLong(CacheConstant.CACHE_POPULAR_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS,
                             params
                     );
 
                     // cache each hotel res
-                    hotels.forEach(hotel -> {
+                    hotelVos.forEach(hotelVo -> {
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
-                                hotel,
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
                     });
 
                 } else {
-                    hotels = (List<Hotel>) result;
+                    hotelVos = (List<HotelVo>) result;
                 }
             }
         }
 
-        return hotels;
+        return hotelVos;
     }
 
     @Override
-    public List<Hotel> searchHotelsByPageByName(Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order) {
-        List<Hotel> hotels = null;
+    public List<HotelVo> searchHotelsByPageByName(Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order) {
+        List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {name, sortBy, order};
         String methodName = "searchHotelsByPageByName";
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
-            hotels = (List<Hotel>) result;
+            hotelVos = (List<HotelVo>) result;
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -329,7 +451,7 @@ public class HotelBlo implements IHotelBlo {
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
 
                     // only get onSale result
-                    hotels = hotelDao.findAllByName(true, name);
+                    List<Hotel> hotels = hotelDao.findAllByName(true, name);
 
                     // need to sort the result, we are using logical paging, we fetch all data from db, and sort.
                     // This is because search data has limited number
@@ -354,33 +476,52 @@ public class HotelBlo implements IHotelBlo {
                         }
                     }
 
+                    for (Hotel hotel : hotels) {
+                        // generate hotel vo
+                        HotelVo hotelVo = new HotelVo();
+                        // copy properties
+                        BeanUtil.copyProperties(hotel, hotelVo);
+
+                        // embedded value
+                        Money money = new Money();
+                        money.setAmount(hotel.getMinPrice());
+                        money.setCurrency(hotel.getCurrency());
+                        hotelVo.setMoney(money);
+
+                        // list amenities
+                        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
+                        hotelVo.setAmenities(amenities);
+
+                        hotelVos.add(hotelVo);
+                    }
+
                     // cache method result
                     CacheUtil.putMethodResultInCache(
                             methodName,
-                            hotels,
+                            hotelVos,
                             RandomUtil.randomLong(CacheConstant.CACHE_HOT_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS,
                             params
                             );
 
                     // cache each hotel res
-                    hotels.forEach(hotel -> {
+                    hotelVos.forEach(hotelVo -> {
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
-                                hotel,
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
                     });
 
                 } else {
-                    hotels = (List<Hotel>) result;
+                    hotelVos = (List<HotelVo>) result;
                 }
             }
         }
 
         // logical paging
-        int totalRowNum = hotels.size();
+        int totalRowNum = hotelVos.size();
         int totalPageNum = (totalRowNum % pageSize == 0 ? (totalRowNum / pageSize) : (totalRowNum / pageSize + 1));
         int currentPageNo;
         if (pageNum == null || pageNum <= 0) {
@@ -395,21 +536,21 @@ public class HotelBlo implements IHotelBlo {
         int startRow = (currentPageNo - 1) * pageSize;
 
         if (startRow + pageSize <= totalRowNum) {
-            return hotels.subList(startRow, startRow + pageSize);
+            return hotelVos.subList(startRow, startRow + pageSize);
         } else {
-            return hotels.subList(startRow, totalRowNum);
+            return hotelVos.subList(startRow, totalRowNum);
         }
     }
 
     @Override
-    public List<Hotel> searchHotelsByPageByPostCode(Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order) {
-        List<Hotel> hotels = null;
+    public List<HotelVo> searchHotelsByPageByPostCode(Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order) {
+        List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {postCode, sortBy, order};
         String methodName = "searchHotelsByPageByPostCode";
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
-            hotels = (List<Hotel>) result;
+            hotelVos = (List<HotelVo>) result;
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -417,7 +558,7 @@ public class HotelBlo implements IHotelBlo {
                     // fetch data from db
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
                     // only get onSale result
-                    hotels = hotelDao.findAllByPostCode(true, postCode);
+                    List<Hotel> hotels = hotelDao.findAllByPostCode(true, postCode);
 
                     // by default, sort by rank DESC
                     if (sortBy == null) {
@@ -440,32 +581,51 @@ public class HotelBlo implements IHotelBlo {
                         }
                     }
 
+                    for (Hotel hotel : hotels) {
+                        // generate hotel vo
+                        HotelVo hotelVo = new HotelVo();
+                        // copy properties
+                        BeanUtil.copyProperties(hotel, hotelVo);
+
+                        // embedded value
+                        Money money = new Money();
+                        money.setAmount(hotel.getMinPrice());
+                        money.setCurrency(hotel.getCurrency());
+                        hotelVo.setMoney(money);
+
+                        // list amenities
+                        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
+                        hotelVo.setAmenities(amenities);
+
+                        hotelVos.add(hotelVo);
+                    }
+
                     // cache method result
                     CacheUtil.putMethodResultInCache(
                             methodName,
-                            hotels,
+                            hotelVos,
                             RandomUtil.randomLong(CacheConstant.CACHE_HOT_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS,
                             params
                     );
 
                     // cache each hotel res
-                    hotels.forEach(hotel -> {
+                    hotelVos.forEach(hotelVo -> {
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
-                                hotel,
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
                     });
                 } else {
-                    hotels = (List<Hotel>) result;
+                    hotelVos = (List<HotelVo>) result;
                 }
             }
         }
 
         // logical paging
-        int totalRowNum = hotels.size();
+        int totalRowNum = hotelVos.size();
         int totalPageNum = (totalRowNum % pageSize == 0 ? (totalRowNum / pageSize) : (totalRowNum / pageSize + 1));
         int currentPageNo;
         if (pageNum == null || pageNum <= 0) {
@@ -480,9 +640,9 @@ public class HotelBlo implements IHotelBlo {
         int startRow = (currentPageNo - 1) * pageSize;
 
         if (startRow + pageSize <= totalRowNum) {
-            return hotels.subList(startRow, startRow + pageSize);
+            return hotelVos.subList(startRow, startRow + pageSize);
         } else {
-            return hotels.subList(startRow, totalRowNum);
+            return hotelVos.subList(startRow, totalRowNum);
         }
     }
 }

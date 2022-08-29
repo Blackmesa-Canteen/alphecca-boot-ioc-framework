@@ -18,4 +18,8 @@ public interface IHotelAmenityBlo {
      * @return hotelAmenity entity
      */
     HotelAmenity getHotelAmenityInfoByAmenityId(String amenityId);
+
+    List<HotelAmenity> getAllAmenitiesByHotelId(String hotelId);
+
+    void  updateAmenityIdsForHotel(List<String> amenityIds, String hotelId);
 }

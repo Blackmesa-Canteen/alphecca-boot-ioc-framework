@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import static io.swen90007sm2.app.db.helper.DbHelper.*;
@@ -73,11 +74,50 @@ public class CRUDTemplate {
 
                 LOGGER.info("Execute batch non query SQL [{}] with param [{}]", sql, params);
                 preparedStatement.executeUpdate();
+
+                preparedStatement.close();
             }
 
             LOGGER.info("batch operation finished.");
         } catch (SQLException e) {
             LOGGER.error("Execute batch SQL ERROR: ", e);
+            throw new InternalException("database error， try again later");
+        } finally {
+            closeDbResource(conn, preparedStatement, null);
+        }
+    }
+
+    public static <T> List<T> executeQueryWithOneResBatch(Class<T> beanType, List<BatchBean> batchBeans) {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<T> resList = new LinkedList<>();
+        try{
+            conn = getConnection();
+
+            for (BatchBean bean : batchBeans) {
+                String sql = bean.getSql();
+                Object[] params = bean.getParams();
+                preparedStatement = conn.prepareStatement(sql);
+                for (int i = 0; i < params.length; i++) {
+                    preparedStatement.setObject(i +1, params[i]);
+                }
+
+                LOGGER.info("Execute non query SQL [{}] with param [{}]", sql, params);
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet == null) {
+                    return null;
+                } else  {
+                    // one result bean
+                    BeanResultSetResolver<T> resolver = new BeanResultSetResolver<>(beanType);
+                    resList.add(resolver.resolveResultSet(resultSet));
+                }
+            }
+
+            return resList;
+        } catch (Exception e) {
+            LOGGER.error("Execute batch query SQL ERROR: ", e);
             throw new InternalException("database error， try again later");
         } finally {
             closeDbResource(conn, preparedStatement, null);

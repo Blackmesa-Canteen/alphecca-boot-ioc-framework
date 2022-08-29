@@ -30,5 +30,10 @@ public interface IHotelAmenityDao extends IBaseDao<HotelAmenity>{
      * @param hotelId
      */
     void  addAmenityIdsToHotel(List<String> amenityId, String hotelId);
+
+    /**
+     * clear all amenities for a hotel
+     */
+    int clearAmenityIdsForHotel(String hotelId);
 }
 
