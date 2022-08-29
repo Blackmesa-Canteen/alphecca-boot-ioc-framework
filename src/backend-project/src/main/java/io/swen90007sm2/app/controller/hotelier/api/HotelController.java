@@ -8,11 +8,8 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
 import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
-import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.blo.IHotelBlo;
-import io.swen90007sm2.app.dao.IHotelDao;
-import io.swen90007sm2.app.dao.impl.HotelDao;
-import io.swen90007sm2.app.model.param.CreateHotelParam;
+import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
@@ -37,7 +34,7 @@ public class HotelController {
      */
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
-    public R registerNewHotel(HttpServletRequest request, @RequestJsonBody @Valid CreateHotelParam param) {
+    public R registerNewHotel(HttpServletRequest request, @RequestJsonBody @Valid HotelParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
@@ -52,7 +49,7 @@ public class HotelController {
      */
     @HandlesRequest(path = "/", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
-    public R editOwnedHotel(HttpServletRequest request, @RequestJsonBody @Valid CreateHotelParam param) {
+    public R editOwnedHotel(HttpServletRequest request, @RequestJsonBody @Valid HotelParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();

@@ -23,12 +23,10 @@ import io.swen90007sm2.app.dao.impl.HotelAmenityDao;
 import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.dao.impl.HotelierDao;
 import io.swen90007sm2.app.db.bean.PageBean;
-import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
-import io.swen90007sm2.app.model.entity.BaseEntity;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 import io.swen90007sm2.app.model.entity.Hotelier;
-import io.swen90007sm2.app.model.param.CreateHotelParam;
+import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +48,7 @@ public class HotelBlo implements IHotelBlo {
     ICacheStorage<String, Object> cache;
 
 
-    public void doCreateHotel(String hotelierId, CreateHotelParam createHotelParam) {
+    public void doCreateHotel(String hotelierId, HotelParam hotelParam) {
 
         // check existence, one hotelier can only create one hotel
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
@@ -65,13 +63,13 @@ public class HotelBlo implements IHotelBlo {
         Long id = IdFactory.genSnowFlakeId();
         hotel.setId(id);
         hotel.setHotelId(id.toString());
-        hotel.setName(createHotelParam.getName());
-        hotel.setDescription(createHotelParam.getDescription());
-        hotel.setAddress(createHotelParam.getAddress());
-        hotel.setPostCode(createHotelParam.getPostCode());
-        hotel.setOnSale(createHotelParam.getOnSale());
+        hotel.setName(hotelParam.getName());
+        hotel.setDescription(hotelParam.getDescription());
+        hotel.setAddress(hotelParam.getAddress());
+        hotel.setPostCode(hotelParam.getPostCode());
+        hotel.setOnSale(hotelParam.getOnSale());
 
-        List<String> amenity_ids = createHotelParam.getAmenityIds();
+        List<String> amenity_ids = hotelParam.getAmenityIds();
         IHotelAmenityDao amenityDao = BeanManager.getLazyBeanByClass(HotelAmenityDao.class);
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
@@ -98,7 +96,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public void editOwnedHotel(String hotelierId, CreateHotelParam createHotelParam) {
+    public void editOwnedHotel(String hotelierId, HotelParam hotelParam) {
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
         String hotelId= currentHotelier.getHotelId();
         if (StringUtils.isEmpty(hotelId)) {
@@ -116,11 +114,11 @@ public class HotelBlo implements IHotelBlo {
             );
         }
 
-        if (createHotelParam.getOnSale() != null) hotel.setOnSale(createHotelParam.getOnSale());
-        if (createHotelParam.getAddress() != null) hotel.setAddress(createHotelParam.getAddress());
-        if (createHotelParam.getName() != null) hotel.setName(createHotelParam.getName());
-        if (createHotelParam.getDescription() != null) hotel.setName(createHotelParam.getName());
-        if (createHotelParam.getPostCode() != null) hotel.setPostCode(createHotelParam.getPostCode());
+        if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
+        if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
+        if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
+        if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getName());
+        if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
 
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         // atom operation
@@ -129,7 +127,7 @@ public class HotelBlo implements IHotelBlo {
             hotelDao.updateOne(hotel);
 
             // update amenity (atom update the associate table)
-            hotelAmenityBlo.updateAmenityIdsForHotel(createHotelParam.getAmenityIds(), hotelId);
+            hotelAmenityBlo.updateAmenityIdsForHotel(hotelParam.getAmenityIds(), hotelId);
 
             // clean up cache
             cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);

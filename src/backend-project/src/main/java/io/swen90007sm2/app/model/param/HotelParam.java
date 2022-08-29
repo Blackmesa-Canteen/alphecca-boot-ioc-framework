@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-public class CreateHotelParam {
+public class HotelParam {
 
     @NotBlank(message = "hotel name should be not null")
     @Size(max = 100, message = "hotel name should not exceed {max}")
@@ -28,10 +28,10 @@ public class CreateHotelParam {
 
     private List<String> amenityIds;
 
-    public CreateHotelParam() {
+    public HotelParam() {
     }
 
-    public CreateHotelParam(String name, String description, String address, String postCode, Boolean onSale, List<String> amenityIds) {
+    public HotelParam(String name, String description, String address, String postCode, Boolean onSale, List<String> amenityIds) {
         this.name = name;
         this.description = description;
         this.address = address;
