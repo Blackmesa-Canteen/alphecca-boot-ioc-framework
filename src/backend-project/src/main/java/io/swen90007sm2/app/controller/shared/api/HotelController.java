@@ -26,6 +26,13 @@ public class HotelController {
     @AutoInjected
     IHotelBlo hotelBlo;
 
+    @HandlesRequest(path = "/query", method = RequestMethod.GET)
+    public R getHotelInfoByHotelId(@QueryParam("hotelId") String hotelId) {
+        HotelVo hotelVo = hotelBlo.getHotelInfoByHotelId(hotelId);
+
+        return R.ok().setData(hotelVo);
+    }
+
     /**
      * used in index, show all hotels
      * @param pageNum page number

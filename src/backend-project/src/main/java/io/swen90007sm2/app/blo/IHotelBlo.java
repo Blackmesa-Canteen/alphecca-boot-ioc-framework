@@ -27,6 +27,11 @@ public interface IHotelBlo {
     void editOwnedHotel(String hotelierId, HotelParam hotelParam);
 
     /**
+     * get a hotel info by owner hotelier id
+     */
+    HotelVo getHotelInfoByOwnerHotelierId(String hotelierId);
+
+    /**
      * returns hotel entity by hotelId
      * @param hotelId hotelId
      * @return hotel entity

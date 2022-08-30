@@ -9,12 +9,11 @@ public interface IRoomBlo {
 
     /**
      * create a new room
-     * @param hotelId target hotelId
      * @param param RoomParam from request
      */
-    void doCreateRoomToHotel(String hotelId, RoomParam param);
+    void doCreateRoomToHotel(RoomParam param);
 
-    void updateRoomByRoomId(String roomId, RoomParam param);
+    void updateRoomByRoomId(RoomParam param);
 
     RoomVo getRoomInfoByRoomId(String roomId);
 

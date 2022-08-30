@@ -9,6 +9,9 @@ import java.util.List;
  */
 public class RoomParam {
 
+    @NotNull(message = "target hotel id should not be null")
+    private String hotelId;
+
     @NotBlank(message = "room name should be not null")
     @Size(max = 50, message = "room name should not exceed {max}")
     private String name;
@@ -39,6 +42,13 @@ public class RoomParam {
     public RoomParam() {
     }
 
+    public String getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(String hotelId) {
+        this.hotelId = hotelId;
+    }
 
     public String getName() {
         return name;

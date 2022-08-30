@@ -38,8 +38,8 @@ public class RoomBlo implements IRoomBlo {
     IHotelBlo hotelBlo;
 
     @Override
-    public void doCreateRoomToHotel(String hotelId, RoomParam param) {
-        HotelVo hotel = hotelBlo.getHotelInfoByHotelId(hotelId);
+    public void doCreateRoomToHotel(RoomParam param) {
+        HotelVo hotel = hotelBlo.getHotelInfoByHotelId(param.getHotelId());
         if (hotel == null) {
             throw new RequestException(
                     "hotel not found.",
@@ -79,7 +79,7 @@ public class RoomBlo implements IRoomBlo {
     }
 
     @Override
-    public void updateRoomByRoomId(String roomId, RoomParam param) {
+    public void updateRoomByRoomId(RoomParam param) {
         throw new NotImplementedException();
     }
 

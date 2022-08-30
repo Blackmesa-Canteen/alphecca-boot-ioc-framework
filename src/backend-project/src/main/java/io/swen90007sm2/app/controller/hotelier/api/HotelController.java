@@ -8,8 +8,11 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
 import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.app.blo.IHotelBlo;
+import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.model.param.HotelParam;
+import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
@@ -56,5 +59,20 @@ public class HotelController {
         hotelBlo.editOwnedHotel(userId, param);
 
         return R.ok();
+    }
+
+    /**
+     * get the hotelier owned hotel
+     */
+    @HandlesRequest(path = "/", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
+    public R getOwnedHotelInfo(HttpServletRequest request) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+
+        HotelVo hotelVo = hotelBlo.getHotelInfoByOwnerHotelierId(userId);
+
+        return R.ok().setData(hotelVo);
     }
 }

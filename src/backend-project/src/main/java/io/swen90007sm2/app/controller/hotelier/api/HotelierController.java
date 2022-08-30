@@ -7,6 +7,7 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
+import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IHotelierBlo;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller(path = "/api/hotelier")
-//@Validated
+@Validated
 public class HotelierController {
 
     @AutoInjected

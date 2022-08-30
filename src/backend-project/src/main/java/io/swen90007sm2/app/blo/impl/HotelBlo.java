@@ -108,9 +108,49 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
+    public HotelVo getHotelInfoByOwnerHotelierId(String hotelierId) {
+        // TODO implement cache
+
+        HotelVo hotelVo;
+        Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+        String hotelId = currentHotelier.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        Hotel hotel = getHotelInfoByHotelId(hotelId);
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        // generate hotel vo
+        hotelVo = new HotelVo();
+        // copy properties
+        BeanUtil.copyProperties(hotel, hotelVo);
+
+        // embedded value
+        Money money = new Money();
+        money.setAmount(hotel.getMinPrice());
+        money.setCurrency(hotel.getCurrency());
+        hotelVo.setMoney(money);
+
+        // list amenities
+        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotelId);
+        hotelVo.setAmenities(amenities);
+
+        return hotelVo;
+    }
+
+    @Override
     public void editOwnedHotel(String hotelierId, HotelParam hotelParam) {
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
-        String hotelId= currentHotelier.getHotelId();
+        String hotelId = currentHotelier.getHotelId();
         if (StringUtils.isEmpty(hotelId)) {
             throw new RequestException(
                     StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
@@ -167,7 +207,7 @@ public class HotelBlo implements IHotelBlo {
 
                     // generate hotel vo
                     hotelVo = new HotelVo();
-                    // copy properties, TODO need test
+                    // copy properties
                     BeanUtil.copyProperties(hotel, hotelVo);
 
                     // embedded value
@@ -468,7 +508,7 @@ public class HotelBlo implements IHotelBlo {
                     if (sortBy == null) {
                         // if there is no sort params come in...
                         // by default, sort by rank desc
-                        hotels.sort((hotel1, hotel2)-> hotel2.getRank() - hotel1.getRank());
+                        hotels.sort((hotel1, hotel2) -> hotel2.getRank() - hotel1.getRank());
 
                     } else {
                         // sort the result, default is up and by rank
@@ -512,7 +552,7 @@ public class HotelBlo implements IHotelBlo {
                             RandomUtil.randomLong(CacheConstant.CACHE_HOT_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS,
                             params
-                            );
+                    );
 
                     // cache each hotel res
                     hotelVos.forEach(hotelVo -> {
@@ -573,7 +613,7 @@ public class HotelBlo implements IHotelBlo {
                     // by default, sort by rank DESC
                     if (sortBy == null) {
                         hotels.sort((hotel1, hotel2) ->
-                            hotel2.getRank() - hotel1.getRank()
+                                hotel2.getRank() - hotel1.getRank()
                         );
                     } else {
                         // sort the result, default is up and by rank

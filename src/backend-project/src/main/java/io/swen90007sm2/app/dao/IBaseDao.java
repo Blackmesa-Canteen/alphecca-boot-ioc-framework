@@ -10,9 +10,18 @@ import io.swen90007sm2.app.model.entity.Customer;
  */
 public interface IBaseDao<T extends BaseEntity> {
 
+    /**
+     * Insertion
+     */
     int insertOne(T entity);
 
+    /**
+     * updating
+     */
     int updateOne(T entity);
 
+    /**
+     * deletion
+     */
     int deleteOne(T entity);
 }
