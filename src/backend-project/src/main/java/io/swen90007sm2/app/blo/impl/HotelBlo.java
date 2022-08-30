@@ -109,8 +109,6 @@ public class HotelBlo implements IHotelBlo {
 
     @Override
     public HotelVo getHotelInfoByOwnerHotelierId(String hotelierId) {
-        // TODO implement cache
-
         HotelVo hotelVo;
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
         String hotelId = currentHotelier.getHotelId();
@@ -291,6 +289,14 @@ public class HotelBlo implements IHotelBlo {
                         List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
                         hotelVo.setAmenities(amenities);
 
+                        // cache the latest item
+                        cache.put(
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
                         hotelVos.add(hotelVo);
                     }
 
@@ -302,16 +308,6 @@ public class HotelBlo implements IHotelBlo {
                             TimeUnit.MILLISECONDS,
                             params
                     );
-
-                    // cache each hotel res
-                    hotelVos.forEach(hotelVo -> {
-                        cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
-                                hotelVo,
-                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                                TimeUnit.MILLISECONDS
-                        );
-                    });
 
                 } else {
                     hotelVos = (List<HotelVo>) result;
@@ -372,6 +368,13 @@ public class HotelBlo implements IHotelBlo {
                         List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
                         hotelVo.setAmenities(amenities);
 
+                        // cache the latest item
+                        cache.put(
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
                         hotelVos.add(hotelVo);
                     }
 
@@ -383,16 +386,6 @@ public class HotelBlo implements IHotelBlo {
                             TimeUnit.MILLISECONDS,
                             params
                     );
-
-                    // cache each hotel res
-                    hotelVos.forEach(hotelVo -> {
-                        cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
-                                hotelVo,
-                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                                TimeUnit.MILLISECONDS
-                        );
-                    });
 
                 } else {
                     hotelVos = (List<HotelVo>) result;
@@ -453,6 +446,14 @@ public class HotelBlo implements IHotelBlo {
                         List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
                         hotelVo.setAmenities(amenities);
 
+                        // cache the latest item
+                        cache.put(
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
                         hotelVos.add(hotelVo);
                     }
 
@@ -464,17 +465,6 @@ public class HotelBlo implements IHotelBlo {
                             TimeUnit.MILLISECONDS,
                             params
                     );
-
-                    // cache each hotel res
-                    hotelVos.forEach(hotelVo -> {
-                        cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
-                                hotelVo,
-                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                                TimeUnit.MILLISECONDS
-                        );
-                    });
-
                 } else {
                     hotelVos = (List<HotelVo>) result;
                 }
@@ -542,6 +532,14 @@ public class HotelBlo implements IHotelBlo {
                         List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
                         hotelVo.setAmenities(amenities);
 
+                        // cache the latest item
+                        cache.put(
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
                         hotelVos.add(hotelVo);
                     }
 
@@ -553,16 +551,6 @@ public class HotelBlo implements IHotelBlo {
                             TimeUnit.MILLISECONDS,
                             params
                     );
-
-                    // cache each hotel res
-                    hotelVos.forEach(hotelVo -> {
-                        cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
-                                hotelVo,
-                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                                TimeUnit.MILLISECONDS
-                        );
-                    });
 
                 } else {
                     hotelVos = (List<HotelVo>) result;
@@ -647,6 +635,14 @@ public class HotelBlo implements IHotelBlo {
                         List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
                         hotelVo.setAmenities(amenities);
 
+                        // cache the latest item
+                        cache.put(
+                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
                         hotelVos.add(hotelVo);
                     }
 
@@ -658,16 +654,6 @@ public class HotelBlo implements IHotelBlo {
                             TimeUnit.MILLISECONDS,
                             params
                     );
-
-                    // cache each hotel res
-                    hotelVos.forEach(hotelVo -> {
-                        cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
-                                hotelVo,
-                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                                TimeUnit.MILLISECONDS
-                        );
-                    });
                 } else {
                     hotelVos = (List<HotelVo>) result;
                 }

@@ -118,7 +118,7 @@ public class RoomAmenityBlo implements IRoomAmenityBlo {
                     CacheUtil.putMethodResultInCache(
                             methodName,
                             amenities,
-                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            RandomUtil.randomLong(CacheConstant.CACHE_POPULAR_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS,
                             params
                     );
