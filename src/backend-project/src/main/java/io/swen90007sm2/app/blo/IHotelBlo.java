@@ -1,11 +1,17 @@
 package io.swen90007sm2.app.blo;
 
+import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 
 import java.util.List;
 
 public interface IHotelBlo {
+
+    /**
+     * get all hotels, may be used in admin
+     */
+    List<Hotel> getAllHotels(Integer pageNum, Integer pageSize);
 
     /**
      * create a new hotel

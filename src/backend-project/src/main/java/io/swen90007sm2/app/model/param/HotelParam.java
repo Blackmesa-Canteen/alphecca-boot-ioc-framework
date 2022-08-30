@@ -26,6 +26,7 @@ public class HotelParam {
     @NotNull(message = "on sale status should be not null")
     private Boolean onSale;
 
+    @NotNull(message = "Hotel amenity list should be not null")
     private List<String> amenityIds;
 
     public HotelParam() {

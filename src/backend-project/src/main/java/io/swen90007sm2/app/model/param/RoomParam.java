@@ -2,6 +2,7 @@ package io.swen90007sm2.app.model.param;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author 996Worker
@@ -32,18 +33,12 @@ public class RoomParam {
     @NotNull(message = "on sale status should be not null")
     private Boolean onSale;
 
+    @NotNull(message = "room amenity list should not be null")
+    private List<String> amenityIds;
+
     public RoomParam() {
     }
 
-    public RoomParam(String name, String description, BigDecimal pricePerNight, String currency, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
-        this.name = name;
-        this.description = description;
-        this.pricePerNight = pricePerNight;
-        this.currency = currency;
-        this.sleepsNum = sleepsNum;
-        this.vacantNum = vacantNum;
-        this.onSale = onSale;
-    }
 
     public String getName() {
         return name;
@@ -99,5 +94,13 @@ public class RoomParam {
 
     public void setOnSale(Boolean onSale) {
         this.onSale = onSale;
+    }
+
+    public List<String> getAmenityIds() {
+        return amenityIds;
+    }
+
+    public void setAmenityIds(List<String> amenityIds) {
+        this.amenityIds = amenityIds;
     }
 }

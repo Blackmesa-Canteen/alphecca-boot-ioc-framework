@@ -6,6 +6,7 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
 import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IHotelAmenityBlo;
 import io.swen90007sm2.app.blo.IHotelBlo;
@@ -47,11 +48,22 @@ public class HotelBlo implements IHotelBlo {
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
     ICacheStorage<String, Object> cache;
 
+    @Override
+    public List<Hotel> getAllHotels(Integer pageNum, Integer pageSize) {
+        throw new NotImplementedException();
+    }
 
     public void doCreateHotel(String hotelierId, HotelParam hotelParam) {
 
         // check existence, one hotelier can only create one hotel
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+        if (currentHotelier == null) {
+            throw new RequestException(
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode()
+            );
+        }
+
         if (StringUtils.isNotEmpty(currentHotelier.getHotelId())) {
             throw new RequestException(
                     StatusCodeEnume.HOTELIER_ALREADY_HAS_HOTEL.getMessage(),
