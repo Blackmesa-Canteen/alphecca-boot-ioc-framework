@@ -9,7 +9,7 @@ import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IRoomBlo;
-import io.swen90007sm2.app.model.param.RoomParam;
+import io.swen90007sm2.app.model.param.CreateRoomParam;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 
 import javax.validation.Valid;
@@ -27,7 +27,7 @@ public class RoomController {
 
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
-    public R createNewRoomToHotel(@RequestJsonBody @Valid RoomParam param) {
+    public R createNewRoomToHotel(@RequestJsonBody @Valid CreateRoomParam param) {
         roomBlo.doCreateRoomToHotel(param);
 
         return R.ok();

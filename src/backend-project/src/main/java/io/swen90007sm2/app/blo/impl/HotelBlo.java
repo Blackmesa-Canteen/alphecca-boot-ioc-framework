@@ -156,13 +156,16 @@ public class HotelBlo implements IHotelBlo {
             );
         }
 
-        Hotel hotel = getHotelInfoByHotelId(hotelId);
-        if (hotel == null) {
+        Hotel originalHotel = getHotelEntityByHotelId(hotelId);
+
+        if (originalHotel == null) {
             throw new RequestException(
                     StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
                     StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
             );
         }
+        Hotel hotel = new Hotel();
+        BeanUtil.copyProperties(originalHotel, hotel);
 
         if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
         if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
@@ -180,18 +183,51 @@ public class HotelBlo implements IHotelBlo {
             hotelAmenityBlo.updateAmenityIdsForHotel(hotelParam.getAmenityIds(), hotelId);
 
             // clean up cache
+            cache.remove(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
             cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
         }
 
     }
 
     @Override
-    public HotelVo getHotelInfoByHotelId(String hotelId) {
+    public Hotel getHotelEntityByHotelId(String hotelId) {
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
-        HotelVo hotelVo = null;
+        Hotel hotel = null;
         if (cacheItem.isEmpty()) {
             synchronized (this) {
                 cacheItem = cache.get(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
+                if (cacheItem.isEmpty()) {
+                    IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+                    hotel = hotelDao.findOneByBusinessId(hotelId);
+                    if (hotel == null) {
+                        throw new RequestException(
+                                "hotel not found",
+                                StatusCodeEnume.RESOURCE_NOT_FOUND_EXCEPTION.getCode());
+                    }
+
+                    cache.put(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId,
+                            hotel,
+                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+                } else {
+                    hotel = (Hotel) cacheItem.get();
+                }
+            }
+        } else {
+            hotel = (Hotel) cacheItem.get();
+        }
+
+        return hotel;
+    }
+
+    @Override
+    public HotelVo getHotelInfoByHotelId(String hotelId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
+        HotelVo hotelVo = null;
+        if (cacheItem.isEmpty()) {
+            synchronized (this) {
+                cacheItem = cache.get(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
                 // if the cache is still empty
                 if (cacheItem.isEmpty()) {
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
@@ -220,8 +256,14 @@ public class HotelBlo implements IHotelBlo {
 
                     // use random expiration time to prevent Cache Avalanche
                     cache.put(
-                            CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId,
+                            CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId,
                             hotelVo,
+                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+
+                    cache.put(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId,
+                            hotel,
                             RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                             TimeUnit.MILLISECONDS
                     );
@@ -291,8 +333,14 @@ public class HotelBlo implements IHotelBlo {
 
                         // cache the latest item
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                CacheConstant.VO_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
                                 hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
+                        cache.put(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
+                                hotel,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
@@ -370,8 +418,14 @@ public class HotelBlo implements IHotelBlo {
 
                         // cache the latest item
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                CacheConstant.VO_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
                                 hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
+                        cache.put(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
+                                hotel,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
@@ -448,8 +502,14 @@ public class HotelBlo implements IHotelBlo {
 
                         // cache the latest item
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                CacheConstant.VO_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
                                 hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
+                        cache.put(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
+                                hotel,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
@@ -534,8 +594,14 @@ public class HotelBlo implements IHotelBlo {
 
                         // cache the latest item
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                CacheConstant.VO_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
                                 hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
+                        cache.put(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
+                                hotel,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );
@@ -637,8 +703,14 @@ public class HotelBlo implements IHotelBlo {
 
                         // cache the latest item
                         cache.put(
-                                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
+                                CacheConstant.VO_HOTEL_KEY_PREFIX + hotelVo.getHotelId(),
                                 hotelVo,
+                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                                TimeUnit.MILLISECONDS
+                        );
+
+                        cache.put(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotel.getHotelId(),
+                                hotel,
                                 RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                                 TimeUnit.MILLISECONDS
                         );

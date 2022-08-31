@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author 996Worker
  */
-public class RoomParam {
+public class CreateRoomParam {
 
     @NotNull(message = "target hotel id should not be null")
     private String hotelId;
@@ -39,7 +39,7 @@ public class RoomParam {
     @NotNull(message = "room amenity list should not be null")
     private List<String> amenityIds;
 
-    public RoomParam() {
+    public CreateRoomParam() {
     }
 
     public String getHotelId() {

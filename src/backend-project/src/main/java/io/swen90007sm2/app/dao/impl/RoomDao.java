@@ -95,4 +95,14 @@ public class RoomDao implements IRoomDao {
         );
         return rooms;
     }
+
+    @Override
+    public List<Room> findRoomsByHotelId(String hotelId) {
+        List<Room> rooms = CRUDTemplate.executeQueryWithMultiRes(
+                Room.class,
+                "SELECT * FROM room WHERE hotel_id = ?",
+                hotelId
+        );
+        return rooms;
+    }
 }

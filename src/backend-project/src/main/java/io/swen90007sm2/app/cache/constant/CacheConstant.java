@@ -6,8 +6,12 @@ public interface CacheConstant {
 
     String METHOD_CACHE_PREFIX = "mc-";
     String ENTITY_USER_KEY_PREFIX = "e-user-";
+    String VO_HOTEL_KEY_PREFIX = "vo-hotel-";
+    String VO_ROOM_KEY_PREFIX = "vo-room-";
+
     String ENTITY_HOTEL_KEY_PREFIX = "e-hotel-";
     String ENTITY_ROOM_KEY_PREFIX = "e-room-";
+
 
     String ENTITY_HOTEL_AMENITY_KEY_PREFIX = "e-hotel-am-";
     String ENTITY_ROOM_AMENITY_KEY_PREFIX = "e-room-am-";
@@ -16,6 +20,10 @@ public interface CacheConstant {
 
     String CACHED_HOTEL_AMENITIES = "hotel-amenities";
     String CACHED_ROOM_AMENITIES = "room-amenities";
+
+    String CACHED_ROOMS_FOR_HOTEL = "ca-ro-fo-ho-";
+    String CACHED_AMENITIES_FOR_HOTEL = "ca-am-fo-ho-";
+    String CACHED_AMENITIES_FOR_ROOM = "ca-am-fo-ro-";
 
     String OBJECT_CACHE_BEAN = "object-cache-bean";
     String STRING_CACHE_BEAN = "string-cache-bean";

@@ -8,7 +8,6 @@ import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.blo.IRoomAmenityBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
-import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.dao.IRoomAmenityDao;
 import io.swen90007sm2.app.dao.impl.RoomAmenityDao;
 import io.swen90007sm2.app.model.entity.RoomAmenity;
@@ -99,34 +98,31 @@ public class RoomAmenityBlo implements IRoomAmenityBlo {
 
     @Override
     public List<RoomAmenity> getAllAmenitiesByRoomId(String roomId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.CACHED_AMENITIES_FOR_ROOM + roomId);
+
         List<RoomAmenity> amenities = null;
 
-        Object[] params = {roomId};
-        String methodName = "getAllAmenitiesByRoomId";
-        Object result = CacheUtil.getMethodResultFromCache(methodName, params);
-
-        if (result != null) {
-            amenities = (List<RoomAmenity>) result;
+        if (cacheItem.isPresent()) {
+            amenities = (List<RoomAmenity>) cacheItem.get();
         } else {
             synchronized (this) {
-                result = CacheUtil.getMethodResultFromCache(methodName, params);
-                if (result == null) {
+                cacheItem = cache.get(CacheConstant.CACHED_AMENITIES_FOR_ROOM + roomId);
+                if (cacheItem.isEmpty()) {
                     IRoomAmenityDao amenityDao = BeanManager.getLazyBeanByClass(RoomAmenityDao.class);
                     amenities = amenityDao.findAllAmenitiesByRoomId(roomId);
 
-                    // cache method result
-                    CacheUtil.putMethodResultInCache(
-                            methodName,
+                    // cache result
+                    cache.put(
+                            CacheConstant.CACHED_AMENITIES_FOR_ROOM + roomId,
                             amenities,
-                            RandomUtil.randomLong(CacheConstant.CACHE_POPULAR_EXPIRATION_PERIOD_MAX),
-                            TimeUnit.MILLISECONDS,
-                            params
+                            CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX,
+                            TimeUnit.MILLISECONDS
                     );
 
                     // cache amenities
                     amenities.forEach(
                             roomAmenity -> {
-                                cache.put(
+                                cache.putIfAbsent(
                                         CacheConstant.ENTITY_ROOM_AMENITY_KEY_PREFIX + roomAmenity.getAmenityId(),
                                         roomAmenity,
                                         RandomUtil.randomLong(CacheConstant.CACHE_COLD_EXPIRATION_PERIOD_MAX),
@@ -135,7 +131,7 @@ public class RoomAmenityBlo implements IRoomAmenityBlo {
                             }
                     );
                 } else {
-                    amenities = (List<RoomAmenity>) result;
+                    amenities = (List<RoomAmenity>) cacheItem.get();
                 }
             }
         }
@@ -156,12 +152,10 @@ public class RoomAmenityBlo implements IRoomAmenityBlo {
             }
 
             // clear cache
-            cache.remove(CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId);
+            cache.remove(CacheConstant.VO_ROOM_KEY_PREFIX + roomId);
 
             // clear related method cache
-            String methodName = "getRoomAmenityInfoByAmenityId";
-            Object[] params = {roomId};
-            CacheUtil.clearMethodResultInCache(methodName, params);
+            cache.remove(CacheConstant.CACHED_AMENITIES_FOR_ROOM + roomId);
         }
     }
 }

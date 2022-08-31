@@ -29,4 +29,9 @@ public interface IRoomDao extends IBaseDao<Room>{
      * @return
      */
     List<Room> findRoomsByHotelIdByPage(String hotelId, Integer start, Integer rows);
+
+    /**
+     * Find all rooms of a hotel
+     */
+    List<Room> findRoomsByHotelId(String hotelId);
 }

@@ -8,11 +8,8 @@ import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.blo.IHotelAmenityBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
-import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.dao.IHotelAmenityDao;
-import io.swen90007sm2.app.dao.IHotelDao;
 import io.swen90007sm2.app.dao.impl.HotelAmenityDao;
-import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 
 import java.util.List;
@@ -114,44 +111,38 @@ public class HotelAmenityBlo implements IHotelAmenityBlo {
             }
 
             // clean up cache
-            cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
+            cache.remove(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
 
-            // clean up a related method cache
-            String methodName = "getAllAmenitiesByHotelId";
-            Object[] params = {hotelId};
-            CacheUtil.clearMethodResultInCache(methodName, params);
+            // clean up a related cache
+            cache.remove(CacheConstant.CACHED_AMENITIES_FOR_HOTEL + hotelId);
         }
     }
 
     @Override
     public List<HotelAmenity> getAllAmenitiesByHotelId(String hotelId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.CACHED_AMENITIES_FOR_HOTEL + hotelId);
         List<HotelAmenity> amenities = null;
-        // cache method res
-        Object[] params = {hotelId};
-        String methodName = "getAllAmenitiesByHotelId";
-        Object result = CacheUtil.getMethodResultFromCache(methodName, params);
 
-        if (result != null) {
-            amenities = (List<HotelAmenity>) result;
+        if (cacheItem.isPresent()) {
+            amenities = (List<HotelAmenity>) cacheItem.get();
         } else {
             synchronized (this) {
-                result = CacheUtil.getMethodResultFromCache(methodName, params);
-                if (result == null) {
+                cacheItem = cache.get(CacheConstant.CACHED_AMENITIES_FOR_HOTEL + hotelId);
+                if (cacheItem.isEmpty()) {
                     IHotelAmenityDao amenityDao = BeanManager.getLazyBeanByClass(HotelAmenityDao.class);
                     amenities = amenityDao.findAllAmenitiesByHotelId(hotelId);
 
-                    // cache method result
-                    CacheUtil.putMethodResultInCache(
-                            methodName,
+                    // cache result
+                    cache.put(
+                            CacheConstant.CACHED_AMENITIES_FOR_HOTEL + hotelId,
                             amenities,
-                            RandomUtil.randomLong(CacheConstant.CACHE_POPULAR_EXPIRATION_PERIOD_MAX),
-                            TimeUnit.MILLISECONDS,
-                            params
+                            CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX,
+                            TimeUnit.MILLISECONDS
                     );
 
                     // cache amenities
                     amenities.forEach(amenity -> {
-                        cache.put(
+                        cache.putIfAbsent(
                                 CacheConstant.ENTITY_HOTEL_AMENITY_KEY_PREFIX + amenity.getAmenityId(),
                                 amenity,
                                 RandomUtil.randomLong(CacheConstant.CACHE_COLD_EXPIRATION_PERIOD_MAX),
@@ -159,7 +150,7 @@ public class HotelAmenityBlo implements IHotelAmenityBlo {
                         );
                     });
                 } else {
-                    amenities = (List<HotelAmenity>) result;
+                    amenities = (List<HotelAmenity>) cacheItem.get();
                 }
             }
         }

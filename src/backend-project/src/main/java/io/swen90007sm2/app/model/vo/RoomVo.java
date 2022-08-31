@@ -14,7 +14,7 @@ import java.util.List;
 public class RoomVo extends Room {
 
     private Money money;
-    private List<RoomAmenity> roomAmenities;
+    private List<RoomAmenity> amenities;
 
     public RoomVo() {
     }
@@ -27,11 +27,11 @@ public class RoomVo extends Room {
         this.money = money;
     }
 
-    public List<RoomAmenity> getRoomAmenities() {
-        return roomAmenities;
+    public List<RoomAmenity> getAmenities() {
+        return amenities;
     }
 
-    public void setRoomAmenities(List<RoomAmenity> roomAmenities) {
-        this.roomAmenities = roomAmenities;
+    public void setAmenities(List<RoomAmenity> roomAmenities) {
+        this.amenities = roomAmenities;
     }
 }
