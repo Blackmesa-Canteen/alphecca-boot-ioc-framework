@@ -29,7 +29,7 @@ public interface IHotelBlo {
     /**
      * get Hotel entity by hotel id
      */
-    Hotel getHotelEntityByHotelId(String hotelId)
+    Hotel getHotelEntityByHotelId(String hotelId);
 
     /**
      * get a hotel info by owner hotelier id

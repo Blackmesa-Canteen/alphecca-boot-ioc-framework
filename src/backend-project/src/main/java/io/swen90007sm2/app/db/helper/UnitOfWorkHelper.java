@@ -49,6 +49,7 @@ public class UnitOfWorkHelper {
     public static UnitOfWorkHelper init(ICacheStorage<String, Object> cacheRef) {
         if (current.get() == null) {
             setCurrent(new UnitOfWorkHelper(cacheRef));
+            LOGGER.info("Unit of work loaded.");
             return current.get();
         }
 
@@ -57,7 +58,6 @@ public class UnitOfWorkHelper {
     }
 
     public static UnitOfWorkHelper getCurrent() {
-        LOGGER.info("Unit of work startup.");
         return current.get();
     }
 
