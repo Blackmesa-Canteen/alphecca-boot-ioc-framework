@@ -90,7 +90,7 @@ public class RoomBlo implements IRoomBlo {
     }
 
     @Override
-    public void updateRoomByRoomId(UpdateRoomParam param) {
+    public void doUpdateRoom(UpdateRoomParam param) {
         String roomId = param.getRoomId();
 
         Room originalRoomObj = getRoomEntityByRoomId(roomId);

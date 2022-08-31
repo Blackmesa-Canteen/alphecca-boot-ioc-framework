@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Controller(path = "/api/shared")
+@Controller(path = "/api/shared/photo")
 public class PhotoController {
 
     @AutoInjected
@@ -31,7 +31,7 @@ public class PhotoController {
      * @param response
      * @return
      */
-    @HandlesRequest(path = "/photo", method = RequestMethod.POST)
+    @HandlesRequest(path = "/", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.LOGIN_USER})
     public R handleUploadPhoto(HttpServletRequest request, HttpServletResponse response) {
         // parse incoming token
@@ -48,7 +48,7 @@ public class PhotoController {
      * @param request servletRequest
      * @param response servletResponse
      */
-    @HandlesRequest(path = "/photo", method = RequestMethod.GET)
+    @HandlesRequest(path = "/", method = RequestMethod.GET)
     public void handleDownloadPhoto(@QueryParam(value = "photoId") String photoId, HttpServletRequest request, HttpServletResponse response) {
         photoBlo.doPhotoDownload(photoId, request, response);
     }

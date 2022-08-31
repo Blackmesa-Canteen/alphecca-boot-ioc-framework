@@ -2,6 +2,7 @@ package io.swen90007sm2.app.blo.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IPhotoBlo;
 import io.swen90007sm2.app.common.constant.ResourceConstant;
@@ -171,6 +172,15 @@ public class PhotoBlo implements IPhotoBlo {
             LOGGER.error("Download error: ", e);
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    public void uploadPhotoForHotel(HttpServletRequest request, String userId, String hotelId) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void uploadPhotoForRoom(HttpServletRequest request, String userId, String roomId) {
+        throw new NotImplementedException();
     }
 }

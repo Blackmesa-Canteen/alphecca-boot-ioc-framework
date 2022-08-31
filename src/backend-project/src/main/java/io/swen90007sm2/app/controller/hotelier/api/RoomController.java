@@ -10,6 +10,7 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IRoomBlo;
 import io.swen90007sm2.app.model.param.CreateRoomParam;
+import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 
 import javax.validation.Valid;
@@ -29,6 +30,14 @@ public class RoomController {
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R createNewRoomToHotel(@RequestJsonBody @Valid CreateRoomParam param) {
         roomBlo.doCreateRoomToHotel(param);
+
+        return R.ok();
+    }
+
+    @HandlesRequest(path = "/", method = RequestMethod.PUT)
+    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
+    public R editRoom(@RequestJsonBody @Valid UpdateRoomParam param) {
+        roomBlo.doUpdateRoom(param);
 
         return R.ok();
     }

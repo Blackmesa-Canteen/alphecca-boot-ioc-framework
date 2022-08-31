@@ -15,7 +15,7 @@ public interface IRoomBlo {
      */
     void doCreateRoomToHotel(CreateRoomParam param);
 
-    void updateRoomByRoomId(UpdateRoomParam param);
+    void doUpdateRoom(UpdateRoomParam param);
 
     /**
      * get room entity

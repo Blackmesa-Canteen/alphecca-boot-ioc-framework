@@ -36,4 +36,14 @@ public interface IPhotoBlo {
      * @param response response obj
      */
     void doPhotoDownload(String photoId, HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * upload photo for Hotel
+     */
+    void uploadPhotoForHotel(HttpServletRequest request, String userId, String hotelId);
+
+    /**
+     * upload photo for room
+     */
+    void uploadPhotoForRoom(HttpServletRequest request, String userId, String roomId);
 }
