@@ -183,4 +183,14 @@ public class PhotoBlo implements IPhotoBlo {
     public void uploadPhotoForRoom(HttpServletRequest request, String userId, String roomId) {
         throw new NotImplementedException();
     }
+
+    @Override
+    public List<String> getPhotoUrlsForHotel(String hotelId) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<String> getPhotoUrlsForRoom(String roomId) {
+        throw new NotImplementedException();
+    }
 }

@@ -46,4 +46,8 @@ public interface IPhotoBlo {
      * upload photo for room
      */
     void uploadPhotoForRoom(HttpServletRequest request, String userId, String roomId);
+
+    List<String> getPhotoUrlsForHotel(String hotelId);
+
+    List<String> getPhotoUrlsForRoom(String roomId);
 }

@@ -2,6 +2,7 @@ package io.swen90007sm2.app.blo;
 
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.param.HotelParam;
+import io.swen90007sm2.app.model.param.UpdateHotelParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public interface IHotelBlo {
      * @param hotelierId hotelier person id
      */
     void editOwnedHotel(String hotelierId, HotelParam hotelParam);
+
+    /**
+     * update a hotel info by hotel id
+     */
+    void editHotelByHotelId(UpdateHotelParam updateHotelParam);
 
     /**
      * get Hotel entity by hotel id

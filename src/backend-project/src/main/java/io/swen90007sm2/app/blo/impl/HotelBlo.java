@@ -28,6 +28,7 @@ import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.HotelParam;
+import io.swen90007sm2.app.model.param.UpdateHotelParam;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import org.apache.commons.lang3.StringUtils;
@@ -187,6 +188,48 @@ public class HotelBlo implements IHotelBlo {
             cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
         }
 
+    }
+
+    @Override
+    public void editHotelByHotelId(UpdateHotelParam updateHotelParam) {
+        String hotelId = updateHotelParam.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        Hotel originalHotel = getHotelEntityByHotelId(hotelId);
+
+        if (originalHotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+        Hotel hotel = new Hotel();
+        BeanUtil.copyProperties(originalHotel, hotel);
+
+        if (updateHotelParam.getOnSale() != null) hotel.setOnSale(updateHotelParam.getOnSale());
+        if (updateHotelParam.getAddress() != null) hotel.setAddress(updateHotelParam.getAddress());
+        if (updateHotelParam.getName() != null) hotel.setName(updateHotelParam.getName());
+        if (updateHotelParam.getDescription() != null) hotel.setName(updateHotelParam.getName());
+        if (updateHotelParam.getPostCode() != null) hotel.setPostCode(updateHotelParam.getPostCode());
+
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+        // atom operation
+        synchronized (this) {
+            // update hotel
+            hotelDao.updateOne(hotel);
+
+            // update amenity (atom update the associate table)
+            hotelAmenityBlo.updateAmenityIdsForHotel(updateHotelParam.getAmenityIds(), hotelId);
+
+            // clean up cache
+            cache.remove(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
+            cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
+        }
     }
 
     @Override
