@@ -12,12 +12,15 @@ import io.swen90007sm2.app.blo.IRoomAmenityBlo;
 import io.swen90007sm2.app.blo.IRoomBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
+import io.swen90007sm2.app.common.util.CurrencyUtil;
 import io.swen90007sm2.app.dao.IRoomAmenityDao;
 import io.swen90007sm2.app.dao.IRoomDao;
 import io.swen90007sm2.app.dao.impl.RoomAmenityDao;
 import io.swen90007sm2.app.dao.impl.RoomDao;
+import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Room;
 import io.swen90007sm2.app.model.entity.RoomAmenity;
 import io.swen90007sm2.app.model.param.CreateRoomParam;
@@ -26,6 +29,7 @@ import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.model.vo.RoomVo;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -50,13 +54,16 @@ public class RoomBlo implements IRoomBlo {
 
     @Override
     public void doCreateRoomToHotel(CreateRoomParam param) {
-        HotelVo hotel = hotelBlo.getHotelInfoByHotelId(param.getHotelId());
+        Hotel hotel = hotelBlo.getHotelEntityByHotelId(param.getHotelId());
         if (hotel == null) {
             throw new RequestException(
                     "hotel not found.",
                     StatusCodeEnume.RESOURCE_NOT_FOUND_EXCEPTION.getCode()
             );
         }
+
+        // calc absolute AUD price
+        BigDecimal audPrice = CurrencyUtil.convertCurrencyToAUD(param.getCurrency(), param.getPricePerNight());
 
         Room room = new Room();
         Long id = IdFactory.genSnowFlakeId();
@@ -65,8 +72,8 @@ public class RoomBlo implements IRoomBlo {
         room.setRoomId(id.toString());
         room.setName(param.getName());
         room.setDescription(param.getDescription());
-        room.setPricePerNight(param.getPricePerNight());
-        room.setCurrency(param.getCurrency());
+        room.setPricePerNight(audPrice);
+        room.setCurrency(CommonConstant.AUD_CURRENCY);
         room.setSleepsNum(param.getSleepsNum());
         room.setVacantNum(param.getVacantNum());
         room.setOnSale(param.getOnSale());
@@ -86,6 +93,9 @@ public class RoomBlo implements IRoomBlo {
                     amenity_ids,
                     room.getRoomId()
             );
+
+            // update min hotel price info
+            hotelBlo.editeHotelMinPriceByHotelId(hotel.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
         }
     }
 
@@ -97,10 +107,13 @@ public class RoomBlo implements IRoomBlo {
         Room newRoomObj = new Room();
         BeanUtil.copyProperties(originalRoomObj, newRoomObj);
 
+        // calc absolute AUD price
+        BigDecimal audPrice = CurrencyUtil.convertCurrencyToAUD(param.getCurrency(), param.getPricePerNight());
+
         newRoomObj.setName(param.getName());
         newRoomObj.setDescription(param.getDescription());
-        newRoomObj.setPricePerNight(param.getPricePerNight());
-        newRoomObj.setCurrency(param.getCurrency());
+        newRoomObj.setPricePerNight(audPrice);
+        newRoomObj.setCurrency(CommonConstant.AUD_CURRENCY);
         newRoomObj.setSleepsNum(param.getSleepsNum());
         newRoomObj.setVacantNum(param.getVacantNum());
         newRoomObj.setOnSale(param.getOnSale());
@@ -112,6 +125,9 @@ public class RoomBlo implements IRoomBlo {
 
             cache.remove(CacheConstant.VO_ROOM_KEY_PREFIX + roomId);
             cache.remove(CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId);
+
+            // hotel min price update
+            hotelBlo.editeHotelMinPriceByHotelId(newRoomObj.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
         }
         // don't forget to clean cache after updating
     }
@@ -150,7 +166,7 @@ public class RoomBlo implements IRoomBlo {
     }
 
     @Override
-    public RoomVo getRoomInfoByRoomId(String roomId) {
+    public RoomVo getRoomInfoByRoomId(String roomId, String currencyName) {
         Optional<Object> cacheItem = cache.get(CacheConstant.VO_ROOM_KEY_PREFIX + roomId);
         RoomVo roomVo = null;
         if (cacheItem.isEmpty()) {
@@ -174,8 +190,8 @@ public class RoomBlo implements IRoomBlo {
 
                     // embedded value
                     Money money = new Money();
-                    money.setAmount(room.getPricePerNight());
-                    money.setCurrency(room.getCurrency());
+                    money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, room.getPricePerNight()));
+                    money.setCurrency(currencyName);
                     roomVo.setMoney(money);
 
                     // list amenities
@@ -210,7 +226,7 @@ public class RoomBlo implements IRoomBlo {
     }
 
     @Override
-    public List<RoomVo> getAllRoomsFromHotelId(String hotelId) {
+    public List<RoomVo> getAllRoomsFromHotelId(String hotelId, String currencyName) {
         Optional<Object> cacheItem = cache.get(CacheConstant.CACHED_ROOMS_FOR_HOTEL + hotelId);
         List<RoomVo> roomVos;
         if (cacheItem.isEmpty()) {
@@ -222,7 +238,7 @@ public class RoomBlo implements IRoomBlo {
                     roomVos = new LinkedList<>();
                     for (Room room : rooms) {
                         String roomId = room.getRoomId();
-                        RoomVo roomVo = getRoomInfoByRoomId(roomId);
+                        RoomVo roomVo = getRoomInfoByRoomId(roomId, currencyName);
                         roomVos.add(roomVo);
 
                         cache.put(

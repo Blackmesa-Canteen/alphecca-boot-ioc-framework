@@ -17,6 +17,7 @@ import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
+import io.swen90007sm2.app.common.util.CurrencyUtil;
 import io.swen90007sm2.app.dao.IHotelAmenityDao;
 import io.swen90007sm2.app.dao.IHotelDao;
 import io.swen90007sm2.app.dao.IHotelierDao;
@@ -24,6 +25,7 @@ import io.swen90007sm2.app.dao.impl.HotelAmenityDao;
 import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.dao.impl.HotelierDao;
 import io.swen90007sm2.app.db.bean.PageBean;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 import io.swen90007sm2.app.model.entity.Hotelier;
@@ -33,6 +35,7 @@ import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -109,7 +112,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public HotelVo getHotelInfoByOwnerHotelierId(String hotelierId) {
+    public HotelVo getHotelInfoByOwnerHotelierId(String hotelierId, String currencyName) {
         HotelVo hotelVo;
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
         String hotelId = currentHotelier.getHotelId();
@@ -120,7 +123,7 @@ public class HotelBlo implements IHotelBlo {
             );
         }
 
-        Hotel hotel = getHotelInfoByHotelId(hotelId);
+        Hotel hotel = getHotelEntityByHotelId(hotelId);
         if (hotel == null) {
             throw new RequestException(
                     StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
@@ -135,8 +138,8 @@ public class HotelBlo implements IHotelBlo {
 
         // embedded value
         Money money = new Money();
-        money.setAmount(hotel.getMinPrice());
-        money.setCurrency(hotel.getCurrency());
+        money.setCurrency(currencyName);
+        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
         hotelVo.setMoney(money);
 
         // list amenities
@@ -233,6 +236,38 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
+    public void editeHotelMinPriceByHotelId(String hotelId, String currencyName, BigDecimal newPrice) {
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        Hotel originalHotel = getHotelEntityByHotelId(hotelId);
+        if (originalHotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+        Hotel hotel = new Hotel();
+        BeanUtil.copyProperties(originalHotel, hotel);
+
+        // calc absolute AUD price
+        BigDecimal newPriceInAUD = CurrencyUtil.convertCurrencyToAUD(currencyName, newPrice);
+        BigDecimal originalPriceInAUD = originalHotel.getMinPrice();
+        if (originalPriceInAUD.equals(CommonConstant.DEFAULT_PRICE_BIG_DECIMAL)
+                || originalPriceInAUD.compareTo(newPriceInAUD) > 0) {
+            // if the original price is default value, or is greater than new value, update it to new value
+            hotel.setMinPrice(newPriceInAUD);
+        }
+
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotel, hotelDao, hotelId);
+    }
+
+    @Override
     public Hotel getHotelEntityByHotelId(String hotelId) {
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
         Hotel hotel = null;
@@ -265,7 +300,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public HotelVo getHotelInfoByHotelId(String hotelId) {
+    public HotelVo getHotelInfoByHotelId(String hotelId, String currencyName) {
         Optional<Object> cacheItem = cache.get(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
         HotelVo hotelVo = null;
         if (cacheItem.isEmpty()) {
@@ -289,8 +324,8 @@ public class HotelBlo implements IHotelBlo {
 
                     // embedded value
                     Money money = new Money();
-                    money.setAmount(hotel.getMinPrice());
-                    money.setCurrency(hotel.getCurrency());
+                    money.setCurrency(currencyName);
+                    money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
                     hotelVo.setMoney(money);
 
                     // list amenities
@@ -324,7 +359,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public List<HotelVo> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize, Integer order) {
+    public List<HotelVo> getHotelsByPageSortedByCreateTime(String currencyName, Integer pageNum, Integer pageSize, Integer order) {
         List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {pageNum, pageSize, order};
@@ -366,8 +401,8 @@ public class HotelBlo implements IHotelBlo {
 
                         // embedded value
                         Money money = new Money();
-                        money.setAmount(hotel.getMinPrice());
-                        money.setCurrency(hotel.getCurrency());
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
                         hotelVo.setMoney(money);
 
                         // list amenities
@@ -410,7 +445,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public List<HotelVo> getHotelsByPageSortedByPrice(Integer pageNum, Integer pageSize, Integer order) {
+    public List<HotelVo> getHotelsByPageSortedByPrice(String currencyName, Integer pageNum, Integer pageSize, Integer order) {
         List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {pageNum, pageSize, order};
@@ -451,8 +486,8 @@ public class HotelBlo implements IHotelBlo {
 
                         // embedded value
                         Money money = new Money();
-                        money.setAmount(hotel.getMinPrice());
-                        money.setCurrency(hotel.getCurrency());
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
                         hotelVo.setMoney(money);
 
                         // list amenities
@@ -494,7 +529,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public List<HotelVo> getHotelsByPageSortedByRank(Integer pageNum, Integer pageSize, Integer order) {
+    public List<HotelVo> getHotelsByPageSortedByRank(String currencyName, Integer pageNum, Integer pageSize, Integer order) {
         List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {pageNum, pageSize, order};
@@ -535,8 +570,8 @@ public class HotelBlo implements IHotelBlo {
 
                         // embedded value
                         Money money = new Money();
-                        money.setAmount(hotel.getMinPrice());
-                        money.setCurrency(hotel.getCurrency());
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
                         hotelVo.setMoney(money);
 
                         // list amenities
@@ -578,7 +613,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public List<HotelVo> searchHotelsByPageByName(Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order) {
+    public List<HotelVo> searchHotelsByPageByName(String currencyName, Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order) {
         List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {name, sortBy, order};
@@ -627,8 +662,8 @@ public class HotelBlo implements IHotelBlo {
 
                         // embedded value
                         Money money = new Money();
-                        money.setAmount(hotel.getMinPrice());
-                        money.setCurrency(hotel.getCurrency());
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
                         hotelVo.setMoney(money);
 
                         // list amenities
@@ -690,7 +725,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public List<HotelVo> searchHotelsByPageByPostCode(Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order) {
+    public List<HotelVo> searchHotelsByPageByPostCode(String currencyName, Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order) {
         List<HotelVo> hotelVos = new LinkedList<>();
         // cache method res
         Object[] params = {postCode, sortBy, order};
@@ -736,8 +771,8 @@ public class HotelBlo implements IHotelBlo {
 
                         // embedded value
                         Money money = new Money();
-                        money.setAmount(hotel.getMinPrice());
-                        money.setCurrency(hotel.getCurrency());
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
                         hotelVo.setMoney(money);
 
                         // list amenities

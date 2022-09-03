@@ -24,8 +24,10 @@ public class Transaction extends BaseEntity {
 
     private Date endDate;
 
+    // in database it is always absolute amount of AUD
     private BigDecimal totalPrice;
 
+    // in database it is always AUD
     private String currency = CommonConstant.AUD_CURRENCY;
 
     public Transaction() {

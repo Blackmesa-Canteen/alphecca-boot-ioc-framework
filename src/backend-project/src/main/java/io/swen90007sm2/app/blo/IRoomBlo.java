@@ -25,7 +25,7 @@ public interface IRoomBlo {
     /**
      * get room vo
      */
-    RoomVo getRoomInfoByRoomId(String roomId);
+    RoomVo getRoomInfoByRoomId(String roomId, String currencyName);
 
-    List<RoomVo> getAllRoomsFromHotelId(String hotelId);
+    List<RoomVo> getAllRoomsFromHotelId(String hotelId, String currencyName);
 }

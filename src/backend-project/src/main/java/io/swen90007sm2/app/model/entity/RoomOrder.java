@@ -13,8 +13,10 @@ public class RoomOrder extends BaseEntity{
 
     private Integer orderedCount;
 
+    // in database it is always absolute amount of AUD
     private BigDecimal pricePerRoom;
 
+    // in database it is always AUD
     private String currency;
 
     public RoomOrder() {

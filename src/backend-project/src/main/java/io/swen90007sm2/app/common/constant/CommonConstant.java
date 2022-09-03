@@ -1,15 +1,20 @@
 package io.swen90007sm2.app.common.constant;
 
+import java.math.BigDecimal;
+
 public interface CommonConstant {
 
     String NULL = "null";
 
+    Double DEFAULT_PRICE_DOUBLE = 0.0;
+    BigDecimal DEFAULT_PRICE_BIG_DECIMAL = new BigDecimal("0.0");
     Integer SORT_UP = 1;
     Integer SORT_DOWN = 0;
 
 
     String AUD_CURRENCY = "AUD";
-
+    String USD_CURRENCY = "USD";
+    String RMB_CURRENCY = "RMB";
 
     Integer TRANSACTION_PENDING = 0;
     Integer TRANSACTION_CONFIRMED = 1;

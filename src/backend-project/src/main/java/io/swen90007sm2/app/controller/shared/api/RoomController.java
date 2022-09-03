@@ -8,6 +8,7 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IRoomBlo;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.model.vo.RoomVo;
 import org.apache.commons.lang3.StringUtils;
@@ -27,12 +28,16 @@ public class RoomController {
     IRoomBlo roomBlo;
 
     @HandlesRequest(path = "/query", method = RequestMethod.GET)
-    public R getRoomInfo(@QueryParam("roomId") String roomId, @QueryParam("hotelId") String hotelId) {
+    public R getRoomInfo(@QueryParam("roomId") String roomId, @QueryParam("hotelId") String hotelId,
+                         @QueryParam("currency") String currency) {
+        if (StringUtils.isEmpty(currency)) {
+            currency = CommonConstant.AUD_CURRENCY;
+        }
         if (StringUtils.isNotEmpty(roomId)) {
-            RoomVo roomVo = roomBlo.getRoomInfoByRoomId(roomId);
+            RoomVo roomVo = roomBlo.getRoomInfoByRoomId(roomId, currency.toUpperCase());
             return R.ok().setData(roomVo);
         } else if (StringUtils.isNotEmpty(hotelId)) {
-            List<RoomVo> roomVos = roomBlo.getAllRoomsFromHotelId(hotelId);
+            List<RoomVo> roomVos = roomBlo.getAllRoomsFromHotelId(hotelId, currency.toUpperCase());
             return R.ok().setData(roomVos);
         } else {
             throw new RequestException(

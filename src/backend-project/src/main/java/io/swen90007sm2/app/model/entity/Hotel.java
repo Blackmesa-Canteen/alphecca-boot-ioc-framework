@@ -9,8 +9,11 @@ public class Hotel extends BaseEntity{
     private String description;
     private String address;
     private String postCode;
+
+    // this value is AUD absolute price
     private BigDecimal minPrice = BigDecimal.valueOf(0.0);
 
+    // this always be AUD in the database
     private String currency = "AUD";
 
     private Integer rank = 3;

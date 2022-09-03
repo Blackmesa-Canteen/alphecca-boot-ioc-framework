@@ -27,9 +27,8 @@ public class HotelController {
     IHotelBlo hotelBlo;
 
     @HandlesRequest(path = "/query", method = RequestMethod.GET)
-    public R getHotelInfoByHotelId(@QueryParam("hotelId") String hotelId) {
-        HotelVo hotelVo = hotelBlo.getHotelInfoByHotelId(hotelId);
-
+    public R getHotelInfoByHotelId(@QueryParam("hotelId") String hotelId, @QueryParam("currency") String currency) {
+        HotelVo hotelVo = hotelBlo.getHotelInfoByHotelId(hotelId, currency.toUpperCase());
         return R.ok().setData(hotelVo);
     }
 
@@ -42,24 +41,29 @@ public class HotelController {
      */
     @HandlesRequest(path = "/", method = RequestMethod.GET)
     public R getHotelsByPage(@QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize,
-                             @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder) {
+                             @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder,
+                             @QueryParam("currency") String currency) {
         if (pageNum == null || pageSize == null) {
             return R.error(StatusCodeEnume.GENERAL_REQUEST_EXCEPTION.getCode(),
                     "need to define page info in query param"
             );
         }
 
+        if (StringUtils.isEmpty(currency)) {
+            currency = CommonConstant.AUD_CURRENCY;
+        }
+
         List<HotelVo> hotelVos = null;
         if (sortBy == null || sortOrder == null) {
             // by default, sort by create time, DESC
-            hotelVos  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, CommonConstant.SORT_DOWN);
+            hotelVos  = hotelBlo.getHotelsByPageSortedByCreateTime(currency.toUpperCase(), pageNum, pageSize, CommonConstant.SORT_DOWN);
         } else {
             if (sortBy.equals(CommonConstant.SORT_BY_RANK)) {
-                hotelVos  = hotelBlo.getHotelsByPageSortedByRank(pageNum, pageSize, sortOrder);
+                hotelVos  = hotelBlo.getHotelsByPageSortedByRank(currency.toUpperCase(), pageNum, pageSize, sortOrder);
             } else if (sortBy.equals(CommonConstant.SORT_BY_PRICE)) {
-                hotelVos  = hotelBlo.getHotelsByPageSortedByPrice(pageNum, pageSize, sortOrder);
+                hotelVos  = hotelBlo.getHotelsByPageSortedByPrice(currency.toUpperCase(), pageNum, pageSize, sortOrder);
             } else {
-                hotelVos  = hotelBlo.getHotelsByPageSortedByCreateTime(pageNum, pageSize, sortOrder);
+                hotelVos  = hotelBlo.getHotelsByPageSortedByCreateTime(currency.toUpperCase(), pageNum, pageSize, sortOrder);
             }
         }
 
@@ -79,7 +83,8 @@ public class HotelController {
     @HandlesRequest(path = "/search", method = RequestMethod.GET)
     public R searchHotels(@QueryParam("hotelName") String hotelName, @QueryParam("postCode") String postCode,
                           @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder,
-                          @QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize) {
+                          @QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize,
+                          @QueryParam("currency") String currency) {
 
         if (pageNum == null || pageSize == null) {
             return R.error(StatusCodeEnume.GENERAL_REQUEST_EXCEPTION.getCode(),
@@ -87,15 +92,19 @@ public class HotelController {
                     );
         }
 
+        if (StringUtils.isEmpty(currency)) {
+            currency = CommonConstant.AUD_CURRENCY;
+        }
+
         List<HotelVo> hotelVos = null;
         if (StringUtils.isNotEmpty(hotelName)) {
             hotelVos = hotelBlo.searchHotelsByPageByName(
-                    pageNum, pageSize, hotelName, sortBy, sortOrder
+                    currency.toUpperCase(), pageNum, pageSize, hotelName, sortBy, sortOrder
             );
 
         } else if (StringUtils.isNotEmpty(postCode)) {
             hotelVos = hotelBlo.searchHotelsByPageByPostCode(
-                    pageNum, pageSize, postCode, sortBy, sortOrder
+                    currency.toUpperCase(), pageNum, pageSize, postCode, sortBy, sortOrder
             );
         } else {
             return R.error(
