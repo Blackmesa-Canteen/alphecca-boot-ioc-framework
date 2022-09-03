@@ -7,7 +7,7 @@ public interface CommonConstant {
     String NULL = "null";
 
     Double DEFAULT_PRICE_DOUBLE = 0.0;
-    BigDecimal DEFAULT_PRICE_BIG_DECIMAL = new BigDecimal("0.0");
+    BigDecimal DEFAULT_PRICE_BIG_DECIMAL = BigDecimal.valueOf(0.0);
     Integer SORT_UP = 1;
     Integer SORT_DOWN = 0;
 

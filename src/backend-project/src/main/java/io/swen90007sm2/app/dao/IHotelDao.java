@@ -7,10 +7,22 @@ import java.util.List;
 public interface IHotelDao extends IBaseDao<Hotel>{
 
     /**
-     * Find total record counts.
+     * Find total record counts based on onSale status
      * @return int total records
      */
-    int findTotalCount(boolean onSale);
+    int findTotalCountByOnSale(boolean onSale);
+
+    /**
+     * Find total counts
+     * @return
+     */
+    int findTotalCount();
+
+
+    /**
+     * find all, no worry about onsale. used for admin
+     */
+    List<Hotel> findAllByPageByDate(Integer start, Integer rows, int sortType);
 
     /**
      * find customers by page, from newest to latest
@@ -20,7 +32,7 @@ public interface IHotelDao extends IBaseDao<Hotel>{
      * @param onSale show hotels of that sale status
      * @return list
      */
-    List<Hotel> findAllByPageByDate(Integer start, Integer rows, int sortType, boolean onSale);
+    List<Hotel> findAllByPageByDateByOnSale(Integer start, Integer rows, int sortType, boolean onSale);
 
     /**
      * find customers by page, sort with price
@@ -29,19 +41,19 @@ public interface IHotelDao extends IBaseDao<Hotel>{
      * @param onSale show hotels of that sale status
      * @return list
      */
-    List<Hotel> findAllByPageSortByPrice(Integer start, Integer rows, int sortType, boolean onSale);
+    List<Hotel> findAllByPageSortByPriceByOnSale(Integer start, Integer rows, int sortType, boolean onSale);
 
     /**
      * find all hotels sorted by rank
      */
-    List<Hotel> findAllByPageSortByRank(Integer start, Integer rows, int sortType, boolean onSale);
+    List<Hotel> findAllByPageSortByRankByOnSale(Integer start, Integer rows, int sortType, boolean onSale);
 
     /**
      * find hotels by post code
      */
-    List<Hotel> findAllByPostCode(boolean onSale, String postCode);
+    List<Hotel> findAllByPostCodeByOnSale(boolean onSale, String postCode);
 
-    List<Hotel> findAllByName(boolean onSale, String name);
+    List<Hotel> findAllByNameByOnSale(boolean onSale, String name);
 
     /**
      * Find Hotel in database by hotelId

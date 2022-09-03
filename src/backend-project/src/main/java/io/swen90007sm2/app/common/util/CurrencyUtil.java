@@ -44,4 +44,9 @@ public class CurrencyUtil {
 
         return BigDecimal.valueOf(targetAmount);
     }
+
+    public static BigDecimal convertCurrencyFromTo(BigDecimal originalAmount, String originalCurrencyName, String targetCurrencyName) {
+        BigDecimal audMoney = convertCurrencyToAUD(originalCurrencyName, originalAmount);
+        return convertAUDtoCurrency(targetCurrencyName, audMoney);
+    }
 }

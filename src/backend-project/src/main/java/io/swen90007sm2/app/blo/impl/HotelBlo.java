@@ -11,6 +11,7 @@ import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IHotelAmenityBlo;
 import io.swen90007sm2.app.blo.IHotelBlo;
 import io.swen90007sm2.app.blo.IHotelierBlo;
+import io.swen90007sm2.app.blo.IRoomBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.cache.util.CacheUtil;
@@ -29,6 +30,7 @@ import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 import io.swen90007sm2.app.model.entity.Hotelier;
+import io.swen90007sm2.app.model.entity.Room;
 import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.param.UpdateHotelParam;
 import io.swen90007sm2.app.model.pojo.Money;
@@ -38,6 +40,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Blo
 public class HotelBlo implements IHotelBlo {
@@ -49,13 +52,11 @@ public class HotelBlo implements IHotelBlo {
     IHotelAmenityBlo hotelAmenityBlo;
 
     @AutoInjected
+    IRoomBlo roomBlo;
+
+    @AutoInjected
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
     ICacheStorage<String, Object> cache;
-
-    @Override
-    public List<Hotel> getAllHotels(Integer pageNum, Integer pageSize) {
-        throw new NotImplementedException();
-    }
 
     public void doCreateHotel(String hotelierId, HotelParam hotelParam) {
 
@@ -112,7 +113,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public HotelVo getHotelInfoByOwnerHotelierId(String hotelierId, String currencyName) {
+    public HotelVo getHotelInfoByOwnerHotelierId(String hotelierId, String currencyName, Boolean showNotSale) {
         HotelVo hotelVo;
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
         String hotelId = currentHotelier.getHotelId();
@@ -124,7 +125,7 @@ public class HotelBlo implements IHotelBlo {
         }
 
         Hotel hotel = getHotelEntityByHotelId(hotelId);
-        if (hotel == null) {
+        if (hotel == null || (!showNotSale && !hotel.getOnSale())) {
             throw new RequestException(
                     StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
                     StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
@@ -268,6 +269,25 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
+    public void updateHotelMinPrice(String hotelId) {
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+
+        synchronized (this) {
+            List<Room> rooms = roomBlo.getAllRoomEntitiesFromHotelId(hotelId);
+            // filter room, get onSale rooms
+            List<Room> onSaleRooms = rooms.stream().filter(Room::getOnSale).collect(Collectors.toList());
+            BigDecimal minPrice = CommonConstant.DEFAULT_PRICE_BIG_DECIMAL;
+            if (onSaleRooms.size() > 0) {
+                // up sort
+                onSaleRooms.sort(Comparator.comparing(Room::getPricePerNight));
+                minPrice = onSaleRooms.get(0).getPricePerNight();
+            }
+
+            editeHotelMinPriceByHotelId(hotelId, CommonConstant.AUD_CURRENCY, minPrice);
+        }
+    }
+
+    @Override
     public Hotel getHotelEntityByHotelId(String hotelId) {
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
         Hotel hotel = null;
@@ -300,7 +320,7 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public HotelVo getHotelInfoByHotelId(String hotelId, String currencyName) {
+    public HotelVo getHotelInfoByHotelId(String hotelId, String currencyName, Boolean showNotSale) {
         Optional<Object> cacheItem = cache.get(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
         HotelVo hotelVo = null;
         if (cacheItem.isEmpty()) {
@@ -311,7 +331,7 @@ public class HotelBlo implements IHotelBlo {
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
                     Hotel hotel = hotelDao.findOneByBusinessId(hotelId);
                     // if no such
-                    if (hotel == null) {
+                    if (hotel == null || (!showNotSale && !hotel.getOnSale())) {
                         throw new RequestException(
                                 "hotel not found",
                                 StatusCodeEnume.RESOURCE_NOT_FOUND_EXCEPTION.getCode());
@@ -348,11 +368,21 @@ public class HotelBlo implements IHotelBlo {
                 } else {
                     // data is put by other thread, just get from cache.
                     hotelVo = (HotelVo) cacheItem.get();
+                    // embedded value, currency exchange
+                    Money money = hotelVo.getMoney();
+                    money.setCurrency(currencyName);
+                    money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                    hotelVo.setMoney(money);
                 }
             }
 
         } else {
             hotelVo = (HotelVo) cacheItem.get();
+            // embedded value, currency exchange
+            Money money = hotelVo.getMoney();
+            money.setCurrency(currencyName);
+            money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+            hotelVo.setMoney(money);
         }
 
         return hotelVo;
@@ -367,6 +397,14 @@ public class HotelBlo implements IHotelBlo {
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
             hotelVos = (List<HotelVo>) result;
+
+            // currency exchange
+            hotelVos = hotelVos.stream().peek(hotelVo -> {
+                Money money = hotelVo.getMoney();
+                money.setCurrency(currencyName);
+                money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                hotelVo.setMoney(money);
+            }).collect(Collectors.toList());
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -374,7 +412,7 @@ public class HotelBlo implements IHotelBlo {
                     // fetch data from db
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
                     // only finds on sale hotels
-                    int totalRows = hotelDao.findTotalCount(true);
+                    int totalRows = hotelDao.findTotalCountByOnSale(true);
 
                     // physic paging: use database offset to page results
                     PageBean<Hotel> pageBean = new PageBean<>(
@@ -388,9 +426,9 @@ public class HotelBlo implements IHotelBlo {
 
                     List<Hotel> hotels;
                     if (order == null) {
-                        hotels = hotelDao.findAllByPageByDate(start, pageSize, CommonConstant.SORT_DOWN, true);
+                        hotels = hotelDao.findAllByPageByDateByOnSale(start, pageSize, CommonConstant.SORT_DOWN, true);
                     } else {
-                        hotels = hotelDao.findAllByPageByDate(start, pageSize, order, true);
+                        hotels = hotelDao.findAllByPageByDateByOnSale(start, pageSize, order, true);
                     }
 
                     for (Hotel hotel : hotels) {
@@ -437,6 +475,13 @@ public class HotelBlo implements IHotelBlo {
 
                 } else {
                     hotelVos = (List<HotelVo>) result;
+                    // currency exchange
+                    hotelVos = hotelVos.stream().peek(hotelVo -> {
+                        Money money = hotelVo.getMoney();
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                        hotelVo.setMoney(money);
+                    }).collect(Collectors.toList());
                 }
             }
         }
@@ -453,6 +498,13 @@ public class HotelBlo implements IHotelBlo {
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
             hotelVos = (List<HotelVo>) result;
+            // currency exchange
+            hotelVos = hotelVos.stream().peek(hotelVo -> {
+                Money money = hotelVo.getMoney();
+                money.setCurrency(currencyName);
+                money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                hotelVo.setMoney(money);
+            }).collect(Collectors.toList());
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -460,7 +512,7 @@ public class HotelBlo implements IHotelBlo {
                     // fetch data from db
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
                     // only finds on sale hotels
-                    int totalRows = hotelDao.findTotalCount(true);
+                    int totalRows = hotelDao.findTotalCountByOnSale(true);
 
                     // physic paging: use database offset to page results
                     PageBean<Hotel> pageBean = new PageBean<>(
@@ -473,9 +525,9 @@ public class HotelBlo implements IHotelBlo {
                     int start = pageBean.getStartRow();
                     List<Hotel> hotels;
                     if (order == null) {
-                        hotels = hotelDao.findAllByPageSortByPrice(start, pageSize, CommonConstant.SORT_DOWN, true);
+                        hotels = hotelDao.findAllByPageSortByPriceByOnSale(start, pageSize, CommonConstant.SORT_DOWN, true);
                     } else {
-                        hotels = hotelDao.findAllByPageSortByPrice(start, pageSize, order, true);
+                        hotels = hotelDao.findAllByPageSortByPriceByOnSale(start, pageSize, order, true);
                     }
 
                     for (Hotel hotel : hotels) {
@@ -537,6 +589,13 @@ public class HotelBlo implements IHotelBlo {
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
             hotelVos = (List<HotelVo>) result;
+            // currency exchange
+            hotelVos = hotelVos.stream().peek(hotelVo -> {
+                Money money = hotelVo.getMoney();
+                money.setCurrency(currencyName);
+                money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                hotelVo.setMoney(money);
+            }).collect(Collectors.toList());
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -544,7 +603,7 @@ public class HotelBlo implements IHotelBlo {
                     // fetch data from db
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
                     // only finds on sale hotels
-                    int totalRows = hotelDao.findTotalCount(true);
+                    int totalRows = hotelDao.findTotalCountByOnSale(true);
 
                     // physic paging: use database offset to page results
                     PageBean<Hotel> pageBean = new PageBean<>(
@@ -557,9 +616,9 @@ public class HotelBlo implements IHotelBlo {
                     int start = pageBean.getStartRow();
                     List<Hotel> hotels;
                     if (order == null) {
-                        hotels = hotelDao.findAllByPageSortByRank(start, pageSize, CommonConstant.SORT_DOWN, true);
+                        hotels = hotelDao.findAllByPageSortByRankByOnSale(start, pageSize, CommonConstant.SORT_DOWN, true);
                     } else {
-                        hotels = hotelDao.findAllByPageSortByRank(start, pageSize, order, true);
+                        hotels = hotelDao.findAllByPageSortByRankByOnSale(start, pageSize, order, true);
                     }
 
                     for (Hotel hotel : hotels) {
@@ -605,6 +664,13 @@ public class HotelBlo implements IHotelBlo {
                     );
                 } else {
                     hotelVos = (List<HotelVo>) result;
+                    // currency exchange
+                    hotelVos = hotelVos.stream().peek(hotelVo -> {
+                        Money money = hotelVo.getMoney();
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                        hotelVo.setMoney(money);
+                    }).collect(Collectors.toList());
                 }
             }
         }
@@ -621,6 +687,13 @@ public class HotelBlo implements IHotelBlo {
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
             hotelVos = (List<HotelVo>) result;
+            // currency exchange
+            hotelVos = hotelVos.stream().peek(hotelVo -> {
+                Money money = hotelVo.getMoney();
+                money.setCurrency(currencyName);
+                money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                hotelVo.setMoney(money);
+            }).collect(Collectors.toList());
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -629,7 +702,7 @@ public class HotelBlo implements IHotelBlo {
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
 
                     // only get onSale result
-                    List<Hotel> hotels = hotelDao.findAllByName(true, name);
+                    List<Hotel> hotels = hotelDao.findAllByNameByOnSale(true, name);
 
                     // need to sort the result, we are using logical paging, we fetch all data from db, and sort.
                     // This is because search data has limited number
@@ -698,6 +771,13 @@ public class HotelBlo implements IHotelBlo {
 
                 } else {
                     hotelVos = (List<HotelVo>) result;
+                    // currency exchange
+                    hotelVos = hotelVos.stream().peek(hotelVo -> {
+                        Money money = hotelVo.getMoney();
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                        hotelVo.setMoney(money);
+                    }).collect(Collectors.toList());
                 }
             }
         }
@@ -733,6 +813,13 @@ public class HotelBlo implements IHotelBlo {
         Object result = CacheUtil.getMethodResultFromCache(methodName, params);
         if (result != null) {
             hotelVos = (List<HotelVo>) result;
+            // currency exchange
+            hotelVos = hotelVos.stream().peek(hotelVo -> {
+                Money money = hotelVo.getMoney();
+                money.setCurrency(currencyName);
+                money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                hotelVo.setMoney(money);
+            }).collect(Collectors.toList());
         } else {
             synchronized (this) {
                 result = CacheUtil.getMethodResultFromCache(methodName, params);
@@ -740,7 +827,7 @@ public class HotelBlo implements IHotelBlo {
                     // fetch data from db
                     IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
                     // only get onSale result
-                    List<Hotel> hotels = hotelDao.findAllByPostCode(true, postCode);
+                    List<Hotel> hotels = hotelDao.findAllByPostCodeByOnSale(true, postCode);
 
                     // by default, sort by rank DESC
                     if (sortBy == null) {
@@ -806,6 +893,13 @@ public class HotelBlo implements IHotelBlo {
                     );
                 } else {
                     hotelVos = (List<HotelVo>) result;
+                    // currency exchange
+                    hotelVos = hotelVos.stream().peek(hotelVo -> {
+                        Money money = hotelVo.getMoney();
+                        money.setCurrency(currencyName);
+                        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotelVo.getMinPrice()));
+                        hotelVo.setMoney(money);
+                    }).collect(Collectors.toList());
                 }
             }
         }
@@ -830,5 +924,53 @@ public class HotelBlo implements IHotelBlo {
         } else {
             return hotelVos.subList(startRow, totalRowNum);
         }
+    }
+
+    @Override
+    public List<HotelVo> getAllHotelsByDate(Integer pageNum, Integer pageSize, Integer order) {
+        // fetch data from db
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+        // only finds on sale hotels
+        int totalRows = hotelDao.findTotalCount();
+
+        // physic paging: use database offset to page results
+        PageBean<Hotel> pageBean = new PageBean<>(
+                pageSize,
+                totalRows,
+                pageNum
+        );
+
+        // calculate start row in database
+        int start = pageBean.getStartRow();
+
+        List<Hotel> hotels;
+        if (order == null) {
+            hotels = hotelDao.findAllByPageByDate(start, pageSize, CommonConstant.SORT_DOWN);
+        } else {
+            hotels = hotelDao.findAllByPageByDate(start, pageSize, order);
+        }
+
+        List<HotelVo> hotelVos = new LinkedList<>();
+
+        for (Hotel hotel : hotels) {
+            // generate hotel vo
+            HotelVo hotelVo = new HotelVo();
+            // copy properties
+            BeanUtil.copyProperties(hotel, hotelVo);
+
+            // embedded value
+            Money money = new Money();
+            money.setCurrency(hotel.getCurrency());
+            money.setAmount(hotel.getMinPrice());
+            hotelVo.setMoney(money);
+
+            // list amenities
+            List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotel.getHotelId());
+            hotelVo.setAmenities(amenities);
+
+            hotelVos.add(hotelVo);
+        }
+
+        return hotelVos;
     }
 }

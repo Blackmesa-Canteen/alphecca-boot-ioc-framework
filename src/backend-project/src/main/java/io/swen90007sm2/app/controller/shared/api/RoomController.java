@@ -28,16 +28,16 @@ public class RoomController {
     IRoomBlo roomBlo;
 
     @HandlesRequest(path = "/query", method = RequestMethod.GET)
-    public R getRoomInfo(@QueryParam("roomId") String roomId, @QueryParam("hotelId") String hotelId,
+    public R getOnSaleRoomInfo(@QueryParam("roomId") String roomId, @QueryParam("hotelId") String hotelId,
                          @QueryParam("currency") String currency) {
         if (StringUtils.isEmpty(currency)) {
             currency = CommonConstant.AUD_CURRENCY;
         }
         if (StringUtils.isNotEmpty(roomId)) {
-            RoomVo roomVo = roomBlo.getRoomInfoByRoomId(roomId, currency.toUpperCase());
+            RoomVo roomVo = roomBlo.getRoomInfoByRoomId(roomId, currency.toUpperCase(), false);
             return R.ok().setData(roomVo);
         } else if (StringUtils.isNotEmpty(hotelId)) {
-            List<RoomVo> roomVos = roomBlo.getAllRoomsFromHotelId(hotelId, currency.toUpperCase());
+            List<RoomVo> roomVos = roomBlo.getAllRoomsFromHotelId(hotelId, currency.toUpperCase(), false);
             return R.ok().setData(roomVos);
         } else {
             throw new RequestException(

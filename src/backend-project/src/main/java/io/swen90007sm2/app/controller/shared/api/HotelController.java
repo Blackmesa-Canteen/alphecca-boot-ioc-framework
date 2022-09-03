@@ -27,8 +27,8 @@ public class HotelController {
     IHotelBlo hotelBlo;
 
     @HandlesRequest(path = "/query", method = RequestMethod.GET)
-    public R getHotelInfoByHotelId(@QueryParam("hotelId") String hotelId, @QueryParam("currency") String currency) {
-        HotelVo hotelVo = hotelBlo.getHotelInfoByHotelId(hotelId, currency.toUpperCase());
+    public R getOnSaleHotelInfoByHotelId(@QueryParam("hotelId") String hotelId, @QueryParam("currency") String currency) {
+        HotelVo hotelVo = hotelBlo.getHotelInfoByHotelId(hotelId, currency.toUpperCase(), false);
         return R.ok().setData(hotelVo);
     }
 
@@ -40,7 +40,7 @@ public class HotelController {
      * @param sortOrder see CommonConstant.java
      */
     @HandlesRequest(path = "/", method = RequestMethod.GET)
-    public R getHotelsByPage(@QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize,
+    public R getOnSaleHotelsByPage(@QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize,
                              @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder,
                              @QueryParam("currency") String currency) {
         if (pageNum == null || pageSize == null) {
@@ -81,7 +81,7 @@ public class HotelController {
      * @return
      */
     @HandlesRequest(path = "/search", method = RequestMethod.GET)
-    public R searchHotels(@QueryParam("hotelName") String hotelName, @QueryParam("postCode") String postCode,
+    public R searchOnSaleHotels(@QueryParam("hotelName") String hotelName, @QueryParam("postCode") String postCode,
                           @QueryParam("sortBy") Integer sortBy, @QueryParam("sortOrder") Integer sortOrder,
                           @QueryParam("pageNum") Integer pageNum, @QueryParam("pageSize") Integer pageSize,
                           @QueryParam("currency") String currency) {

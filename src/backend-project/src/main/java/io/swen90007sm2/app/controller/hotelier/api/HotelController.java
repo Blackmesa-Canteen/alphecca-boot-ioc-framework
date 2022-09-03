@@ -72,7 +72,7 @@ public class HotelController {
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
 
-        HotelVo hotelVo = hotelBlo.getHotelInfoByOwnerHotelierId(userId, CommonConstant.AUD_CURRENCY);
+        HotelVo hotelVo = hotelBlo.getHotelInfoByOwnerHotelierId(userId, CommonConstant.AUD_CURRENCY, true);
 
         return R.ok().setData(hotelVo);
     }

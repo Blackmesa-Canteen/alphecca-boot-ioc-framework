@@ -95,7 +95,10 @@ public class RoomBlo implements IRoomBlo {
             );
 
             // update min hotel price info
-            hotelBlo.editeHotelMinPriceByHotelId(hotel.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
+            // only update once the room is on sale
+            if (param.getOnSale()) {
+                hotelBlo.editeHotelMinPriceByHotelId(hotel.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
+            }
         }
     }
 
@@ -127,9 +130,11 @@ public class RoomBlo implements IRoomBlo {
             cache.remove(CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId);
 
             // hotel min price update
-            hotelBlo.editeHotelMinPriceByHotelId(newRoomObj.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
+            // only update once the room is on sale
+            if (param.getOnSale()) {
+                hotelBlo.editeHotelMinPriceByHotelId(newRoomObj.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
+            }
         }
-        // don't forget to clean cache after updating
     }
 
     @Override
@@ -166,7 +171,7 @@ public class RoomBlo implements IRoomBlo {
     }
 
     @Override
-    public RoomVo getRoomInfoByRoomId(String roomId, String currencyName) {
+    public RoomVo getRoomInfoByRoomId(String roomId, String currencyName, Boolean showNotSale) {
         Optional<Object> cacheItem = cache.get(CacheConstant.VO_ROOM_KEY_PREFIX + roomId);
         RoomVo roomVo = null;
         if (cacheItem.isEmpty()) {
@@ -181,6 +186,14 @@ public class RoomBlo implements IRoomBlo {
                         throw new RequestException(
                                 "room not found",
                                 StatusCodeEnume.RESOURCE_NOT_FOUND_EXCEPTION.getCode());
+                    }
+
+                    if (!showNotSale) {
+                        if (!room.getOnSale()) {
+                            throw new RequestException(
+                                    "room not found",
+                                    StatusCodeEnume.RESOURCE_NOT_FOUND_EXCEPTION.getCode());
+                        }
                     }
 
                     // generate hotel vo
@@ -226,7 +239,7 @@ public class RoomBlo implements IRoomBlo {
     }
 
     @Override
-    public List<RoomVo> getAllRoomsFromHotelId(String hotelId, String currencyName) {
+    public List<RoomVo> getAllRoomsFromHotelId(String hotelId, String currencyName, Boolean showNotSale) {
         Optional<Object> cacheItem = cache.get(CacheConstant.CACHED_ROOMS_FOR_HOTEL + hotelId);
         List<RoomVo> roomVos;
         if (cacheItem.isEmpty()) {
@@ -237,8 +250,15 @@ public class RoomBlo implements IRoomBlo {
                     List<Room> rooms = roomDao.findRoomsByHotelId(hotelId);
                     roomVos = new LinkedList<>();
                     for (Room room : rooms) {
+                        // skip not on sale result
+                        if (!showNotSale) {
+                            if (!room.getOnSale()) {
+                                continue;
+                            }
+                        }
+
                         String roomId = room.getRoomId();
-                        RoomVo roomVo = getRoomInfoByRoomId(roomId, currencyName);
+                        RoomVo roomVo = getRoomInfoByRoomId(roomId, currencyName, showNotSale);
                         roomVos.add(roomVo);
 
                         cache.put(
@@ -265,5 +285,19 @@ public class RoomBlo implements IRoomBlo {
         }
 
         return roomVos;
+    }
+
+    @Override
+    public List<Room> getAllRoomEntitiesFromHotelId(String hotelId) {
+        IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
+        List<Room> rooms = roomDao.findRoomsByHotelId(hotelId);
+        for (Room room : rooms) {
+            cache.put(CacheConstant.ENTITY_ROOM_KEY_PREFIX + room.getRoomId(),
+                    room,
+                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                    TimeUnit.MILLISECONDS
+            );
+        }
+        return rooms;
     }
 }

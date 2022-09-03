@@ -11,11 +11,6 @@ import java.util.List;
 public interface IHotelBlo {
 
     /**
-     * get all hotels, may be used in admin
-     */
-    List<Hotel> getAllHotels(Integer pageNum, Integer pageSize);
-
-    /**
      * create a new hotel
      * @param hotelierId userId, owner of the hotel
      * @param hotelParam request param
@@ -40,6 +35,11 @@ public interface IHotelBlo {
     void editeHotelMinPriceByHotelId(String hotelId, String currencyName, BigDecimal newPrice);
 
     /**
+     * used for update hotel's min price, used when a hotel deleted a room
+     */
+    void updateHotelMinPrice(String hotelId);
+
+    /**
      * get Hotel entity by hotel id
      */
     Hotel getHotelEntityByHotelId(String hotelId);
@@ -47,7 +47,7 @@ public interface IHotelBlo {
     /**
      * get a hotel info by owner hotelier id
      */
-    HotelVo getHotelInfoByOwnerHotelierId(String hotelierId, String currencyName);
+    HotelVo getHotelInfoByOwnerHotelierId(String hotelierId, String currencyName, Boolean showNotSale);
 
     /**
      * returns hotel entity by hotelId
@@ -55,7 +55,7 @@ public interface IHotelBlo {
      * @param currencyName currency name
      * @return hotel entity
      */
-    HotelVo getHotelInfoByHotelId(String hotelId, String currencyName);
+    HotelVo getHotelInfoByHotelId(String hotelId, String currencyName, Boolean showNotSale);
 
     /**
      * page query, used in index to show hotels
@@ -86,4 +86,9 @@ public interface IHotelBlo {
      * page query, used in search page. postCode string match.
      */
     List<HotelVo> searchHotelsByPageByPostCode(String currencyName, Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order);
+
+    /**
+     * get all hotels, may be used in admin
+     */
+    List<HotelVo> getAllHotelsByDate(Integer pageNum, Integer pageSize, Integer order);
 }

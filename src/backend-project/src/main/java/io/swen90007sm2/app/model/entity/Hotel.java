@@ -108,11 +108,11 @@ public class Hotel extends BaseEntity{
         this.rank = rank;
     }
 
-    public boolean getOnSale() {
+    public Boolean getOnSale() {
         return onSale;
     }
 
-    public void setOnSale(boolean onSale) {
+    public void setOnSale(Boolean onSale) {
         this.onSale = onSale;
     }
 

@@ -146,7 +146,7 @@ public class CustomerBlo implements ICustomerBlo {
         customer.setUserName(userName);
         customer.setPassword(cypher);
         customer.setDescription("New User");
-        // TODO user unit of work helper
+        // user unit of work helper
         UnitOfWorkHelper current = UnitOfWorkHelper.getCurrent();
         current.registerNew(customer, customerDao);
 //        customerDao.insertOne(customer);
