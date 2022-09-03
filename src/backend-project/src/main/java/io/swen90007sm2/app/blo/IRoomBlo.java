@@ -17,6 +17,8 @@ public interface IRoomBlo {
 
     void doUpdateRoom(UpdateRoomParam param);
 
+    void doDeleteRoomByRoomId(String RoomId);
+
     /**
      * get room entity
      */
@@ -31,4 +33,11 @@ public interface IRoomBlo {
     List<RoomVo> getAllRoomsFromHotelId(String hotelId, String currencyName, Boolean showNotSale);
 
     List<Room> getAllRoomEntitiesFromHotelId(String hotelId);
+
+    /**
+     * call to get hotlier's owned hotel's all rooms
+     * @param hotelierUserId
+     * @return
+     */
+    List<RoomVo> getOwnedHotelRoomVos(String hotelierUserId);
 }

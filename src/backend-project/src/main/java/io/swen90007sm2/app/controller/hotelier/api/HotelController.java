@@ -26,7 +26,7 @@ import javax.validation.Valid;
  * @description
  * @create 2022-08-23 10:12
  */
-@Controller(path = "/api/hotelier/hotel")
+@Controller(path = "/api/hotelier/owned_hotel")
 @Validated
 public class HotelController {
 
