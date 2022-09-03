@@ -16,8 +16,11 @@ import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
+import io.swen90007sm2.app.security.helper.TokenHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @Controller(path = "/api/admin")
@@ -37,11 +40,20 @@ public class AdminController {
 //        adminBlo.doLogout(null);
 //        return R.ok();
 //    }
-@HandlesRequest(path = "/", method = RequestMethod.POST)
-public R register(@RequestJsonBody @Valid UserRegisterParam userRegisterParam) {
-    adminBlo.doRegisterUser(userRegisterParam);
-    return R.ok();
-}
+//    @HandlesRequest(path = "/", method = RequestMethod.POST)
+//    public R register(@RequestJsonBody @Valid UserRegisterParam userRegisterParam) {
+//        adminBlo.doRegisterUser(userRegisterParam);
+//        return R.ok();
+//    }
+
+    @HandlesRequest(path = "/logout", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = SecurityConstant.ADMIN_ROLE_NAME)
+    public R logout(HttpServletRequest request) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        adminBlo.doLogout(authToken);
+        return R.ok();
+    }
 
 
 

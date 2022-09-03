@@ -70,7 +70,7 @@ public class AdminBlo implements IAdminBlo {
 
     @Override
     public void doLogout(AuthToken authToken) {
-
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
 
     @Override
@@ -123,37 +123,37 @@ public class AdminBlo implements IAdminBlo {
         return admin;
     }
 
-    @Override
-    public void doRegisterUser(UserRegisterParam registerParam) {
-        String userName = registerParam.getUserName();
-        String userId = registerParam.getUserId();
-
-        // check existence
-        // will not use cache to prevent inconsistent data
-        // lazy load
-        IAdminDao adminDao = BeanManager.getLazyBeanByClass(AdminDao.class);
-        Admin prevResult = adminDao.findOneByBusinessId(userId);
-
-        if (prevResult != null) {
-            throw new RequestException(
-                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
-                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode()
-            );
-        }
-
-        // encrypt password before store it in db
-        String cypher = SecurityUtil.encrypt(registerParam.getPassword());
-
-        Admin admin = new Admin();
-        admin.setId(IdFactory.genSnowFlakeId());
-        admin.setUserId(userId);
-        admin.setUserName(userName);
-        admin.setPassword(cypher);
-        admin.setDescription("New User");
-        // TODO user unit of work helper
-        UnitOfWorkHelper current = UnitOfWorkHelper.getCurrent();
-        current.registerNew(admin, adminDao);
-    }
+//    @Override
+//    public void doRegisterUser(UserRegisterParam registerParam) {
+//        String userName = registerParam.getUserName();
+//        String userId = registerParam.getUserId();
+//
+//        // check existence
+//        // will not use cache to prevent inconsistent data
+//        // lazy load
+//        IAdminDao adminDao = BeanManager.getLazyBeanByClass(AdminDao.class);
+//        Admin prevResult = adminDao.findOneByBusinessId(userId);
+//
+//        if (prevResult != null) {
+//            throw new RequestException(
+//                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
+//                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode()
+//            );
+//        }
+//
+//        // encrypt password before store it in db
+//        String cypher = SecurityUtil.encrypt(registerParam.getPassword());
+//
+//        Admin admin = new Admin();
+//        admin.setId(IdFactory.genSnowFlakeId());
+//        admin.setUserId(userId);
+//        admin.setUserName(userName);
+//        admin.setPassword(cypher);
+//        admin.setDescription("New User");
+//        // TODO user unit of work helper
+//        UnitOfWorkHelper current = UnitOfWorkHelper.getCurrent();
+//        current.registerNew(admin, adminDao);
+//    }
 
 
 }

@@ -20,5 +20,5 @@ public interface IAdminBlo {
 
     Admin getAdminInfoByUserId(String userId);
 
-    void doRegisterUser(UserRegisterParam registerParam);
+//    void doRegisterUser(UserRegisterParam registerParam);
 }
