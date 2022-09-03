@@ -1,0 +1,120 @@
+package io.swen90007sm2.app.blo.impl;
+
+import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
+import io.swen90007sm2.alpheccaboot.exception.RequestException;
+import io.swen90007sm2.app.blo.ICustomerBlo;
+import io.swen90007sm2.app.blo.IHotelBlo;
+import io.swen90007sm2.app.blo.IHotelierBlo;
+import io.swen90007sm2.app.blo.IManagementBlo;
+import io.swen90007sm2.app.cache.ICacheStorage;
+import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.common.constant.StatusCodeEnume;
+import io.swen90007sm2.app.common.factory.IdFactory;
+import io.swen90007sm2.app.dao.IHotelierDao;
+import io.swen90007sm2.app.dao.impl.HotelierDao;
+import io.swen90007sm2.app.db.bean.PageBean;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
+import io.swen90007sm2.app.model.entity.Customer;
+import io.swen90007sm2.app.model.entity.Hotel;
+import io.swen90007sm2.app.model.entity.Hotelier;
+import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.security.util.SecurityUtil;
+import org.apache.commons.lang3.StringUtils;
+
+@Blo
+public class ManagementBlo implements IManagementBlo {
+
+    @AutoInjected
+    ICustomerBlo customerBlo;
+
+    @AutoInjected
+    IHotelierBlo hotelierBlo;
+
+    @AutoInjected
+    IHotelBlo hotelBlo;
+
+    @AutoInjected
+    @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
+    ICacheStorage<String, Object> cache;
+
+//    @AutoInjected
+
+    @Override
+    public PageBean<Customer> getCustomerByPage(int pageNo, int pageSize) {
+        return customerBlo.getCustomerByPage(pageNo, pageSize);
+    }
+
+    @Override
+    public void groupHotelierWithExistingHotel(AdminGroupHotelierParam param) {
+        Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(param.getHotelOwningHotelierUserId());
+        Hotelier hotelierToAdd = hotelierBlo.getHotelierInfoByUserId(param.getHotelierToAddUserId());
+        if (currentHotelier == null || hotelierToAdd == null) {
+            throw new RequestException(
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode()
+            );
+        }
+
+        String hotelId = currentHotelier.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        Hotel originalHotel = hotelBlo.getHotelEntityByHotelId(hotelId);
+
+        if(originalHotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        String hotelierToAddId = param.getHotelierToAddUserId();
+        String hotelierToAddName = param.getHotelierToAddUserName();
+
+        hotelierToAdd.setHotelId(hotelId);
+
+        IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotelierToAdd, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierToAddId);
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + hotelierToAddId);
+
+//        // check existence
+//        // will not use cache to prevent inconsistent data
+//        IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
+//        Hotelier prevResult = hotelierDao.findOneByBusinessId(hotelierToAddId);
+//
+//        if (prevResult != null) {
+//            throw new RequestException(
+//                    StatusCodeEnume.USER_EXIST_EXCEPTION.getMessage(),
+//                    StatusCodeEnume.USER_EXIST_EXCEPTION.getCode()
+//            );
+//        }
+//
+//        // encrypt password before store it in db
+//        String cypher = SecurityUtil.encrypt(param.getHotelierToAddPassword());
+//
+//        Hotelier hotelier = new Hotelier();
+//        hotelier.setId(IdFactory.genSnowFlakeId());
+//        hotelier.setUserId(hotelierToAddId);
+//        hotelier.setUserName(hotelierToAddName);
+//        hotelier.setPassword(cypher);
+//        hotelier.setDescription("New User");
+//
+////        UnitOfWorkHelper current = UnitOfWorkHelper.getCurrent();
+////        current.registerNew(hotelier, hotelierDao);
+//
+//
+//        hotelier.setHotelId(hotelId);
+//        System.out.println("hotelier id: " + hotelId);
+//        hotelierDao.insertOne(hotelier);
+
+
+
+    }
+}

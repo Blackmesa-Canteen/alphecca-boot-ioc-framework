@@ -5,13 +5,19 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
-import io.swen90007sm2.app.blo.impl.CustomerBlo;
+import io.swen90007sm2.app.blo.IManagementBlo;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
+import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
+import io.swen90007sm2.app.security.helper.TokenHelper;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -23,7 +29,9 @@ import java.util.List;
 public class ManagementController {
 
     @AutoInjected
-    CustomerBlo customerBlo;
+    IManagementBlo managementBlo;
+//    @AutoInjected
+//    CustomerBlo customerBlo;
 
     /**
      * get all existing customers
@@ -35,11 +43,21 @@ public class ManagementController {
     @HandlesRequest(path = "/customer", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
     public R getCustomers(@QueryParam(value = "pageNo") int pageNo, @QueryParam(value = "pageSize") int pageSize) {
-        PageBean<Customer> customerByPage = customerBlo.getCustomerByPage(pageNo, pageSize);
+        PageBean<Customer> customerByPage = managementBlo.getCustomerByPage(pageNo, pageSize);
 
         // get data beans from page bean
         List<Customer> beans = customerByPage.getBeans();
 
         return R.ok().setData(beans);
+    }
+
+    @HandlesRequest(path = "/hotelier", method = RequestMethod.POST)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R groupNewHotelierWithExistingHotel(HttpServletRequest request, @RequestJsonBody @Valid AdminGroupHotelierParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String adminUserId = authToken.getUserId();
+        managementBlo.groupHotelierWithExistingHotel(param);
+        return R.ok();
     }
 }
