@@ -1,7 +1,8 @@
-package io.swen90007sm2.app.blo.impl;
+package io.swen90007sm2.app.blo;
 
 import io.swen90007sm2.app.model.entity.Admin;
 import io.swen90007sm2.app.model.param.LoginParam;
+import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.model.param.UserUpdateParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 
@@ -19,4 +20,5 @@ public interface IAdminBlo {
 
     Admin getAdminInfoByUserId(String userId);
 
+    void doRegisterUser(UserRegisterParam registerParam);
 }
