@@ -24,8 +24,11 @@ public interface IRoomBlo {
 
     /**
      * get room vo
+     * @param showNotSale show not sale result?
      */
-    RoomVo getRoomInfoByRoomId(String roomId);
+    RoomVo getRoomInfoByRoomId(String roomId, String currencyName, Boolean showNotSale);
 
-    List<RoomVo> getAllRoomsFromHotelId(String hotelId);
+    List<RoomVo> getAllRoomsFromHotelId(String hotelId, String currencyName, Boolean showNotSale);
+
+    List<Room> getAllRoomEntitiesFromHotelId(String hotelId);
 }

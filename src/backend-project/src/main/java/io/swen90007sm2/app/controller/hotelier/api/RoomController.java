@@ -29,6 +29,7 @@ public class RoomController {
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R createNewRoomToHotel(@RequestJsonBody @Valid CreateRoomParam param) {
+        param.setCurrency(param.getCurrency().toUpperCase());
         roomBlo.doCreateRoomToHotel(param);
 
         return R.ok();
@@ -37,8 +38,8 @@ public class RoomController {
     @HandlesRequest(path = "/", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R editRoom(@RequestJsonBody @Valid UpdateRoomParam param) {
+        param.setCurrency(param.getCurrency().toUpperCase());
         roomBlo.doUpdateRoom(param);
-
         return R.ok();
     }
 }

@@ -5,14 +5,10 @@ import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.param.UpdateHotelParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IHotelBlo {
-
-    /**
-     * get all hotels, may be used in admin
-     */
-    List<Hotel> getAllHotels(Integer pageNum, Integer pageSize);
 
     /**
      * create a new hotel
@@ -33,6 +29,17 @@ public interface IHotelBlo {
     void editHotelByHotelId(UpdateHotelParam updateHotelParam);
 
     /**
+     * update a hotel minPrice.
+     * new price may not be the min price, this method will automatically detect and decide update or not.
+     */
+    void editeHotelMinPriceByHotelId(String hotelId, String currencyName, BigDecimal newPrice);
+
+    /**
+     * used for update hotel's min price, used when a hotel deleted a room
+     */
+    void updateHotelMinPrice(String hotelId);
+
+    /**
      * get Hotel entity by hotel id
      */
     Hotel getHotelEntityByHotelId(String hotelId);
@@ -40,41 +47,48 @@ public interface IHotelBlo {
     /**
      * get a hotel info by owner hotelier id
      */
-    HotelVo getHotelInfoByOwnerHotelierId(String hotelierId);
+    HotelVo getHotelInfoByOwnerHotelierId(String hotelierId, String currencyName, Boolean showNotSale);
 
     /**
      * returns hotel entity by hotelId
      * @param hotelId hotelId
+     * @param currencyName currency name
      * @return hotel entity
      */
-    HotelVo getHotelInfoByHotelId(String hotelId);
+    HotelVo getHotelInfoByHotelId(String hotelId, String currencyName, Boolean showNotSale);
 
     /**
      * page query, used in index to show hotels
+     * @param currencyName currency name, see CommonConstant
      * @param pageNum required page num
      * @param pageSize page size
      * @param order see CommonConstant
      * @return list of hotels
      */
-    List<HotelVo> getHotelsByPageSortedByCreateTime(Integer pageNum, Integer pageSize, Integer order);
+    List<HotelVo> getHotelsByPageSortedByCreateTime(String currencyName, Integer pageNum, Integer pageSize, Integer order);
 
     /**
      * page query, used in index to show hotels
      */
-    List<HotelVo> getHotelsByPageSortedByPrice(Integer pageNum, Integer pageSize, Integer order);
+    List<HotelVo> getHotelsByPageSortedByPrice(String currencyName, Integer pageNum, Integer pageSize, Integer order);
 
     /**
      * page query, used in index to show hotels
      */
-    List<HotelVo> getHotelsByPageSortedByRank(Integer pageNum, Integer pageSize, Integer order);
+    List<HotelVo> getHotelsByPageSortedByRank(String currencyName, Integer pageNum, Integer pageSize, Integer order);
 
     /**
      * page query, used in search page. Name fuzzy search, case sensitive.
      */
-    List<HotelVo> searchHotelsByPageByName(Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order);
+    List<HotelVo> searchHotelsByPageByName(String currencyName, Integer pageNum, Integer pageSize, String name, Integer sortBy, Integer order);
 
     /**
      * page query, used in search page. postCode string match.
      */
-    List<HotelVo> searchHotelsByPageByPostCode(Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order);
+    List<HotelVo> searchHotelsByPageByPostCode(String currencyName, Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order);
+
+    /**
+     * get all hotels, may be used in admin
+     */
+    List<HotelVo> getAllHotelsByDate(Integer pageNum, Integer pageSize, Integer order);
 }

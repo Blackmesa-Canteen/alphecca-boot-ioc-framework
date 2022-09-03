@@ -11,6 +11,7 @@ import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.app.blo.IHotelBlo;
 import io.swen90007sm2.app.blo.IHotelierBlo;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
@@ -71,7 +72,7 @@ public class HotelController {
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
 
-        HotelVo hotelVo = hotelBlo.getHotelInfoByOwnerHotelierId(userId);
+        HotelVo hotelVo = hotelBlo.getHotelInfoByOwnerHotelierId(userId, CommonConstant.AUD_CURRENCY, true);
 
         return R.ok().setData(hotelVo);
     }

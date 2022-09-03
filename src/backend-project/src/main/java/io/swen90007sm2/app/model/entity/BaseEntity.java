@@ -46,11 +46,11 @@ public abstract class BaseEntity implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public boolean getIsDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(boolean deleted) {
+    public void setIsDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 

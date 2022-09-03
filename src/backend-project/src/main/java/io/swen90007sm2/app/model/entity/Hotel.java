@@ -9,8 +9,11 @@ public class Hotel extends BaseEntity{
     private String description;
     private String address;
     private String postCode;
+
+    // this value is AUD absolute price
     private BigDecimal minPrice = BigDecimal.valueOf(0.0);
 
+    // this always be AUD in the database
     private String currency = "AUD";
 
     private Integer rank = 3;
@@ -105,11 +108,11 @@ public class Hotel extends BaseEntity{
         this.rank = rank;
     }
 
-    public boolean getOnSale() {
+    public Boolean getOnSale() {
         return onSale;
     }
 
-    public void setOnSale(boolean onSale) {
+    public void setOnSale(Boolean onSale) {
         this.onSale = onSale;
     }
 

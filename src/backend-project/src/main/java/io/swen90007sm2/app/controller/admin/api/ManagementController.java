@@ -31,7 +31,6 @@ public class ManagementController {
      * @param pageSize page size
      * @return response
      *
-     * TODO need to uncomment the filter
      */
     @HandlesRequest(path = "/customer", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})

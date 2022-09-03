@@ -16,8 +16,10 @@ public class Room extends BaseEntity {
 
     private String description;
 
+    // in database it is always absolute amount of AUD
     private BigDecimal pricePerNight = BigDecimal.valueOf(0.0);
 
+    // in database, it is always AUD
     private String currency = CommonConstant.AUD_CURRENCY;
 
     private Integer sleepsNum = 1;

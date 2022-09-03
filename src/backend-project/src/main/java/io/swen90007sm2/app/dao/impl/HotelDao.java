@@ -71,7 +71,7 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public int findTotalCount(boolean onSale) {
+    public int findTotalCountByOnSale(boolean onSale) {
         Long totalRows = CRUDTemplate.executeQueryWithOneRes(
                 Long.class,
                 "SELECT count(*) FROM hotel WHERE on_sale = ?",
@@ -82,7 +82,39 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public List<Hotel> findAllByPageByDate(Integer start, Integer rows, int sortType, boolean onSale) {
+    public int findTotalCount() {
+        Long totalRows = CRUDTemplate.executeQueryWithOneRes(
+                Long.class,
+                "SELECT count(*) FROM hotel"
+        );
+
+        return (totalRows != null) ? totalRows.intValue() : 0;
+    }
+
+    @Override
+    public List<Hotel> findAllByPageByDate(Integer start, Integer rows, int sortType) {
+        List<Hotel> hotels;
+        if (sortType == CommonConstant.SORT_UP) {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel ORDER BY create_time ASC OFFSET ? LIMIT ?",
+                    start,
+                    rows
+            );
+        } else {
+            hotels = CRUDTemplate.executeQueryWithMultiRes(
+                    Hotel.class,
+                    "SELECT * FROM hotel ORDER BY create_time DESC OFFSET ? LIMIT ?",
+                    start,
+                    rows
+            );
+        }
+
+        return hotels;
+    }
+
+    @Override
+    public List<Hotel> findAllByPageByDateByOnSale(Integer start, Integer rows, int sortType, boolean onSale) {
         List<Hotel> hotels;
         if (sortType == CommonConstant.SORT_UP) {
             hotels = CRUDTemplate.executeQueryWithMultiRes(
@@ -106,7 +138,7 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public List<Hotel> findAllByPageSortByPrice(Integer start, Integer rows, int sortType, boolean onSale) {
+    public List<Hotel> findAllByPageSortByPriceByOnSale(Integer start, Integer rows, int sortType, boolean onSale) {
         List<Hotel> hotels = null;
 
         if (sortType == CommonConstant.SORT_UP) {
@@ -131,7 +163,7 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public List<Hotel> findAllByPageSortByRank(Integer start, Integer rows, int sortType, boolean onSale) {
+    public List<Hotel> findAllByPageSortByRankByOnSale(Integer start, Integer rows, int sortType, boolean onSale) {
         List<Hotel> hotels = null;
 
         if (sortType == CommonConstant.SORT_UP) {
@@ -156,7 +188,7 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public List<Hotel> findAllByPostCode(boolean onSale, String postCode) {
+    public List<Hotel> findAllByPostCodeByOnSale(boolean onSale, String postCode) {
         return CRUDTemplate.executeQueryWithMultiRes(
                 Hotel.class,
                 "SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC",
@@ -166,7 +198,7 @@ public class HotelDao implements IHotelDao{
     }
 
     @Override
-    public List<Hotel> findAllByName(boolean onSale, String name) {
+    public List<Hotel> findAllByNameByOnSale(boolean onSale, String name) {
         return CRUDTemplate.executeQueryWithMultiRes(
                 Hotel.class,
                 "SELECT * FROM hotel WHERE on_sale = ? AND name LIKE ? ORDER BY rank DESC",
