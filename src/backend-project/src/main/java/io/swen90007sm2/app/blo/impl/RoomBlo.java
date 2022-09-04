@@ -6,8 +6,10 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
 import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IHotelBlo;
+import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.blo.IRoomAmenityBlo;
 import io.swen90007sm2.app.blo.IRoomBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
@@ -21,6 +23,7 @@ import io.swen90007sm2.app.dao.IRoomDao;
 import io.swen90007sm2.app.dao.impl.RoomAmenityDao;
 import io.swen90007sm2.app.dao.impl.RoomDao;
 import io.swen90007sm2.app.model.entity.Hotel;
+import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Room;
 import io.swen90007sm2.app.model.entity.RoomAmenity;
 import io.swen90007sm2.app.model.param.CreateRoomParam;
@@ -28,6 +31,7 @@ import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.model.vo.RoomVo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -48,6 +52,9 @@ public class RoomBlo implements IRoomBlo {
 
     @AutoInjected
     IHotelBlo hotelBlo;
+
+    @AutoInjected
+    IHotelierBlo hotelierBlo;
 
     @AutoInjected
     IRoomAmenityBlo roomAmenityBlo;
@@ -88,7 +95,7 @@ public class RoomBlo implements IRoomBlo {
             // insert new room
             roomDao.insertOne(room);
 
-            // attach many-to-many associate table of amenity
+            // add many-to-many associate table of amenity
             roomAmenityDao.addAmenityIdsToRoom(
                     amenity_ids,
                     room.getRoomId()
@@ -135,6 +142,11 @@ public class RoomBlo implements IRoomBlo {
                 hotelBlo.editeHotelMinPriceByHotelId(newRoomObj.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
             }
         }
+    }
+
+    @Override
+    public void doDeleteRoomByRoomId(String RoomId) {
+        throw new NotImplementedException();
     }
 
     @Override
@@ -228,11 +240,21 @@ public class RoomBlo implements IRoomBlo {
                 } else {
                     // data is put by other thread, just get from cache.
                     roomVo = (RoomVo) cacheItem.get();
+                    // currency exchange
+                    Money money = roomVo.getMoney();
+                    money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, roomVo.getPricePerNight()));
+                    money.setCurrency(currencyName);
+                    roomVo.setMoney(money);
                 }
             }
 
         } else {
             roomVo = (RoomVo) cacheItem.get();
+            // currency exchange
+            Money money = roomVo.getMoney();
+            money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, roomVo.getPricePerNight()));
+            money.setCurrency(currencyName);
+            roomVo.setMoney(money);
         }
 
         return roomVo;
@@ -240,48 +262,27 @@ public class RoomBlo implements IRoomBlo {
 
     @Override
     public List<RoomVo> getAllRoomsFromHotelId(String hotelId, String currencyName, Boolean showNotSale) {
-        Optional<Object> cacheItem = cache.get(CacheConstant.CACHED_ROOMS_FOR_HOTEL + hotelId);
-        List<RoomVo> roomVos;
-        if (cacheItem.isEmpty()) {
-            synchronized (this) {
-                cacheItem = cacheItem = cache.get(CacheConstant.CACHED_ROOMS_FOR_HOTEL + hotelId);
-                if (cacheItem.isEmpty()) {
-                    IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
-                    List<Room> rooms = roomDao.findRoomsByHotelId(hotelId);
-                    roomVos = new LinkedList<>();
-                    for (Room room : rooms) {
-                        // skip not on sale result
-                        if (!showNotSale) {
-                            if (!room.getOnSale()) {
-                                continue;
-                            }
-                        }
-
-                        String roomId = room.getRoomId();
-                        RoomVo roomVo = getRoomInfoByRoomId(roomId, currencyName, showNotSale);
-                        roomVos.add(roomVo);
-
-                        cache.put(
-                                CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId,
-                                room,
-                                RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                                TimeUnit.MILLISECONDS
-                        );
-                    }
-
-                    // cache result
-                    cache.put(
-                            CacheConstant.CACHED_ROOMS_FOR_HOTEL + hotelId,
-                            roomVos,
-                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                            TimeUnit.MILLISECONDS
-                    );
-                } else {
-                    roomVos = (List<RoomVo>) cacheItem.get();
+        IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
+        List<Room> rooms = roomDao.findRoomsByHotelId(hotelId);
+        List<RoomVo> roomVos = new LinkedList<>();
+        for (Room room : rooms) {
+            // skip not on sale result
+            if (!showNotSale) {
+                if (!room.getOnSale()) {
+                    continue;
                 }
             }
-        } else {
-            roomVos = (List<RoomVo>) cacheItem.get();
+
+            String roomId = room.getRoomId();
+            RoomVo roomVo = getRoomInfoByRoomId(roomId, currencyName, showNotSale);
+            roomVos.add(roomVo);
+
+            cache.put(
+                    CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId,
+                    room,
+                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                    TimeUnit.MILLISECONDS
+            );
         }
 
         return roomVos;
@@ -299,5 +300,18 @@ public class RoomBlo implements IRoomBlo {
             );
         }
         return rooms;
+    }
+
+    @Override
+    public List<RoomVo> getOwnedHotelRoomVos(String hotelierUserId) {
+        Hotelier hotelier = hotelierBlo.getHotelierInfoByUserId(hotelierUserId);
+        String hotelId = hotelier.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+        return getAllRoomsFromHotelId(hotelId, CommonConstant.AUD_CURRENCY, true);
     }
 }
