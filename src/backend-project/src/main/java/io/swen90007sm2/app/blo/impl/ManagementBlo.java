@@ -79,6 +79,12 @@ public class ManagementBlo implements IManagementBlo {
         }
 
         // TODO: 2020/11/16 0016 1. check if the hotelier to add has a hotel
+        if(!StringUtils.isEmpty(hotelierToAdd.getHotelId())) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_ALREADY_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_ALREADY_HAS_HOTEL.getCode()
+            );
+        }
 
         String hotelierToAddId = param.getHotelierToAddUserId();
         String hotelierToAddName = param.getHotelierToAddUserName();
