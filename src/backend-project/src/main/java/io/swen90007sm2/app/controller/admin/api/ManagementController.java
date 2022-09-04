@@ -12,6 +12,7 @@ import io.swen90007sm2.app.blo.IManagementBlo;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
@@ -59,5 +60,14 @@ public class ManagementController {
         String adminUserId = authToken.getUserId();
         managementBlo.groupHotelierWithExistingHotel(param);
         return R.ok();
+    }
+
+    // get all hotels
+    @HandlesRequest(path = "/hotel", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R getHotels(@QueryParam(value = "pageNo") int pageNo, @QueryParam(value = "pageSize") int pageSize) {
+        List<HotelVo> hotelByPage = managementBlo.getHotelByPage(pageNo, pageSize);
+
+        return R.ok().setData(hotelByPage);
     }
 }

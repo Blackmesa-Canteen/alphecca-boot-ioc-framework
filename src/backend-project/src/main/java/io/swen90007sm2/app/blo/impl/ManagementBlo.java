@@ -21,8 +21,11 @@ import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.util.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 @Blo
 public class ManagementBlo implements IManagementBlo {
@@ -118,5 +121,10 @@ public class ManagementBlo implements IManagementBlo {
 
 
 
+    }
+
+    @Override
+    public List<HotelVo> getHotelByPage(int pageNo, int pageSize) {
+        return hotelBlo.getAllHotelsByDate(pageNo, pageSize, null);
     }
 }
