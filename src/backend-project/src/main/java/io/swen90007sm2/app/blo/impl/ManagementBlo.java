@@ -75,6 +75,8 @@ public class ManagementBlo implements IManagementBlo {
             );
         }
 
+        // TODO: 2020/11/16 0016 1. check if the hotelier to add has a hotel
+
         String hotelierToAddId = param.getHotelierToAddUserId();
         String hotelierToAddName = param.getHotelierToAddUserName();
 
