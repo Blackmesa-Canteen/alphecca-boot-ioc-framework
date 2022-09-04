@@ -12,6 +12,7 @@ import io.swen90007sm2.app.blo.IManagementBlo;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.model.param.AdminChangeHotelStatusParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -70,4 +71,17 @@ public class ManagementController {
 
         return R.ok().setData(hotelByPage);
     }
+
+    // change hotel status
+    @HandlesRequest(path = "/hotel", method = RequestMethod.POST)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R changeHotelStatus(HttpServletRequest request, @RequestJsonBody @Valid AdminChangeHotelStatusParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String hotelId = param.getHotelId();
+        managementBlo.changeHotelStatus(hotelId);
+        return R.ok();
+    }
+
+
 }

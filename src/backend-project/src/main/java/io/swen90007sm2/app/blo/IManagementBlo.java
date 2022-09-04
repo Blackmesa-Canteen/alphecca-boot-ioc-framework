@@ -15,4 +15,6 @@ public interface IManagementBlo {
     void groupHotelierWithExistingHotel(AdminGroupHotelierParam param);
 
     List<HotelVo> getHotelByPage(int pageNo, int pageSize);
+
+    void changeHotelStatus(String hotelId);
 }

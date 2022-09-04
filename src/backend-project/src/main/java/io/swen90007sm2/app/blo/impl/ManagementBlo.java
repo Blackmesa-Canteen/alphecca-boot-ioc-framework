@@ -13,7 +13,9 @@ import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
+import io.swen90007sm2.app.dao.IHotelDao;
 import io.swen90007sm2.app.dao.IHotelierDao;
+import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.dao.impl.HotelierDao;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
@@ -132,5 +134,29 @@ public class ManagementBlo implements IManagementBlo {
     @Override
     public List<HotelVo> getHotelByPage(int pageNo, int pageSize) {
         return hotelBlo.getAllHotelsByDate(pageNo, pageSize, null);
+    }
+
+    @Override
+    public void changeHotelStatus(String hotelId) {
+        Hotel hotelToModify = hotelBlo.getHotelEntityByHotelId(hotelId);
+        if (hotelToModify == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getMessage(),
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getCode()
+            );
+        }
+
+
+        boolean currentHotelOnSale = hotelToModify.getOnSale();
+        boolean newHotelOnSale = !currentHotelOnSale;
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+
+        synchronized (this) {
+            hotelToModify.setOnSale(newHotelOnSale);
+            hotelDao.updateOne(hotelToModify);
+
+            cache.remove(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
+            cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
+        }
     }
 }
