@@ -10,6 +10,8 @@ import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
 
+import java.util.List;
+
 @Dao
 @Lazy
 public class HotelierDao implements IHotelierDao {
@@ -27,6 +29,16 @@ public class HotelierDao implements IHotelierDao {
 
         return row;
     }
+
+//    @Override
+//    public List<Hotelier> findAllByHotelId(String hotelId) {
+//        List<Hotelier> hotelierList = CRUDTemplate.executeQueryWithMultiRes(
+//                Hotelier.class,
+//                "SELECT * FROM hotelier WHERE hotel_id = ?",
+//                hotelId
+//        );
+//        return hotelierList;
+//    }
 
     @Override
     public int updateOne(Hotelier entity) {

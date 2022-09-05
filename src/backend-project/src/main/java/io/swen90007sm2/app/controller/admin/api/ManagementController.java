@@ -11,8 +11,10 @@ import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IManagementBlo;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
+import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
 import io.swen90007sm2.app.model.param.AdminChangeHotelStatusParam;
+import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -53,9 +55,18 @@ public class ManagementController {
         return R.ok().setData(beans);
     }
 
-    @HandlesRequest(path = "/hotelier", method = RequestMethod.POST)
+    @HandlesRequest(path = "/hotelier/new", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
-    public R groupNewHotelierWithExistingHotel(HttpServletRequest request, @RequestJsonBody @Valid AdminGroupHotelierParam param) {
+    public R groupNewHotelierWithExistingHotel(HttpServletRequest request, @RequestJsonBody @Valid UserRegisterParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String adminUserId = authToken.getUserId();
+        managementBlo.registerNewHotelier(param);
+        return R.ok();
+    }
+    @HandlesRequest(path = "/hotelier/existing", method = RequestMethod.POST)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R registerNewHotelier(HttpServletRequest request, @RequestJsonBody @Valid AdminGroupHotelierParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String adminUserId = authToken.getUserId();
@@ -82,6 +93,15 @@ public class ManagementController {
         managementBlo.changeHotelStatus(hotelId);
         return R.ok();
     }
+
+    // find all hoteliers has one hotelId
+//    @HandlesRequest(path = "/hotelier", method = RequestMethod.GET)
+//    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+//    public R getHoteliers(@QueryParam(value = "hotelId") String hotelId) {
+//        List<Hotelier> hoteliersByPage = managementBlo.getHoteliersInOneGroupByHotelId(hotelId);
+//
+//        return R.ok().setData(hoteliersByPage);
+//    }
 
 
 }

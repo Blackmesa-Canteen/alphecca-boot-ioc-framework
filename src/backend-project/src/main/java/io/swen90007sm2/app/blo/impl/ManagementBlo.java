@@ -23,6 +23,7 @@ import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.util.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -159,4 +160,16 @@ public class ManagementBlo implements IManagementBlo {
             cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
         }
     }
+
+    @Override
+    public void registerNewHotelier(UserRegisterParam param) {
+        hotelierBlo.doRegisterUser(param);
+        System.out.println("register new hotelier");
+
+    }
+
+//    @Override
+//    public List<Hotelier> getHoteliersInOneGroupByHotelId(String hotelId) {
+//        return null;
+//    }
 }
