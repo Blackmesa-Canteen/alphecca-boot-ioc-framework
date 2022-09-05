@@ -1,17 +1,21 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Home from "./components/home/Home";
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import LoginPage from "./pages/Login"
+import Signuppage from "./pages/Signup";
 function App() {
   return (
-    <React.Fragment>
-      <header></header>
-      <main>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-        </Routes>
-      </main>
-    </React.Fragment>
+    <div>
+       <Router>
+        <Switch>
+          
+          <Route path="/login" component={LoginPage} exact />
+          <Route path ="/signup" component={Signuppage} exact/>
+
+        </Switch>
+
+      </Router>
+
+    </div>
   );
 }
 
