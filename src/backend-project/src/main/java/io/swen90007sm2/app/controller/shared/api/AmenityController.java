@@ -7,7 +7,9 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IHotelAmenityBlo;
+import io.swen90007sm2.app.blo.IRoomAmenityBlo;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
+import io.swen90007sm2.app.model.entity.RoomAmenity;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class AmenityController {
 
     @AutoInjected
     IHotelAmenityBlo hotelAmenityBlo;
+
+    @AutoInjected
+    IRoomAmenityBlo roomAmenityBlo;
 
     /**
      * list all hotel amenities
@@ -39,6 +44,21 @@ public class AmenityController {
     public R getHotelAmenityById(@QueryParam(value = "amenityId") String amenityId) {
         HotelAmenity res = hotelAmenityBlo.getHotelAmenityInfoByAmenityId(amenityId);
         return R.ok().setData(res);
+    }
+
+    /**
+     * get all room amenities
+     */
+    @HandlesRequest(path = "/room_amenity/all", method = RequestMethod.GET)
+    public R getAllRoomAmenities() {
+        List<RoomAmenity> roomAmenities = roomAmenityBlo.getAllAmenities();
+        return R.ok().setData(roomAmenities);
+    }
+
+    @HandlesRequest(path = "/room_amenity", method = RequestMethod.GET)
+    public R getRoomAmenityById(@QueryParam(value = "amenityId") String amenityId) {
+        RoomAmenity roomAmenity = roomAmenityBlo.getRoomAmenityInfoByAmenityId(amenityId);
+        return R.ok().setData(roomAmenity);
     }
 
 

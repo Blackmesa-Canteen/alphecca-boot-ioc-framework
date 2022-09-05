@@ -19,16 +19,16 @@ public class CreateRoomParam {
     @Size(max = 255, message = "room description should not exceed {max}")
     private String description;
 
-    @NotBlank(message = "room price should be not null")
-    @Min(value = 0, message = "room price should >= 0")
-    @Max(value = Integer.MAX_VALUE, message = "sleep num should <= 65535")
+    @NotNull(message = "room price should be not null")
+    @DecimalMin(value = "0", message = "room price should >= 0")
+    @DecimalMax(value = "65535", message = "sleep num should <= 65535")
     private BigDecimal pricePerNight;
     private String currency;
-    @NotBlank(message = "sleep num should be not null")
+    @NotNull(message = "sleep num should be not null")
     @Min(value = 0, message = "sleep num should >= 0")
     @Max(value = 50, message = "sleep num should <= 50")
     private Integer sleepsNum;
-    @NotBlank(message = "vacant room num should be not null")
+    @NotNull(message = "vacant room num should be not null")
     @Min(value = 0, message = "vacant room num should >= 0")
     @Max(value = 512, message = "vacant room num should <= 512")
     private Integer vacantNum;

@@ -95,7 +95,7 @@ public class HotelAmenityDao implements IHotelAmenityDao {
     @Override
     public int clearAmenityIdsForHotel(String hotelId) {
         return CRUDTemplate.executeNonQuery(
-                "DELETE FROM hotel_amenity WHERE hotel_id = ?",
+                "DELETE FROM hotel_hotel_amenity WHERE hotel_id = ?",
                 hotelId
         );
     }
