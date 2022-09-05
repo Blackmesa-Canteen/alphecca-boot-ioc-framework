@@ -11,5 +11,5 @@ public interface IHotelierDao extends IBaseDao<Hotelier> {
 
     int insertOne(Hotelier hotelier);
 
-//    List<Hotelier> findAllByHotelId(String hotelId);
+    List<Hotelier> findAllByHotelId(String hotelId);
 }

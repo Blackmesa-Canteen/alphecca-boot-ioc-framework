@@ -22,5 +22,5 @@ public interface IManagementBlo {
 
     void registerNewHotelier(UserRegisterParam param);
 
-//    List<Hotelier> getHoteliersInOneGroupByHotelId(String hotelId);
+    List<Hotelier> getHoteliersInOneGroupByHotelId(String hotelId);
 }

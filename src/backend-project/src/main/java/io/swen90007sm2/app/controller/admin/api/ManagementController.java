@@ -95,13 +95,13 @@ public class ManagementController {
     }
 
     // find all hoteliers has one hotelId
-//    @HandlesRequest(path = "/hotelier", method = RequestMethod.GET)
-//    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
-//    public R getHoteliers(@QueryParam(value = "hotelId") String hotelId) {
-//        List<Hotelier> hoteliersByPage = managementBlo.getHoteliersInOneGroupByHotelId(hotelId);
-//
-//        return R.ok().setData(hoteliersByPage);
-//    }
+    @HandlesRequest(path = "/hotelier", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R getHoteliers(@QueryParam(value = "hotelId") String hotelId) {
+        List<Hotelier> hoteliersByPage = managementBlo.getHoteliersInOneGroupByHotelId(hotelId);
+
+        return R.ok().setData(hoteliersByPage);
+    }
 
 
 }

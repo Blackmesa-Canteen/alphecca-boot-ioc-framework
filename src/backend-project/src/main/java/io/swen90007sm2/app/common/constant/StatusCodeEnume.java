@@ -33,7 +33,8 @@ public enum StatusCodeEnume {
     HOTELIER_ALREADY_HAS_HOTEL(17001, "Hotelier already has a hotel!"),
     HOTELIER_NOT_HAS_HOTEL(17002, "Hotelier doesn't have a hotel, please create one."),
 
-    HOTEL_NOT_EXIST(17003, "Hotel doesn't exist.")
+    HOTEL_NOT_EXIST(17003, "Hotel doesn't exist."),
+    HOTEL_DOES_NOT_HAVE_HOTELIER(17004, "Hotel doesn't have hotelier.")
 
     ;
     private final Integer code;

@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.blo.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
@@ -11,6 +12,7 @@ import io.swen90007sm2.app.blo.IHotelierBlo;
 import io.swen90007sm2.app.blo.IManagementBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.IHotelDao;
@@ -168,8 +170,34 @@ public class ManagementBlo implements IManagementBlo {
 
     }
 
-//    @Override
-//    public List<Hotelier> getHoteliersInOneGroupByHotelId(String hotelId) {
-//        return null;
-//    }
+    @Override
+    public List<Hotelier> getHoteliersInOneGroupByHotelId(String hotelId) {
+        Hotel hotel = hotelBlo.getHotelEntityByHotelId(hotelId);
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getMessage(),
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getCode()
+            );
+        }
+
+        synchronized (this) {
+            IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
+            List <Hotelier> hoteliers = hotelierDao.findAllByHotelId(hotelId);
+            if (hoteliers.isEmpty()) {
+                throw new RequestException(
+                        StatusCodeEnume.HOTEL_DOES_NOT_HAVE_HOTELIER.getMessage(),
+                        StatusCodeEnume.HOTEL_DOES_NOT_HAVE_HOTELIER.getCode()
+                );
+            }
+
+            List<Hotelier> res = BeanUtil.copyToList(hoteliers, Hotelier.class);
+            res.forEach(hotelier -> {
+                hotelier.setPassword(CommonConstant.NULL);
+            });
+
+            return res;
+        }
+
+
+    }
 }
