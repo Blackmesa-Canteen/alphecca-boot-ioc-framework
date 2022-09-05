@@ -96,7 +96,7 @@ public class RoomAmenityDao implements IRoomAmenityDao {
     @Override
     public int clearAmenityIdsForRoom(String roomId) {
         return CRUDTemplate.executeNonQuery(
-                "DELETE FROM hotel_amenity WHERE room_id = ?",
+                "DELETE FROM room_room_amenity WHERE room_id = ?",
                 roomId
         );
     }

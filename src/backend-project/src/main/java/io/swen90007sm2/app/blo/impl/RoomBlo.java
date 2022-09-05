@@ -130,7 +130,7 @@ public class RoomBlo implements IRoomBlo {
 
         IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
         synchronized (this) {
-            roomDao.insertOne(newRoomObj);
+            roomDao.updateOne(newRoomObj);
             roomAmenityBlo.updateAmenityIdsForRoom(param.getAmenityIds(), roomId);
 
             cache.remove(CacheConstant.VO_ROOM_KEY_PREFIX + roomId);
