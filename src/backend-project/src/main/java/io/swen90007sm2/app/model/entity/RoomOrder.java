@@ -11,6 +11,10 @@ public class RoomOrder extends BaseEntity{
 
     private String roomId;
 
+    private String hotelId;
+
+    private String customerId;
+
     private Integer orderedCount;
 
     // in database it is always absolute amount of AUD
@@ -22,32 +26,27 @@ public class RoomOrder extends BaseEntity{
     public RoomOrder() {
     }
 
-    public RoomOrder(String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
+    public RoomOrder(String roomOrderId, String transactionId, String roomId, String hotelId, String customerId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
+        this.hotelId = hotelId;
+        this.customerId = customerId;
         this.orderedCount = orderedCount;
         this.pricePerRoom = pricePerRoom;
         this.currency = currency;
     }
 
-    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
+    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, String hotelId, String customerId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
         super(createTime, updateTime);
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
+        this.hotelId = hotelId;
+        this.customerId = customerId;
         this.orderedCount = orderedCount;
         this.pricePerRoom = pricePerRoom;
         this.currency = currency;
-    }
-
-    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Integer orderedCount, BigDecimal pricePerRoom) {
-        super(createTime, updateTime);
-        this.roomOrderId = roomOrderId;
-        this.transactionId = transactionId;
-        this.roomId = roomId;
-        this.orderedCount = orderedCount;
-        this.pricePerRoom = pricePerRoom;
     }
 
     public String getRoomOrderId() {
@@ -96,6 +95,22 @@ public class RoomOrder extends BaseEntity{
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(String hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     @Override
