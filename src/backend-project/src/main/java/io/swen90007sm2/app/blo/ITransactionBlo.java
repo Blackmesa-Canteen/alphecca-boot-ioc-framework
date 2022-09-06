@@ -13,9 +13,9 @@ public interface ITransactionBlo {
 
     void doMakeBooking(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap);
 
-    void doUpdateBooking(String customerId, String hotelId, List<RoomBookingBean> roomBookingBeans);
+    void doUpdateBooking(String transactionId, List<RoomBookingBean> roomBookingBeans);
 
-    void doCancelBooking(String customerId, String hotelId, List<String> roomIds);
+    void doCancelBooking(String transactionId);
 
     Transaction getTransactionEntityByTransactionId(String transactionId);
     List<Transaction> getTransactionEntitiesByHotelIdAndDateRange(String hotelId, Date startDate, Date endDate);

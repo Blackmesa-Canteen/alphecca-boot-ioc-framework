@@ -11,6 +11,7 @@ import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.common.util.TimeUtil;
+import io.swen90007sm2.app.dao.ITransactionDao;
 import io.swen90007sm2.app.dao.impl.RoomOrderDao;
 import io.swen90007sm2.app.dao.impl.TransactionDao;
 import io.swen90007sm2.app.model.entity.Room;
@@ -133,13 +134,17 @@ public class TransactionBlo implements ITransactionBlo {
     }
 
     @Override
-    public void doUpdateBooking(String customerId, String hotelId, List<RoomBookingBean> roomBookingBeans) {
+    public void doUpdateBooking(String transactionId, List<RoomBookingBean> roomBookingBeans) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void doCancelBooking(String customerId, String hotelId, List<String> roomIds) {
-        throw new NotImplementedException();
+    public void doCancelBooking(String transactionId) {
+        Transaction transaction = getTransactionEntityByTransactionId(transactionId);
+        transaction.setStatusCode(CommonConstant.TRANSACTION_CANCELLED);
+
+        TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+        transactionDao.updateOne(transaction);
     }
 
     @Override
