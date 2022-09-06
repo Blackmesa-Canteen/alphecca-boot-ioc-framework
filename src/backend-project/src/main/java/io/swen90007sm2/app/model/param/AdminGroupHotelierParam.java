@@ -16,13 +16,7 @@ public class AdminGroupHotelierParam {
     @Email(message = "User Id of the hotelier to add should be in Email format")
     private String hotelierToAddUserId;
 
-    @NotBlank(message = "New hotelier's nickname should be not null")
-    @Size(max = 50, message = "User nick name should not exceed {max}")
-    private String hotelierToAddUserName;
 
-    @NotBlank(message = "New hotelier's User password should be not null")
-    @Size(max = 100, message = "User password should not exceed {max}")
-    private String hotelierToAddPassword;
 
     public AdminGroupHotelierParam() {
     }
@@ -30,8 +24,6 @@ public class AdminGroupHotelierParam {
     public AdminGroupHotelierParam(String HotelOwningHotelierUserId, String hotelierToAddUserId, String hotelierToAddUserName, String hotelierToAddPassword) {
         this.hotelOwningHotelierUserId = HotelOwningHotelierUserId;
         this.hotelierToAddUserId = hotelierToAddUserId;
-        this.hotelierToAddUserName = hotelierToAddUserName;
-        this.hotelierToAddPassword = hotelierToAddPassword;
     }
 
     public String getHotelOwningHotelierUserId() {
@@ -50,19 +42,5 @@ public class AdminGroupHotelierParam {
         this.hotelierToAddUserId = hotelierToAddUserId;
     }
 
-    public String getHotelierToAddUserName() {
-        return hotelierToAddUserName;
-    }
 
-    public void setHotelierToAddUserName(String hotelierToAddUserName) {
-        this.hotelierToAddUserName = hotelierToAddUserName;
-    }
-
-    public String getHotelierToAddPassword() {
-        return hotelierToAddPassword;
-    }
-
-    public void setHotelierToAddPassword(String hotelierToAddPassword) {
-        this.hotelierToAddPassword = hotelierToAddPassword;
-    }
 }

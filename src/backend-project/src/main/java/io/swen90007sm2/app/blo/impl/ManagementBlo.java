@@ -93,7 +93,7 @@ public class ManagementBlo implements IManagementBlo {
         }
 
         String hotelierToAddId = param.getHotelierToAddUserId();
-        String hotelierToAddName = param.getHotelierToAddUserName();
+//        String hotelierToAddName = param.getHotelierToAddUserName();
 
         hotelierToAdd.setHotelId(hotelId);
 
