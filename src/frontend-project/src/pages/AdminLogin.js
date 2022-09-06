@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, NavbarBrand } from "react-bootstrap";
-import { AlpheccaLogo, GlobalStyle } from "../components/UserStyle";
+import { AlpheccaLogo, GlobalStyle, Input, SubmitButton } from "../components/UserStyle";
 import AdminPng from "../Picture/admin.png";
 
 export default function AdminLogin() {
@@ -14,6 +14,9 @@ export default function AdminLogin() {
       <center>
         <br/>
         <img src={AdminPng} alt="admin" width="100" height="150" />
+        <Input type="email" placeholder="Emial Address"/>
+        <Input type="password" placeholder="Password"/>
+        <SubmitButton>Submit</SubmitButton>
       </center>
 
       <GlobalStyle />
