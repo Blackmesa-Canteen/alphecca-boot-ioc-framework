@@ -16,6 +16,7 @@ public interface CommonConstant {
     String USD_CURRENCY = "USD";
     String RMB_CURRENCY = "RMB";
 
+    /* Note: for simplicity, transaction only have 2 states: confirmed and cancelled*/
     Integer TRANSACTION_PENDING = 0;
     Integer TRANSACTION_CONFIRMED = 1;
     Integer TRANSACTION_FINISHED = 2;

@@ -7,6 +7,7 @@ import io.swen90007sm2.app.dao.ITransactionDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.Transaction;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class TransactionDao implements ITransactionDao {
 
     @Override
     public int insertOne(Transaction entity) {
+        java.sql.Date sqlStartDate = new java.sql.Date(entity.getStartDate().getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(entity.getEndDate().getTime());
         return CRUDTemplate.executeNonQuery(
                 "INSERT INTO transaction (id, transaction_id, customer_id, " +
                         "hotel_id, status_code, start_date, " +
@@ -29,8 +32,8 @@ public class TransactionDao implements ITransactionDao {
                 entity.getCustomerId(),
                 entity.getHotelId(),
                 entity.getStatusCode(),
-                entity.getStartDate(),
-                entity.getEndDate(),
+                sqlStartDate,
+                sqlEndDate,
                 entity.getTotalPrice(),
                 entity.getCurrency()
         );
@@ -114,6 +117,19 @@ public class TransactionDao implements ITransactionDao {
                 statusCode,
                 start,
                 rows
+        );
+    }
+
+    @Override
+    public List<Transaction> findTransactionByHotelIdByDateRange(String hotelId, Date startDate, Date endDate) {
+        java.sql.Date startSqlDate = new java.sql.Date(startDate.getTime());
+        java.sql.Date endSqlDate = new java.sql.Date(endDate.getTime());
+
+        return CRUDTemplate.executeQueryWithMultiRes(
+                Transaction.class,
+                "SELECT * FROM transaction where start_date >= ? AND end_date <= ?",
+                startSqlDate,
+                endSqlDate
         );
     }
 }
