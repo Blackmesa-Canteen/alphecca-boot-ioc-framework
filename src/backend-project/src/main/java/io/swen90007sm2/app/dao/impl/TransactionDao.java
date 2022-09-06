@@ -21,6 +21,8 @@ public class TransactionDao implements ITransactionDao {
 
     @Override
     public int insertOne(Transaction entity) {
+        java.sql.Date sqlStartDate = new java.sql.Date(entity.getStartDate().getTime());
+        java.sql.Date sqlEndDate = new java.sql.Date(entity.getEndDate().getTime());
         return CRUDTemplate.executeNonQuery(
                 "INSERT INTO transaction (id, transaction_id, customer_id, " +
                         "hotel_id, status_code, start_date, " +
@@ -30,8 +32,8 @@ public class TransactionDao implements ITransactionDao {
                 entity.getCustomerId(),
                 entity.getHotelId(),
                 entity.getStatusCode(),
-                entity.getStartDate(),
-                entity.getEndDate(),
+                sqlStartDate,
+                sqlEndDate,
                 entity.getTotalPrice(),
                 entity.getCurrency()
         );

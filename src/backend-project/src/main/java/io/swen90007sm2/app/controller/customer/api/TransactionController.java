@@ -4,6 +4,7 @@ import io.swen90007sm2.alpheccaboot.annotation.filter.AppliesFilter;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
+import io.swen90007sm2.alpheccaboot.annotation.mvc.QueryParam;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
 import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
@@ -28,7 +29,7 @@ public class TransactionController {
 
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
-    public R bookAHotel(HttpServletRequest request, @Valid @RequestJsonBody CreateTransactionParam param) {
+    public R bookHotel(HttpServletRequest request, @Valid @RequestJsonBody CreateTransactionParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
@@ -40,6 +41,13 @@ public class TransactionController {
                 param.getRoomIdNumberMap()
         );
 
+        return R.ok();
+    }
+
+    @HandlesRequest(path = "/cancel", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R cancelTransaction(@QueryParam(value = "transactionId") String transactionId) {
+        transactionBlo.doCancelBooking(transactionId);
         return R.ok();
     }
 }

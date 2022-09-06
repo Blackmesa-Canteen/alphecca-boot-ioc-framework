@@ -78,7 +78,7 @@ public class TransactionBlo implements ITransactionBlo {
                 int totalCount = room.getVacantNum();
 
                 for (RoomOrder roomOrder : existingRoomOrders) {
-                    if (roomOrder.getRoomOrderId().equals(targetRoomId)) {
+                    if (roomOrder.getRoomId().equals(targetRoomId)) {
                         totalCount = totalCount - roomOrder.getOrderedCount();
                     }
                 }
@@ -87,7 +87,7 @@ public class TransactionBlo implements ITransactionBlo {
                 if (totalCount < 0) {
                     throw new RequestException(
                             String.format("Out of stock. Room name [%s] only have [%d] vacant rooms left.",
-                                    room.getName(), room.getVacantNum()),
+                                    room.getName(), totalCount + targetRoomBookedNumber),
                             StatusCodeEnume.ROOM_IS_OCCUPIED.getCode()
                     );
                 }
@@ -96,6 +96,7 @@ public class TransactionBlo implements ITransactionBlo {
                 RoomOrder roomOrder = new RoomOrder();
                 Long idLong = IdFactory.genSnowFlakeId();
                 roomOrder.setId(idLong);
+                roomOrder.setCustomerId(customerId);
                 roomOrder.setRoomOrderId(idLong.toString());
                 roomOrder.setRoomId(targetRoomId);
                 roomOrder.setHotelId(hotelId);

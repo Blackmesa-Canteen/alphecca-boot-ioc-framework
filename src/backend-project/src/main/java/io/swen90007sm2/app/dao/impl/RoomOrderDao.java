@@ -141,10 +141,10 @@ public class RoomOrderDao implements IRoomOrderDao {
 
         return CRUDTemplate.executeQueryWithMultiRes(
                 RoomOrder.class,
-                "SELECT create_time, update_time, is_deleted, room_order_id, id, customer_id," +
-                        " hotel_id, transaction_id, room_id, ordered_count, price_per_room, currency, status_code" +
+                "SELECT room_order.create_time, room_order.update_time, room_order.is_deleted, room_order.room_order_id, room_order.id, room_order.customer_id," +
+                        " room_order.hotel_id, room_order.transaction_id, room_order.room_id, room_order.ordered_count, room_order.price_per_room, room_order.currency" +
                         " FROM transaction INNER JOIN room_order USING (transaction_id)" +
-                        " WHERE status_code = ? AND hotel_id = ? AND start_date >= ? AND end_date <= ?",
+                        " WHERE transaction.status_code = ? AND transaction.hotel_id = ? AND transaction.start_date >= ? AND transaction.end_date <= ?",
                 statusCode,
                 hotelId,
                 sqlDateStart,
