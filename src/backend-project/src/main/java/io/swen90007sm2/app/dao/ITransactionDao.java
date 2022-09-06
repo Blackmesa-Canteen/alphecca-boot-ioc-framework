@@ -2,6 +2,7 @@ package io.swen90007sm2.app.dao;
 
 import io.swen90007sm2.app.model.entity.Transaction;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ITransactionDao extends IBaseDao<Transaction>{
@@ -31,4 +32,6 @@ public interface ITransactionDao extends IBaseDao<Transaction>{
      * find all transactions for a customer
      */
     List<Transaction> findTransactionsByCustomerIdByPage(String customerId, Integer start, Integer rows, int statusCode);
+
+    List<Transaction> findTransactionByHotelIdByDateRange(String hotelId, Date startDate, Date endDate);
 }
