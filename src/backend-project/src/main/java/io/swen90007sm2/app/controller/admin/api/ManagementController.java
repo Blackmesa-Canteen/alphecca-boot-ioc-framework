@@ -57,16 +57,17 @@ public class ManagementController {
 
     @HandlesRequest(path = "/hotelier/new", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
-    public R groupNewHotelierWithExistingHotel(HttpServletRequest request, @RequestJsonBody @Valid UserRegisterParam param) {
+    public R registerNewHotelier(HttpServletRequest request, @RequestJsonBody @Valid UserRegisterParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String adminUserId = authToken.getUserId();
         managementBlo.registerNewHotelier(param);
         return R.ok();
     }
+
     @HandlesRequest(path = "/hotelier/existing", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
-    public R registerNewHotelier(HttpServletRequest request, @RequestJsonBody @Valid AdminGroupHotelierParam param) {
+    public R groupHotelierWithExistingHotel(HttpServletRequest request, @RequestJsonBody @Valid AdminGroupHotelierParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String adminUserId = authToken.getUserId();
@@ -97,7 +98,7 @@ public class ManagementController {
     // find all hoteliers has one hotelId
     @HandlesRequest(path = "/hotelier", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
-    public R getHoteliers(@QueryParam(value = "hotelId") String hotelId) {
+    public R getHoteliersHavingSameHotel(@QueryParam(value = "hotelId") String hotelId) {
         List<Hotelier> hoteliersByPage = managementBlo.getHoteliersInOneGroupByHotelId(hotelId);
 
         return R.ok().setData(hoteliersByPage);

@@ -166,7 +166,7 @@ public class ManagementBlo implements IManagementBlo {
     @Override
     public void registerNewHotelier(UserRegisterParam param) {
         hotelierBlo.doRegisterUser(param);
-        System.out.println("register new hotelier");
+//        System.out.println("register new hotelier");
 
     }
 
