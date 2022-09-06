@@ -1,9 +1,11 @@
 package io.swen90007sm2.app.model.param;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 
 public class AdminChangeHotelStatusParam {
-    @NotBlank(message = "Test should not be null")
+    @NotBlank(message = "hotelId should not be null")
+    @Max(value = 50, message = "hotelId should not exceed {value}")
     private String hotelId;
 
     public AdminChangeHotelStatusParam() {

@@ -4,6 +4,7 @@ import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.model.param.AdminRemoveHotelierParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 
@@ -23,4 +24,6 @@ public interface IManagementBlo {
     void registerNewHotelier(UserRegisterParam param);
 
     List<Hotelier> getHoteliersInOneGroupByHotelId(String hotelId);
+
+    void removeHotelierFromHotelGroup(AdminRemoveHotelierParam param);
 }

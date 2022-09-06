@@ -25,6 +25,7 @@ import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
+import io.swen90007sm2.app.model.param.AdminRemoveHotelierParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.util.SecurityUtil;
@@ -199,5 +200,29 @@ public class ManagementBlo implements IManagementBlo {
         }
 
 
+    }
+
+    @Override
+    public void removeHotelierFromHotelGroup(AdminRemoveHotelierParam param) {
+        String hotelierToRemoveId = param.getHotelierId();
+        Hotelier hotelierToRemove = hotelierBlo.getHotelierInfoByUserId(hotelierToRemoveId);
+        if (hotelierToRemove == null) {
+            throw new RequestException(
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                    StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode()
+            );
+        }
+        String hotelId = hotelierToRemove.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        hotelierToRemove.setHotelId(null);
+        IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotelierToRemove, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierToRemoveId);
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + hotelierToRemoveId);
     }
 }
