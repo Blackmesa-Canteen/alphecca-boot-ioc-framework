@@ -159,7 +159,21 @@ public class TransactionBlo implements ITransactionBlo {
 
     @Override
     public TransactionVo getTransactionInfoByTransactionId(String transactionId, String currencyName) {
-        throw new NotImplementedException();
+        Transaction transaction = getTransactionEntityByTransactionId(transactionId);
+        if (transaction == null) {
+            throw new RequestException(StatusCodeEnume.TRANSACTION_NOT_FOUND.getMessage(), StatusCodeEnume.TRANSACTION_NOT_FOUND.getCode());
+        }
+        TransactionVo transactionVo = new TransactionVo();
+        BeanUtil.copyProperties(transaction, transactionVo);
+
+        Money money = new Money();
+        money.setCurrency(currencyName);
+        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, transactionVo.getTotalPrice()));
+        transactionVo.setMoney(money);
+
+        return transactionVo;
+
+
     }
 
     @Override
@@ -170,8 +184,49 @@ public class TransactionBlo implements ITransactionBlo {
 
     @Override
     public List<TransactionVo> getTransactionsByHotelIdAndDateRange(String hotelId, Date startDate, Date endDate, String currencyName) {
-        throw new NotImplementedException();
+        List<TransactionVo> transactionVos;
+        Hotel hotel = hotelBlo.getHotelEntityByHotelId(hotelId);
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getMessage(),
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getCode()
+            );
+        }
+        TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+        List<Transaction> transactions = transactionDao.findTransactionByHotelIdByDateRange(hotelId, startDate, endDate);
+
+        // copy to vo
+        transactionVos = new LinkedList<>();
+        for (Transaction transaction : transactions) {
+            TransactionVo transactionVo = new TransactionVo();
+            BeanUtil.copyProperties(transaction, transactionVo);
+            transactionVos.add(transactionVo);
+        }
+
+        for (TransactionVo transactionVo : transactionVos) {
+            Money money = new Money();
+            money.setCurrency(currencyName);
+            money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, transactionVo.getTotalPrice()));
+            transactionVo.setMoney(money);
+
+            RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+            List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
+            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            for (RoomOrder roomOrder : roomOrders) {
+                Money roomMoney = new Money();
+                roomMoney.setCurrency(currencyName);
+                roomMoney.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, roomOrder.getPricePerRoom()));
+                RoomOrderVo roomOrderVo = new RoomOrderVo(roomMoney);
+                BeanUtil.copyProperties(roomOrder, roomOrderVo);
+                roomOrderVos.add(roomOrderVo);
+            }
+            transactionVo.setRoomOrders(roomOrderVos);
+        }
+
+        return transactionVos;
     }
+
+
 
     @Override
     public List<TransactionVo> getAllTransactionsForCustomerId(String customerId, String currencyName) {
@@ -251,7 +306,46 @@ public class TransactionBlo implements ITransactionBlo {
 
     @Override
     public List<TransactionVo> getAllTransactionsForHotelId(String hotelId, Integer statusCode, String currencyName) {
-        throw new NotImplementedException();
+        List<TransactionVo> transactionVos;
+        Hotel hotel = hotelBlo.getHotelEntityByHotelId(hotelId);
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getMessage(),
+                    StatusCodeEnume.HOTEL_NOT_EXIST.getCode()
+            );
+        }
+        TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+        List<Transaction> transactions = transactionDao.findAllTransactionsByHotelIdWithStatusCode(hotelId, statusCode);
+
+        // copy to vo
+        transactionVos = new LinkedList<>();
+        for (Transaction transaction : transactions) {
+            TransactionVo transactionVo = new TransactionVo();
+            BeanUtil.copyProperties(transaction, transactionVo);
+            transactionVos.add(transactionVo);
+        }
+
+        for (TransactionVo transactionVo : transactionVos) {
+            Money money = new Money();
+            money.setCurrency(currencyName);
+            money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, transactionVo.getTotalPrice()));
+            transactionVo.setMoney(money);
+
+            RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+            List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
+            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            for (RoomOrder roomOrder : roomOrders) {
+                Money roomMoney = new Money();
+                roomMoney.setCurrency(currencyName);
+                roomMoney.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, roomOrder.getPricePerRoom()));
+                RoomOrderVo roomOrderVo = new RoomOrderVo(roomMoney);
+                BeanUtil.copyProperties(roomOrder, roomOrderVo);
+                roomOrderVos.add(roomOrderVo);
+            }
+            transactionVo.setRoomOrders(roomOrderVos);
+        }
+
+        return transactionVos;
     }
 
     @Override

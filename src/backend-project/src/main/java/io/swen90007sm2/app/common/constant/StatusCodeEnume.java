@@ -37,7 +37,8 @@ public enum StatusCodeEnume {
     HOTEL_NOT_EXIST(17003, "Hotel doesn't exist."),
     HOTEL_DOES_NOT_HAVE_HOTELIER(17004, "Hotel doesn't have hotelier."),
 
-    ROOM_IS_OCCUPIED(18001, "the room is occupied")
+    ROOM_IS_OCCUPIED(18001, "the room is occupied"),
+    TRANSACTION_NOT_FOUND(18002, "transaction not found")
 
 
     ;
