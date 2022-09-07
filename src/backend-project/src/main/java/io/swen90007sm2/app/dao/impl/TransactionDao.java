@@ -140,6 +140,25 @@ public class TransactionDao implements ITransactionDao {
     }
 
     @Override
+    public List<Transaction> findTransactionsByCustomerId(String customerId) {
+        return CRUDTemplate.executeQueryWithMultiRes(
+                Transaction.class,
+                "SELECT * FROM transaction WHERE customer_id = ?",
+                customerId
+        );
+    }
+
+    @Override
+    public List<Transaction> findTransactionsByCustomerIdWithStatusCode(String customerId, int statusCode) {
+        return CRUDTemplate.executeQueryWithMultiRes(
+                Transaction.class,
+                "SELECT * FROM transaction WHERE customer_id = ? and status_code = ?",
+                customerId,
+                statusCode
+        );
+    }
+
+    @Override
     public List<Transaction> findTransactionByHotelIdByDateRange(String hotelId, Date startDate, Date endDate) {
         java.sql.Date startSqlDate = new java.sql.Date(startDate.getTime());
         java.sql.Date endSqlDate = new java.sql.Date(endDate.getTime());

@@ -24,7 +24,9 @@ public interface ITransactionBlo {
 
     List<TransactionVo> getTransactionsByHotelIdAndDateRange(String hotelId, Date startDate, Date endDate, String currencyName);
 
-    List<TransactionVo> getAllTransactionsForCustomerId(String customerId, Integer statusCode, String currencyName);
+    List<TransactionVo> getAllTransactionsForCustomerId(String customerId, String currencyName);
+
+    List<TransactionVo> getAllTransactionsForCustomerIdWithStatusCode(String customerId, Integer statusCode, String currencyName);
 
     List<TransactionVo> getAllTransactionsForHotelId(String hotelId, Integer statusCode, String currencyName);
 

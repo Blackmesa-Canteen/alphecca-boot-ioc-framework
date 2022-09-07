@@ -11,6 +11,7 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.ITransactionBlo;
 import io.swen90007sm2.app.model.param.CreateTransactionParam;
+import io.swen90007sm2.app.model.vo.TransactionVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
@@ -50,4 +51,21 @@ public class TransactionController {
         transactionBlo.doCancelBooking(transactionId);
         return R.ok();
     }
+
+    // get all transactions of a customer
+    @HandlesRequest(path = "/all", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R getAllTransactions( @QueryParam(value = "customerId") String customerId, @QueryParam(value = "currencyName") String currencyName) {
+        List<TransactionVo> transactions = transactionBlo.getAllTransactionsForCustomerId(customerId, currencyName);
+        return R.ok().setData(transactions);
+    }
+
+    // get all transactions of a customer by status code
+    @HandlesRequest(path = "/all/with_status", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R getAllTransactionsWithStatusCode( @QueryParam(value = "customerId") String customerId, @QueryParam(value = "statusCode") int statusCode, @QueryParam(value = "currencyName") String currencyName) {
+        List<TransactionVo> transactions = transactionBlo.getAllTransactionsForCustomerIdWithStatusCode(customerId, statusCode, currencyName);
+        return R.ok().setData(transactions);
+    }
+
 }

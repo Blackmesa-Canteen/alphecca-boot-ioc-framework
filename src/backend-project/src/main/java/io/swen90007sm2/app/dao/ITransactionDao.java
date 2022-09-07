@@ -38,4 +38,8 @@ public interface ITransactionDao extends IBaseDao<Transaction>{
     List<Transaction> findAllTransactionsByHotelId(String hotelId);
 
     List<Transaction> findAllTransactionsByHotelIdWithStatusCode(String hotelId, int statusCode);
+
+    List<Transaction> findTransactionsByCustomerId(String customerId);
+
+    List<Transaction> findTransactionsByCustomerIdWithStatusCode(String customerId, int statusCode);
 }
