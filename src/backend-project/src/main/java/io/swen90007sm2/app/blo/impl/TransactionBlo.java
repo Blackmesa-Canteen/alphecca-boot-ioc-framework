@@ -112,7 +112,8 @@ public class TransactionBlo implements ITransactionBlo {
 
                 // calc price for this room
                 long deltaDays = TimeUtil.getDeltaBetweenDate(start, end, TimeUnit.DAYS);
-                totalPrice += room.getPricePerNight().doubleValue() * deltaDays;
+                // change to * targetRoomBookedNumber because otherwise it would be the price for one room for that many days.
+                totalPrice += room.getPricePerNight().doubleValue() * deltaDays * targetRoomBookedNumber;
             }
 
             // batch insert new room orders
