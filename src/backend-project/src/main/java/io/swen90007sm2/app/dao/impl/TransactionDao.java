@@ -97,6 +97,25 @@ public class TransactionDao implements ITransactionDao {
     }
 
     @Override
+    public List<Transaction> findAllTransactionsByHotelId(String hotelId) {
+        return CRUDTemplate.executeQueryWithMultiRes(
+                Transaction.class,
+                "SELECT * FROM transaction WHERE hotel_id = ?",
+                hotelId
+        );
+    }
+
+    @Override
+    public List<Transaction> findAllTransactionsByHotelIdWithStatusCode(String hotelId, int statusCode) {
+        return CRUDTemplate.executeQueryWithMultiRes(
+                Transaction.class,
+                "SELECT * FROM transaction WHERE hotel_id = ? and status_code = ?",
+                hotelId,
+                statusCode
+        );
+    }
+
+    @Override
     public int findTotalCountByCustomerId(String customerId, int statusCode) {
         Long totalRows = CRUDTemplate.executeQueryWithOneRes(
                 Long.class,

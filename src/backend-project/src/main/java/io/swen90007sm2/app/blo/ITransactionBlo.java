@@ -28,5 +28,7 @@ public interface ITransactionBlo {
 
     List<TransactionVo> getAllTransactionsForHotelId(String hotelId, Integer statusCode, String currencyName);
 
-    List<TransactionVo> getAllTransactionsForHotelierId(String hotelierId, Integer statusCode, String currencyName);
+    List<TransactionVo> getAllTransactionsForHotelierId(String hotelierId, String currencyName);
+
+    List<TransactionVo> getAllTransactionsForHotelierIdWithStatusCode(String hotelierId, Integer statusCode, String currencyName);
 }
