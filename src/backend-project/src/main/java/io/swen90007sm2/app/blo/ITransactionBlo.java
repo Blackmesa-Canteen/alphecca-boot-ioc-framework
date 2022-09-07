@@ -13,7 +13,7 @@ public interface ITransactionBlo {
 
     void doMakeBooking(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap);
 
-    void doUpdateBooking(String transactionId, List<RoomBookingBean> roomBookingBeans);
+    void doUpdateBooking(String transactionId, String roomOrderId, int day);
 
     void doCancelBooking(String transactionId);
 

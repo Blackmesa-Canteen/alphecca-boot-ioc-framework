@@ -138,8 +138,57 @@ public class TransactionBlo implements ITransactionBlo {
     }
 
     @Override
-    public void doUpdateBooking(String transactionId, List<RoomBookingBean> roomBookingBeans) {
-        throw new NotImplementedException();
+    public void doUpdateBooking(String transactionId, String roomOrderId, int newQuanity) {
+        Transaction transaction = getTransactionEntityByTransactionId(transactionId);
+        int statusCode = transaction.getStatusCode();
+        if (statusCode != CommonConstant.TRANSACTION_CONFIRMED) {
+            throw new RequestException(StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getMessage()
+                    , StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getCode());
+        }
+        String hotelId = transaction.getHotelId();
+        Date start = transaction.getStartDate();
+        Date end = transaction.getEndDate();
+        RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+        RoomOrder modifiedRoomOrder = roomOrderDao.findOneByBusinessId(roomOrderId);
+        String targetRoomId = modifiedRoomOrder.getRoomId();
+        int orderedCount = modifiedRoomOrder.getOrderedCount();
+        synchronized (this) {
+            // get the existing room orders for this hotel at this date range
+            List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
+                    hotelId, start, end, CommonConstant.TRANSACTION_CANCELLED);
+
+
+            Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
+            int totalCount = room.getVacantNum();
+
+            for (RoomOrder roomOrder : existingRoomOrders) {
+                if (roomOrder.getRoomId().equals(targetRoomId)) {
+                    totalCount = totalCount - roomOrder.getOrderedCount();
+                }
+            }
+            // check remain room: vacant_num - [(room_orders_of_this_hotel_and_date.ordered_count)] +
+            // we assume this initial order does not exist >= roomBooking.number ?
+            totalCount = totalCount + orderedCount - newQuanity;
+            if (totalCount < 0) {
+                throw new RequestException(
+                        String.format("Out of stock. Room name [%s] only have [%d] vacant rooms left.",
+                                room.getName(), totalCount + newQuanity),
+                        StatusCodeEnume.ROOM_IS_OCCUPIED.getCode()
+                );
+            }
+            modifiedRoomOrder.setOrderedCount(newQuanity);
+            roomOrderDao.updateOne(modifiedRoomOrder);
+            long deltaDays = TimeUtil.getDeltaBetweenDate(start, end, TimeUnit.DAYS);
+            // calc price for this room type = Total price - old price + new price
+            double totalPrice = transaction.getTotalPrice().doubleValue();
+            double oldPrice = modifiedRoomOrder.getPricePerRoom().doubleValue() * orderedCount * deltaDays;
+            double newPrice = modifiedRoomOrder.getPricePerRoom().doubleValue() * newQuanity * deltaDays;
+
+            transaction.setTotalPrice(BigDecimal.valueOf(totalPrice - oldPrice + newPrice));
+            TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+            transactionDao.updateOne(transaction);
+        }
+
     }
 
     @Override

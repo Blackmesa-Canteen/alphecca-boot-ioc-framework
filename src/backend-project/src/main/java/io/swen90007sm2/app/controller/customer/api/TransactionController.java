@@ -11,6 +11,7 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.ITransactionBlo;
 import io.swen90007sm2.app.model.param.CreateTransactionParam;
+import io.swen90007sm2.app.model.param.CustomerUpdateRoomOrderParam;
 import io.swen90007sm2.app.model.vo.TransactionVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -19,7 +20,6 @@ import io.swen90007sm2.app.security.helper.TokenHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @Controller(path = "/api/customer/transaction")
 @Validated
@@ -49,6 +49,22 @@ public class TransactionController {
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
     public R cancelTransaction(@QueryParam(value = "transactionId") String transactionId) {
         transactionBlo.doCancelBooking(transactionId);
+        return R.ok();
+    }
+
+    // update a roomOrder
+    @HandlesRequest(path = "/update", method = RequestMethod.POST)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R updateTransaction(@Valid @RequestJsonBody CustomerUpdateRoomOrderParam param) {
+        String transactionId = param.getTransactionId();
+        String roomOrderId = param.getRoomOrderId();
+        int newQuantity = param.getNewQuantity();
+        transactionBlo.doUpdateBooking(
+                transactionId,
+                roomOrderId,
+                newQuantity
+        );
+
         return R.ok();
     }
 
