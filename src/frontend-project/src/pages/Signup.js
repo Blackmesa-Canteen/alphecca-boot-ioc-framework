@@ -14,22 +14,21 @@ import AlpheccaIcon from "../Picture/5Star.png";
 import { signup } from "../API/CustomerApi";
 
 export default function Signuppage(props) {
-  const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
-  function onSubmit(){
-    const newCustomer={
-      userName:userName,
-      userId:userId,
-      password1:password1,
-      password2:password2,
-    }
-    console.log(newCustomer);
-    signup(newCustomer);
-  }
-  
   function SignupForm() {
+    const [userName, setUserName] = useState("");
+    const [userId, setUserId] = useState("");
+    const [password1, setPassword1] = useState("");
+    const [password2, setPassword2] = useState("");
+    function onSubmit() {
+      const newCustomer = {
+        userName: userName,
+        userId: userId,
+        password1: password1,
+        password2: password2,
+      };
+      
+      signup(newCustomer);
+    }
     return (
       <FormContainer>
         <h2>Register</h2>
@@ -38,24 +37,25 @@ export default function Signuppage(props) {
           value={userName}
           id="userName"
           placeholder="User Name"
-          onChange={(name)=>{
-            setUserName(name.target.value)
+          onChange={(name) => {
+            setUserName(name.target.value);
           }}
         />
         <Input
           type="email"
           value={userId}
-          onChange={(id)=>{
-            setUserId(id.target.value)
+          onChange={(id) => {
+            setUserId(id.target.value);
           }}
           id="userId"
           placeholder="Email Address"
+          autoFocus
         />
         <Input
           type="password"
           value={password1}
-          onChange={(p)=>{
-            setPassword1(p.target.value)
+          onChange={(p) => {
+            setPassword1(p.target.value);
           }}
           id="password1"
           placeholder="Password"
@@ -63,8 +63,8 @@ export default function Signuppage(props) {
         <Input
           type="password"
           value={password2}
-          onChange={(p)=>{
-            setPassword2(p.target.value)
+          onChange={(p) => {
+            setPassword2(p.target.value);
           }}
           id="password2"
           placeholder="Confirm Password"
@@ -82,7 +82,7 @@ export default function Signuppage(props) {
           label="Accept Condition&terms"
         />
 
-        <SubmitButton  onClick ={onSubmit}>Sign up</SubmitButton>
+        <SubmitButton onClick={onSubmit}>Sign up</SubmitButton>
       </FormContainer>
     );
   }

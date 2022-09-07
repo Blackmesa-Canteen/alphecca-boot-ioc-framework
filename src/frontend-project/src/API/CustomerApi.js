@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState, useEffect}from "react";
+
 const BASE_URL = "http://localhost:8088/";
 
 //customer signup
@@ -42,5 +42,55 @@ export async function signup(user){
     .catch((e)=>{
         console.log(e);
         alert("An error occured")
+    })
+}
+
+export async function customerLogin(user){
+    const endpoint = BASE_URL+`api/customer/login/`
+    const {userId, password} = user;
+    
+    axios({
+        url:endpoint,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+        },
+        data:JSON.stringify(
+            {
+                userId: userId,
+                password:password
+        },
+        {withCrednetials:true}
+        ),
+    })
+    .then((res)=>{
+        localStorage.setItem("token", res.data.data.token);
+        alert("logged in");
+        window.location="/"
+        return;
+        
+    })
+    .catch((e)=>{
+        console.log(e);
+        alert("failed to log in, please check");
+        return;
+    })
+}
+export async function customerLogout(){
+    const endpoint = BASE_URL+`api/customer/logout`
+    axios({
+        url:endpoint,
+        method:"GET",
+        headers:{
+            "Authorization":localStorage.getItem("token"),
+        },
+    })
+    .then((res)=>{
+        console.log(res);
+        localStorage.clear();
+        alert("Successfully logged out")
+    })
+    .catch((e)=>{
+        console.log(e);
     })
 }

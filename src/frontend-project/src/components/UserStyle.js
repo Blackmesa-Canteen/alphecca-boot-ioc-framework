@@ -12,7 +12,7 @@ body {
 
 `;
 
-export const FormContainer = styled.form`
+export const FormContainer = styled.div`
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   background-color: rgba(0, 0, 0, 0.03);
