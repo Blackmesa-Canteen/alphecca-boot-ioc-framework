@@ -1,8 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav, Navbar, Button } from "react-bootstrap";
-import {IoPersonCircleSharp} from 'react-icons/io5'
+import { IoPersonCircleSharp } from "react-icons/io5";
 import { Input, AlpheccaLogo } from "./CustomerStyle";
 import styled from "styled-components";
+import { Logout } from "../API/CommonApi";
 
 const SearchBar = styled(Input)`
   width: 200px;
@@ -30,14 +31,17 @@ export function CustomerNavBar() {
     </Navbar>
   );
 }
-export function HotelierNavBar(props){
-  return(
+export function HotelierNavBar(props) {
+  return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="/">
         <AlpheccaLogo />
       </Navbar.Brand>
-      <Nav style={{position:"absolute", right:"1%"}}>
-      <IoPersonCircleSharp color= "white" fontSize="50" />
+      <Nav style={{ position: "absolute", right: "1%" }}>
+        <div style={{ marginTop: 5, marginRight: 5 }}>
+          <Button onClick={()=>{Logout("Hotelier")}}>Log out</Button>
+        </div>
+        <IoPersonCircleSharp color="white" fontSize="50" />
       </Nav>
     </Navbar>
   );
@@ -52,4 +56,3 @@ export function AdminNavBar() {
     </Navbar>
   );
 }
-

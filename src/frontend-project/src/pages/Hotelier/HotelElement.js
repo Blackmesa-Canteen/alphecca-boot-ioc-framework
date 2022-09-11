@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import uploadPhoto from "../../Picture/uploadPhoto.png";
 import Pool from "../../Picture/amenities/pool.png";
@@ -13,13 +13,17 @@ import outdoor from "../../Picture/amenities/outdoor.png";
 import breakfast from "../../Picture/amenities/breakfast.png";
 import parking from "../../Picture/amenities/parking.jpeg";
 import { Button } from "react-bootstrap";
-const HotelContainer = styled.div`
+import { EditDetail } from "./EditHotel";
+import { HotelDetail } from "../../API/HotelierApi";
+
+export const WholeContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 90%;
   height: 100%;
-  align-items: center;
+
   margin-left: 5%;
+  z-index: -110px;
 `;
 const HotelName = styled.h1`
   margin-top: 3%;
@@ -32,7 +36,7 @@ const DevideLine = styled.hr`
 `;
 const Content = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 450px;
   background-color: white;
   height: 100px;
   display: flex;
@@ -45,7 +49,9 @@ const Detail = styled.div`
   width: 50%;
   align-items: flex-start;
 `;
-const amenities = {
+
+
+export const amenities = {
   "Swimming Pool": Pool,
   "Air Conditioning": airCondition,
   Gym: gym,
@@ -58,58 +64,96 @@ const amenities = {
   Breakfast: breakfast,
   Parking: parking,
 };
-
+export const Title = styled.span`
+  font-weight: bold;
+`;
 export function DisplayHotel(props) {
+  const { loading, hotel, error } = HotelDetail();
+  const [editwd, setEditOpen] = useState(false);
+  if(loading){
+    return<h1>loading....</h1>
+  }
+  if(error){
+    return<h1>{error}</h1>
+  }
   //show hotel info
-  if (props.value.length === 0) {
+  if (hotel.length === 0) {
     return;
   }
-  function Amenity(props) {
-    console.log(amenities[props.amenityIds[0].description]);
-    return props.amenityIds.map((id, i) => {
-      var a = amenities[id.description];
-      return (
-        <Content>
-          <div style={{ marginRight: 10 }}>
-            <img src={a} width="20" height="20" />
-          </div>
-          {id.description}
-        </Content>
-      );
-    });
-  }
-  //edit hotel info
-  const hotelInfo = {
-    name: "",
-    description: "",
-    address: "",
-    postCode: "",
-    onSale: true,
-    amenityIds: [],
+
+  const onClick = () => {
+    setEditOpen(true);
   };
+  function Amenity(props) {
+    return (
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div style={{ marginRight: "5%" }}>
+          {props.amenityIds.slice(0, 6).map((id, i) => {
+            var a = amenities[id.description];
+            return (
+              <div
+                key={id.description}
+                style={{ display: "flex", flexDirection: "row", width: 200 }}
+              >
+                <div style={{ marginRight: 10 }}>
+                  <img src={a} width="20" height="20" alt="icon"/>
+                </div>
+                {id.description}
+              </div>
+            );
+          })}
+        </div>
+        <div>
+          {props.amenityIds.slice(6, 11).map((id, i) => {
+            var a = amenities[id.description];
+            return (
+              <div
+                key={id.description}
+                style={{ display: "flex", flexDirection: "row" }}
+              >
+                <div style={{ marginRight: 10 }}>
+                  <img src={a} width="20" height="20" alt="icon"/>
+                </div>
+                {id.description}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <HotelContainer>
-      <HotelName>{props.value.name}</HotelName>
-      <DevideLine />
-      <Content>
-        <img src={uploadPhoto} width="50%" height="500" />
-        <Detail>
-          <p>
-            Address: {props.value.address}, {props.value.postCode}
-          </p>
-          <p>Description: {props.value.description}</p>
-          <DevideLine />
-
-          {props.value.amenities.length !== 0 && (
-            <Amenity amenityIds={props.value.amenities} />
-          )}
-
-          <Content style={{ marginTop: "3%" }}>
-            <Button >Edit</Button>
-          </Content>
-        </Detail>
-      </Content>
-    </HotelContainer>
+    <div>
+      <WholeContainer>
+        <HotelName>{hotel.name}</HotelName>
+        <DevideLine />
+        <Content>
+          <img src={uploadPhoto} width="50%" height="500" alt="icon"/>
+          <Detail>
+            <p>
+              <Title>Address: </Title> {hotel.address},{" "}
+              {hotel.postCode}
+            </p>
+            <p>
+              <Title> Description: </Title>
+              {hotel.description}
+            </p>
+            <DevideLine />
+            <Title>Amenities:</Title>
+            {hotel.amenities.length !== 0 && (
+              <Amenity amenityIds={hotel.amenities} />
+            )}
+            <div style={{ marginTop: "3%" }}>
+              <Button onClick={onClick}>Edit</Button>
+            </div>
+          </Detail>
+        </Content>
+        <DevideLine />
+      </WholeContainer>
+      {editwd && (
+        <EditDetail value={hotel} onCancel={() => setEditOpen(false)} />
+      )}
+    </div>
   );
 }

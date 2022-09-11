@@ -78,7 +78,7 @@ export async function Login(user){
   .then((res)=>{
       localStorage.setItem(role, res.data.data.token);
       alert("logged in");
-      window.location="/"
+      role==="Customer" ? window.location="/" : window.location="/hotelier";
       return;
       
   })
@@ -107,6 +107,7 @@ export async function Logout(role){
       console.log(res);
       localStorage.removeItem(role);
       alert("Successfully logged out")
+      window.location="/";
   })
   .catch((e)=>{
       console.log(e);

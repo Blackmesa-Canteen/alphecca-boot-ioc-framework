@@ -47,7 +47,7 @@ function getOwnedHotel() {
 }
 
 export function HotelDetail() {
-  const [loading, setLoading] = useState(true);
+  const [loading1, setLoading] = useState(true);
   const [hotel, setHotel] = useState([]);
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -63,7 +63,7 @@ export function HotelDetail() {
       });
   }, []);
   return {
-    loading,
+    loading1,
     hotel,
     error,
   };
@@ -71,7 +71,7 @@ export function HotelDetail() {
 //register a hotel (post)
 export async function registerHotel(hotel) {
   const endpoint = BASE_URL + `hotelier/owned_hotel`;
-  const { name, description, address, postCode, onSale, amenityIds } = hotel;
+  const { name, description, address, postCode, onSale, amenities } = hotel;
   axios({
     url: endpoint,
     method: "POST",
@@ -86,13 +86,14 @@ export async function registerHotel(hotel) {
         address: address,
         postCode: postCode,
         onSale: onSale,
-        amenityIds: amenityIds,
+        amenityIds: amenities,
       },
       { withCrednetials: true }
     ),
   })
     .then(() => {
       console.log("success");
+      window.location="/hotelier"
     })
     .catch((e) => {
       console.log(e);
@@ -102,7 +103,7 @@ export async function registerHotel(hotel) {
 //edit hotel facility (put)
 export async function editHotel(hotel) {
   const endpoint = BASE_URL + `hotelier/owned_hotel`;
-  const { name, description, address, postCode, onSale, amenityIds } = hotel;
+  const { name, description, address, postCode, onSale, amenities } = hotel;
   axios({
     url: endpoint,
     method: "PUT",
@@ -112,18 +113,19 @@ export async function editHotel(hotel) {
     },
     data: JSON.stringify(
       {
-        name: "Your Star",
-        description: "loong description for test only, will be changed later",
+        name: name,
+        description: description,
         address: address,
         postCode: postCode,
         onSale: onSale,
-        amenityIds: ["1", "2", "3", "4", "5","6","7","8","9","10","11"],
+        amenityIds: amenities,
       },
       { withCrednetials: true }
     ),
   })
     .then(() => {
       console.log("success");
+      window.location = "/hotelier";
     })
     .catch((e) => {
       console.log(e);
@@ -133,7 +135,7 @@ export async function editHotel(hotel) {
 //create a new hotel room (post)
 export function createRoomType(room) {
   const endpoint = BASE_URL + `/hotelier/owned_hotel/room`;
-
+  const {hotelId,roomId, name,description,pricePerNight,sleepsNum,vacantNum,onSale,currency,amenityIds}=room;
   axios({
     url: endpoint,
     method: "POST",
@@ -143,26 +145,99 @@ export function createRoomType(room) {
     },
     data: JSON.stringify(
       {
-        hotelId: room.hotelId,
-        name: room.name,
-        description: room.description,
-        pricePerNight: room.pricePerNight,
-        sleepsNum: room.sleepsNum,
-        vacantNum: room.vacantNum,
-        onSale: room.onSale,
-        currency: room.currency,
-        amenityIds: room.amenityIds,
+        hotelId: hotelId,
+        roomId: roomId,
+        name: name,
+        description: description,
+        pricePerNight: pricePerNight,
+        sleepsNum: sleepsNum,
+        vacantNum: vacantNum,
+        onSale: onSale,
+        currency: currency,
+        amenityIds: amenityIds,
       },
       { withCrednetials: true }
     ),
   })
     .then((res) => {
-      console.log(res);
+      window.location="/hotelier"
     })
     .catch((e) => {
       console.log(e);
     });
 }
 //edit room (put)
-
+export async function editRoom(room) {
+  const endpoint = BASE_URL + `hotelier/owned_hotel/room`;
+  const {hotelId,roomId, name,description,pricePerNight,sleepsNum,vacantNum,onSale,currency,amenityIds}=room;
+  axios({
+    url: endpoint,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("Hotelier"),
+    },
+    data: JSON.stringify(
+      {
+        hotelId: hotelId,
+        roomId: roomId,
+        name: name,
+        description: description,
+        pricePerNight: pricePerNight,
+        sleepsNum: sleepsNum,
+        vacantNum: vacantNum,
+        onSale: onSale,
+        currency: currency,
+        amenityIds: amenityIds,
+      },
+      { withCrednetials: true }
+    ),
+  })
+    .then(() => {
+      console.log("success");
+      window.location = "/hotelier"
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 //get owned hotel room
+function getOwnedRoom(id) {
+  const endpoint = BASE_URL + `hotelier/owned_hotel/room`;
+  return fetch(endpoint, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("Hotelier"),
+    },
+    data: JSON.stringify(
+      {
+        hotelId: id,
+      },
+      { withCrednetials: true }
+    ),
+  }).then((res) => res.json());
+}
+
+export function RoomDetail(id) {
+  const [loading, setLoading] = useState(true);
+  const [rooms, setRoom] = useState([]);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    getOwnedRoom(id)
+      .then((res) => {
+        setRoom(res.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        setError(e);
+        setLoading(false);
+      });
+  }, []);
+  return {
+    loading,
+    rooms,
+    error,
+  };
+}

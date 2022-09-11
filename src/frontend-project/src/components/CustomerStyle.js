@@ -97,11 +97,8 @@ export const SubmitButton = styled.button`
     filter: brightness(1.1);
   }
 `;
-export const IconContainer = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 10px;
-  right: 0;
+export const IconContainer = styled.footer`
+  margin-top: 3%;
 `;
 
 const LogoContainer = styled.div`
