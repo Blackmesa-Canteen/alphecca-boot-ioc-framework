@@ -94,8 +94,8 @@ public class RoomBlo implements IRoomBlo {
         // atom operations
         synchronized (this) {
             // insert new room
-//            roomDao.insertOne(room);
-            UnitOfWorkHelper.getCurrent().registerNew(room, roomDao);
+            roomDao.insertOne(room);
+//            UnitOfWorkHelper.getCurrent().registerNew(room, roomDao);
 
             // add many-to-many associate table of amenity
             roomAmenityDao.addAmenityIdsToRoom(
