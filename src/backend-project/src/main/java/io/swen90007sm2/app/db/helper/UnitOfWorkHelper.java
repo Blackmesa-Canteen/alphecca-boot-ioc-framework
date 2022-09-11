@@ -116,43 +116,45 @@ public class UnitOfWorkHelper {
      * <br/>
      * IMPORTANT: make sure DaoFactory contains all existing Dao!
      */
-    public synchronized void commit() {
-
-        for (UowBean bean : newUowBeans) {
-            IBaseDao dao = bean.getEntityDao();
-            try {
-                dao.insertOne(bean.getEntity());
-            } catch (Exception e) {
-                LOGGER.error("Uow insertion error: ", e);
+    public void commit() {
+        // class lock to guarantee CRUD Atomicity for one request
+        synchronized (UnitOfWorkHelper.class) {
+            for (UowBean bean : newUowBeans) {
+                IBaseDao dao = bean.getEntityDao();
+                try {
+                    dao.insertOne(bean.getEntity());
+                } catch (Exception e) {
+                    LOGGER.error("Uow insertion error: ", e);
+                }
             }
-        }
 
-        for (UowBean bean : dirtyUowBeans) {
-            IBaseDao dao = bean.getEntityDao();
-            try {
-                // update db
-                dao.updateOne(bean.getEntity());
-                // Cache evict model
-                // clean the cache after update the db
-                cacheRef.remove(bean.getCacheKey());
-            } catch (Exception e) {
-                LOGGER.error("Uow update error: ", e);
+            for (UowBean bean : dirtyUowBeans) {
+                IBaseDao dao = bean.getEntityDao();
+                try {
+                    // update db
+                    dao.updateOne(bean.getEntity());
+                    // Cache evict model
+                    // clean the cache after update the db
+                    cacheRef.remove(bean.getCacheKey());
+                } catch (Exception e) {
+                    LOGGER.error("Uow update error: ", e);
+                }
             }
-        }
 
-        for (UowBean bean : deletedUowBeans) {
-            IBaseDao dao = bean.getEntityDao();
-            try {
-                // update db
-                dao.deleteOne(bean.getEntity());
-                // Cache evict model
-                // clean the cache after update the db
-                cacheRef.remove(bean.getCacheKey());
-            } catch (Exception e) {
-                LOGGER.error("Uow deletion error: ", e);
+            for (UowBean bean : deletedUowBeans) {
+                IBaseDao dao = bean.getEntityDao();
+                try {
+                    // update db
+                    dao.deleteOne(bean.getEntity());
+                    // Cache evict model
+                    // clean the cache after update the db
+                    cacheRef.remove(bean.getCacheKey());
+                } catch (Exception e) {
+                    LOGGER.error("Uow deletion error: ", e);
+                }
             }
-        }
 
-        LOGGER.info("Unit of work committed.");
+            LOGGER.info("Unit of work committed.");
+        }
     }
 }
