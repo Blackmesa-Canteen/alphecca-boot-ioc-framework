@@ -94,8 +94,8 @@ public class HotelBlo implements IHotelBlo {
         // Atom operations, need lock
         synchronized (this) {
             // firstly, insert new hotel
-//            hotelDao.insertOne(hotel);
-            UnitOfWorkHelper.getCurrent().registerNew(hotel, hotelDao);
+            hotelDao.insertOne(hotel);
+//            UnitOfWorkHelper.getCurrent().registerNew(hotel, hotelDao);
 
             // get cooresponding hotelier info
             Hotelier originalHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
@@ -104,9 +104,9 @@ public class HotelBlo implements IHotelBlo {
             newHotelier.setHotelId(hotel.getHotelId());
 
             // update hotelier info
-//            hotelierDao.updateOne(hotelier);
-//            cache.remove(CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierId);
-            UnitOfWorkHelper.getCurrent().registerDirty(newHotelier, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierId);
+            hotelierDao.updateOne(newHotelier);
+            cache.remove(CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierId);
+//            UnitOfWorkHelper.getCurrent().registerDirty(newHotelier, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierId);
 
             // attach amnities to this hotel
             amenityDao.addAmenityIdsToHotel(
@@ -179,7 +179,7 @@ public class HotelBlo implements IHotelBlo {
         if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
         if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
         if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
-        if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getName());
+        if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getDescription());
         if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
 
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
