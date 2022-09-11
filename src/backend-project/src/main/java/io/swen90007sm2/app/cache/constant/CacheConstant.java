@@ -19,6 +19,7 @@ public interface CacheConstant {
     String ENTITY_ROOM_REVIEW_RESPONSE_KEY_PREFIX = "e-review-r-";
 
     String ENTITY_TRANSACTION_KEY_PREFIX = "e-transaction";
+    String ENTITY_ROOM_ORDER_KEY_PREFIX = "e-room";
 
     String CACHED_HOTEL_AMENITIES = "hotel-amenities";
     String CACHED_ROOM_AMENITIES = "room-amenities";

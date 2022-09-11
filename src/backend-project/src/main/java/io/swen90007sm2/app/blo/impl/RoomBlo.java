@@ -22,6 +22,7 @@ import io.swen90007sm2.app.dao.IRoomAmenityDao;
 import io.swen90007sm2.app.dao.IRoomDao;
 import io.swen90007sm2.app.dao.impl.RoomAmenityDao;
 import io.swen90007sm2.app.dao.impl.RoomDao;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Room;
@@ -93,7 +94,8 @@ public class RoomBlo implements IRoomBlo {
         // atom operations
         synchronized (this) {
             // insert new room
-            roomDao.insertOne(room);
+//            roomDao.insertOne(room);
+            UnitOfWorkHelper.getCurrent().registerNew(room, roomDao);
 
             // add many-to-many associate table of amenity
             roomAmenityDao.addAmenityIdsToRoom(
@@ -130,7 +132,12 @@ public class RoomBlo implements IRoomBlo {
 
         IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
         synchronized (this) {
-            roomDao.updateOne(newRoomObj);
+//            roomDao.updateOne(newRoomObj);
+            UnitOfWorkHelper.getCurrent().registerDirty(
+                    newRoomObj,
+                    roomDao,
+                    CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId
+            );
             roomAmenityBlo.updateAmenityIdsForRoom(param.getAmenityIds(), roomId);
 
             cache.remove(CacheConstant.VO_ROOM_KEY_PREFIX + roomId);
