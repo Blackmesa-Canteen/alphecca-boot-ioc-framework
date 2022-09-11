@@ -8,28 +8,33 @@ import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 
 /**
  * @author 996Worker
- * @description TODO buggy, because chain proxy is not implemented
+ * @description interceptor for Unit of Work
  * @create 2022-08-16 15:32
  */
-//public class UnitOfWorkInterceptor extends AbstractInterceptor {
-//
-//    public final static String CONTROLLER_PATTERN = "io.swen90007sm2.app.controller.*.*Controller*";
-//
-//    @Override
-//    public int getOrder() {
-//        return 1;
-//    }
-//
-//    @Override
-//    public boolean supports(Object bean) {
-//        return PatternUtil.simpleMatch(CONTROLLER_PATTERN, bean.getClass().getName());
-//    }
-//
-//    @Override
-//    public Object intercept(MethodCalling methodCalling) {
-//        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
-//        Object result = methodCalling.proceed();
-//        UnitOfWorkHelper.getCurrent().commit();
-//        return result;
-//    }
-//}
+public class UnitOfWorkInterceptor extends AbstractInterceptor {
+
+    public final static String CONTROLLER_PATTERN = "io.swen90007sm2.app.controller.*.*Controller*";
+
+    @Override
+    public int getOrder() {
+        return 1;
+    }
+
+    @Override
+    public boolean supports(Object bean) {
+        if (bean != null) {
+            return PatternUtil.simpleMatch(CONTROLLER_PATTERN, bean.getClass().getName());
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public Object intercept(MethodCalling methodCalling) {
+        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
+        Object result = methodCalling.proceed();
+        UnitOfWorkHelper.getCurrent().commit();
+        return result;
+    }
+}

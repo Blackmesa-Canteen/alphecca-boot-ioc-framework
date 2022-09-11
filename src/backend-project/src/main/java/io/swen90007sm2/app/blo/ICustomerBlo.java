@@ -20,9 +20,9 @@ public interface ICustomerBlo {
 
     /**
      * logout current customer
-     * @param request http request
+     * @param authToken token obj
      */
-    void doLogout(HttpServletRequest request);
+    void doLogout(AuthToken authToken);
 
     /**
      * get userInfo bean from db with token
@@ -38,9 +38,18 @@ public interface ICustomerBlo {
     void doRegisterUser(UserRegisterParam registerParam);
 
     /**
-     * get userInfoBean by userId
-     * @param userId user id string
-     * @return Customer bean
+     * Identity Map's cache-Aside implementation
+     * <br/>
+     * if the data exists, get from cache,
+     * if not, get from db.
+     * <br/>
+     * data in the cache will be expired to guarantee data eventually consistent
+     * <br/>
+     * using synchronized to prevent Cache Penetration, guarantee only one thread can update the cache,
+     * rather than multiple threads rushed to query database and refresh cache again and again.
+     *
+     * @param userId customer's userId
+     * @return customer object
      */
     Customer getUserInfoBasedByUserId(String userId);
 
@@ -56,13 +65,13 @@ public interface ICustomerBlo {
      * update user info, except password.
      * will check request token to find target customer to modify on
      */
-    void doUpdateUserExceptPassword(HttpServletRequest request, UserUpdateParam param);
+    void doUpdateUserExceptPassword(String userId, UserUpdateParam param);
 
     /**
      * update customer pwd
-     * @param request request
+     * @param userId current login user id
      * @param originalPassword original pwd
      * @param newPassword new pwd
      */
-    void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword);
+    void doUpdateUserPassword(String userId, String originalPassword, String newPassword);
 }

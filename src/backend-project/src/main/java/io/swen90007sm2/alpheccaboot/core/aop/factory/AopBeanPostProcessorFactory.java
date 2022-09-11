@@ -22,10 +22,10 @@ public class AopBeanPostProcessorFactory {
             return new JdkAopBeanProcessor();
         } else {
 
-            // raplaced cglib to bytebuddy, because cglib can not support latest jdk
+            // need replace cglib to bytebuddy, because cglib can not support latest jdk
             // and stopped maintain in 2019
-            return new ByteBuddyAopBeanProcessor();
-//            return new CgLibAopBeanProcessor();
+//            return new ByteBuddyAopBeanProcessor();
+            return new CgLibAopBeanProcessor();
         }
     }
 }

@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Hotel extends BaseEntity{
@@ -8,10 +9,15 @@ public class Hotel extends BaseEntity{
     private String description;
     private String address;
     private String postCode;
-    private Double minPrice;
 
-    private Integer rank;
-    private Boolean onSale;
+    // this value is AUD absolute price
+    private BigDecimal minPrice = BigDecimal.valueOf(0.0);
+
+    // this always be AUD in the database
+    private String currency = "AUD";
+
+    private Integer rank = 3;
+    private Boolean onSale = false;
 
     public Hotel() {
     }
@@ -20,18 +26,20 @@ public class Hotel extends BaseEntity{
         super(createTime, updateTime);
     }
 
-    public Hotel(String hotelId, String name, String description, String address, String postCode, Double minPrice, Integer rank, boolean onSale) {
+
+    public Hotel(String hotelId, String name, String description, String address, String postCode, BigDecimal minPrice, String currency, Integer rank, Boolean onSale) {
         this.hotelId = hotelId;
         this.name = name;
         this.description = description;
         this.address = address;
         this.postCode = postCode;
         this.minPrice = minPrice;
+        this.currency = currency;
         this.rank = rank;
         this.onSale = onSale;
     }
 
-    public Hotel(Date createTime, Date updateTime, String hotelId, String name, String description, String address, String postCode, Double minPrice, Integer rank, boolean onSale) {
+    public Hotel(Date createTime, Date updateTime, String hotelId, String name, String description, String address, String postCode, BigDecimal minPrice, String currency, Integer rank, Boolean onSale) {
         super(createTime, updateTime);
         this.hotelId = hotelId;
         this.name = name;
@@ -39,6 +47,7 @@ public class Hotel extends BaseEntity{
         this.address = address;
         this.postCode = postCode;
         this.minPrice = minPrice;
+        this.currency = currency;
         this.rank = rank;
         this.onSale = onSale;
     }
@@ -83,11 +92,11 @@ public class Hotel extends BaseEntity{
         this.postCode = postCode;
     }
 
-    public Double getMinPrice() {
+    public BigDecimal getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(Double minPrice) {
+    public void setMinPrice(BigDecimal minPrice) {
         this.minPrice = minPrice;
     }
 
@@ -99,12 +108,20 @@ public class Hotel extends BaseEntity{
         this.rank = rank;
     }
 
-    public boolean isOnSale() {
+    public Boolean getOnSale() {
         return onSale;
     }
 
-    public void setOnSale(boolean onSale) {
+    public void setOnSale(Boolean onSale) {
         this.onSale = onSale;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override

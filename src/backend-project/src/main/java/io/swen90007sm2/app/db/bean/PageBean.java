@@ -36,6 +36,11 @@ public class PageBean<T> {
         setTotalRowNum(totalRowNum);
         setCurrentPageNo(currentPageNo);
 
+        if (currentPageNo == null || currentPageNo <= 0) currentPageNo = 1;
+        if (currentPageNo > totalPageNum && totalPageNum > 0) {
+            // if over range, let it only over range 1
+            currentPageNo = totalPageNum + 1;
+        }
         // calc start row for limit query
         this.startRow = (currentPageNo - 1) * pageSize;
     }
@@ -54,7 +59,7 @@ public class PageBean<T> {
 
     public void setCurrentPageNo(Integer currentPageNo) {
 
-        if (currentPageNo == null || currentPageNo < 0) {
+        if (currentPageNo == null || currentPageNo <= 0) {
             // if input page no is not legal, set 1
             this.currentPageNo = 1;
         } else if (currentPageNo > totalPageNum && totalPageNum > 0) {

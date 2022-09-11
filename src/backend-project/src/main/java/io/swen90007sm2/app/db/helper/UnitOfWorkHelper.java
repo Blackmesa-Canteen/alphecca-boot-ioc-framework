@@ -49,9 +49,11 @@ public class UnitOfWorkHelper {
     public static UnitOfWorkHelper init(ICacheStorage<String, Object> cacheRef) {
         if (current.get() == null) {
             setCurrent(new UnitOfWorkHelper(cacheRef));
+            LOGGER.info("Unit of work loaded.");
             return current.get();
         }
 
+        LOGGER.info("Unit of work loaded.");
         return current.get();
     }
 
@@ -143,7 +145,6 @@ public class UnitOfWorkHelper {
             try {
                 // update db
                 dao.deleteOne(bean.getEntity());
-                cacheRef.remove(bean.getCacheKey());
                 // Cache evict model
                 // clean the cache after update the db
                 cacheRef.remove(bean.getCacheKey());
@@ -151,5 +152,7 @@ public class UnitOfWorkHelper {
                 LOGGER.error("Uow deletion error: ", e);
             }
         }
+
+        LOGGER.info("Unit of work committed.");
     }
 }

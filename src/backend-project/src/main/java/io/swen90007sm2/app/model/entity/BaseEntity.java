@@ -11,8 +11,8 @@ import java.util.Objects;
  */
 public abstract class BaseEntity implements Serializable {
 
-    // should be String/CHAR(32) and generate_uid(32)
-    private String id;
+    // Long snowflake, logic id for db
+    private Long id;
     /**
      * It is a good practice to record time fields
      */
@@ -46,19 +46,19 @@ public abstract class BaseEntity implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public boolean getIsDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(boolean deleted) {
+    public void setIsDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -67,7 +67,7 @@ public abstract class BaseEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BaseEntity that = (BaseEntity) o;
-        return Objects.equals(id, that.id);
+        return id.equals(that.id);
     }
 
     @Override
