@@ -6,28 +6,59 @@ import {
   GlobalStyle,
   IconContainer,
   CheckboxContainer,
-} from "../components/UserStyle";
+} from "../components/CustomerStyle";
 
 import { Form } from "react-bootstrap";
-import NavBarcomp from "../components/NavBar";
+import { CustomerNavBar } from "../components/NavBar";
 import AlpheccaIcon from "../Picture/5Star.png";
-import { signup } from "../API/CustomerApi";
+import { signup } from "../API/CommonApi";
 
-export default function Signuppage(props) {
+export default function Signuppage() {
   function SignupForm() {
-    const [userName, setUserName] = useState("");
-    const [userId, setUserId] = useState("");
-    const [password1, setPassword1] = useState("");
-    const [password2, setPassword2] = useState("");
+    const [user, setUser] = useState({
+      userName: "",
+      userId: "",
+      password1: "",
+      password2: "",
+    });
+    const [customerBox, customerChecked] = useState(false);
+    const [hotelierBox, hotelierChecked] = useState(false);
+    const [role, setRole] = useState("");
+    const { userName, userId, password1, password2 } = user;
+    //set all values to the json form
+    const onChange = (info) => {
+      setUser({ ...user, [info.target.id]: info.target.value });
+    };
+    //role tick
+    const handleHotelier = () => {
+      setRole("Hotelier");
+      hotelierChecked((current) => !current);
+      if (customerBox === true) {
+        customerChecked(false);
+      }
+    };
+    const handleCustomer = () => {
+      setRole("Customer");
+      customerChecked((current) => !current);
+      if (hotelierBox === true) {
+        hotelierChecked(false);
+      }
+    };
+
+    //submit form
     function onSubmit() {
       const newCustomer = {
+        role: role,
         userName: userName,
         userId: userId,
         password1: password1,
         password2: password2,
       };
-      
-      signup(newCustomer);
+      if(newCustomer.role===""){
+        alert("Please select your role")
+      }else{
+        signup(newCustomer);
+      }
     }
     return (
       <FormContainer>
@@ -37,16 +68,12 @@ export default function Signuppage(props) {
           value={userName}
           id="userName"
           placeholder="User Name"
-          onChange={(name) => {
-            setUserName(name.target.value);
-          }}
+          onChange={onChange}
         />
         <Input
           type="email"
           value={userId}
-          onChange={(id) => {
-            setUserId(id.target.value);
-          }}
+          onChange={onChange}
           id="userId"
           placeholder="Email Address"
           autoFocus
@@ -54,32 +81,51 @@ export default function Signuppage(props) {
         <Input
           type="password"
           value={password1}
-          onChange={(p) => {
-            setPassword1(p.target.value);
-          }}
+          onChange={onChange}
           id="password1"
           placeholder="Password"
         />
         <Input
           type="password"
           value={password2}
-          onChange={(p) => {
-            setPassword2(p.target.value);
-          }}
+          onChange={onChange}
           id="password2"
           placeholder="Confirm Password"
         />
+        <div
+          style={{
+            textDecorationLine: "underline",
+            marginRight: 170,
+            marginTop: 10,
+          }}
+        >
+          Register As:{" "}
+        </div>
         <CheckboxContainer>
-          <fieldset disabled>
-            <Form.Check type="checkbox" label="Hotelier" />
-          </fieldset>
-          <Form.Check type="checkbox" label="Customer" />
+          <Form.Check
+            type="checkbox"
+            label="Hotelier"
+            id="role"
+            value="Hotelier"
+            checked={hotelierBox}
+            onChange={handleHotelier}
+            style={{ marginRight: 20 }}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Customer"
+            id="role"
+            value="Customer"
+            onChange={handleCustomer}
+            checked={customerBox}
+          />
         </CheckboxContainer>
 
         <Form.Check
           type="checkbox"
           id="disabledFieldsetCheck"
           label="Accept Condition&terms"
+          style={{ marginTop: 10, marginRight: 50, marginBottom: 10 }}
         />
 
         <SubmitButton onClick={onSubmit}>Sign up</SubmitButton>
@@ -89,7 +135,7 @@ export default function Signuppage(props) {
 
   return (
     <div>
-      <NavBarcomp />
+      <CustomerNavBar />
       <center>
         <SignupForm />
         <IconContainer>

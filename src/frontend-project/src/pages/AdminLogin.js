@@ -1,16 +1,12 @@
 import React from "react";
-import { Navbar, NavbarBrand } from "react-bootstrap";
-import { AlpheccaLogo, GlobalStyle, Input, SubmitButton } from "../components/UserStyle";
+import { AdminNavBar } from "../components/NavBar";
+import { GlobalStyle, Input, SubmitButton } from "../components/CustomerStyle";
 import AdminPng from "../Picture/admin.png";
 
 export default function AdminLogin() {
   return (
     <div>
-      <Navbar bg="dark" variant="dark">
-        <NavbarBrand href="/">
-          <AlpheccaLogo />
-        </NavbarBrand>
-      </Navbar>
+      <AdminNavBar/>
       <center>
         <br/>
         <img src={AdminPng} alt="admin" width="100" height="150" />

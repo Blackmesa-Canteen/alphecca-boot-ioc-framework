@@ -17,7 +17,7 @@ export const FormContainer = styled.div`
   border-radius: 6px;
   background-color: rgba(0, 0, 0, 0.03);
   backdrop-filter: blur(50px);
-  width: 300px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,6 +43,7 @@ export const RoleCard = styled(FormContainer)`
   }
 `;
 
+
 export const Input = styled.input`
   width: 90%;
   height: 42px;
@@ -65,7 +66,7 @@ export const Input = styled.input`
 `;
 export const CheckboxContainer = styled.div`
   width: 100%;
-  margin-top: 2px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;

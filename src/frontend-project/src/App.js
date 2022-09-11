@@ -4,7 +4,7 @@ import RolePage from "./pages/Login"
 import Signuppage from "./pages/Signup";
 import HomePage from "./pages/Home";
 import AdminLogin from "./pages/AdminLogin"
-
+import HotelierHome from "./pages/Hotelier/HotelierHome";
 function App() {
   return (
     <div>
@@ -14,6 +14,8 @@ function App() {
           <Route path="/login" component={RolePage} exact />
           <Route path="/adminLogin" component={AdminLogin} exact/>
           <Route path ="/signup" component={Signuppage} exact/>
+
+          <Route path="/hotelier" component={HotelierHome} exact/>
 
         </Switch>
 
