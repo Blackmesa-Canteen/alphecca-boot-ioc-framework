@@ -48,6 +48,7 @@ public class DbHelper {
      * get db info from heroku server system environment varaibles
      */
     private static void getDbInfoFromSystemEnv() throws URISyntaxException, RuntimeException {
+        dbPoolDriverName = ConfigFileManager.getDbDriver();
         String database_url = System.getenv("DATABASE_URL");
         if (StringUtils.isEmpty(database_url)) {
             throw new RuntimeException("DATABASE_URL system env not exist");
