@@ -26,4 +26,6 @@ public interface IManagementBlo {
     List<Hotelier> getHoteliersInOneGroupByHotelId(String hotelId);
 
     void removeHotelierFromHotelGroup(AdminRemoveHotelierParam param);
+
+    PageBean<Hotelier> getHoteliersByPage(int pageNo, int pageSize);
 }

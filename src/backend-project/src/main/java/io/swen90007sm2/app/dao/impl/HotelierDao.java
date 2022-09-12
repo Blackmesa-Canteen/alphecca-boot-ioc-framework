@@ -5,8 +5,7 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IHotelierDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
-import io.swen90007sm2.app.model.entity.BaseEntity;
-import io.swen90007sm2.app.model.entity.Hotelier;
+import io.swen90007sm2.app.model.entity.*;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
 
@@ -72,5 +71,26 @@ public class HotelierDao implements IHotelierDao {
         );
 
         return hotelierBean;
+    }
+
+    @Override
+    public List<Hotelier> findAllByPage(Integer start, Integer rows) {
+        List<Hotelier> hoteliers = CRUDTemplate.executeQueryWithMultiRes(
+                Hotelier.class,
+                "SELECT * FROM hotelier OFFSET ? LIMIT ?",
+                start,
+                rows
+        );
+
+        return hoteliers;
+    }
+
+    @Override
+    public int findTotalCount() {
+        Long totalRows = CRUDTemplate.executeQueryWithOneRes(
+                Long.class,
+                "SELECT count(*) FROM hotelier");
+
+        return (totalRows != null) ? totalRows.intValue() : 0;
     }
 }

@@ -13,9 +13,13 @@ import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
+import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.dao.IHotelierDao;
+import io.swen90007sm2.app.dao.impl.CustomerDao;
 import io.swen90007sm2.app.dao.impl.HotelierDao;
+import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
+import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
@@ -26,6 +30,7 @@ import io.swen90007sm2.app.security.helper.TokenHelper;
 import io.swen90007sm2.app.security.util.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -205,5 +210,51 @@ public class HotelierBlo implements IHotelierBlo {
                 );
             }
         }
+    }
+
+    @Override
+    public PageBean<Hotelier> getHotelierByPage(int pageNo, int pageSize) {
+
+        PageBean<Hotelier> pageBean = null;
+        List<Hotelier> hoteliers = null;
+        IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
+
+        // ensure the data consistency within multi query from db
+        synchronized (this) {
+            // get total records num, which is important for paging
+            int totalRows = hotelierDao.findTotalCount();
+
+            // init page dto
+            pageBean = new PageBean<>(
+                    pageSize,
+                    totalRows,
+                    pageNo
+            );
+
+            // get start row for page query
+            int start = pageBean.getStartRow();
+
+            hoteliers = hotelierDao.findAllByPage(start, pageSize);
+        }
+
+        // use result from db to update the cache
+        hoteliers.forEach(hotelier -> {
+            if (hotelier != null) {
+                cache.put(
+                        CacheConstant.ENTITY_USER_KEY_PREFIX + hotelier.getUserId(),
+                        hotelier,
+                        RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                        TimeUnit.MILLISECONDS
+                );
+            }
+        });
+
+        // remove sensitive info,
+        // need to copy to prevent impact on cached data
+        List<Hotelier> res = BeanUtil.copyToList(hoteliers, Hotelier.class);
+        res.forEach(hotelier -> hotelier.setPassword(CommonConstant.NULL));
+        pageBean.setBeans(res);
+
+        return pageBean;
     }
 }
