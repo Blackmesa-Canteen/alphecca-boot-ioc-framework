@@ -95,14 +95,18 @@ public class HotelBlo implements IHotelBlo {
         synchronized (this) {
             // firstly, insert new hotel
             hotelDao.insertOne(hotel);
+//            UnitOfWorkHelper.getCurrent().registerNew(hotel, hotelDao);
 
             // get cooresponding hotelier info
-            Hotelier hotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
-            hotelier.setHotelId(hotel.getHotelId());
+            Hotelier originalHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+            Hotelier newHotelier = new Hotelier();
+            BeanUtil.copyProperties(originalHotelier, newHotelier);
+            newHotelier.setHotelId(hotel.getHotelId());
 
             // update hotelier info
-            hotelierDao.updateOne(hotelier);
+            hotelierDao.updateOne(newHotelier);
             cache.remove(CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierId);
+//            UnitOfWorkHelper.getCurrent().registerDirty(newHotelier, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierId);
 
             // attach amnities to this hotel
             amenityDao.addAmenityIdsToHotel(
@@ -175,14 +179,19 @@ public class HotelBlo implements IHotelBlo {
         if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
         if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
         if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
-        if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getName());
+        if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getDescription());
         if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
 
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         // atom operation
         synchronized (this) {
             // update hotel
-            hotelDao.updateOne(hotel);
+//            hotelDao.updateOne(hotel);
+            UnitOfWorkHelper.getCurrent().registerDirty(
+                    hotel,
+                    hotelDao,
+                    CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId
+            );
 
             // update amenity (atom update the associate table)
             hotelAmenityBlo.updateAmenityIdsForHotel(hotelParam.getAmenityIds(), hotelId);
@@ -225,7 +234,12 @@ public class HotelBlo implements IHotelBlo {
         // atom operation
         synchronized (this) {
             // update hotel
-            hotelDao.updateOne(hotel);
+//            hotelDao.updateOne(hotel);
+            UnitOfWorkHelper.getCurrent().registerDirty(
+                    hotel,
+                    hotelDao,
+                    CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId
+            );
 
             // update amenity (atom update the associate table)
             hotelAmenityBlo.updateAmenityIdsForHotel(updateHotelParam.getAmenityIds(), hotelId);

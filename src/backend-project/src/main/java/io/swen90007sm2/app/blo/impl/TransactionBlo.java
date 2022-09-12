@@ -9,6 +9,7 @@ import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.*;
+import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
 import io.swen90007sm2.app.common.factory.IdFactory;
@@ -17,12 +18,14 @@ import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.ITransactionDao;
 import io.swen90007sm2.app.dao.impl.RoomOrderDao;
 import io.swen90007sm2.app.dao.impl.TransactionDao;
+import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.*;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.pojo.RoomBookingBean;
 import io.swen90007sm2.app.model.vo.RoomOrderVo;
 import io.swen90007sm2.app.model.vo.TransactionVo;
 
+import javax.swing.text.TabableView;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedList;
@@ -132,7 +135,11 @@ public class TransactionBlo implements ITransactionBlo {
             transaction.setCurrency(CommonConstant.AUD_CURRENCY);
 
             // insert to db
-            transactionDao.insertOne(transaction);
+//            transactionDao.insertOne(transaction);
+            UnitOfWorkHelper.getCurrent().registerNew(
+                    transaction,
+                    transactionDao
+            );
         }
 
 
@@ -177,17 +184,31 @@ public class TransactionBlo implements ITransactionBlo {
                         StatusCodeEnume.ROOM_IS_OCCUPIED.getCode()
                 );
             }
-            modifiedRoomOrder.setOrderedCount(newQuanity);
-            roomOrderDao.updateOne(modifiedRoomOrder);
+            RoomOrder newModifiedRoomOrder = new RoomOrder();
+            BeanUtil.copyProperties(modifiedRoomOrder, newModifiedRoomOrder);
+            newModifiedRoomOrder.setOrderedCount(newQuanity);
+//            roomOrderDao.updateOne(newModifiedRoomOrder);
+            UnitOfWorkHelper.getCurrent().registerDirty(
+                    newModifiedRoomOrder,
+                    roomOrderDao,
+                    CacheConstant.ENTITY_ROOM_ORDER_KEY_PREFIX + newModifiedRoomOrder.getRoomOrderId()
+            );
             long deltaDays = TimeUtil.getDeltaBetweenDate(start, end, TimeUnit.DAYS);
             // calc price for this room type = Total price - old price + new price
             double totalPrice = transaction.getTotalPrice().doubleValue();
-            double oldPrice = modifiedRoomOrder.getPricePerRoom().doubleValue() * orderedCount * deltaDays;
-            double newPrice = modifiedRoomOrder.getPricePerRoom().doubleValue() * newQuanity * deltaDays;
+            double oldPrice = newModifiedRoomOrder.getPricePerRoom().doubleValue() * orderedCount * deltaDays;
+            double newPrice = newModifiedRoomOrder.getPricePerRoom().doubleValue() * newQuanity * deltaDays;
 
-            transaction.setTotalPrice(BigDecimal.valueOf(totalPrice - oldPrice + newPrice));
+            Transaction newTransaction = new Transaction();
+            BeanUtil.copyProperties(transaction, newTransaction);
+            newTransaction.setTotalPrice(BigDecimal.valueOf(totalPrice - oldPrice + newPrice));
             TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
-            transactionDao.updateOne(transaction);
+//            transactionDao.updateOne(newTransaction);
+            UnitOfWorkHelper.getCurrent().registerDirty(
+                    newTransaction,
+                    transactionDao,
+                    CacheConstant.ENTITY_TRANSACTION_KEY_PREFIX + transactionId
+            );
         }
 
     }
@@ -195,10 +216,17 @@ public class TransactionBlo implements ITransactionBlo {
     @Override
     public void doCancelBooking(String transactionId) {
         Transaction transaction = getTransactionEntityByTransactionId(transactionId);
-        transaction.setStatusCode(CommonConstant.TRANSACTION_CANCELLED);
+        Transaction newTransaction = new Transaction();
+        BeanUtil.copyProperties(transaction, newTransaction);
+        newTransaction.setStatusCode(CommonConstant.TRANSACTION_CANCELLED);
 
         TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
-        transactionDao.updateOne(transaction);
+//        transactionDao.updateOne(transaction);
+        UnitOfWorkHelper.getCurrent().registerDirty(
+                newTransaction,
+                transactionDao,
+                CacheConstant.ENTITY_TRANSACTION_KEY_PREFIX + transactionId
+        );
     }
 
     @Override
