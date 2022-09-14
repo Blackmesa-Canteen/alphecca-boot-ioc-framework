@@ -164,7 +164,7 @@ public class PhotoBlo implements IPhotoBlo {
             }
 
             //close stream
-            inputStream .close();
+            inputStream.close();
             outStream.close();
 
             LOGGER.info("File downloaded: [{}]", fullFileName);
