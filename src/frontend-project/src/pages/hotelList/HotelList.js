@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/search/Search";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 import {
   ListConatiner,
   ListItem,
@@ -37,6 +38,11 @@ const List = () => {
 
   const handleClick = () => {
     reFetch();
+  };
+
+  const navigate = useNavigate();
+  const Click = () => {
+    navigate("/propertypage");
   };
 
   return (
@@ -120,11 +126,12 @@ const List = () => {
             ) : (
               <>
                 {data.map((item) => (
-                  <SearchItem item={item} key={item._id} />
+                  <SearchItem />
                 ))}
               </>
             )}
           </ListResult>
+          <button onClick={Click}>Click Me!</button>
         </ListWrapper>
       </ListConatiner>
     </div>
