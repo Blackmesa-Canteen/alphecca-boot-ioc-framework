@@ -26,19 +26,9 @@ import {
 const List = () => {
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
-  const [dates, setDates] = useState(location.state.dates);
+  const [date, setDate] = useState(location.state.date);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
-  const [min, setMin] = useState(undefined);
-  const [max, setMax] = useState(undefined);
-
-  const { data, loading, error, reFetch } = useFetch(
-    `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
-  );
-
-  const handleClick = () => {
-    reFetch();
-  };
 
   const navigate = useNavigate();
   const Click = () => {
@@ -48,7 +38,7 @@ const List = () => {
   return (
     <div>
       <Navbar />
-      <Header />
+      <Header type="list" />
       <ListConatiner>
         <ListWrapper>
           <ListSearch>
@@ -60,14 +50,14 @@ const List = () => {
             <ListItem>
               <ListItemLabel>Check-in Date</ListItemLabel>
               <ListOptionSpan onClick={() => setOpenDate(!openDate)}>{`${format(
-                dates[0].startDate,
+                date[0].startDate,
                 "MM/dd/yyyy"
-              )} to ${format(dates[0].endDate, "MM/dd/yyyy")}`}</ListOptionSpan>
+              )} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</ListOptionSpan>
               {openDate && (
                 <DateRange
-                  onChange={(item) => setDates([item.selection])}
+                  onChange={(item) => setDate([item.selection])}
                   minDate={new Date()}
-                  ranges={dates}
+                  ranges={date}
                 />
               )}
             </ListItem>
@@ -78,19 +68,13 @@ const List = () => {
                   <span>
                     Min price <small>per night</small>
                   </span>
-                  <ListOptionInput
-                    type="number"
-                    onChange={(e) => setMin(e.target.value)}
-                  />
+                  <ListOptionInput type="number" />
                 </ListOptionItem>
                 <ListOptionItem>
                   <span>
                     Max price <small>per night</small>
                   </span>
-                  <ListOptionInput
-                    type="number"
-                    onChange={(e) => setMax(e.target.value)}
-                  />
+                  <ListOptionInput type="number" />
                 </ListOptionItem>
                 <ListOptionItem>
                   <span>Adult</span>
@@ -118,18 +102,18 @@ const List = () => {
                 </ListOptionItem>
               </ListOptions>
             </ListItem>
-            <ListSearchBtn onClick={handleClick}>Search</ListSearchBtn>
+            <ListSearchBtn>Search</ListSearchBtn>
           </ListSearch>
           <ListResult>
-            {loading ? (
-              "loading"
-            ) : (
-              <>
-                {data.map((item) => (
-                  <SearchItem />
-                ))}
-              </>
-            )}
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
+            <SearchItem />
           </ListResult>
           <button onClick={Click}>Click Me!</button>
         </ListWrapper>

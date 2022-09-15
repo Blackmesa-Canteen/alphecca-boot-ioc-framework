@@ -20,42 +20,41 @@ import {
   SearchTitle,
 } from "./SearchElements";
 
-const SearchItem = ({ item }) => {
+const Search = () => {
   return (
     <SearchContainer>
-      <SearchImg src={item.photos[0]} alt="" />
+      <SearchImg
+        src="https://cf.bstatic.com/xdata/images/hotel/square600/261707778.webp?k=fa6b6128468ec15e81f7d076b6f2473fa3a80c255582f155cae35f9edbffdd78&o=&s=1"
+        alt=""
+      />
       <SearchDescription>
-        <SearchTitle className="siTitle">{item.name}</SearchTitle>
-        <SearchDistance className="siDistance">
-          {item.distance}m from center
-        </SearchDistance>
+        <SearchTitle className="siTitle">Tower Street Apartments</SearchTitle>
+        <SearchDistance className="siDistance">500m from center</SearchDistance>
         <SearchTaxiOp>Free airport taxi</SearchTaxiOp>
         <SearchSubtitle>Studio Apartment with Air conditioning</SearchSubtitle>
-        <SearchFeatures className="siFeatures">{item.desc}</SearchFeatures>
+        <SearchFeatures className="siFeatures">
+          Entire studio • 1 bathroom • 21m² 1 full bed
+        </SearchFeatures>
         <SearchCancelOp>Free cancellation </SearchCancelOp>
         <SearchOpSubtitle>
           You can cancel later, so lock in this great price today!
         </SearchOpSubtitle>
       </SearchDescription>
       <SearchDetails>
-        {item.rating && (
-          <SearchRating>
-            <SearchRatingSpan>Excellent</SearchRatingSpan>
-            <SearchRatingBtn>{item.rating}</SearchRatingBtn>
-          </SearchRating>
-        )}
+        <SearchRating>
+          <SearchRatingSpan>Excellent</SearchRatingSpan>
+          <SearchRatingBtn>8.9</SearchRatingBtn>
+        </SearchRating>
         <SearchDetailWrap>
-          <SearchPrice>${item.cheapestPrice}</SearchPrice>
+          <SearchPrice>$124</SearchPrice>
           <SearchTaxOp>Includes taxes and fees</SearchTaxOp>
-          <Link to={`/hotels/${item._id}`}>
-            <SearchCheckedBtn className="siCheckButton">
-              See availability
-            </SearchCheckedBtn>
-          </Link>
+          <SearchCheckedBtn className="siCheckButton">
+            See availability
+          </SearchCheckedBtn>
         </SearchDetailWrap>
       </SearchDetails>
     </SearchContainer>
   );
 };
 
-export default SearchItem;
+export default Search;

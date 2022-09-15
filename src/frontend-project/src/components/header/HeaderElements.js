@@ -16,6 +16,25 @@ export const HeaderContainer = styled.div`
   margin: 20px 0px 100px 0px;
 `;
 
+export const HeaderContainerList = styled.div`
+  margin: 0px 0px 0px 0px;
+`;
+
+export const HeaderList = styled.div`
+  display: flex;
+  gap: 40px;
+  margin-bottom: 50px;
+`;
+
+export const HeaderListItemActive = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 20px;
+`;
+
 export const HeaderP = styled.p`
   margin: 20px 0px;
 `;
