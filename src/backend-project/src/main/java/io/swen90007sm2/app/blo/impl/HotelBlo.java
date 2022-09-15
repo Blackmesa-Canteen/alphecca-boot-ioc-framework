@@ -279,7 +279,7 @@ public class HotelBlo implements IHotelBlo {
         }
 
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
-        UnitOfWorkHelper.getCurrent().registerDirty(hotel, hotelDao, hotelId);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotel, hotelDao, CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
     }
 
     @Override
