@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class RoomOrder extends BaseEntity{
@@ -10,32 +11,42 @@ public class RoomOrder extends BaseEntity{
 
     private String roomId;
 
-    private Date startDate;
+    private String hotelId;
 
-    private Date endDate;
+    private String customerId;
+
+    private Integer orderedCount;
+
+    // in database it is always absolute amount of AUD
+    private BigDecimal pricePerRoom;
+
+    // in database it is always AUD
+    private String currency;
 
     public RoomOrder() {
     }
 
-    public RoomOrder(Date createTime, Date updateTime) {
-        super(createTime, updateTime);
-    }
-
-    public RoomOrder(String roomOrderId, String transactionId, String roomId, Date startDate, Date endDate) {
+    public RoomOrder(String roomOrderId, String transactionId, String roomId, String hotelId, String customerId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.hotelId = hotelId;
+        this.customerId = customerId;
+        this.orderedCount = orderedCount;
+        this.pricePerRoom = pricePerRoom;
+        this.currency = currency;
     }
 
-    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, Date startDate, Date endDate) {
+    public RoomOrder(Date createTime, Date updateTime, String roomOrderId, String transactionId, String roomId, String hotelId, String customerId, Integer orderedCount, BigDecimal pricePerRoom, String currency) {
         super(createTime, updateTime);
         this.roomOrderId = roomOrderId;
         this.transactionId = transactionId;
         this.roomId = roomId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.hotelId = hotelId;
+        this.customerId = customerId;
+        this.orderedCount = orderedCount;
+        this.pricePerRoom = pricePerRoom;
+        this.currency = currency;
     }
 
     public String getRoomOrderId() {
@@ -62,20 +73,44 @@ public class RoomOrder extends BaseEntity{
         this.roomId = roomId;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Integer getOrderedCount() {
+        return orderedCount;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setOrderedCount(Integer orderedCount) {
+        this.orderedCount = orderedCount;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public BigDecimal getPricePerRoom() {
+        return pricePerRoom;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setPricePerRoom(BigDecimal pricePerRoom) {
+        this.pricePerRoom = pricePerRoom;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(String hotelId) {
+        this.hotelId = hotelId;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     @Override
@@ -84,8 +119,8 @@ public class RoomOrder extends BaseEntity{
                 "roomOrderId='" + roomOrderId + '\'' +
                 ", transactionId='" + transactionId + '\'' +
                 ", roomId='" + roomId + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", orderedCount=" + orderedCount +
+                ", pricePerRoom=" + pricePerRoom +
                 '}';
     }
 }

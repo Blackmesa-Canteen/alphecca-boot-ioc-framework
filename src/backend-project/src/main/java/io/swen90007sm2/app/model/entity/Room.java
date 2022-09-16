@@ -1,6 +1,10 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.app.common.constant.CommonConstant;
+
+import java.math.BigDecimal;
 import java.util.Date;
+
 
 public class Room extends BaseEntity {
 
@@ -12,13 +16,17 @@ public class Room extends BaseEntity {
 
     private String description;
 
-    private Double pricePerNight;
+    // in database it is always absolute amount of AUD
+    private BigDecimal pricePerNight = BigDecimal.valueOf(0.0);
 
-    private Integer sleepsNum;
+    // in database, it is always AUD
+    private String currency = CommonConstant.AUD_CURRENCY;
 
-    private Integer vacantNum;
+    private Integer sleepsNum = 1;
 
-    private Boolean onSale;
+    private Integer vacantNum = 1;
+
+    private Boolean onSale = false;
 
     public Room() {
     }
@@ -27,18 +35,32 @@ public class Room extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Room(String roomId, String hotelId, String name, String description, Double pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
+    public Room(String roomId, String hotelId, String name, String description, BigDecimal pricePerNight, String currency, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
         this.roomId = roomId;
         this.hotelId = hotelId;
         this.name = name;
         this.description = description;
         this.pricePerNight = pricePerNight;
+        this.currency = currency;
         this.sleepsNum = sleepsNum;
         this.vacantNum = vacantNum;
         this.onSale = onSale;
     }
 
-    public Room(Date createTime, Date updateTime, String roomId, String hotelId, String name, String description, Double pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
+    public Room(Date createTime, Date updateTime, String roomId, String hotelId, String name, String description, BigDecimal pricePerNight, String currency, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
+        super(createTime, updateTime);
+        this.roomId = roomId;
+        this.hotelId = hotelId;
+        this.name = name;
+        this.description = description;
+        this.pricePerNight = pricePerNight;
+        this.currency = currency;
+        this.sleepsNum = sleepsNum;
+        this.vacantNum = vacantNum;
+        this.onSale = onSale;
+    }
+
+    public Room(Date createTime, Date updateTime, String roomId, String hotelId, String name, String description, BigDecimal pricePerNight, Integer sleepsNum, Integer vacantNum, Boolean onSale) {
         super(createTime, updateTime);
         this.roomId = roomId;
         this.hotelId = hotelId;
@@ -74,11 +96,11 @@ public class Room extends BaseEntity {
         this.description = description;
     }
 
-    public Double getPricePerNight() {
+    public BigDecimal getPricePerNight() {
         return pricePerNight;
     }
 
-    public void setPricePerNight(Double pricePerNight) {
+    public void setPricePerNight(BigDecimal pricePerNight) {
         this.pricePerNight = pricePerNight;
     }
 
@@ -112,6 +134,14 @@ public class Room extends BaseEntity {
 
     public void setHotelId(String hotelId) {
         this.hotelId = hotelId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override

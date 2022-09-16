@@ -1,5 +1,6 @@
 package io.swen90007sm2.alpheccaboot.core.ioc;
 
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil;
 import io.swen90007sm2.alpheccaboot.core.aop.factory.AopBeanPostProcessorFactory;
 import io.swen90007sm2.alpheccaboot.core.aop.processor.IBeanPostProcessor;
@@ -38,8 +39,14 @@ public class BeanManager {
 
         // instantiate objects from class object, then put in the map
         for (Class<?> clazz :beanClassSet) {
-            Object object = ReflectionUtil.genNewInstanceByClass(clazz);
-            BEAN_MAP.put(clazz, object);
+            if (clazz.getAnnotation(Lazy.class) == null) {
+                Object object = ReflectionUtil.genNewInstanceByClass(clazz);
+                BEAN_MAP.put(clazz, object);
+            } else {
+                // handle lazy beans
+                BEAN_MAP.put(clazz, null);
+            }
+
         }
 
         LOGGER.info("Instantiated {} instances in the bean container.", BEAN_MAP.size());
@@ -56,6 +63,29 @@ public class BeanManager {
         }
 
         return (T) BEAN_MAP.get(clazz);
+    }
+
+    /**
+     * called by outside to get lazy beans
+     * @param clazz target class
+     * @return lazy bean instance
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T getLazyBeanByClass(Class<T> clazz) {
+        Object instance = getBeanFromBeanMapByClass(clazz);
+
+        // check existence first without lock to guarantee performance
+        if (instance == null) {
+            synchronized (BeanManager.class) {
+                if (instance == null) {
+                    instance = ReflectionUtil.genNewInstanceByClass(clazz);
+                    BEAN_MAP.put(clazz, instance);
+                    LOGGER.info("Lazy loaded: [{}]", instance.getClass().getName());
+                }
+            }
+        }
+
+        return (T) instance;
     }
 
     /**

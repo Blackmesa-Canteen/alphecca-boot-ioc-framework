@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.controller.customer.api;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.swen90007sm2.alpheccaboot.annotation.filter.AppliesFilter;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.*;
@@ -8,6 +9,7 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.ICustomerBlo;
 import io.swen90007sm2.app.cache.util.CacheUtil;
+import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
@@ -16,6 +18,7 @@ import io.swen90007sm2.app.model.param.UserRegisterParam;
 import io.swen90007sm2.app.model.param.UserUpdateParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
+import io.swen90007sm2.app.security.helper.TokenHelper;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,12 +52,14 @@ public class CustomerController {
     @HandlesRequest(path = "/login", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
     public R changeUserPassword(HttpServletRequest request, @RequestJsonBody @Valid PasswordUpdateParam param) {
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
-        customerBlo.doUpdateUserPassword(request,
+        // get current user id
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        customerBlo.doUpdateUserPassword(userId,
                 param.getOriginalPassword(),
                 param.getNewPassword()
         );
-        UnitOfWorkHelper.getCurrent().commit();
 
         return R.ok();
     }
@@ -67,7 +72,10 @@ public class CustomerController {
     @HandlesRequest(path = "/logout", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
     public R logout(HttpServletRequest request) {
-        customerBlo.doLogout(request);
+        // get current user id
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        customerBlo.doLogout(authToken);
 
         return R.ok();
     }
@@ -80,9 +88,7 @@ public class CustomerController {
      */
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     public R register(@RequestJsonBody @Valid UserRegisterParam userRegisterParam) {
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
         customerBlo.doRegisterUser(userRegisterParam);
-        UnitOfWorkHelper.getCurrent().commit();
         return R.ok();
     }
 
@@ -105,7 +111,12 @@ public class CustomerController {
             customerBean = customerBlo.getUserInfoBasedByUserId(userId);
         }
 
-        return R.ok().setData(customerBean);
+        Customer res = new Customer();
+        BeanUtil.copyProperties(customerBean, res);
+        // remove sensitive info
+        res.setPassword(CommonConstant.NULL);
+
+        return R.ok().setData(res);
     }
 
     /**
@@ -118,9 +129,10 @@ public class CustomerController {
     @HandlesRequest(path = "/", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
     public R updateUserInfo(HttpServletRequest request, @RequestJsonBody @Valid UserUpdateParam userUpdateParam) {
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
-        customerBlo.doUpdateUserExceptPassword(request, userUpdateParam);
-        UnitOfWorkHelper.getCurrent().commit();
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        customerBlo.doUpdateUserExceptPassword(userId, userUpdateParam);
         return R.ok();
     }
 

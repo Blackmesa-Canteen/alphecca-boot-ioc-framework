@@ -7,8 +7,9 @@ public enum StatusCodeEnume {
 
     /* General code*/
     SUCCESS(200, "Ok"),
+    NOT_IMPLEMENTED_EXCEPTION(500, "This interface has not implemented yet"),
     SERVER_INTERNAL_EXCEPTION(500, "Server Internal Error, please contact admin."),
-    GENERAL_INTERNAL_EXCEPTION(400, "Bad request."),
+    GENERAL_REQUEST_EXCEPTION(400, "Bad request."),
     RESOURCE_NOT_FOUND_EXCEPTION(404, "Resource not found"),
     REQUEST_FORBIDDEN_EXCEPTION(403, "Request Forbidden."),
 
@@ -26,8 +27,22 @@ public enum StatusCodeEnume {
 
     /* file */
     INVALID_UPLOAD_TYPE(16001, "Upload file form should should be in multipart/form-data type."),
-            ;
 
+
+    /* hotel and hotelier */
+    HOTELIER_ALREADY_HAS_HOTEL(17001, "Hotelier already has a hotel!"),
+    HOTELIER_NOT_HAS_HOTEL(17002, "Hotelier doesn't have a hotel, please create one."),
+
+
+    HOTEL_NOT_EXIST(17003, "Hotel doesn't exist."),
+    HOTEL_DOES_NOT_HAVE_HOTELIER(17004, "Hotel doesn't have hotelier."),
+
+    ROOM_IS_OCCUPIED(18001, "the room is occupied"),
+    TRANSACTION_NOT_FOUND(18002, "transaction not found"),
+    TRANSACTION_ALREADY_CANCELLED(18003, "transaction already cancelled")
+
+
+    ;
     private final Integer code;
     private final String message;
 

@@ -40,18 +40,22 @@ public class MemoryObjectCache extends AbstractTimedCache<String, Object> {
      */
     private MemoryObjectCache() {
 
-        // auto cleanup, one clean up per 3 days
-//        CronUtil.schedule(
-//                "*/4329 * * * *",
-//                new Task() {
-//                    @Override
-//                    public void execute() {
-//                        MemoryObjectCache.this.clear();
-//                    }
-//                }
-//        );
-//
-//        CronUtil.start();
+        // auto cleanup, one clean up per 1 hour
+        CronUtil.schedule(
+                "*/59 * * * *",
+                new Task() {
+                    @Override
+                    public void execute() {
+                        // if the size is out of threshold, clear the cache
+                        if (MemoryObjectCache.this.CACHE.size() > CacheConstant.CLEANING_THRESHOLD) {
+                            MemoryObjectCache.this.clear();
+                            LOGGER.info("Memory Object Cache automatically cleaned!");
+                        }
+                    }
+                }
+        );
+
+        CronUtil.start();
     }
 
     @Override
@@ -59,14 +63,14 @@ public class MemoryObjectCache extends AbstractTimedCache<String, Object> {
         Assert.hasText(key, "Cache key must not be blank");
         Assert.notNull(item, "Cache wrapper must not be null");
 
-        lock.lock();
+//        lock.lock();
 
         try {
             // prev is the previous value associated with key, or null if there was no mapping for key
             TimedCacheItem<Object> prev = CACHE.put(key, item);
             LOGGER.debug("cache put: [{}] -> [{}], previous v is: [{}]", key, item, prev);
         } finally {
-            lock.unlock();
+//            lock.unlock();
         }
     }
 
@@ -105,11 +109,11 @@ public class MemoryObjectCache extends AbstractTimedCache<String, Object> {
     public void remove(String key) {
         Assert.hasText(key, "remove key should has text");
 
-        lock.lock();
+//        lock.lock();
         try {
             CACHE.remove(key);
         } finally {
-            lock.unlock();
+//            lock.unlock();
         }
     }
 

@@ -1,15 +1,18 @@
 package io.swen90007sm2.app.dao.impl;
 
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.model.entity.Customer;
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 @Dao
+@Lazy
 public class CustomerDao implements ICustomerDao {
 
     @Override
@@ -61,13 +64,13 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int updateOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "UPDATE customer SET password = ?, description=?, user_name=?, avatar_url=?, update_time=? WHERE user_id = ?",
+                "UPDATE customer SET password = ?, description=?, user_name=?, avatar_url=?, update_time=? WHERE id = ?",
                 customer.getPassword(),
                 customer.getDescription(),
                 customer.getUserName(),
                 customer.getAvatarUrl(),
                 new java.sql.Date(TimeUtil.now().getTime()),
-                customer.getUserId()
+                customer.getId()
         );
 
         return row;
@@ -89,10 +92,11 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int deleteOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "DELETE FROM customer WHERE user_id = ?",
-                customer.getUserId()
+                "DELETE FROM customer WHERE id = ?",
+                customer.getId()
         );
 
         return row;
     }
+
 }

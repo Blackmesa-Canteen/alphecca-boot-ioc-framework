@@ -2,6 +2,7 @@ package io.swen90007sm2.alpheccaboot.core.ioc;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
+import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.common.util.ReflectionUtil;
 import io.swen90007sm2.alpheccaboot.core.aop.factory.AopBeanPostProcessorFactory;
@@ -60,6 +61,12 @@ public class InjectionHelper {
                 // usually, we use interface or super class as type,
                 // so need to find the implementation class
                 Class<?> fieldImplClass = findImplementation(beanInstance, fieldClass, field);
+
+                // warning to the lazy beans
+                if (fieldImplClass.getAnnotation(Lazy.class) != null) {
+                    LOGGER.warn("Lazy class [{}] can not be auto injected!", fieldImplClass.getName());
+                    return;
+                }
 
                 // get object instance from bean map
                 Object fieldInstance = beanMap.get(fieldImplClass);

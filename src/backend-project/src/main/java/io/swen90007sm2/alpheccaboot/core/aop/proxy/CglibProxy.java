@@ -11,15 +11,12 @@ import java.lang.reflect.Method;
 /**
  * Cglib proxy without Interface support, use byte code of java.
  *
- * !!! Deprecated !!!
- *
  * now Cglib is replaced by ByteBuddy proxy,
  * because CgLib stopped maintain in 2019 and can not support the latest JDK.
  *
  * @author xiaotian
  * @author shuang.kou:https://github.com/Snailclimb/jsoncat
  */
-@Deprecated
 public class CglibProxy implements MethodInterceptor {
 
     private final AbstractInterceptor interceptor;

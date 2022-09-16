@@ -17,21 +17,21 @@ public class Assert {
     public static void notNull (Object obj, String msg) {
         if (obj == null) {
             LOGGER.error("Assertion must not null: {}", msg);
-            throw new InternalException("Assertion failure.");
+            throw new InternalException("Assertion failure: " + msg);
         }
     }
 
     public static void isTrue(boolean isTrue, String msg) {
         if(!isTrue) {
             LOGGER.error("Assertion must be true: {}", msg);
-            throw new InternalException("Assertion failure.");
+            throw new InternalException("Assertion failure: " + msg);
         }
     }
 
     public static void hasText(Object obj, String msg) {
         if (!(obj instanceof String && StringUtils.isNotEmpty((String) obj))) {
             LOGGER.error("Assertion must have text: {}", msg);
-            throw new InternalException("Assertion failure.");
+            throw new InternalException("Assertion failure: " + msg);
         }
     }
 }

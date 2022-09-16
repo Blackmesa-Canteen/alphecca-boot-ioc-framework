@@ -2,10 +2,12 @@ package io.swen90007sm2.app.blo.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IPhotoBlo;
 import io.swen90007sm2.app.common.constant.ResourceConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
+import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.IPhotoDao;
 import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.model.entity.Photo;
@@ -94,9 +96,9 @@ public class PhotoBlo implements IPhotoBlo {
 
 
 
-                    // photo id is the fileName
+                    // photo_id is the fileName
                     Photo photo = new Photo();
-                    photo.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+                    photo.setId(IdFactory.genSnowFlakeId());
                     photo.setPhotoId(fileName);
                     photo.setDescription("New Photo.");
                     photo.setPhotoUrl(ResourceConstant.UPLOAD_PHOTO_URL_PREFIX + "?photoId=" + fileName);
@@ -170,6 +172,25 @@ public class PhotoBlo implements IPhotoBlo {
             LOGGER.error("Download error: ", e);
             throw new RuntimeException(e);
         }
+    }
 
+    @Override
+    public void uploadPhotoForHotel(HttpServletRequest request, String userId, String hotelId) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void uploadPhotoForRoom(HttpServletRequest request, String userId, String roomId) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<String> getPhotoUrlsForHotel(String hotelId) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<String> getPhotoUrlsForRoom(String roomId) {
+        throw new NotImplementedException();
     }
 }

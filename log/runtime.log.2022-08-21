@@ -1,0 +1,413 @@
+2022-08-21 15:31:26  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-21 15:31:26  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-21 15:31:26  [ main:9 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-21 15:31:26  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-21 15:31:26  [ main:30 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-21 15:31:26  [ main:30 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-21 15:31:26  [ main:36 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-21 15:31:26  [ main:36 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:31:26  [ main:36 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-21 15:31:26  [ main:37 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:31:26  [ main:38 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-21 15:31:26  [ main:39 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-21 15:31:26  [ main:39 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-21 15:31:26  [ main:90 ] - [ INFO ]  Reflections took 44 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-21 15:31:26  [ main:175 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-21 15:31:26  [ main:175 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-21 15:31:26  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:179 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:31:26  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-21 15:31:26  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-21 15:31:26  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-21 15:31:26  [ main:180 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:31:26  [ main:181 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:181 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:181 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:31:26  [ main:181 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:31:26  [ main:182 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:182 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:31:26  [ main:182 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-21 15:31:26  [ main:182 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-21 15:31:26  [ main:182 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-21 15:31:26  [ main:183 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:31:26  [ main:183 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-21 15:31:26  [ main:183 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:31:26  [ main:187 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-21 15:31:26  [ main:188 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-21 15:31:26  [ main:358 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-21 15:31:26  [ main:358 ] - [ INFO ]  Startup the web server...
+2022-08-21 15:31:26  [ main:519 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-21 15:31:28  [ http-nio-8088-exec-1:2581 ] - [ INFO ]  Incoming request: [POST] /api/customer/login
+2022-08-21 15:31:28  [ http-nio-8088-exec-1:2582 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [login]
+2022-08-21 15:31:28  [ http-nio-8088-exec-1:2637 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [login] controller
+2022-08-21 15:31:29  [ http-nio-8088-exec-1:3363 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1@qq.com]]
+2022-08-21 15:31:29  [ http-nio-8088-exec-1:3673 ] - [ INFO ]  Finished handling request: [POST] /api/customer/login
+2022-08-21 15:31:42  [ http-nio-8088-exec-3:15950 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:31:42  [ http-nio-8088-exec-3:15951 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:31:42  [ http-nio-8088-exec-3:15961 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:31:42  [ http-nio-8088-exec-3:15962 ] - [ WARN ]  cache key:[entity-for-customer1@qq.com] expired. 
+2022-08-21 15:31:42  [ http-nio-8088-exec-3:16611 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1@qq.com]]
+2022-08-21 15:31:43  [ http-nio-8088-exec-3:16761 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:32:53  [ http-nio-8088-exec-4:87039 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:32:53  [ http-nio-8088-exec-4:87041 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:32:53  [ http-nio-8088-exec-4:87046 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:32:53  [ http-nio-8088-exec-4:87049 ] - [ ERROR ]  invalid token!
+2022-08-21 15:33:46  [ http-nio-8088-exec-5:139820 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:33:46  [ http-nio-8088-exec-5:139821 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:33:46  [ http-nio-8088-exec-5:139822 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:33:46  [ http-nio-8088-exec-5:139822 ] - [ ERROR ]  invalid token!
+2022-08-21 15:34:14  [ http-nio-8088-exec-6:167886 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:34:14  [ http-nio-8088-exec-6:167888 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:34:14  [ http-nio-8088-exec-6:167889 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:34:14  [ http-nio-8088-exec-6:167894 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:34:28  [ http-nio-8088-exec-7:181996 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:34:28  [ http-nio-8088-exec-7:181997 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:34:28  [ http-nio-8088-exec-7:181997 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:34:28  [ http-nio-8088-exec-7:182007 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:35:20  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-21 15:35:20  [ main:0 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-21 15:35:20  [ main:6 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-21 15:35:20  [ main:7 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-21 15:35:20  [ main:27 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-21 15:35:20  [ main:27 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-21 15:35:20  [ main:32 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-21 15:35:20  [ main:32 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:35:20  [ main:32 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-21 15:35:20  [ main:33 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:35:20  [ main:33 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-21 15:35:20  [ main:35 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-21 15:35:20  [ main:35 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-21 15:35:20  [ main:83 ] - [ INFO ]  Reflections took 42 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-21 15:35:20  [ main:166 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-21 15:35:20  [ main:166 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-21 15:35:20  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-21 15:35:20  [ main:170 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-21 15:35:20  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:35:20  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:35:20  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:35:20  [ main:171 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:35:20  [ main:172 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-21 15:35:20  [ main:172 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-21 15:35:20  [ main:172 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:35:20  [ main:172 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-21 15:35:20  [ main:172 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:35:20  [ main:176 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-21 15:35:20  [ main:177 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-21 15:35:20  [ main:289 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-21 15:35:20  [ main:290 ] - [ INFO ]  Startup the web server...
+2022-08-21 15:35:20  [ main:444 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-21 15:35:22  [ http-nio-8088-exec-1:2023 ] - [ INFO ]  Incoming request: [POST] /api/customer/login
+2022-08-21 15:35:22  [ http-nio-8088-exec-1:2024 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [login]
+2022-08-21 15:35:22  [ http-nio-8088-exec-1:2076 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [login] controller
+2022-08-21 15:35:22  [ http-nio-8088-exec-1:2812 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1@qq.com]]
+2022-08-21 15:35:23  [ http-nio-8088-exec-1:3127 ] - [ INFO ]  Finished handling request: [POST] /api/customer/login
+2022-08-21 15:35:41  [ http-nio-8088-exec-4:21589 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:35:41  [ http-nio-8088-exec-4:21590 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:35:41  [ http-nio-8088-exec-4:21598 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:35:41  [ http-nio-8088-exec-4:21636 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:35:50  [ http-nio-8088-exec-3:30732 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:35:50  [ http-nio-8088-exec-3:30733 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:35:50  [ http-nio-8088-exec-3:30734 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:35:50  [ http-nio-8088-exec-3:30740 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:36:20  [ http-nio-8088-exec-2:60435 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:36:20  [ http-nio-8088-exec-2:60437 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:36:20  [ http-nio-8088-exec-2:60438 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:36:20  [ http-nio-8088-exec-2:60444 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:38:12  [ http-nio-8088-exec-6:172122 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:38:12  [ http-nio-8088-exec-6:172123 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:38:12  [ http-nio-8088-exec-6:172123 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:38:12  [ http-nio-8088-exec-6:172125 ] - [ WARN ]  cache key:[entity-for-customer1@qq.com] expired. 
+2022-08-21 15:38:12  [ http-nio-8088-exec-6:172783 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1@qq.com]]
+2022-08-21 15:38:13  [ http-nio-8088-exec-6:172878 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:38:37  [ http-nio-8088-exec-7:196996 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:38:37  [ http-nio-8088-exec-7:196997 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:38:37  [ http-nio-8088-exec-7:196998 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:38:37  [ http-nio-8088-exec-7:197007 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:42:39  [ http-nio-8088-exec-9:439380 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:42:39  [ http-nio-8088-exec-9:439386 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:42:39  [ http-nio-8088-exec-9:439387 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:42:40  [ http-nio-8088-exec-9:440012 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1]]
+2022-08-21 15:42:53  [ http-nio-8088-exec-10:453636 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:42:53  [ http-nio-8088-exec-10:453637 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:42:53  [ http-nio-8088-exec-10:453639 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:42:53  [ http-nio-8088-exec-10:453639 ] - [ WARN ]  cache key:[entity-for-customer1@qq.com] expired. 
+2022-08-21 15:42:54  [ http-nio-8088-exec-10:454241 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1@qq.com]]
+2022-08-21 15:42:54  [ http-nio-8088-exec-10:454333 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:43:36  [ http-nio-8088-exec-1:495899 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-21 15:43:36  [ http-nio-8088-exec-1:495900 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-21 15:43:36  [ http-nio-8088-exec-1:496516 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier3@qq.com]]
+2022-08-21 15:43:36  [ http-nio-8088-exec-1:496720 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/login
+2022-08-21 15:43:58  [ http-nio-8088-exec-4:518351 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:43:58  [ http-nio-8088-exec-4:518352 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:43:58  [ http-nio-8088-exec-4:518359 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:45:35  [ http-nio-8088-exec-2:615328 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:45:35  [ http-nio-8088-exec-2:615331 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:45:36  [ http-nio-8088-exec-2:615982 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier1@qq.com]]
+2022-08-21 15:45:36  [ http-nio-8088-exec-2:616088 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:45:40  [ http-nio-8088-exec-5:620577 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:45:40  [ http-nio-8088-exec-5:620577 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:45:40  [ http-nio-8088-exec-5:620578 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:45:40  [ http-nio-8088-exec-5:620579 ] - [ WARN ]  cache key:[entity-for-customer1@qq.com] expired. 
+2022-08-21 15:45:41  [ http-nio-8088-exec-5:621179 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1@qq.com]]
+2022-08-21 15:45:41  [ http-nio-8088-exec-5:621278 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:46:46  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-21 15:46:46  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-21 15:46:46  [ main:7 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-21 15:46:46  [ main:8 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-21 15:46:46  [ main:27 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-21 15:46:46  [ main:27 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-21 15:46:46  [ main:32 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-21 15:46:46  [ main:32 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:46:46  [ main:32 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-21 15:46:46  [ main:33 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:46:46  [ main:33 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-21 15:46:46  [ main:34 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-21 15:46:46  [ main:34 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-21 15:46:46  [ main:81 ] - [ INFO ]  Reflections took 40 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-21 15:46:46  [ main:162 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-21 15:46:46  [ main:162 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-21 15:46:46  [ main:167 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:167 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-21 15:46:46  [ main:167 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:167 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-21 15:46:46  [ main:167 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:46:46  [ main:168 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:46:46  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:46:46  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:46:46  [ main:169 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-21 15:46:46  [ main:169 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-21 15:46:46  [ main:170 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:46:46  [ main:170 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-21 15:46:46  [ main:170 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:46:46  [ main:174 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-21 15:46:46  [ main:174 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-21 15:46:46  [ main:285 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-21 15:46:46  [ main:285 ] - [ INFO ]  Startup the web server...
+2022-08-21 15:46:46  [ main:435 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-21 15:46:50  [ http-nio-8088-exec-1:4146 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-21 15:46:50  [ http-nio-8088-exec-1:4146 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-21 15:46:51  [ http-nio-8088-exec-1:4922 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier3@qq.com]]
+2022-08-21 15:46:51  [ http-nio-8088-exec-1:5240 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/login
+2022-08-21 15:47:00  [ http-nio-8088-exec-3:14249 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:47:00  [ http-nio-8088-exec-3:14250 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:47:00  [ http-nio-8088-exec-3:14302 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:47:18  [ http-nio-8088-exec-2:32257 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:47:18  [ http-nio-8088-exec-2:32258 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:47:18  [ http-nio-8088-exec-2:32261 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:47:27  [ http-nio-8088-exec-4:41628 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:47:27  [ http-nio-8088-exec-4:41629 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:47:27  [ http-nio-8088-exec-4:41633 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:47:33  [ http-nio-8088-exec-5:46863 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:47:33  [ http-nio-8088-exec-5:46865 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:47:33  [ http-nio-8088-exec-5:46872 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:47:39  [ http-nio-8088-exec-6:53265 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:47:39  [ http-nio-8088-exec-6:53265 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:47:39  [ http-nio-8088-exec-6:53268 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:47:45  [ http-nio-8088-exec-7:59613 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:47:45  [ http-nio-8088-exec-7:59613 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:47:45  [ http-nio-8088-exec-7:59616 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:47:45  [ http-nio-8088-exec-7:59623 ] - [ ERROR ]  invalid token!
+2022-08-21 15:47:48  [ http-nio-8088-exec-8:62502 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:47:48  [ http-nio-8088-exec-8:62503 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:47:48  [ http-nio-8088-exec-8:62504 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:47:50  [ http-nio-8088-exec-9:64425 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:47:50  [ http-nio-8088-exec-9:64426 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:47:50  [ http-nio-8088-exec-9:64428 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:54:30  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-08-21 15:54:30  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-08-21 15:54:30  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-08-21 15:54:30  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-08-21 15:54:30  [ main:30 ] - [ INFO ]  Scanned 78 Classes and interfaces in total.
+2022-08-21 15:54:30  [ main:30 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-08-21 15:54:30  [ main:36 ] - [ INFO ]  Scanned 3 Blo Classes.
+2022-08-21 15:54:30  [ main:36 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:54:30  [ main:36 ] - [ INFO ]  Scanned 3 Dao Classes.
+2022-08-21 15:54:30  [ main:37 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:54:30  [ main:37 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-08-21 15:54:30  [ main:38 ] - [ INFO ]  Instantiated 19 instances in the bean container.
+2022-08-21 15:54:30  [ main:38 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-08-21 15:54:30  [ main:85 ] - [ INFO ]  Reflections took 40 ms to scan 1 urls, producing 23 keys and 61 values
+2022-08-21 15:54:30  [ main:168 ] - [ INFO ]  Instantiated 1 interceptors.
+2022-08-21 15:54:30  [ main:169 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-08-21 15:54:30  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.HotelierDao] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.dao.IHotelierDao]
+2022-08-21 15:54:30  [ main:173 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-08-21 15:54:30  [ main:174 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:54:30  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-08-21 15:54:30  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:175 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.impl.CustomerBlo]
+2022-08-21 15:54:30  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:54:30  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-08-21 15:54:30  [ main:176 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.CustomerDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.ICustomerDao]
+2022-08-21 15:54:30  [ main:177 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.db.factory.DaoFactory]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-08-21 15:54:30  [ main:177 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-08-21 15:54:30  [ main:177 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-08-21 15:54:30  [ main:177 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-08-21 15:54:30  [ main:177 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-08-21 15:54:30  [ main:177 ] - [ INFO ]  Scanned 5 Controller Classes.
+2022-08-21 15:54:30  [ main:183 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-08-21 15:54:30  [ main:184 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-08-21 15:54:31  [ main:306 ] - [ INFO ]  IoC Container is ready to go.
+2022-08-21 15:54:31  [ main:306 ] - [ INFO ]  Startup the web server...
+2022-08-21 15:54:31  [ main:472 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-08-21 15:54:45  [ http-nio-8088-exec-1:15120 ] - [ INFO ]  Incoming request: [POST] /api/hotelier/login
+2022-08-21 15:54:45  [ http-nio-8088-exec-1:15120 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [login]
+2022-08-21 15:54:46  [ http-nio-8088-exec-1:15914 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier3@qq.com]]
+2022-08-21 15:54:46  [ http-nio-8088-exec-1:16233 ] - [ INFO ]  Finished handling request: [POST] /api/hotelier/login
+2022-08-21 15:54:57  [ http-nio-8088-exec-2:27223 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:54:57  [ http-nio-8088-exec-2:27226 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:54:57  [ http-nio-8088-exec-2:27273 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:55:02  [ http-nio-8088-exec-4:31525 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:02  [ http-nio-8088-exec-4:31526 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:02  [ http-nio-8088-exec-4:31527 ] - [ ERROR ]  invalid token!
+2022-08-21 15:55:05  [ http-nio-8088-exec-5:34892 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:05  [ http-nio-8088-exec-5:34893 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:05  [ http-nio-8088-exec-5:34900 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:55:17  [ http-nio-8088-exec-3:46859 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:17  [ http-nio-8088-exec-3:46861 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:17  [ http-nio-8088-exec-3:46865 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:55:24  [ http-nio-8088-exec-6:53789 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:24  [ http-nio-8088-exec-6:53790 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:24  [ http-nio-8088-exec-6:53797 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:55:32  [ http-nio-8088-exec-7:61816 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:32  [ http-nio-8088-exec-7:61817 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:32  [ http-nio-8088-exec-7:61821 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:55:40  [ http-nio-8088-exec-8:69873 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:40  [ http-nio-8088-exec-8:69873 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:44  [ http-nio-8088-exec-9:74156 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:44  [ http-nio-8088-exec-9:74156 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:44  [ http-nio-8088-exec-9:74161 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:55:54  [ http-nio-8088-exec-10:84006 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:55:54  [ http-nio-8088-exec-10:84007 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:55:55  [ http-nio-8088-exec-10:84662 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier2@qq.com]]
+2022-08-21 15:55:55  [ http-nio-8088-exec-10:84757 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:56:09  [ http-nio-8088-exec-1:98603 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:56:09  [ http-nio-8088-exec-1:98604 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:56:09  [ http-nio-8088-exec-1:98606 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:56:11  [ http-nio-8088-exec-2:100946 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:56:11  [ http-nio-8088-exec-2:100948 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:56:12  [ http-nio-8088-exec-2:101563 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier3@qq.comd]]
+2022-08-21 15:56:15  [ http-nio-8088-exec-4:104688 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:56:15  [ http-nio-8088-exec-4:104690 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:56:15  [ http-nio-8088-exec-4:104692 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:56:17  [ http-nio-8088-exec-5:106801 ] - [ INFO ]  Incoming request: [POST] /api/customer/login
+2022-08-21 15:56:17  [ http-nio-8088-exec-5:106802 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [login]
+2022-08-21 15:56:17  [ http-nio-8088-exec-5:106803 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [login] controller
+2022-08-21 15:56:18  [ http-nio-8088-exec-5:107485 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer1@qq.com]]
+2022-08-21 15:56:18  [ http-nio-8088-exec-5:107693 ] - [ INFO ]  Finished handling request: [POST] /api/customer/login
+2022-08-21 15:56:32  [ http-nio-8088-exec-3:121817 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:56:32  [ http-nio-8088-exec-3:121818 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:56:32  [ http-nio-8088-exec-3:121818 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:56:33  [ http-nio-8088-exec-3:122419 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[customer2@qq.com]]
+2022-08-21 15:56:40  [ http-nio-8088-exec-6:129293 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:56:40  [ http-nio-8088-exec-6:129294 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:56:40  [ http-nio-8088-exec-6:129295 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:56:40  [ http-nio-8088-exec-6:129924 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[baideng@qq.com]]
+2022-08-21 15:57:02  [ http-nio-8088-exec-7:152152 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:57:02  [ http-nio-8088-exec-7:152153 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:57:02  [ http-nio-8088-exec-7:152157 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:57:03  [ http-nio-8088-exec-7:152793 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[hotelier1@qq.com]]
+2022-08-21 15:57:37  [ http-nio-8088-exec-8:186531 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:57:37  [ http-nio-8088-exec-8:186532 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:57:37  [ http-nio-8088-exec-8:186534 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:57:37  [ http-nio-8088-exec-8:187125 ] - [ INFO ]  Execute non query SQL [SELECT * FROM customer WHERE user_id = ?] with param [[user@qq.com]]
+2022-08-21 15:57:37  [ http-nio-8088-exec-8:187224 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:58:06  [ http-nio-8088-exec-9:215735 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:06  [ http-nio-8088-exec-9:215736 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:06  [ http-nio-8088-exec-9:215737 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:06  [ http-nio-8088-exec-9:215740 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:58:19  [ http-nio-8088-exec-10:229219 ] - [ INFO ]  Incoming request: [GET] /api/customer/logout
+2022-08-21 15:58:19  [ http-nio-8088-exec-10:229219 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [logout]
+2022-08-21 15:58:19  [ http-nio-8088-exec-10:229223 ] - [ INFO ]  passed request filter: [io.swen90007sm2.app.security.filter.CustomerAuthFilter]
+2022-08-21 15:58:19  [ http-nio-8088-exec-10:229223 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [logout] controller
+2022-08-21 15:58:19  [ http-nio-8088-exec-10:229226 ] - [ INFO ]  Finished handling request: [GET] /api/customer/logout
+2022-08-21 15:58:22  [ http-nio-8088-exec-1:231442 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:22  [ http-nio-8088-exec-1:231442 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:22  [ http-nio-8088-exec-1:231444 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:22  [ http-nio-8088-exec-1:231447 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:58:24  [ http-nio-8088-exec-2:233661 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:24  [ http-nio-8088-exec-2:233661 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:24  [ http-nio-8088-exec-2:233662 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:24  [ http-nio-8088-exec-2:233665 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:58:26  [ http-nio-8088-exec-4:235778 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:26  [ http-nio-8088-exec-4:235778 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:26  [ http-nio-8088-exec-4:235778 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:27  [ http-nio-8088-exec-5:236673 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:27  [ http-nio-8088-exec-5:236673 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:27  [ http-nio-8088-exec-5:236674 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:32  [ http-nio-8088-exec-3:242179 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:32  [ http-nio-8088-exec-3:242180 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:32  [ http-nio-8088-exec-3:242180 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:41  [ http-nio-8088-exec-6:250719 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:41  [ http-nio-8088-exec-6:250720 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:41  [ http-nio-8088-exec-6:250720 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:43  [ http-nio-8088-exec-7:252728 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:43  [ http-nio-8088-exec-7:252728 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:43  [ http-nio-8088-exec-7:252729 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:43  [ http-nio-8088-exec-7:252732 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:58:44  [ http-nio-8088-exec-8:253859 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:44  [ http-nio-8088-exec-8:253860 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:44  [ http-nio-8088-exec-8:253861 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:44  [ http-nio-8088-exec-8:253864 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:58:47  [ http-nio-8088-exec-9:256954 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:47  [ http-nio-8088-exec-9:256955 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:47  [ http-nio-8088-exec-9:256955 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:49  [ http-nio-8088-exec-10:259170 ] - [ INFO ]  Incoming request: [GET] /api/customer
+2022-08-21 15:58:49  [ http-nio-8088-exec-10:259170 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.customer.api.CustomerController], method [getUserInfoWithUserId]
+2022-08-21 15:58:49  [ http-nio-8088-exec-10:259171 ] - [ INFO ]  JSR303 Validation Interceptor Calling for [io.swen90007sm2.app.controller.customer.api.CustomerController] 's [getUserInfoWithUserId] controller
+2022-08-21 15:58:49  [ http-nio-8088-exec-10:259176 ] - [ INFO ]  Finished handling request: [GET] /api/customer
+2022-08-21 15:58:57  [ http-nio-8088-exec-1:267173 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:58:57  [ http-nio-8088-exec-1:267174 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:58:57  [ http-nio-8088-exec-1:267177 ] - [ WARN ]  cache key:[entity-for-hotelier3@qq.com] expired. 
+2022-08-21 15:58:58  [ http-nio-8088-exec-1:267821 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotelier WHERE user_id = ?] with param [[hotelier3@qq.com]]
+2022-08-21 15:58:58  [ http-nio-8088-exec-1:267927 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:59:04  [ http-nio-8088-exec-2:274039 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:04  [ http-nio-8088-exec-2:274040 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:08  [ http-nio-8088-exec-4:278248 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:08  [ http-nio-8088-exec-4:278249 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:08  [ http-nio-8088-exec-4:278252 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:59:16  [ http-nio-8088-exec-5:285629 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:16  [ http-nio-8088-exec-5:285630 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:16  [ http-nio-8088-exec-5:285631 ] - [ ERROR ]  invalid token!
+2022-08-21 15:59:18  [ http-nio-8088-exec-3:288108 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:18  [ http-nio-8088-exec-3:288109 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:18  [ http-nio-8088-exec-3:288114 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:59:21  [ http-nio-8088-exec-6:290807 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:21  [ http-nio-8088-exec-6:290808 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:23  [ http-nio-8088-exec-7:292332 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:23  [ http-nio-8088-exec-7:292333 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:25  [ http-nio-8088-exec-8:295131 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:25  [ http-nio-8088-exec-8:295131 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:25  [ http-nio-8088-exec-8:295137 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:59:35  [ http-nio-8088-exec-9:304456 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:35  [ http-nio-8088-exec-9:304456 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:35  [ http-nio-8088-exec-9:304459 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier
+2022-08-21 15:59:39  [ http-nio-8088-exec-10:308706 ] - [ INFO ]  Incoming request: [GET] /api/hotelier
+2022-08-21 15:59:39  [ http-nio-8088-exec-10:308706 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.hotelier.api.HotelierController], method [getUserInfoWithUserId]
+2022-08-21 15:59:39  [ http-nio-8088-exec-10:308708 ] - [ INFO ]  Finished handling request: [GET] /api/hotelier

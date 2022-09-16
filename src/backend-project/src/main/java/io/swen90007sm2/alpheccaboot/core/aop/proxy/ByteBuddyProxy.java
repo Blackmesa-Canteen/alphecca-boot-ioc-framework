@@ -17,6 +17,7 @@ import java.sql.Ref;
  * byte buddy is the replacement of CgLib for high version java
  *
  * TODO Not supporting chain proxy
+ * TODO Object ERROR in Debug mode!
  *
  * @author xiaotian
  */

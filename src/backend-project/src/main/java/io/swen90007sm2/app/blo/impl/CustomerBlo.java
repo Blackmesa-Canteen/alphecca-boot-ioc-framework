@@ -2,20 +2,20 @@ package io.swen90007sm2.app.blo.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.cron.CronUtil;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.ICustomerBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
-import io.swen90007sm2.app.cache.util.CacheUtil;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.common.constant.StatusCodeEnume;
+import io.swen90007sm2.app.common.factory.IdFactory;
 import io.swen90007sm2.app.dao.ICustomerDao;
+import io.swen90007sm2.app.dao.impl.CustomerDao;
 import io.swen90007sm2.app.db.bean.PageBean;
-import io.swen90007sm2.app.db.constant.DbConstant;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.param.LoginParam;
@@ -26,20 +26,18 @@ import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
 import io.swen90007sm2.app.security.helper.TokenHelper;
 import io.swen90007sm2.app.security.util.SecurityUtil;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Blo
 public class CustomerBlo implements ICustomerBlo {
 
-    @AutoInjected
-    ICustomerDao customerDao;
+    /* use lazy load, not using auto injected */
+//    @AutoInjected
+//    ICustomerDao customerDao;
 
     @AutoInjected
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
@@ -60,7 +58,7 @@ public class CustomerBlo implements ICustomerBlo {
          * data in the cache will be expired to guarantee data eventually consistent
          * <br/>
          */
-        Customer customer = getCustomerFromCacheOrDb(userId);
+        Customer customer = getUserInfoBasedByUserId(userId);
 
         // prevent double login, check token cache
         // watch out: different Cache prefix
@@ -96,11 +94,7 @@ public class CustomerBlo implements ICustomerBlo {
     }
 
     @Override
-    public void doLogout(HttpServletRequest request) {
-        // get current user id
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-
+    public void doLogout(AuthToken authToken) {
         // remove cache state from token cache to logout
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
     }
@@ -114,7 +108,7 @@ public class CustomerBlo implements ICustomerBlo {
         checkTokenValidity(authToken);
 
         // get cache result bean as the Identity map
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+        Customer customerBean = getUserInfoBasedByUserId(userId);
 
         // need to copy bean, because we need to remove sensitive data for showing,
         // without affecting the database record in cache
@@ -132,6 +126,8 @@ public class CustomerBlo implements ICustomerBlo {
 
         // check existence
         // will not use cache to prevent inconsistent data
+        // lazy load
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
         Customer prevResult = customerDao.findOneByBusinessId(userId);
 
         if (prevResult != null) {
@@ -145,31 +141,66 @@ public class CustomerBlo implements ICustomerBlo {
         String cypher = SecurityUtil.encrypt(registerParam.getPassword());
 
         Customer customer = new Customer();
-        customer.setId(RandomStringUtils.randomAlphanumeric(DbConstant.PRIMARY_KEY_LENGTH));
+        customer.setId(IdFactory.genSnowFlakeId());
         customer.setUserId(userId);
         customer.setUserName(userName);
         customer.setPassword(cypher);
         customer.setDescription("New User");
-        // TODO user unit of work helper
+        // user unit of work helper
         UnitOfWorkHelper current = UnitOfWorkHelper.getCurrent();
         current.registerNew(customer, customerDao);
 //        customerDao.insertOne(customer);
     }
 
+    /**
+     * Identity Map's cache-Aside implementation
+     * <br/>
+     * if the data exists, get from cache,
+     * if not, get from db.
+     * <br/>
+     * data in the cache will be expired to guarantee data eventually consistent
+     * <br/>
+     * using synchronized to prevent Cache Penetration, guarantee only one thread can update the cache,
+     * rather than multiple threads rushed to query database and refresh cache again and again.
+     *
+     * @param userId customer's userId
+     * @return customer object
+     */
     @Override
     public Customer getUserInfoBasedByUserId(String userId) {
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
+        Customer customer = null;
+        if (cacheItem.isEmpty()) {
+            synchronized (this) {
+                cacheItem = cache.get(CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
+                // if the result is still empty
+                if (cacheItem.isEmpty()) {
+                    ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
+                    customer = customerDao.findOneByBusinessId(userId);
+                    // if no such customer
+                    if (customer == null) {
+                        throw new RequestException (
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
+                                StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
+                    }
 
-        // cache result bean as the Identity map
-        // use random expiration time to prevent Cache avalanche
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+                    // use randomed expiration time to prevent Cache Avalanche
+                    cache.put(
+                            CacheConstant.ENTITY_USER_KEY_PREFIX + userId,
+                            customer,
+                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+                } else {
+                    // data is put by other thread, just get from cache.
+                    customer = (Customer) cacheItem.get();
+                }
+            }
 
-        // need to copy bean, because we need to remove sensitive data for showing,
-        // without affecting the database record in cache
-        Customer res = new Customer();
-        BeanUtil.copyProperties(customerBean, res);
-        // remove sensitive info
-        res.setPassword(CommonConstant.NULL);
-        return res;
+        } else {
+            customer = (Customer) cacheItem.get();
+        }
+        return customer;
     }
 
     @Override
@@ -177,6 +208,7 @@ public class CustomerBlo implements ICustomerBlo {
 
         PageBean<Customer> pageBean = null;
         List<Customer> customers = null;
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
 
         // ensure the data consistency within multi query from db
         synchronized (this) {
@@ -200,7 +232,7 @@ public class CustomerBlo implements ICustomerBlo {
         customers.forEach(customer -> {
             if (customer != null) {
                 cache.put(
-                        CacheConstant.ENTITY_KEY_PREFIX + customer.getUserId(),
+                        CacheConstant.ENTITY_USER_KEY_PREFIX + customer.getUserId(),
                         customer,
                         RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
                         TimeUnit.MILLISECONDS
@@ -218,38 +250,31 @@ public class CustomerBlo implements ICustomerBlo {
     }
 
     @Override
-    public void doUpdateUserExceptPassword(HttpServletRequest request, UserUpdateParam param) {
-        // get current user id
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
+    public void doUpdateUserExceptPassword(String userId, UserUpdateParam param) {
         // get record
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+        Customer customerBean = getUserInfoBasedByUserId(userId);
         // set new value
-        customerBean.setDescription(param.getDescription());
-        customerBean.setUserName(param.getUserName());
-        customerBean.setAvatarUrl(param.getAvatarUrl());
+        if (param.getDescription() != null) customerBean.setDescription(param.getDescription());
+        if (param.getUserName() != null) customerBean.setUserName(param.getUserName());
+        if (param.getAvatarUrl() != null) customerBean.setAvatarUrl(param.getAvatarUrl());
 
         // unit of work helper
-        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, userId);
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
 //        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
     }
 
     @Override
-    public void doUpdateUserPassword(HttpServletRequest request, String originalPassword, String newPassword) {
-        // get current user id
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
+    public void doUpdateUserPassword(String userId, String originalPassword, String newPassword) {
 
         // get record
         // cache result bean as the Identity map
         // use random expiration time to prevent Cache avalanche
-        Customer customerBean = getCustomerFromCacheOrDb(userId);
+        Customer customerBean = getUserInfoBasedByUserId(userId);
 
         String originalCypher = customerBean.getPassword();
 
@@ -263,13 +288,14 @@ public class CustomerBlo implements ICustomerBlo {
         // update the password
         customerBean.setPassword(SecurityUtil.encrypt(newPassword));
         // unit of work
-        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, userId);
+        ICustomerDao customerDao = BeanManager.getLazyBeanByClass(CustomerDao.class);
+        UnitOfWorkHelper.getCurrent().registerDirty(customerBean, customerDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
 //        customerDao.updateOne(customerBean);
         // cache destroy MUST be after the database updating
 //        cache.remove(CacheConstant.ENTITY_KEY_PREFIX + userId);
 
         // logout, clear up login state
-        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + authToken.getUserId());
+        cache.remove(CacheConstant.TOKEN_KEY_PREFIX + userId);
     }
 
     /**
@@ -295,44 +321,5 @@ public class CustomerBlo implements ICustomerBlo {
                 );
             }
         }
-    }
-
-    /**
-     * Identity Map's cache-Aside implementation
-     * <br/>
-     * if the data exists, get from cache,
-     * if not, get from db.
-     * <br/>
-     * data in the cache will be expired to guarantee data eventually consistent
-     * <br/>
-     * using synchronized to prevent Cache Penetration, guarantee only one thread can update the cache,
-     * rather than multiple threads rushed to query database and refresh cache again and again.
-     *
-     * @param userId customer's userId
-     * @return customer object
-     */
-    private synchronized Customer getCustomerFromCacheOrDb(String userId) {
-        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_KEY_PREFIX + userId);
-        Customer customer = null;
-        if (cacheItem.isEmpty()) {
-            customer = customerDao.findOneByBusinessId(userId);
-            // if no such customer
-            if (customer == null) {
-                throw new RequestException (
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getMessage(),
-                        StatusCodeEnume.USER_NOT_EXIST_EXCEPTION.getCode());
-            }
-
-            // use randomed expiration time to prevent Cache Avalanche
-            cache.put(
-                    CacheConstant.ENTITY_KEY_PREFIX + userId,
-                    customer,
-                    RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
-                    TimeUnit.MILLISECONDS
-            );
-        } else {
-            customer = (Customer) cacheItem.get();
-        }
-        return customer;
     }
 }

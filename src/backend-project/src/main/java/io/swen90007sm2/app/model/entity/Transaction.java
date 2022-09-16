@@ -1,5 +1,8 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.app.common.constant.CommonConstant;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -15,13 +18,17 @@ public class Transaction extends BaseEntity {
 
     private String hotelId;
 
-    private Integer statusCode;
+    private Integer statusCode = CommonConstant.TRANSACTION_PENDING;
 
     private Date startDate;
 
     private Date endDate;
 
-    private Double totalPrice;
+    // in database it is always absolute amount of AUD
+    private BigDecimal totalPrice;
+
+    // in database it is always AUD
+    private String currency = CommonConstant.AUD_CURRENCY;
 
     public Transaction() {
     }
@@ -30,7 +37,7 @@ public class Transaction extends BaseEntity {
         super(createTime, updateTime);
     }
 
-    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, Double totalPrice) {
+    public Transaction(String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
         this.transactionId = transactionId;
         this.customerId = customerId;
         this.hotelId = hotelId;
@@ -38,6 +45,19 @@ public class Transaction extends BaseEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalPrice = totalPrice;
+        this.currency = currency;
+    }
+
+    public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate, BigDecimal totalPrice, String currency) {
+        super(createTime, updateTime);
+        this.transactionId = transactionId;
+        this.customerId = customerId;
+        this.hotelId = hotelId;
+        this.statusCode = statusCode;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalPrice = totalPrice;
+        this.currency = currency;
     }
 
     public Transaction(Date createTime, Date updateTime, String transactionId, String customerId, String hotelId, Integer statusCode, Date startDate, Date endDate) {
@@ -98,12 +118,20 @@ public class Transaction extends BaseEntity {
         this.endDate = endDate;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override
