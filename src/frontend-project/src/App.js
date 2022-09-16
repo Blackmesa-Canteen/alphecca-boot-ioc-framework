@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RolePage from "./pages/Login"
 import Signuppage from "./pages/Signup";
 import HomePage from "./pages/Home";
-import AdminLogin from "./pages/AdminLogin"
+import AdminLogin from "./pages/Admin/AdminLogin"
 import HotelierHome from "./pages/Hotelier/HotelierHome";
 function App() {
   return (

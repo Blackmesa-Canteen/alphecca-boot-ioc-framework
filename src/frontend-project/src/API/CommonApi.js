@@ -6,11 +6,9 @@ export const BASE_URL = "http://localhost:8088/api/";
 export async function signup(user) {
   const { role, userId, userName, password1, password2 } = user;
   var endpoint;
-  if (role === "Customer") {
-    endpoint = BASE_URL + `customer/`;
-  }else{
-    endpoint = BASE_URL+`hotelier/`
-  }
+  role === "Customer"
+    ? (endpoint = BASE_URL + `customer/`)
+    : (endpoint = BASE_URL + `hotelier/`);
   console.log(endpoint);
   console.log(user);
   if (!userId) {
@@ -52,64 +50,69 @@ export async function signup(user) {
     });
 }
 
-export async function Login(user){
+export async function Login(user) {
   var endpoint;
-  const {role, userId, password} = user;
-  if(role==="Customer"){
-    endpoint=BASE_URL+`customer/login`;
-  }else{
-    endpoint=BASE_URL+`hotelier/login`;
+  const { role, userId, password } = user;
+  if (role === "Customer") {
+    endpoint = BASE_URL + `customer/login`;
+  } else if (role === "Hotelier") {
+    endpoint = BASE_URL + `hotelier/login`;
+  } else {
+    endpoint = BASE_URL + `admin/login`;
   }
-  
+
   axios({
-      url:endpoint,
-      method:"POST",
-      headers:{
-          "Content-Type":"application/json",
+    url: endpoint,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(
+      {
+        userId: userId,
+        password: password,
       },
-      data:JSON.stringify(
-          {
-              userId: userId,
-              password:password
-      },
-      {withCrednetials:true}
-      ),
+      { withCrednetials: true }
+    ),
   })
-  .then((res)=>{
+    .then((res) => {
       localStorage.setItem(role, res.data.data.token);
-      alert("logged in");
-      role==="Customer" ? window.location="/" : window.location="/hotelier";
+      alert("successfully logged in");
+      role === "Customer"
+        ? (window.location = "/")
+        : (window.location = "/" + role.toLowerCase());
       return;
-      
-  })
-  .catch((e)=>{
+    })
+    .catch((e) => {
       console.log(e);
       alert("failed to log in, please check");
       return;
-  })
+    });
 }
 
-export async function Logout(role){
+export async function Logout(role) {
   var endpoint;
-  if(role==="Customer"){
-    endpoint=BASE_URL+`customer/logout`;
-  }else{
-    endpoint=BASE_URL+`hotelier/logout`;
+  if (role === "Customer") {
+    endpoint = BASE_URL + `customer/logout`;
+  } else if (role === "Hotelier") {
+    endpoint = BASE_URL + `hotelier/logout`;
+  } else {
+    endpoint = BASE_URL + `admin/logout`;
   }
   axios({
-      url:endpoint,
-      method:"GET",
-      headers:{
-          "Authorization":localStorage.getItem(role),
-      },
+    url: endpoint,
+    method: "GET",
+    headers: {
+      Authorization: localStorage.getItem(role),
+    },
   })
-  .then((res)=>{
+    .then((res) => {
       console.log(res);
       localStorage.removeItem(role);
-      alert("Successfully logged out")
-      window.location="/";
-  })
-  .catch((e)=>{
+      alert("Successfully logged out");
+      window.location = "/";
+    })
+    .catch((e) => {
       console.log(e);
-  })
+    });
 }

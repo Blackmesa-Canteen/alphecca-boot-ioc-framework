@@ -2,6 +2,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { BASE_URL } from "./CommonApi";
 
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: localStorage.getItem("Hotelier"),
+};
 // get hotelier user information
 function getInfo() {
   const endpoint = BASE_URL + `hotelier`;
@@ -39,10 +43,7 @@ function getOwnedHotel() {
   const endpoint = BASE_URL + `hotelier/owned_hotel/`;
   return fetch(endpoint, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Hotelier"),
-    },
+    headers: headers,
   }).then((res) => res.json());
 }
 
@@ -75,10 +76,7 @@ export async function registerHotel(hotel) {
   axios({
     url: endpoint,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Hotelier"),
-    },
+    headers: headers,
     data: JSON.stringify(
       {
         name: name,
@@ -93,7 +91,7 @@ export async function registerHotel(hotel) {
   })
     .then(() => {
       console.log("success");
-      window.location="/hotelier"
+      window.location = "/hotelier";
     })
     .catch((e) => {
       console.log(e);
@@ -107,10 +105,7 @@ export async function editHotel(hotel) {
   axios({
     url: endpoint,
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Hotelier"),
-    },
+    headers: headers,
     data: JSON.stringify(
       {
         name: name,
@@ -135,14 +130,22 @@ export async function editHotel(hotel) {
 //create a new hotel room (post)
 export function createRoomType(room) {
   const endpoint = BASE_URL + `/hotelier/owned_hotel/room`;
-  const {hotelId,roomId, name,description,pricePerNight,sleepsNum,vacantNum,onSale,currency,amenityIds}=room;
+  const {
+    hotelId,
+    roomId,
+    name,
+    description,
+    pricePerNight,
+    sleepsNum,
+    vacantNum,
+    onSale,
+    currency,
+    amenityIds,
+  } = room;
   axios({
     url: endpoint,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Hotelier"),
-    },
+    headers: headers,
     data: JSON.stringify(
       {
         hotelId: hotelId,
@@ -160,7 +163,7 @@ export function createRoomType(room) {
     ),
   })
     .then((res) => {
-      window.location="/hotelier"
+      window.location = "/hotelier";
     })
     .catch((e) => {
       console.log(e);
@@ -169,14 +172,22 @@ export function createRoomType(room) {
 //edit room (put)
 export async function editRoom(room) {
   const endpoint = BASE_URL + `hotelier/owned_hotel/room`;
-  const {hotelId,roomId, name,description,pricePerNight,sleepsNum,vacantNum,onSale,currency,amenityIds}=room;
+  const {
+    hotelId,
+    roomId,
+    name,
+    description,
+    pricePerNight,
+    sleepsNum,
+    vacantNum,
+    onSale,
+    currency,
+    amenityIds,
+  } = room;
   axios({
     url: endpoint,
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Hotelier"),
-    },
+    headers: headers,
     data: JSON.stringify(
       {
         hotelId: hotelId,
@@ -195,7 +206,7 @@ export async function editRoom(room) {
   })
     .then(() => {
       console.log("success");
-      window.location = "/hotelier"
+      window.location = "/hotelier";
     })
     .catch((e) => {
       console.log(e);
@@ -206,10 +217,7 @@ function getOwnedRoom(id) {
   const endpoint = BASE_URL + `hotelier/owned_hotel/room`;
   return fetch(endpoint, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("Hotelier"),
-    },
+    headers: headers,
     data: JSON.stringify(
       {
         hotelId: id,
@@ -239,5 +247,42 @@ export function RoomDetail(id) {
     loading,
     rooms,
     error,
+  };
+}
+
+//show all transictions
+export async function getAllTransiction(hotelier) {
+  const endpoint =
+    BASE_URL +
+    `hotelier/transactions/all?hotelierId=${encodeURIComponent(
+      hotelier.hotelierId
+    )}&currencyName=${encodeURIComponent(hotelier.currencyName)}`;
+  return fetch(endpoint, {
+    method: "GET",
+    headers: headers,
+    
+  }).then((res) => res.json());
+}
+
+export function UseAllTransiction(hotelier) {
+  const [loading1, setLoading] = useState(true);
+  const [transaction, setTransaction] = useState([]);
+  const [error1, setError] = useState(null);
+  useEffect(() => {
+    getAllTransiction(hotelier)
+      .then((res) => {
+        setLoading(false);
+        setTransaction(res);
+        console.log(res.data);
+      })
+      .catch((e) => {
+        setError(e);
+        setLoading(false);
+      });
+  }, []);
+  return {
+    loading1,
+    transaction,
+    error1,
   };
 }

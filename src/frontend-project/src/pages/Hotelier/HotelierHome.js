@@ -21,12 +21,14 @@ export default function HotelierHome() {
       <h1>error</h1>
     </div>);
   }
+  console.log(hotelier);
+  console.log(localStorage.getItem("Hotelier"))
   return (
     <div>
       <HotelierNavBar />
       {"hotelId" in hotelier && (
         <div>
-          <DisplayHotel />
+          <DisplayHotel value={hotelier.hotelierId}/>
           <AllRooms value={hotelier.hotelId} />
         </div>
       )}

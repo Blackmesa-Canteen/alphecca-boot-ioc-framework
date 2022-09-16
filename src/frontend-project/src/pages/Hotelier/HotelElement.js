@@ -14,7 +14,7 @@ import breakfast from "../../Picture/amenities/breakfast.png";
 import parking from "../../Picture/amenities/parking.jpeg";
 import { Button } from "react-bootstrap";
 import { EditDetail } from "./EditHotel";
-import { HotelDetail } from "../../API/HotelierApi";
+import { getAllTransiction, HotelDetail, UseAllTransiction } from "../../API/HotelierApi";
 
 export const WholeContainer = styled.div`
   display: flex;
@@ -70,6 +70,7 @@ export const Title = styled.span`
 export function DisplayHotel(props) {
   const { loading, hotel, error } = HotelDetail();
   const [editwd, setEditOpen] = useState(false);
+  
   if(loading){
     return<h1>loading....</h1>
   }
@@ -80,7 +81,7 @@ export function DisplayHotel(props) {
   if (hotel.length === 0) {
     return;
   }
-
+  
   const onClick = () => {
     setEditOpen(true);
   };
@@ -153,7 +154,17 @@ export function DisplayHotel(props) {
       </WholeContainer>
       {editwd && (
         <EditDetail value={hotel} onCancel={() => setEditOpen(false)} />
+       
       )}
+      
+    </div>
+  );
+}
+
+export function DropDown(){
+  return (
+    <div>
+      DropDown
     </div>
   );
 }
