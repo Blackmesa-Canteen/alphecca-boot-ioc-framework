@@ -12,12 +12,12 @@ body {
 
 `;
 
-export const FormContainer = styled.form`
+export const FormContainer = styled.div`
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   background-color: rgba(0, 0, 0, 0.03);
   backdrop-filter: blur(50px);
-  width: 300px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,6 +43,7 @@ export const RoleCard = styled(FormContainer)`
   }
 `;
 
+
 export const Input = styled.input`
   width: 90%;
   height: 42px;
@@ -65,7 +66,7 @@ export const Input = styled.input`
 `;
 export const CheckboxContainer = styled.div`
   width: 100%;
-  margin-top: 2px;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -96,11 +97,8 @@ export const SubmitButton = styled.button`
     filter: brightness(1.1);
   }
 `;
-export const IconContainer = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 10px;
-  right: 0;
+export const IconContainer = styled.footer`
+  margin-top: 3%;
 `;
 
 const LogoContainer = styled.div`

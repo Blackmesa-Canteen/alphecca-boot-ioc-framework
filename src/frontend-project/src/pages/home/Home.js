@@ -3,13 +3,13 @@ import Featured from "../../components/features/feature/Featured";
 import PropertyList from "../../components/features/propertylist/PropertyList";
 import Header from "../../components/header/Header";
 import Mail from "../../components/mail/Mail";
-import NavBarcomp from "../../components/NavBar";
+import {CustomerNavBar} from "../../components/NavBar";
 import { HomeContainer, HomeTitle } from "./HomeElements";
 
 export default function HomePage() {
   return (
     <div>
-      <NavBarcomp />
+      <CustomerNavBar />
       <Header />
       <HomeContainer>
         <Featured />

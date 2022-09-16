@@ -1,4 +1,4 @@
-import Navbar from "../../components/NavBar";
+import {CustomerNavBar} from "../../components/NavBar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -37,7 +37,7 @@ const List = () => {
 
   return (
     <div>
-      <Navbar />
+      <CustomerNavBar />
       <Header type="list" />
       <ListConatiner>
         <ListWrapper>

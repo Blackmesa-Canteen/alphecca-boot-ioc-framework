@@ -8,39 +8,75 @@ import {
   IconContainer,
   RoleCard,
   RoleCardContainer,
-} from "../components/UserStyle";
-import NavBarcomp from "../components/NavBar";
+} from "../components/CustomerStyle";
+import {CustomerNavBar} from "../components/NavBar";
 import AlpheccaIcon from "../Picture/5Star.png";
 import CustomerPng from "../Picture/Customer.png";
 import HotelPng from "../Picture/Hotel.png";
-import {BsArrowLeft} from "react-icons/bs"
-
-export default function Loginpage() {
-  
+import { BsArrowLeft } from "react-icons/bs";
+import { Login } from "../API/CommonApi";
+export default function Rolepage() {
   const [selectedRole, setRole] = useState("");
-
+  
   //differenct loginform based on the role they selected
   function LoginForm(props) {
+    const [userId, setUserId] = useState("");
+    const [password, setPwd] = useState("");
+    const onSubmit = () => {
+      const user = {
+        role:props.role,
+        userId: userId,
+        password: password,
+      };
+      Login(user);
+    };
+
     return (
       <FormContainer>
-        <BsArrowLeft onClick={()=>{setRole("")}} />
+        <BsArrowLeft
+          onClick={() => {
+            setRole("");
+          }}
+          style={{position:"absolute", left:10, top:8, fontSize:25}}
+          
+        />
         <h2>Log In</h2>
-        {props.role === "Traveller" && (
+        {props.role === "Customer" && (
           <img src={CustomerPng} alt="customer" width="100" height="100" />
         )}
         {props.role === "Hotelier" && (
           <img src={HotelPng} alt="customer" width="100" height="100" />
         )}
-        <Input type="email" name="emailAddress" placeholder="Email Address" />
-        <Input type="password" name="password" placeholder="Password" />
+        <Input
+          type="email"
+          name="emailAddress"
+          placeholder="Email Address"
+          id="userId"
+          value={userId}
+          onChange={(u) => {
+            setUserId(u.target.value);
+          }}
+        />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="pwd"
+          value={password}
+          onChange={(p) => {
+            setPwd(p.target.value);
+          }}
+        />
         <MutedLink href="/signup">Register a new account</MutedLink>
-        <SubmitButton>Log in</SubmitButton>
+        <SubmitButton type="submit" onClick={onSubmit}>
+          Log in
+        </SubmitButton>
       </FormContainer>
     );
   }
   return (
     <div>
-      <NavBarcomp />
+      <CustomerNavBar />
       {selectedRole === "" && (
         <RoleCardContainer>
           <RoleCard
@@ -54,13 +90,13 @@ export default function Loginpage() {
           </RoleCard>
 
           <RoleCard
-            key="traveller"
+            key="customer"
             onClick={() => {
-              setRole("Traveller");
+              setRole("Customer");
             }}
           >
             <img src={CustomerPng} alt="customer" width="100" height="100" />
-            <h2>I'm a Traveller</h2>
+            <h2>I'm a Customer</h2>
           </RoleCard>
         </RoleCardContainer>
       )}
