@@ -1,0 +1,54 @@
+import React, { useState } from "react";
+import { AdminNavBar } from "../../components/NavBar";
+import {
+  GlobalStyle,
+  Input,
+  SubmitButton,
+} from "../../components/CustomerStyle";
+import AdminPng from "../../Picture/admin.png";
+import { Login } from "../../API/CommonApi";
+
+export default function AdminLogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const admin = {
+    role: "Admin",
+    userId: email,
+    password: password,
+  };
+  return (
+    <div>
+      <AdminNavBar />
+      <center>
+        <br />
+        <img src={AdminPng} alt="admin" width="100" height="150" />
+        <br />
+        <Input
+          type="email"
+          placeholder="Emial Address"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+        <SubmitButton
+          onClick={() => {
+            Login(admin)
+          }}
+        >
+          Submit
+        </SubmitButton>
+      </center>
+
+      <GlobalStyle />
+    </div>
+  );
+}
