@@ -1,16 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav, Navbar, Button } from "react-bootstrap";
 import { IoPersonCircleSharp } from "react-icons/io5";
-import { Input, AlpheccaLogo } from "./CustomerStyle";
-import styled from "styled-components";
+import { AlpheccaLogo } from "./CustomerStyle";
 import { Logout } from "../API/CommonApi";
-
-const SearchBar = styled(Input)`
-  width: 200px;
-  margin-top: 0;
-  margin-bottom: 0;
-  border-bottom: 1px solid transparent;
-`;
 
 export function CustomerNavBar() {
   return (
@@ -67,7 +59,6 @@ export function AdminNavBar() {
 }
 
 export function HomeNavBar() {
-  var notLogin = false;
   return (
     <Navbar bg="black" variant="dark" sticky="top" expand="sm" collapseOnSelect>
       <Navbar.Brand href="/">

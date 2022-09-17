@@ -1,4 +1,4 @@
-import {CustomerNavBar} from "../../components/NavBar";
+import { CustomerNavBar } from "../../components/NavBar";
 import Header from "../../components/header/Header";
 import Mail from "../../components/mail/Mail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,11 +34,7 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import { useLocation, useNavigate } from "react-router-dom";
-import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../context/AuthContext";
+import { useState } from "react";
 
 const Hotel = () => {
   const images = [
