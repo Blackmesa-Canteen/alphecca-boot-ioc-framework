@@ -8,14 +8,6 @@ import {
 } from "./PLElements";
 
 const PropertyList = () => {
-  const images = [
-    "https://dummyimage.com/420x320/ff7f7f/333333.png&text=Sample",
-    "https://dummyimage.com/420x320/ff7f7f/333333.png&text=Sample",
-    "https://dummyimage.com/420x320/ff7f7f/333333.png&text=Sample",
-    "https://dummyimage.com/420x320/ff7f7f/333333.png&text=Sample",
-    "https://dummyimage.com/420x320/ff7f7f/333333.png&text=Sample",
-  ];
-
   return (
     <PropertyListContainer>
       <PropertyListItem>

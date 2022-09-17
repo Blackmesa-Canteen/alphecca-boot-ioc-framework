@@ -20,7 +20,7 @@ import {
   SearchTitle,
 } from "./SearchElements";
 
-const Search = () => {
+const Search = ({ item }) => {
   return (
     <SearchContainer>
       <SearchImg

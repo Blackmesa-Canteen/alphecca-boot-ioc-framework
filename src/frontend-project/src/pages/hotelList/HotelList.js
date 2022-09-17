@@ -1,4 +1,4 @@
-import {CustomerNavBar} from "../../components/NavBar";
+import { CustomerNavBar } from "../../components/NavBar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -6,9 +6,8 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/search/Search";
 import useFetch from "../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
 import {
-  ListConatiner,
+  ListContainer,
   ListItem,
   ListItemInput,
   ListItemLabel,
@@ -25,99 +24,41 @@ import {
 
 const List = () => {
   const location = useLocation();
-  const [destination, setDestination] = useState(location.state.destination);
-  const [date, setDate] = useState(location.state.date);
+  const [postcode, setPostcode] = useState(location.state.postcode);
+  const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
 
-  const navigate = useNavigate();
-  const Click = () => {
-    navigate("/propertypage");
+  const { data, loading, error } = useFetch(
+    `http://localhost:8088/api/shared/hotel/search?currency=AUD&pageNum=1&pageSize=4&postCode=${postcode}&sortBy=1&sortOrder=0`
+  );
+
+  const ShowResult = () => {
+    if (loading === true) {
+      return <p>loading</p>;
+    }
+    if (data.length === 0) {
+      return <p>no results</p>;
+    } else {
+      return (
+        <>
+          {data.map((item) => (
+            <SearchItem item={item} key={item.id} />
+          ))}
+        </>
+      );
+    }
   };
 
   return (
     <div>
       <CustomerNavBar />
       <Header type="list" />
-      <ListConatiner>
+      <ListContainer>
         <ListWrapper>
-          <ListSearch>
-            <ListTitle>Search</ListTitle>
-            <ListItem>
-              <ListItemLabel>Destination</ListItemLabel>
-              <ListItemInput placeholder={destination} type="text" />
-            </ListItem>
-            <ListItem>
-              <ListItemLabel>Check-in Date</ListItemLabel>
-              <ListOptionSpan onClick={() => setOpenDate(!openDate)}>{`${format(
-                date[0].startDate,
-                "MM/dd/yyyy"
-              )} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</ListOptionSpan>
-              {openDate && (
-                <DateRange
-                  onChange={(item) => setDate([item.selection])}
-                  minDate={new Date()}
-                  ranges={date}
-                />
-              )}
-            </ListItem>
-            <ListItem>
-              <ListItemLabel>Options</ListItemLabel>
-              <ListOptions>
-                <ListOptionItem>
-                  <span>
-                    Min price <small>per night</small>
-                  </span>
-                  <ListOptionInput type="number" />
-                </ListOptionItem>
-                <ListOptionItem>
-                  <span>
-                    Max price <small>per night</small>
-                  </span>
-                  <ListOptionInput type="number" />
-                </ListOptionItem>
-                <ListOptionItem>
-                  <span>Adult</span>
-                  <ListOptionInput
-                    type="number"
-                    min={1}
-                    placeholder={options.adult}
-                  />
-                </ListOptionItem>
-                <ListOptionItem>
-                  <span>Children</span>
-                  <ListOptionInput
-                    type="number"
-                    min={0}
-                    placeholder={options.children}
-                  />
-                </ListOptionItem>
-                <ListOptionItem>
-                  <span>Room</span>
-                  <ListOptionInput
-                    type="number"
-                    min={1}
-                    placeholder={options.room}
-                  />
-                </ListOptionItem>
-              </ListOptions>
-            </ListItem>
-            <ListSearchBtn>Search</ListSearchBtn>
-          </ListSearch>
-          <ListResult>
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-          </ListResult>
-          <button onClick={Click}>Click Me!</button>
+          <ListResult>{ShowResult()}</ListResult>
         </ListWrapper>
-      </ListConatiner>
+      </ListContainer>
     </div>
   );
 };
