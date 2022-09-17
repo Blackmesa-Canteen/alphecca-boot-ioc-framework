@@ -13,33 +13,42 @@ const SearchBar = styled(Input)`
 `;
 
 export function CustomerNavBar() {
-  var notLogin = false;
   return (
-    <Navbar bg="dark" variant="dark" sticky="top" expand="sm" collapseOnSelect>
-      <Navbar.Brand href="/">
-        <AlpheccaLogo />
-      </Navbar.Brand>
-      <Navbar.Toggle />
-      <Navbar.Collapse>
-        <Nav>
-          <Nav.Link href="/about">About Us</Nav.Link>
-          <Nav.Link href="/contact">Contact</Nav.Link>
-          <SearchBar type="search" placeholder="Search Hotel" />
-          {notLogin && <Button href="/login">Login</Button>}
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  );
-}
-export function HotelierNavBar(props) {
-  return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="black" variant="dark">
       <Navbar.Brand href="/">
         <AlpheccaLogo />
       </Navbar.Brand>
       <Nav style={{ position: "absolute", right: "1%" }}>
         <div style={{ marginTop: 5, marginRight: 5 }}>
-          <Button onClick={()=>{Logout("Hotelier")}}>Log out</Button>
+          <Button
+            onClick={() => {
+              Logout("Customer");
+            }}
+          >
+            Log out
+          </Button>
+        </div>
+        <IoPersonCircleSharp color="white" fontSize="50" />
+      </Nav>
+    </Navbar>
+  );
+}
+
+export function HotelierNavBar(props) {
+  return (
+    <Navbar bg="black" variant="dark">
+      <Navbar.Brand href="/">
+        <AlpheccaLogo />
+      </Navbar.Brand>
+      <Nav style={{ position: "absolute", right: "1%" }}>
+        <div style={{ marginTop: 5, marginRight: 5 }}>
+          <Button
+            onClick={() => {
+              Logout("Hotelier");
+            }}
+          >
+            Log out
+          </Button>
         </div>
         <IoPersonCircleSharp color="white" fontSize="50" />
       </Nav>
@@ -53,6 +62,24 @@ export function AdminNavBar() {
       <Navbar.Brand href="/">
         <AlpheccaLogo />
       </Navbar.Brand>
+    </Navbar>
+  );
+}
+
+export function HomeNavBar() {
+  var notLogin = false;
+  return (
+    <Navbar bg="black" variant="dark" sticky="top" expand="sm" collapseOnSelect>
+      <Navbar.Brand href="/">
+        <AlpheccaLogo />
+      </Navbar.Brand>
+      <Navbar.Toggle />
+      <Navbar.Collapse>
+        <Nav>
+          <Nav.Link href="/about">About Us</Nav.Link>
+          <Nav.Link href="/contact">Contact</Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
   );
 }

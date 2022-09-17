@@ -7,6 +7,7 @@ import HomePage from "./pages/home/Home";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import HotelList from "./pages/hotelList/HotelList";
 import Property from "./pages/hotel/Hotel";
+import Customer from "./pages/customer/Customer";
 import HotelierHome from "./pages/Hotelier/HotelierHome";
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           <Route path="/signup" element={<Signuppage />} />
           <Route path="/hotels" element={<HotelList />} />
           <Route path="/propertypage" element={<Property />} />
-          <Route path="/hotelier" element={<HotelierHome/>} />
+          <Route path="/hotelier" element={<HotelierHome />} />
+          <Route path="/customer" element={<Customer />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -9,7 +9,7 @@ import {
   RoleCard,
   RoleCardContainer,
 } from "../components/CustomerStyle";
-import {CustomerNavBar} from "../components/NavBar";
+import { HomeNavBar } from "../components/NavBar";
 import AlpheccaIcon from "../Picture/5Star.png";
 import CustomerPng from "../Picture/Customer.png";
 import HotelPng from "../Picture/Hotel.png";
@@ -17,14 +17,14 @@ import { BsArrowLeft } from "react-icons/bs";
 import { Login } from "../API/CommonApi";
 export default function Rolepage() {
   const [selectedRole, setRole] = useState("");
-  
+
   //differenct loginform based on the role they selected
   function LoginForm(props) {
     const [userId, setUserId] = useState("");
     const [password, setPwd] = useState("");
     const onSubmit = () => {
       const user = {
-        role:props.role,
+        role: props.role,
         userId: userId,
         password: password,
       };
@@ -37,8 +37,7 @@ export default function Rolepage() {
           onClick={() => {
             setRole("");
           }}
-          style={{position:"absolute", left:10, top:8, fontSize:25}}
-          
+          style={{ position: "absolute", left: 10, top: 8, fontSize: 25 }}
         />
         <h2>Log In</h2>
         {props.role === "Customer" && (
@@ -76,7 +75,7 @@ export default function Rolepage() {
   }
   return (
     <div>
-      <CustomerNavBar />
+      <HomeNavBar />
       {selectedRole === "" && (
         <RoleCardContainer>
           <RoleCard

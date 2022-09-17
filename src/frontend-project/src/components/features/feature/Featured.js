@@ -11,33 +11,31 @@ const Featured = () => {
     <FeaturedContainer>
       <FeaturedItem>
         <FeaturedImg
-          src="https://cf.bstatic.com/xdata/images/city/max500/957801.webp?k=a969e39bcd40cdcc21786ba92826063e3cb09bf307bcfeac2aa392b838e9b7a5&o="
+          src="https://www.gostudy.com.au/wp-content/uploads/2018/10/MEL_header_2-1.jpg"
           alt=""
         />
         <FeatureTitles>
-          <h1>Berlin</h1>
+          <h1>Melbourne</h1>
         </FeatureTitles>
       </FeaturedItem>
 
       <FeaturedItem>
         <FeaturedImg
-          src="https://cf.bstatic.com/xdata/images/city/max500/690334.webp?k=b99df435f06a15a1568ddd5f55d239507c0156985577681ab91274f917af6dbb&o="
+          src="https://manofmany.com/wp-content/uploads/2020/10/Sydney-City.jpg"
           alt=""
-          className="featuredImg"
         />
         <FeatureTitles>
-          <h1>Madrid</h1>
+          <h1>Sydney</h1>
         </FeatureTitles>
       </FeaturedItem>
 
       <FeaturedItem>
         <FeaturedImg
-          src="https://cf.bstatic.com/xdata/images/city/max500/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o="
+          src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Skyline_of_Brisbane_from_Kangaroo_Point_Cliffs_Park%2C_Nov_2020%2C_05.jpg"
           alt=""
-          className="featuredImg"
         />
         <FeatureTitles>
-          <h1>London</h1>
+          <h1>Brisbane</h1>
         </FeatureTitles>
       </FeaturedItem>
     </FeaturedContainer>

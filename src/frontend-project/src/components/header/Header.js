@@ -2,15 +2,13 @@ import {
   faBed,
   faCalendarDays,
   faPerson,
+  faSignsPost,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../context/AuthContext";
 import {
   HeaderWrap,
   HeaderContainer,
@@ -26,18 +24,15 @@ import {
   OptionItem,
   OptionCounter,
   OptionBtn,
-  HeaderContainerList,
-  HeaderList,
-  HeaderListItemActive,
 } from "./HeaderElements";
 
 const Header = ({ type }) => {
-  const [destination, setDestination] = useState("");
+  const [hotelName, setHotelName] = useState("");
+  const [postcode, setPostCode] = useState("");
   const [openDate, setOpenDate] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
-    adult: 1,
-    children: 0,
+    people: 1,
     room: 1,
   });
   const [date, setDates] = useState([
@@ -60,28 +55,41 @@ const Header = ({ type }) => {
   };
 
   const handleSearch = () => {
-    navigate("/hotels", { state: { destination, date, options } });
+    navigate("/hotels", { state: { hotelName, postcode, date, options } });
   };
 
+  const handleClick = () => {
+    navigate("/login");
+  };
   return (
     <HeaderWrap>
       {type === "list" ? (
         <div></div>
       ) : (
         <HeaderContainer>
-          <h1>A lifetime of discounts? It's Genius.</h1>
+          <h1>Alphecca Provides What You Want</h1>
           <HeaderP>
-            Get rewarded for your travels – unlock instant savings of 10% or
-            more with a free Lamabooking account
+            Get ready for thousands of amazing hotels here - unlock premium
+            services with a free Alphecca account
           </HeaderP>
-          <HeaderBtn>Sign in / Sign up</HeaderBtn>
+          <HeaderBtn onClick={handleClick}>Sign in / Sign up</HeaderBtn>
           <HeaderSearch>
             <HeaderSearchItem>
               <SearchIcon icon={faBed} />
               <HeaderSearchInput
+                disabled={postcode !== ""}
                 type="text"
-                placeholder="Destination"
-                onChange={(e) => setDestination(e.target.value)}
+                placeholder="Search by Hotel Name"
+                onChange={(e) => setHotelName(e.target.value)}
+              />
+            </HeaderSearchItem>
+            <HeaderSearchItem>
+              <SearchIcon icon={faSignsPost} />
+              <HeaderSearchInput
+                disabled={hotelName !== ""}
+                type="text"
+                placeholder="Search by Postcode"
+                onChange={(e) => setPostCode(e.target.value)}
               />
             </HeaderSearchItem>
             <HeaderSearchItem>
@@ -104,26 +112,26 @@ const Header = ({ type }) => {
             <HeaderSearchItem>
               <SearchIcon icon={faPerson} />
               <SearchSpan onClick={() => setOpenOptions(!openOptions)}>
-                {`${options.adult} adult · ${options.children} children · ${options.room} room`}
+                {`${options.people} people · ${options.room} room`}
               </SearchSpan>
               {openOptions && (
                 <PeopleOptions>
                   <OptionItem>
-                    <span>Adult</span>
+                    <span>People</span>
                     <OptionCounter>
                       <OptionBtn
-                        disabled={options.adult <= 1}
-                        onClick={() => handleOption("adult", "d")}
+                        disabled={options.people <= 1}
+                        onClick={() => handleOption("people", "d")}
                       >
                         -
                       </OptionBtn>
-                      <span>{options.adult}</span>
-                      <OptionBtn onClick={() => handleOption("adult", "i")}>
+                      <span>{options.people}</span>
+                      <OptionBtn onClick={() => handleOption("people", "i")}>
                         +
                       </OptionBtn>
                     </OptionCounter>
                   </OptionItem>
-                  <OptionItem>
+                  {/* <OptionItem>
                     <span>Children</span>
                     <OptionCounter>
                       <OptionBtn
@@ -137,7 +145,7 @@ const Header = ({ type }) => {
                         +
                       </OptionBtn>
                     </OptionCounter>
-                  </OptionItem>
+                  </OptionItem> */}
                   <OptionItem>
                     <span>Room</span>
                     <OptionCounter>
