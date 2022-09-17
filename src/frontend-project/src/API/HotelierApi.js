@@ -251,7 +251,7 @@ export function RoomDetail(id) {
 }
 
 //show all transictions
-export async function getAllTransiction(hotelier) {
+export async function getAllTransaction(hotelier) {
   const endpoint =
     BASE_URL +
     `hotelier/transactions/all?hotelierId=${encodeURIComponent(
@@ -264,15 +264,15 @@ export async function getAllTransiction(hotelier) {
   }).then((res) => res.json());
 }
 
-export function UseAllTransiction(hotelier) {
-  const [loading1, setLoading] = useState(true);
+export function UseAllTransaction(hotelier) {
+  const [loading, setLoading] = useState(true);
   const [transaction, setTransaction] = useState([]);
   const [error1, setError] = useState(null);
   useEffect(() => {
-    getAllTransiction(hotelier)
+    getAllTransaction(hotelier)
       .then((res) => {
         setLoading(false);
-        setTransaction(res);
+        setTransaction(res.data);
         console.log(res.data);
       })
       .catch((e) => {
@@ -281,7 +281,7 @@ export function UseAllTransiction(hotelier) {
       });
   }, []);
   return {
-    loading1,
+    loading,
     transaction,
     error1,
   };

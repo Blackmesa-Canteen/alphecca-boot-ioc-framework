@@ -28,7 +28,7 @@ export default function HotelierHome() {
       <HotelierNavBar />
       {"hotelId" in hotelier && (
         <div>
-          <DisplayHotel value={hotelier.hotelierId}/>
+          <DisplayHotel value={hotelier.userId}/>
           <AllRooms value={hotelier.hotelId} />
         </div>
       )}

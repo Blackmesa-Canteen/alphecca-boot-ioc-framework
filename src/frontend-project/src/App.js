@@ -9,6 +9,9 @@ import HotelList from "./pages/hotelList/HotelList";
 import Property from "./pages/hotel/Hotel";
 import HotelierHome from "./pages/Hotelier/HotelierHome";
 import AdminHome from "./pages/Admin/AdminHome"
+import HotelTransaction from "./pages/Hotelier/Transaction";
+import AllHotels from "./pages/Admin/AllHotel";
+import AllHoteliers from "./pages/Admin/AllHoteliers";
 function App() {
   return (
     <div>
@@ -21,7 +24,11 @@ function App() {
           <Route path="/hotels" element={<HotelList />} />
           <Route path="/propertypage" element={<Property />} />
           <Route path="/hotelier" element={<HotelierHome/>} />
+          <Route path="/hotelTransaction/:id" element={<HotelTransaction/>}/>
+
           <Route path = "/admin" element={<AdminHome/>}/>
+          <Route path = "/admin/hotels" element={<AllHotels/>}/>
+          <Route path = "/admin/hoteliers" element={<AllHoteliers/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,33 +1,54 @@
 import React from "react";
-import {
-  ViewAllCustomer,
-  registerNewHotelier,
-  groupHotelier,
-  ViewAllHotels,
-  ViewHotelierGroup,
-} from "../../API/AdminApi";
+import { ViewAllCustomer } from "../../API/AdminApi";
+import { AdminNavBar } from "../../components/NavBar";
+import { CContainer, OneCustomer, Text } from "./AdminElemt";
 
-export default function AdminHome() {
-  const { loading, hoteliers, error } = ViewHotelierGroup(
-    "1568295139146559488"
-  );
-  if (!loading) {
-    console.log(hoteliers);
+export default function AllCustomers() {
+  const { loading, customers, error } = ViewAllCustomer({
+    pageNo: 1,
+    pageSize: 12,
+  });
+  if (loading) {
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
+    );
+  } else if (error!=null) {
+    return (
+      <div>
+        <h1>somthing went wrong, please refresh the page</h1>
+      </div>
+    );
   }
-  console.log(localStorage.getItem("Admin"));
+  
   return (
     <div>
-      admin
-      <button
-        onClick={() => {
-          groupHotelier({
-            hotelOwningHotelierUserId: "firstlight@qq.com",
-            hotelierToAddUserId: "infinity@qq.com",
-          });
-        }}
-      >
-        resister
-      </button>
+      <AdminNavBar />
+      <h1 style={{marginTop:"2%", marginLeft:"8%"}}>Customers</h1>
+      <CContainer>
+        {customers.map((c) => {
+          return (
+            <OneCustomer key={c.userId}>
+              <Text>
+                <span style={{ fontWeight: "bold" }}>User Name: </span>
+                {c.userName}
+              </Text>
+              <Text>
+                <span style={{ fontWeight: "bold" }}>User ID: </span> {c.userId}
+              </Text>
+              <Text>
+                <span style={{ fontWeight: "bold" }}>Description: </span>{" "}
+                {c.description}
+              </Text>
+              <Text>
+                <span style={{ fontWeight: "bold" }}>Create Time: </span>{" "}
+                {new Date(c.createTime).toUTCString().slice(0, 17)}
+              </Text>
+            </OneCustomer>
+          );
+        })}
+      </CContainer>
     </div>
   );
 }

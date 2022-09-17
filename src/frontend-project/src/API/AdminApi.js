@@ -7,7 +7,7 @@ const headers = {
   Authorization: localStorage.getItem("Admin"),
 };
 const ADD_PATH = "/admin/management/";
-// get all customer
+// get all customer ~
 export async function getAllCustomer(info) {
   const endpoint =
     BASE_URL +
@@ -42,7 +42,7 @@ export function ViewAllCustomer(info) {
     error,
   };
 }
-//register a new hotel
+//register a new hotelier~
 export async function registerNewHotelier(hotelier) {
   const endpoint = BASE_URL + ADD_PATH + `hotelier/new`;
   axios({
@@ -57,6 +57,7 @@ export async function registerNewHotelier(hotelier) {
   })
     .then((res) => {
       console.log(res);
+      alert("successfully registered")
       return;
     })
     .catch((e) => {
@@ -65,7 +66,7 @@ export async function registerNewHotelier(hotelier) {
       return;
     });
 }
-//assign hotel to a group of hotelier
+//assign hotelier to a group 
 export async function groupHotelier(info) {
   const endpoint = BASE_URL + ADD_PATH + `hotelier/existing`;
   axios({
@@ -87,7 +88,7 @@ export async function groupHotelier(info) {
       return;
     });
 }
-//get all hotels
+//get all hotels ~
 async function getAllHotel(info) {
   const endpoint =
     BASE_URL +
@@ -123,7 +124,7 @@ export function ViewAllHotels(info) {
   };
 }
 
-//change hotel status
+//change hotel status ~
 export async function changeHotelStatus(info) {
   const endpoint = BASE_URL + ADD_PATH + `hotel`;
   axios({
@@ -145,7 +146,7 @@ export async function changeHotelStatus(info) {
     });
 }
 
-//find all hoteliers with same hotelId
+//find all hoteliers with same hotelId ~
 export async function getHotelierGroup(info) {
   const endpoint =
     BASE_URL + ADD_PATH + `hotelier/?hotelId=${encodeURIComponent(info)}`;
@@ -175,7 +176,7 @@ export function ViewHotelierGroup(info) {
     error,
   };
 }
-// remove hotelier from  hotel
+// remove hotelier from  hotel ~
 export async function removeHotelier(info) {
   const endpoint = BASE_URL + ADD_PATH + `hotelier/remove`;
   axios({
@@ -217,7 +218,7 @@ export function ViewAllhotelier(info) {
   useEffect(() => {
     getAllHotelier(info)
       .then((res) => {
-        setHoteliers(res.data);
+        setHoteliers(res.data.beans);
         setLoading(false);
       })
       .catch((e) => {
