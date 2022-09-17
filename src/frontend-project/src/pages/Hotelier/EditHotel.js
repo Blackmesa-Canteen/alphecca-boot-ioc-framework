@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Input } from "../../components/CustomerStyle";
+import { Input } from "../../components/common/CustomerStyle";
 import { editHotel } from "../../API/HotelierApi";
 import { amenities } from "./HotelElement";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ export const EditWd = styled.div`
   top: 15%;
   left: calc(50% - 16rem);
 `;
- export const EditInput = styled(Input)`
+export const EditInput = styled(Input)`
   margin-left: 5%;
 `;
 export const Text = styled.div`

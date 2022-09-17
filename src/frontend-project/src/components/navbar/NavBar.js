@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav, Navbar, Button } from "react-bootstrap";
 import { IoPersonCircleSharp } from "react-icons/io5";
-import { AlpheccaLogo } from "./CustomerStyle";
-import { Logout } from "../API/CommonApi";
+import { AlpheccaLogo } from "../common/CustomerStyle";
+import { Logout } from "../../API/CommonApi";
 
 export function CustomerNavBar() {
   return (

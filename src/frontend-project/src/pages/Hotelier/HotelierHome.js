@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { HotelierNavBar } from "../../components/NavBar";
+import { HotelierNavBar } from "../../components/navbar/NavBar";
 import { HotelierInfo } from "../../API/HotelierApi";
 import { DisplayHotel } from "./HotelElement";
 import { AllRooms } from "./Room/Rooms";
@@ -16,19 +16,21 @@ export default function HotelierHome() {
       </div>
     );
   }
-  if(error1){
-    return(<div>
-      <h1>error</h1>
-    </div>);
+  if (error1) {
+    return (
+      <div>
+        <h1>error</h1>
+      </div>
+    );
   }
   console.log(hotelier);
-  console.log(localStorage.getItem("Hotelier"))
+  console.log(localStorage.getItem("Hotelier"));
   return (
     <div>
       <HotelierNavBar />
       {"hotelId" in hotelier && (
         <div>
-          <DisplayHotel value={hotelier.hotelierId}/>
+          <DisplayHotel value={hotelier.hotelierId} />
           <AllRooms value={hotelier.hotelId} />
         </div>
       )}

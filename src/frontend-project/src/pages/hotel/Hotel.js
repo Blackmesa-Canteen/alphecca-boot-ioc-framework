@@ -1,4 +1,4 @@
-import { CustomerNavBar } from "../../components/NavBar";
+import { CustomerNavBar } from "../../components/navbar/NavBar";
 import Header from "../../components/header/Header";
 import Mail from "../../components/mail/Mail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

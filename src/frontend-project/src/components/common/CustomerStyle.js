@@ -3,7 +3,7 @@
  * includes button, login/signup form, Alphecca logo
  */
 import styled, { createGlobalStyle } from "styled-components";
-import Logo from "../Picture/Icon.png";
+import Logo from "../../Picture/Icon.png";
 export const GlobalStyle = createGlobalStyle`
 body {
   background: rgba(200,200,200,0.25);
@@ -43,7 +43,6 @@ export const RoleCard = styled(FormContainer)`
   }
 `;
 
-
 export const Input = styled.input`
   width: 90%;
   height: 42px;
@@ -71,7 +70,6 @@ export const CheckboxContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
 `;
 export const MutedLink = styled.a`
   font-size: 11px;
