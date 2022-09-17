@@ -35,37 +35,39 @@ import {
 const Search = ({ item }) => {
   const ShowIcon = (description) => {
     if (description === "Air Condition") {
-      return <AmenityIcon icon={faFan} alt="Air Conditioner" />;
+      return <AmenityIcon icon={faFan} alt="Air Conditioner" key={1} />;
     }
     if (description === "Bar") {
-      return <AmenityIcon icon={faMartiniGlass} alt="Bar" />;
+      return <AmenityIcon icon={faMartiniGlass} alt="Bar" key={2} />;
     }
     if (description === "Breakfast") {
-      return <AmenityIcon icon={faMugSaucer} alt="Breakfast" />;
+      return <AmenityIcon icon={faMugSaucer} alt="Breakfast" key={3} />;
     }
     if (description === "Free Wifi") {
-      return <AmenityIcon icon={faWifi} alt="Free Wifi" />;
+      return <AmenityIcon icon={faWifi} alt="Free Wifi" key={4} />;
     }
     if (description === "Gym") {
-      return <AmenityIcon icon={faDumbbell} alt="Gym" />;
+      return <AmenityIcon icon={faDumbbell} alt="Gym" key={5} />;
     }
     if (description === "Laundry") {
-      return <AmenityIcon icon={faShirt} alt="Laundry" />;
+      return <AmenityIcon icon={faShirt} alt="Laundry" key={6} />;
     }
     if (description === "Outdoor") {
-      return <AmenityIcon icon={faCloudSun} alt="Outdoor" />;
+      return <AmenityIcon icon={faCloudSun} alt="Outdoor" key={7} />;
     }
     if (description === "Parking") {
-      return <AmenityIcon icon={faSquareParking} alt="Parking" />;
+      return <AmenityIcon icon={faSquareParking} alt="Parking" key={8} />;
     }
     if (description === "Swimming Pool") {
-      return <AmenityIcon icon={faPersonSwimming} alt="Swimming Pool" />;
+      return (
+        <AmenityIcon icon={faPersonSwimming} alt="Swimming Pool" key={9} />
+      );
     }
     if (description === "Restaurant") {
-      return <AmenityIcon icon={faUtensils} alt="Restaurant" />;
+      return <AmenityIcon icon={faUtensils} alt="Restaurant" key={10} />;
     }
     if (description === "Room Service") {
-      return <AmenityIcon icon={faBellConcierge} alt="Room Service" />;
+      return <AmenityIcon icon={faBellConcierge} alt="Room Service" key={11} />;
     }
   };
 

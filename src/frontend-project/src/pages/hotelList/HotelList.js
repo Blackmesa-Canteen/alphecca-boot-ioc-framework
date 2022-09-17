@@ -36,11 +36,11 @@ const List = () => {
       return <p>no results</p>;
     } else {
       return (
-        <>
+        <div>
           {data.map((item) => (
             <SearchItem item={item} key={item.id} />
           ))}
-        </>
+        </div>
       );
     }
   };
