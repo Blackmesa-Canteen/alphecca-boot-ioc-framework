@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   AmenityContainer,
   AmenityIcon,
@@ -33,41 +34,43 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Search = ({ item }) => {
-  const ShowIcon = (description) => {
+  const ShowIcon = (amenity) => {
+    const description = amenity.description;
+    const id = amenity.id;
     if (description === "Air Condition") {
-      return <AmenityIcon icon={faFan} alt="Air Conditioner" key={1} />;
+      return <AmenityIcon icon={faFan} alt="Air Conditioner" key={id} />;
     }
     if (description === "Bar") {
-      return <AmenityIcon icon={faMartiniGlass} alt="Bar" key={2} />;
+      return <AmenityIcon icon={faMartiniGlass} alt="Bar" key={id} />;
     }
     if (description === "Breakfast") {
-      return <AmenityIcon icon={faMugSaucer} alt="Breakfast" key={3} />;
+      return <AmenityIcon icon={faMugSaucer} alt="Breakfast" key={id} />;
     }
     if (description === "Free Wifi") {
-      return <AmenityIcon icon={faWifi} alt="Free Wifi" key={4} />;
+      return <AmenityIcon icon={faWifi} alt="Free Wifi" key={id} />;
     }
     if (description === "Gym") {
-      return <AmenityIcon icon={faDumbbell} alt="Gym" key={5} />;
+      return <AmenityIcon icon={faDumbbell} alt="Gym" key={id} />;
     }
     if (description === "Laundry") {
-      return <AmenityIcon icon={faShirt} alt="Laundry" key={6} />;
+      return <AmenityIcon icon={faShirt} alt="Laundry" key={id} />;
     }
     if (description === "Outdoor") {
-      return <AmenityIcon icon={faCloudSun} alt="Outdoor" key={7} />;
+      return <AmenityIcon icon={faCloudSun} alt="Outdoor" key={id} />;
     }
     if (description === "Parking") {
-      return <AmenityIcon icon={faSquareParking} alt="Parking" key={8} />;
+      return <AmenityIcon icon={faSquareParking} alt="Parking" key={id} />;
     }
     if (description === "Swimming Pool") {
       return (
-        <AmenityIcon icon={faPersonSwimming} alt="Swimming Pool" key={9} />
+        <AmenityIcon icon={faPersonSwimming} alt="Swimming Pool" key={id} />
       );
     }
     if (description === "Restaurant") {
-      return <AmenityIcon icon={faUtensils} alt="Restaurant" key={10} />;
+      return <AmenityIcon icon={faUtensils} alt="Restaurant" key={id} />;
     }
     if (description === "Room Service") {
-      return <AmenityIcon icon={faBellConcierge} alt="Room Service" key={11} />;
+      return <AmenityIcon icon={faBellConcierge} alt="Room Service" key={id} />;
     }
   };
 
@@ -81,7 +84,7 @@ const Search = ({ item }) => {
         <SearchTitle>{item.name}</SearchTitle>
         <SearchSubtitle>Amenities:</SearchSubtitle>
         <AmenityContainer>
-          {item.amenities.map((amenity) => ShowIcon(amenity.description))}
+          {item.amenities.map((amenity) => ShowIcon(amenity))}
         </AmenityContainer>
         <SearchCancelOp>Great Price! </SearchCancelOp>
         <SearchOpSubtitle>
@@ -90,9 +93,11 @@ const Search = ({ item }) => {
       </SearchDescription>
       <SearchDetails>
         <SearchDetailWrap>
-          <SearchPrice>$299</SearchPrice>
+          <SearchPrice>${item.money.amount}</SearchPrice>
           <SearchTaxOp>Includes taxes and fees</SearchTaxOp>
-          <SearchCheckedBtn>Check Details</SearchCheckedBtn>
+          <Link to={`/hotels/${item.hotelId}`}>
+            <SearchCheckedBtn>Check Details</SearchCheckedBtn>
+          </Link>
         </SearchDetailWrap>
       </SearchDetails>
     </SearchContainer>

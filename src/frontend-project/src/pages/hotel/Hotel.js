@@ -2,6 +2,9 @@ import { CustomerNavBar } from "../../components/navbar/NavBar";
 import Header from "../../components/header/Header";
 import Mail from "../../components/mail/Mail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../API/CommonApi";
+import useFetch from "../../API/CustomerApi";
 import {
   ArrowIcon,
   BookBtn,
@@ -58,6 +61,12 @@ const Hotel = () => {
     },
   ];
 
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const { data, loading, error } = useFetch(
+    BASE_URL + `/shared/hotel/query?hotelId=${id}&currency=AUD`
+  );
+
   const [open, setOpen] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
 
@@ -82,76 +91,64 @@ const Hotel = () => {
     <div>
       <CustomerNavBar />
       <Header type="list" />
-      <HotelContainer>
-        {open && (
-          <SlideContainer>
-            <CloseIcon icon={faCircleXmark} onClick={() => setOpen(false)} />
-            <ArrowIcon
-              icon={faCircleArrowLeft}
-              onClick={() => handleMove("l")}
-            />
-            <SlideWrapper>
-              <SlideImg src={images[slideNumber].src} alt="" />
-            </SlideWrapper>
-            <ArrowIcon
-              icon={faCircleArrowRight}
-              onClick={() => handleMove("r")}
-            />
-          </SlideContainer>
-        )}
+      {loading ? (
+        "loading"
+      ) : (
+        <HotelContainer>
+          {open && (
+            <SlideContainer>
+              <CloseIcon icon={faCircleXmark} onClick={() => setOpen(false)} />
+              <ArrowIcon
+                icon={faCircleArrowLeft}
+                onClick={() => handleMove("l")}
+              />
+              <SlideWrapper>
+                <SlideImg src={images[slideNumber].src} alt="" />
+              </SlideWrapper>
+              <ArrowIcon
+                icon={faCircleArrowRight}
+                onClick={() => handleMove("r")}
+              />
+            </SlideContainer>
+          )}
 
-        <HotelWrapper>
-          <BookBtn>Book Now</BookBtn>
-          <HotelTitle>Grand Hotel</HotelTitle>
-          <HotelAddress>
-            <FontAwesomeIcon icon={faLocationDot} />
-            <span>105 Batman Street</span>
-          </HotelAddress>
-          <HotelDistance>Excellent location - 500m from center</HotelDistance>
-          <HotelPriceHighlight>Book a stay here for $249</HotelPriceHighlight>
-          <HotelImgContainer>
-            {images.map((image, i) => (
-              <HotelImgWrapper key={i}>
-                <HotelImg
-                  onClick={() => handleOpen(i)}
-                  src={image.src}
-                  alt=""
-                />
-              </HotelImgWrapper>
-            ))}
-          </HotelImgContainer>
-          <HotelDetailContainer>
-            <DetailText>
-              <HotelTitle>Stay in the heart of City</HotelTitle>
-              <HotelDescription>
-                Located a 5-minute walk from St. Florian's Gate in Krakow, Tower
-                Street Apartments has accommodations with air conditioning and
-                free WiFi. The units come with hardwood floors and feature a
-                fully equipped kitchenette with a microwave, a flat-screen TV,
-                and a private bathroom with shower and a hairdryer. A fridge is
-                also offered, as well as an electric tea pot and a coffee
-                machine. Popular points of interest near the apartment include
-                Cloth Hall, Main Market Square and Town Hall Tower. The nearest
-                airport is John Paul II International Kraków–Balice, 16.1 km
-                from Tower Street Apartments, and the property offers a paid
-                airport shuttle service.
-              </HotelDescription>
-            </DetailText>
-            <DetailPrice>
-              <DetailPriceH1>Perfect for a 9-night stay!</DetailPriceH1>
-              <DetailPriceSpan>
-                Located in the real heart of Krakow, this property has an
-                excellent location score of 9.8!
-              </DetailPriceSpan>
-              <DetailPriceH2>
-                <b>$549</b> (2 nights)
-              </DetailPriceH2>
-              <DetailPriceBtn>Book Now!</DetailPriceBtn>
-            </DetailPrice>
-          </HotelDetailContainer>
-        </HotelWrapper>
-        <Mail />
-      </HotelContainer>
+          <HotelWrapper>
+            <BookBtn>Book Now</BookBtn>
+            <HotelTitle>{data.name}</HotelTitle>
+            <HotelAddress>
+              <FontAwesomeIcon icon={faLocationDot} />
+              <span>{data.address}</span>
+            </HotelAddress>
+            <HotelPriceHighlight>
+              Book a stay here for just ${data.minPrice} per night!
+            </HotelPriceHighlight>
+            <HotelImgContainer>
+              {images.map((image, i) => (
+                <HotelImgWrapper key={i}>
+                  <HotelImg
+                    onClick={() => handleOpen(i)}
+                    src={image.src}
+                    alt=""
+                  />
+                </HotelImgWrapper>
+              ))}
+            </HotelImgContainer>
+            <HotelDetailContainer>
+              <DetailText>
+                <HotelTitle>Room Description</HotelTitle>
+                <HotelDescription>
+                  A detailed description of this room!
+                </HotelDescription>
+                <HotelDescription>Bla bla bla bla bla bla bla</HotelDescription>
+              </DetailText>
+              <DetailPrice>
+                <DetailPriceBtn>Book Now!</DetailPriceBtn>
+              </DetailPrice>
+            </HotelDetailContainer>
+          </HotelWrapper>
+          <Mail />
+        </HotelContainer>
+      )}
     </div>
   );
 };
