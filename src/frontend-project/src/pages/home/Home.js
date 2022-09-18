@@ -3,7 +3,7 @@ import Featured from "../../components/features/feature/Featured";
 import PropertyList from "../../components/features/propertylist/PropertyList";
 import Header from "../../components/header/Header";
 import Mail from "../../components/mail/Mail";
-import { HomeNavBar } from "../../components/NavBar";
+import { HomeNavBar } from "../../components/navbar/NavBar";
 import { HomeContainer, HomeTitle } from "./HomeElements";
 
 export default function HomePage() {

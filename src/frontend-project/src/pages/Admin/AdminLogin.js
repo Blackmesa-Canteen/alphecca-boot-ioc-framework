@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { AdminNavBar } from "../../components/NavBar";
+import { AdminNavBar } from "../../components/navbar/NavBar";
 import {
   GlobalStyle,
   Input,
   SubmitButton,
-} from "../../components/CustomerStyle";
+} from "../../components/common/CustomerStyle";
 import AdminPng from "../../Picture/admin.png";
 import { Login } from "../../API/CommonApi";
 
@@ -41,7 +41,7 @@ export default function AdminLogin() {
         />
         <SubmitButton
           onClick={() => {
-            Login(admin)
+            Login(admin);
           }}
         >
           Submit

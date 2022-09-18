@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const SearchContainer = styled.div`
   border: 1px solid lightgray;
@@ -25,7 +26,7 @@ export const SearchDescription = styled.div`
 
 export const SearchTitle = styled.h1`
   font-size: 20px;
-  color: #0071c2;
+  color: black;
 `;
 
 export const SearchDistance = styled.span`
@@ -52,13 +53,13 @@ export const SearchFeatures = styled.span`
 
 export const SearchCancelOp = styled.span`
   font-size: 12px;
-  color: #008009;
+  color: #0071c2;
   font-weight: bold;
 `;
 
 export const SearchOpSubtitle = styled.span`
   font-size: 12px;
-  color: #008009;
+  color: #0071c2;
 `;
 
 export const SearchDetails = styled.div`
@@ -102,11 +103,21 @@ export const SearchTaxOp = styled.span`
 `;
 
 export const SearchCheckedBtn = styled.button`
-  background-color: #0071c2;
+  background-color: #008000;
   color: white;
   font-weight: bold;
   padding: 10px 5px;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 15px;
+`;
+
+export const AmenityContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const AmenityIcon = styled(FontAwesomeIcon)`
+  color: grey;
 `;

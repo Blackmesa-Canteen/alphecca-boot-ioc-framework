@@ -1,37 +1,32 @@
-import { CustomerNavBar } from "../../components/NavBar";
+import { useState } from "react";
+import { BASE_URL } from "../../API/CommonApi";
+import { CustomerNavBar } from "../../components/navbar/NavBar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
-import { format } from "date-fns";
-import { DateRange } from "react-date-range";
 import SearchItem from "../../components/search/Search";
-import useFetch from "../../hooks/useFetch";
-import {
-  ListContainer,
-  ListItem,
-  ListItemInput,
-  ListItemLabel,
-  ListOptions,
-  ListOptionSpan,
-  ListSearch,
-  ListTitle,
-  ListWrapper,
-  ListOptionItem,
-  ListOptionInput,
-  ListResult,
-  ListSearchBtn,
-} from "./HotelListElements";
+import useFetch from "../../API/CustomerApi";
+import { ListContainer, ListWrapper, ListResult } from "./HotelListElements";
 
 const List = () => {
   const location = useLocation();
   const [postcode, setPostcode] = useState(location.state.postcode);
-  const [dates, setDates] = useState(location.state.dates);
-  const [openDate, setOpenDate] = useState(false);
-  const [options, setOptions] = useState(location.state.options);
+  const [hotelName, setHotelName] = useState(location.state.hotelName);
 
-  const { data, loading, error } = useFetch(
-    `http://localhost:8088/api/shared/hotel/search?currency=AUD&pageNum=1&pageSize=4&postCode=${postcode}&sortBy=1&sortOrder=0`
-  );
+  const GetUrl = () => {
+    if (postcode === "") {
+      return (
+        BASE_URL +
+        `/shared/hotel/search?currency=AUD&pageNum=1&pageSize=4&hotelName=${hotelName}&sortBy=1&sortOrder=0`
+      );
+    } else if (hotelName === "") {
+      return (
+        BASE_URL +
+        `/shared/hotel/search?currency=AUD&pageNum=1&pageSize=4&postCode=${postcode}&sortBy=1&sortOrder=0`
+      );
+    }
+  };
+
+  const { data, loading } = useFetch(GetUrl());
 
   const ShowResult = () => {
     if (loading === true) {
@@ -41,11 +36,11 @@ const List = () => {
       return <p>no results</p>;
     } else {
       return (
-        <>
+        <div>
           {data.map((item) => (
             <SearchItem item={item} key={item.id} />
           ))}
-        </>
+        </div>
       );
     }
   };

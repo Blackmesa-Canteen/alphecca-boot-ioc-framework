@@ -8,13 +8,14 @@ import {
   IconContainer,
   RoleCard,
   RoleCardContainer,
-} from "../components/CustomerStyle";
-import { HomeNavBar } from "../components/NavBar";
+} from "../components/common/CustomerStyle";
+import { HomeNavBar } from "../components/navbar/NavBar";
 import AlpheccaIcon from "../Picture/5Star.png";
 import CustomerPng from "../Picture/Customer.png";
 import HotelPng from "../Picture/Hotel.png";
 import { BsArrowLeft } from "react-icons/bs";
 import { Login } from "../API/CommonApi";
+
 export default function Rolepage() {
   const [selectedRole, setRole] = useState("");
 

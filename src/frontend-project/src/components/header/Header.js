@@ -55,7 +55,11 @@ const Header = ({ type }) => {
   };
 
   const handleSearch = () => {
-    navigate("/hotels", { state: { hotelName, postcode, date, options } });
+    if (postcode === "" && hotelName === "") {
+      alert("please enter a postcode or hotel name");
+    } else {
+      navigate("/hotels", { state: { hotelName, postcode, date, options } });
+    }
   };
 
   const handleClick = () => {

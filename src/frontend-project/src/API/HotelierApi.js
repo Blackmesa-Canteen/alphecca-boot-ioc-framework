@@ -260,7 +260,6 @@ export async function getAllTransiction(hotelier) {
   return fetch(endpoint, {
     method: "GET",
     headers: headers,
-    
   }).then((res) => res.json());
 }
 
