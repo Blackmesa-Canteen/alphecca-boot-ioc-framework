@@ -1,25 +1,22 @@
-import { CustomerNavBar } from "../../components/navbar/NavBar";
+import { HomeNavBar } from "../../components/navbar/NavBar";
 import Header from "../../components/header/Header";
 import Mail from "../../components/mail/Mail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { BASE_URL } from "../../API/CommonApi";
 import useFetch from "../../API/CustomerApi";
+import Reserve from "../../components/reserve/Reserve";
 import {
   ArrowIcon,
   BookBtn,
   CloseIcon,
   DetailPrice,
   DetailPriceBtn,
-  DetailPriceH1,
-  DetailPriceH2,
-  DetailPriceSpan,
   DetailText,
   HotelAddress,
   HotelContainer,
   HotelDescription,
   HotelDetailContainer,
-  HotelDistance,
   HotelImg,
   HotelImgContainer,
   HotelImgWrapper,
@@ -63,11 +60,12 @@ const Hotel = () => {
 
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-  const { data, loading, error } = useFetch(
+  const { data, loading } = useFetch(
     BASE_URL + `/shared/hotel/query?hotelId=${id}&currency=AUD`
   );
 
   const [open, setOpen] = useState(false);
+  const [openPage, setOpenPage] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
 
   const handleMove = (direction) => {
@@ -87,9 +85,13 @@ const Hotel = () => {
     setOpen(true);
   };
 
+  const HandleClick = () => {
+    setOpenPage(true);
+  };
+
   return (
     <div>
-      <CustomerNavBar />
+      <HomeNavBar />
       <Header type="list" />
       {loading ? (
         "loading"
@@ -142,13 +144,14 @@ const Hotel = () => {
                 <HotelDescription>Bla bla bla bla bla bla bla</HotelDescription>
               </DetailText>
               <DetailPrice>
-                <DetailPriceBtn>Book Now!</DetailPriceBtn>
+                <DetailPriceBtn onClick={HandleClick}>Book Now!</DetailPriceBtn>
               </DetailPrice>
             </HotelDetailContainer>
           </HotelWrapper>
           <Mail />
         </HotelContainer>
       )}
+      {openPage && <Reserve setOpen={setOpenPage} hotelId={id} />}
     </div>
   );
 };

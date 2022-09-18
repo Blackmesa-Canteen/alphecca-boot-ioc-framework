@@ -15,6 +15,7 @@ import CustomerPng from "../Picture/Customer.png";
 import HotelPng from "../Picture/Hotel.png";
 import { BsArrowLeft } from "react-icons/bs";
 import { Login } from "../API/CommonApi";
+
 export default function Rolepage() {
   const [selectedRole, setRole] = useState("");
 
