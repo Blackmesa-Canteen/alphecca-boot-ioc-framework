@@ -273,7 +273,7 @@ export function UseAllTransaction(hotelier) {
       .then((res) => {
         setLoading(false);
         setTransaction(res.data);
-        console.log(res.data);
+        
       })
       .catch((e) => {
         setError(e);

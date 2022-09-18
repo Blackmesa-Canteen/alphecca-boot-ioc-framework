@@ -198,7 +198,7 @@ export async function removeHotelier(info) {
     });
 }
 
-// get all hoteliers
+// get all hoteliers~
 export async function getAllHotelier(info) {
   const endpoint =
     BASE_URL +

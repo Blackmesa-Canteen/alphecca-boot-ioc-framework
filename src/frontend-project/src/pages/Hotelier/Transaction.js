@@ -45,9 +45,6 @@ export default function HotelTransaction() {
     );
   }
 
-  var curdate = new Date(1466611200000);
-  console.log(curdate);
-
   return (
     <div>
       <HotelierNavBar />

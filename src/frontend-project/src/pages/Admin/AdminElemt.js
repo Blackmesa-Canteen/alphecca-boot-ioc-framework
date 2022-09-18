@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+
 import { ViewHotelierGroup } from "../../API/AdminApi";
 import { CircularProgress } from '@mui/material'
 export const OneCustomer = styled.div`
@@ -35,14 +35,14 @@ export const HotelsContainer = styled.div`
   flex-direction: column;
   width: 90%;
   margin-top: 2%;
-  margin-left: 7%;
+  margin-left: 5%;
 `;
 const GroupContainer = styled.div``;
 
 export function HotelierGroup(props) {
   const { loading, hoteliers, error } = ViewHotelierGroup(props.value);
   if (loading) {
-    return <CircularProgress/>;
+    return <CircularProgress style={{size:"small"}}/>;
   } else if (error) {
     return <h1>Something went wrong</h1>;
   }

@@ -7,6 +7,7 @@ import { EditWd } from "../Hotelier/EditHotel";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Input } from "../../components/CustomerStyle";
 
+
 export default function AllHoteliers() {
   const { loading, hoteliers, error } = ViewAllhotelier({
     pageNo: 0,
