@@ -54,6 +54,20 @@ export function AdminNavBar() {
       <Navbar.Brand href="/">
         <AlpheccaLogo />
       </Navbar.Brand>
+      <Nav>
+        <Nav.Link href="/admin">Customer</Nav.Link>
+        <Nav.Link href="/admin/hotels">Hotels</Nav.Link>
+        <Nav.Link href="/admin/hoteliers">Hoteliers</Nav.Link>
+      </Nav>
+      <Nav style={{ position: "absolute", right: "1%" }}>
+        <Button
+          onClick={() => {
+            Logout("Admin");
+          }}
+        >
+          Log out
+        </Button>
+      </Nav>
     </Navbar>
   );
 }

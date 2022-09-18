@@ -6,7 +6,7 @@ import { EditInput, Text } from "../EditHotel";
 import styled from "styled-components";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-const EditWd = styled.div`
+export const EditWd = styled.div`
   box-shadow: 0 5px 9px rgba(0, 0, 0, 0.5);
   border-radius: 6px;
   background-color: rgba(0, 0, 0, 4);
