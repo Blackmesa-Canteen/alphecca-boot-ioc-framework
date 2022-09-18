@@ -56,8 +56,8 @@ export async function registerNewHotelier(hotelier) {
     }),
   })
     .then((res) => {
-      console.log(res);
       alert("successfully registered")
+      window.location="/admin/hoteliers"
       return;
     })
     .catch((e) => {
@@ -79,7 +79,8 @@ export async function groupHotelier(info) {
     }),
   })
     .then((res) => {
-      console.log(res);
+      alert("Hotelier added");
+      window.location = "/admin/hotels"
       return;
     })
     .catch((e) => {
@@ -136,7 +137,7 @@ export async function changeHotelStatus(info) {
     }),
   })
     .then((res) => {
-      console.log(res);
+      window.location = "/admin/hotels"
       return;
     })
     .catch((e) => {
@@ -188,7 +189,8 @@ export async function removeHotelier(info) {
     }),
   })
     .then((res) => {
-      console.log(res);
+      alert("Hotelier removed");
+      window.location = "/admin/hotels"
       return;
     })
     .catch((e) => {
