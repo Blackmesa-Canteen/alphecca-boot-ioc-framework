@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const MailContainer = styled.div`
   width: 100%;
   margin-top: 50px;
-  background-color: #003580;
+  background-color: black;
   color: white;
   display: flex;
   flex-direction: column;
@@ -23,10 +23,10 @@ export const MailInput = styled.input`
 
 export const MailButton = styled.button`
   height: 50px;
-  background-color: #0071c2;
+  background-color: #008000;
+  border-radius: 15px;
   color: white;
   font-weight: 500;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
 `;

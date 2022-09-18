@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { UseAllTransaction } from "../../API/HotelierApi";
-import { HotelierNavBar } from "../../components/NavBar";
+import { HotelierNavBar } from "../../components/navbar/NavBar";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
 const TContainer = styled.div`

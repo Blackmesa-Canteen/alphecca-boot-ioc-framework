@@ -78,9 +78,7 @@ export async function Login(user) {
     .then((res) => {
       localStorage.setItem(role, res.data.data.token);
       alert("successfully logged in");
-      role === "Customer"
-        ? (window.location = "/")
-        : (window.location = "/" + role.toLowerCase());
+      window.location = "/" + role.toLowerCase();
       return;
     })
     .catch((e) => {

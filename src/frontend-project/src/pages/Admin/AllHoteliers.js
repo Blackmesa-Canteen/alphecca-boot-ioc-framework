@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { ViewAllhotelier, registerNewHotelier } from "../../API/AdminApi";
-import { AdminNavBar } from "../../components/NavBar";
+import { AdminNavBar } from "../../components/navbar/NavBar";
 import { CContainer, OneCustomer, Text } from "./AdminElemt";
 import { EditWd } from "../Hotelier/EditHotel";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { Input } from "../../components/CustomerStyle";
+import { Input } from "../../components/common/CustomerStyle";
 
 
 export default function AllHoteliers() {

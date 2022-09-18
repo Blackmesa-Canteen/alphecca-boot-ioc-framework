@@ -6,10 +6,10 @@ import {
   GlobalStyle,
   IconContainer,
   CheckboxContainer,
-} from "../components/CustomerStyle";
+} from "../components/common/CustomerStyle";
 
 import { Form } from "react-bootstrap";
-import { CustomerNavBar } from "../components/NavBar";
+import { CustomerNavBar } from "../components/navbar/NavBar";
 import AlpheccaIcon from "../Picture/5Star.png";
 import { signup } from "../API/CommonApi";
 
@@ -54,9 +54,9 @@ export default function Signuppage() {
         password1: password1,
         password2: password2,
       };
-      if(newCustomer.role===""){
-        alert("Please select your role")
-      }else{
+      if (newCustomer.role === "") {
+        alert("Please select your role");
+      } else {
         signup(newCustomer);
       }
     }

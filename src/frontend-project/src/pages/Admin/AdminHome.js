@@ -1,6 +1,6 @@
 import React from "react";
 import { ViewAllCustomer } from "../../API/AdminApi";
-import { AdminNavBar } from "../../components/NavBar";
+import { AdminNavBar } from "../../components/navbar/NavBar";
 import { CContainer, OneCustomer, Text } from "./AdminElemt";
 
 export default function AllCustomers() {

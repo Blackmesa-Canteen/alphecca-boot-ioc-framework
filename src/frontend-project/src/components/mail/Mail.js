@@ -4,10 +4,8 @@ import { MailButton, MailContainer, MailInput } from "./MailElements";
 const Mail = () => {
   return (
     <MailContainer>
-      <h1 className="mailTitle">Save time, save money!</h1>
-      <span className="mailDesc">
-        Sign up and we'll send the best deals to you
-      </span>
+      <h1 className="mailTitle">Make Hotel Booking Easy!</h1>
+      <span className="mailDesc">Sign up and get the best price!</span>
       <div>
         <MailInput type="text" placeholder="Your Email" />
         <MailButton>Subscribe</MailButton>

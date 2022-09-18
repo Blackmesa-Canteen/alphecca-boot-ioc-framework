@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AdminNavBar } from "../../components/NavBar";
+import { AdminNavBar } from "../../components/navbar/NavBar";
 import {
   ViewAllHotels,
   changeHotelStatus,

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DateRange } from "react-date-range";
 
 export const HeaderWrap = styled.div`
-  background-color: #003580;
+  background-color: black;
   color: white;
   display: flex;
   justify-content: center;
@@ -40,7 +40,8 @@ export const HeaderP = styled.p`
 `;
 
 export const HeaderBtn = styled.button`
-  background-color: #0071c2;
+  background-color: #008000;
+  border-radius: 15px;
   color: white;
   font-weight: 500;
   border: none;
@@ -75,7 +76,7 @@ export const HeaderSearchInput = styled.input`
 `;
 
 export const SearchSpan = styled.span`
-  color: lightgray;
+  color: black;
   cursor: pointer;
 `;
 
