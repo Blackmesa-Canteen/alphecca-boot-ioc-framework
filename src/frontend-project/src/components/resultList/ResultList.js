@@ -11,16 +11,31 @@ const ResultList = (customer) => {
   if (transaction.length === 0) {
     return <div>loading</div>;
   } else {
+    const priorBooking = [];
+    const futureBooking = [];
+    for (const item of transaction.data) {
+      if (item.statusCode === 1) {
+        futureBooking.push(item);
+      } else {
+        priorBooking.push(item);
+      }
+    }
     return (
       <div>
-        {console.log(transaction)}
         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
           <Tab eventKey="profile" title="Profile">
             My profile
           </Tab>
-          <Tab eventKey="booking" title="My Booking">
+          <Tab eventKey="prior" title="Prior Booking">
             <div>
-              {transaction.data.map((item) => (
+              {priorBooking.map((item) => (
+                <Booking item={item} key={item.id} />
+              ))}
+            </div>
+          </Tab>
+          <Tab eventKey="future" title="Future Booking">
+            <div>
+              {futureBooking.map((item) => (
                 <Booking item={item} key={item.id} />
               ))}
             </div>

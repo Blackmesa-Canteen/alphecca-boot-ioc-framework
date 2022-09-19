@@ -93,4 +93,30 @@ export function GetAllTransaction(customer) {
   };
 }
 
+export function GetHotel(id) {
+  const [loading, setLoading] = useState(true);
+  const [hotel, setHotel] = useState("");
+  const [error, setError] = useState(null);
+  const endpoint = `http://localhost:8088/api/shared/hotel/query?hotelId=${id}&currency=AUD`;
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(endpoint);
+        setHotel(res.data.data);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    };
+
+    getData();
+  }, [endpoint]);
+  return {
+    hotel,
+    loading,
+    error,
+  };
+}
+
 export default useFetch;
