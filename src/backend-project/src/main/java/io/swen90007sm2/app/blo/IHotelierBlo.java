@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.blo;
 
+import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
@@ -19,4 +20,5 @@ public interface IHotelierBlo {
     Hotelier getHotelierInfoByToken(String header);
 
     Hotelier getHotelierInfoByUserId(String userId);
+    PageBean<Hotelier> getHotelierByPage(int pageNo, int pageSize);
 }
