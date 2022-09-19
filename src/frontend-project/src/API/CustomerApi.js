@@ -76,7 +76,7 @@ const useFetch = (url) => {
 
 //get owned hotel room
 function getOwnedTransaction(customer) {
-  const endpoint = `http://localhost:8088/api/customer/transaction/all?customerId=${customer.userId}&currencyName=AUD`;
+  const endpoint = BASE_URL+`customer/transaction/all?customerId=${customer.userId}&currencyName=AUD`;
   return fetch(endpoint, {
     method: "GET",
     headers: {

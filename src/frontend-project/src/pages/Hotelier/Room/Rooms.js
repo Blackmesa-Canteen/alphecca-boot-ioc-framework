@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { RoomDetail } from "../../../API/HotelierApi";
 import { Title, WholeContainer } from "../HotelElement";
 import styled from "styled-components";
-import uploadPhoto from "../../../Picture/uploadPhoto.png";
+import roomPhoto from "../../../Picture/defaultRoom.jpg"
 import { EditRoomDetail } from "./EditRoom";
 import { AddRoom } from "./AddRoom";
 const RoomContainer = styled.div`
@@ -22,7 +22,7 @@ const RoomContainer = styled.div`
 
 const RoomsDiv = styled.div`
   display: flex;
-  justify-content: space-around;
+  margin-left: 5%;
   flex-wrap: wrap;
   width: 100%;
   margin-bottom: 5%;
@@ -90,7 +90,7 @@ function Oneroom(props) {
   return (
     <RoomContainer>
       <img
-        src={uploadPhoto}
+        src={roomPhoto}
         width="50%"
         height="100%"
         style={{ marginRight: 10 }}
@@ -107,7 +107,7 @@ function Oneroom(props) {
         </div>
         <div>
           <Title>Price: </Title>
-          {props.value.pricePerNight}
+          <span>$ {props.value.pricePerNight}</span>
         </div>
         <div>
           <Title>Bed Number: </Title> {props.value.sleepsNum}

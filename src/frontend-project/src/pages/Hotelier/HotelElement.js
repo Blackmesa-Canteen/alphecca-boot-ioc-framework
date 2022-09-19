@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import uploadPhoto from "../../Picture/uploadPhoto.png";
+import hotelPhoto from "../../Picture/defaultHotel.jpg"
 import Pool from "../../Picture/amenities/pool.png";
 import airCondition from "../../Picture/amenities/aircondition.png";
 import gym from "../../Picture/amenities/gym.png";
@@ -48,6 +48,7 @@ const Detail = styled.div`
   flex-direction: column;
   width: 50%;
   align-items: flex-start;
+  margin-left: 5%;
 `;
 
 
@@ -130,7 +131,7 @@ export function DisplayHotel(props) {
         <HotelName>{hotel.name}</HotelName>
         <DevideLine />
         <Content>
-          <img src={uploadPhoto} width="50%" height="500" alt="icon"/>
+          <img src={hotelPhoto} width="50%" height="400" alt="icon"/>
           <Detail>
             <p>
               <Title>Address: </Title> {hotel.address},{" "}
@@ -145,9 +146,9 @@ export function DisplayHotel(props) {
             {hotel.amenities.length !== 0 && (
               <Amenity amenityIds={hotel.amenities} />
             )}
-            <div style={{ marginTop: "3%" }}>
-              <Button onClick={onClick}>Edit</Button>
-              <Button onClick={()=>{window.location="/hotelTransaction/"+props.value}}>Transactions</Button>
+            <div style={{ marginTop: "3%",display:"flex",flexDirection:"row" }}>
+              <Button onClick={onClick} >Edit</Button>
+              <Button style={{marginLeft:"5%", backgroundColor:"green"}}onClick={()=>{window.location="/hotelTransaction/"+props.value}}>Transactions</Button>
             </div>
           </Detail>
         </Content>

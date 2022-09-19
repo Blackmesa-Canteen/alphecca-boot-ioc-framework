@@ -23,6 +23,7 @@ export default function AdminLogin() {
         <br />
         <img src={AdminPng} alt="admin" width="100" height="150" />
         <br />
+        <div style={{width:"40%"}}>
         <Input
           type="email"
           placeholder="Emial Address"
@@ -39,6 +40,7 @@ export default function AdminLogin() {
             setPassword(e.target.value);
           }}
         />
+        <div style={{width:"50%"}}>
         <SubmitButton
           onClick={() => {
             Login(admin);
@@ -46,6 +48,8 @@ export default function AdminLogin() {
         >
           Submit
         </SubmitButton>
+        </div>
+        </div>
       </center>
 
       <GlobalStyle />
