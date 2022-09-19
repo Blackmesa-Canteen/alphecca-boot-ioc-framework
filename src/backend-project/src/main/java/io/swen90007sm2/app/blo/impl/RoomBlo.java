@@ -115,26 +115,23 @@ public class RoomBlo implements IRoomBlo {
     public void doUpdateRoom(UpdateRoomParam param) {
         String roomId = param.getRoomId();
 
-        Room originalRoomObj = getRoomEntityByRoomId(roomId);
-        Room newRoomObj = new Room();
-        BeanUtil.copyProperties(originalRoomObj, newRoomObj);
-
-        // calc absolute AUD price
-        BigDecimal audPrice = CurrencyUtil.convertCurrencyToAUD(param.getCurrency(), param.getPricePerNight());
-
-        newRoomObj.setName(param.getName());
-        newRoomObj.setDescription(param.getDescription());
-        newRoomObj.setPricePerNight(audPrice);
-        newRoomObj.setCurrency(CommonConstant.AUD_CURRENCY);
-        newRoomObj.setSleepsNum(param.getSleepsNum());
-        newRoomObj.setVacantNum(param.getVacantNum());
-        newRoomObj.setOnSale(param.getOnSale());
-
         IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
         synchronized (this) {
+            Room roomObj = getRoomEntityByRoomId(roomId);
+
+            // calc absolute AUD price
+            BigDecimal audPrice = CurrencyUtil.convertCurrencyToAUD(param.getCurrency(), param.getPricePerNight());
+
+            roomObj.setName(param.getName());
+            roomObj.setDescription(param.getDescription());
+            roomObj.setPricePerNight(audPrice);
+            roomObj.setCurrency(CommonConstant.AUD_CURRENCY);
+            roomObj.setSleepsNum(param.getSleepsNum());
+            roomObj.setVacantNum(param.getVacantNum());
+            roomObj.setOnSale(param.getOnSale());
 //            roomDao.updateOne(newRoomObj);
             UnitOfWorkHelper.getCurrent().registerDirty(
-                    newRoomObj,
+                    roomObj,
                     roomDao,
                     CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId
             );
@@ -146,7 +143,7 @@ public class RoomBlo implements IRoomBlo {
             // hotel min price update
             // only update once the room is on sale
             if (param.getOnSale()) {
-                hotelBlo.editeHotelMinPriceByHotelId(newRoomObj.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
+                hotelBlo.editeHotelMinPriceByHotelId(roomObj.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
             }
         }
     }

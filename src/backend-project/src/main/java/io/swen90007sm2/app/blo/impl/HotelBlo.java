@@ -165,27 +165,23 @@ public class HotelBlo implements IHotelBlo {
             );
         }
 
-        Hotel originalHotel = getHotelEntityByHotelId(hotelId);
-
-        if (originalHotel == null) {
-            throw new RequestException(
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
-            );
-        }
-        Hotel hotel = new Hotel();
-        BeanUtil.copyProperties(originalHotel, hotel);
-
-        if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
-        if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
-        if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
-        if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getDescription());
-        if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
-
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         // atom operation
         synchronized (this) {
+            Hotel hotel = getHotelEntityByHotelId(hotelId);
+
+            if (hotel == null) {
+                throw new RequestException(
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+                );
+            }
             // update hotel
+            if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
+            if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
+            if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
+            if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getDescription());
+            if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
 //            hotelDao.updateOne(hotel);
             UnitOfWorkHelper.getCurrent().registerDirty(
                     hotel,
@@ -213,27 +209,24 @@ public class HotelBlo implements IHotelBlo {
             );
         }
 
-        Hotel originalHotel = getHotelEntityByHotelId(hotelId);
-
-        if (originalHotel == null) {
-            throw new RequestException(
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
-            );
-        }
-        Hotel hotel = new Hotel();
-        BeanUtil.copyProperties(originalHotel, hotel);
-
-        if (updateHotelParam.getOnSale() != null) hotel.setOnSale(updateHotelParam.getOnSale());
-        if (updateHotelParam.getAddress() != null) hotel.setAddress(updateHotelParam.getAddress());
-        if (updateHotelParam.getName() != null) hotel.setName(updateHotelParam.getName());
-        if (updateHotelParam.getDescription() != null) hotel.setName(updateHotelParam.getName());
-        if (updateHotelParam.getPostCode() != null) hotel.setPostCode(updateHotelParam.getPostCode());
-
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         // atom operation
         synchronized (this) {
             // update hotel
+            Hotel hotel = getHotelEntityByHotelId(hotelId);
+
+            if (hotel == null) {
+                throw new RequestException(
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+                );
+            }
+
+            if (updateHotelParam.getOnSale() != null) hotel.setOnSale(updateHotelParam.getOnSale());
+            if (updateHotelParam.getAddress() != null) hotel.setAddress(updateHotelParam.getAddress());
+            if (updateHotelParam.getName() != null) hotel.setName(updateHotelParam.getName());
+            if (updateHotelParam.getDescription() != null) hotel.setName(updateHotelParam.getName());
+            if (updateHotelParam.getPostCode() != null) hotel.setPostCode(updateHotelParam.getPostCode());
 //            hotelDao.updateOne(hotel);
             UnitOfWorkHelper.getCurrent().registerDirty(
                     hotel,
@@ -279,7 +272,7 @@ public class HotelBlo implements IHotelBlo {
         }
 
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
-        UnitOfWorkHelper.getCurrent().registerDirty(hotel, hotelDao, hotelId);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotel, hotelDao, CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
     }
 
     @Override

@@ -77,6 +77,7 @@ public class BeanManager {
         // check existence first without lock to guarantee performance
         if (instance == null) {
             synchronized (BeanManager.class) {
+                instance = getBeanFromBeanMapByClass(clazz);
                 if (instance == null) {
                     instance = ReflectionUtil.genNewInstanceByClass(clazz);
                     BEAN_MAP.put(clazz, instance);

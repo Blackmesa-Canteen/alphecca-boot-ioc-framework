@@ -225,4 +225,9 @@ public class ManagementBlo implements IManagementBlo {
         UnitOfWorkHelper.getCurrent().registerDirty(hotelierToRemove, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + hotelierToRemoveId);
         cache.remove(CacheConstant.TOKEN_KEY_PREFIX + hotelierToRemoveId);
     }
+
+    @Override
+    public PageBean<Hotelier> getHoteliersByPage(int pageNo, int pageSize) {
+        return hotelierBlo.getHotelierByPage(pageNo, pageSize);
+    }
 }

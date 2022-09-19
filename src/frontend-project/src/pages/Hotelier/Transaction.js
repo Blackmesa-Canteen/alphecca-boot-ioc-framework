@@ -24,6 +24,7 @@ export const Text = styled.div`
   text-align: center;
   align-items: center;
   text-overflow: ellipsis;
+  
 `;
 export default function HotelTransaction() {
   const { id } = useParams();
