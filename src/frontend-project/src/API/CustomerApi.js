@@ -63,6 +63,17 @@ const useFetch = (url) => {
   return { data, loading, error, reFetch };
 };
 
+
+//get owned hotel room
+function getOwnedTransaction(customer) {
+  const endpoint = BASE_URL+`customer/transaction/all?customerId=${customer.userId}&currencyName=AUD`;
+  return fetch(endpoint, {
+    method: "GET",
+    headers: {
+      Authorization: localStorage.getItem("Customer"),
+    },
+  }).then((res) => res.json());
+
 export function GetAllTransaction(customer) {
   const [loading, setLoading] = useState(true);
   const [transaction, setTransaction] = useState([]);
@@ -91,6 +102,7 @@ export function GetAllTransaction(customer) {
     transaction,
     error,
   };
+
 }
 
 export function GetHotel(id) {
