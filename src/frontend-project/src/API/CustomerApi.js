@@ -74,37 +74,39 @@ const useFetch = (url) => {
   return { data, loading, error, reFetch };
 };
 
-//get owned hotel room
-function getOwnedTransaction(customer) {
+//show all transictions
+function getAllTransaction(customer) {
   const endpoint = `http://localhost:8088/api/customer/transaction/all?customerId=${customer.userId}&currencyName=AUD`;
+  const token = localStorage.getItem("Customer");
   return fetch(endpoint, {
     method: "GET",
     headers: {
-      Authorization: localStorage.getItem("Customer"),
+      Authorization: token,
     },
   }).then((res) => res.json());
 }
 
-export function GetBookings(customer) {
+export function UseAllTransaction(customer) {
   const [loading, setLoading] = useState(true);
-  const [booking, setBooking] = useState([]);
-  const [error, setError] = useState(null);
+  const [transaction, setTransaction] = useState([]);
+  const [error1, setError] = useState(null);
+
   useEffect(() => {
-    getOwnedTransaction(customer)
+    console.log(customer);
+    getAllTransaction(customer)
       .then((res) => {
-        setBooking(res);
         setLoading(false);
+        setTransaction(res.data);
       })
       .catch((e) => {
-        console.log(e);
         setError(e);
         setLoading(false);
       });
   }, []);
   return {
     loading,
-    booking,
-    error,
+    transaction,
+    error1,
   };
 }
 
