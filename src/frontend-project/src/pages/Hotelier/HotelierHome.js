@@ -23,7 +23,7 @@ export default function HotelierHome() {
       </div>
     );
   }
-  console.log(hotelier);
+  
   console.log(localStorage.getItem("Hotelier"));
   return (
     <div>

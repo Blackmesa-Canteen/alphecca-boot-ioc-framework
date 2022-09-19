@@ -3,7 +3,7 @@ import { CustomerNavBar } from "../../components/navbar/NavBar";
 import { CustomerInfo } from "../../API/CustomerApi";
 import ResultList from "../../components/resultList/ResultList";
 
-const Customer = (id) => {
+const Customer = () => {
   const { loading, customer, error } = CustomerInfo();
 
   if (customer.length === 0) {
@@ -12,7 +12,7 @@ const Customer = (id) => {
     return (
       <div>
         <CustomerNavBar />
-        <ResultList item={customer} />
+        <ResultList item={customer.userId}/>
       </div>
     );
   }

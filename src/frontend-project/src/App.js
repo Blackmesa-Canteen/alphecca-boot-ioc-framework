@@ -25,6 +25,7 @@ function App() {
           <Route path="/hotels" element={<HotelList />} />
           <Route path="/hotels/:id" element={<RoomDetails />} />
           <Route path="/propertypage" element={<Property />} />
+          <Route path="/:id" element={<HomePage />} />
           <Route path="/customer" element={<Customer />} />
           <Route path="/hotelier" element={<HotelierHome/>} />
           <Route path="/hotelTransaction/:id" element={<HotelTransaction/>}/>
