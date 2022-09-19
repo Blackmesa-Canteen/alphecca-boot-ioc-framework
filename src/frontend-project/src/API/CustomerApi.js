@@ -7,38 +7,27 @@ const headers = {
   Authorization: localStorage.getItem("Customer"),
 };
 
-// get customer information
-function getInfo() {
-  const endpoint = BASE_URL + `customer`;
-  return fetch(endpoint, {
-    method: "GET",
-    headers: {
-      Authorization: localStorage.getItem("Customer"),
-    },
-  }).then((res) => res.json());
-}
-
 export function CustomerInfo() {
   const [loading, setLoading] = useState(true);
   const [customer, setCustomer] = useState([]);
   const [error, setError] = useState(null);
+  const endpoint = BASE_URL + `customer?userId=edisonTest1@gmail.com`;
   useEffect(() => {
-    getInfo()
-      .then((res) => {
-        setLoading(false);
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(endpoint);
         setCustomer(res.data);
-      })
-      .catch((e) => {
-        setLoading(false);
-        setError(e);
-      });
-  }, []);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    };
 
-  return {
-    loading,
-    customer,
-    error,
-  };
+    getData();
+  }, [endpoint]);
+
+  return { loading, customer, error };
 }
 
 const useFetch = (url) => {
@@ -74,39 +63,33 @@ const useFetch = (url) => {
   return { data, loading, error, reFetch };
 };
 
-//show all transictions
-function getAllTransaction(customer) {
-  const endpoint = `http://localhost:8088/api/customer/transaction/all?customerId=${customer.userId}&currencyName=AUD`;
-  const token = localStorage.getItem("Customer");
-  return fetch(endpoint, {
-    method: "GET",
-    headers: {
-      Authorization: token,
-    },
-  }).then((res) => res.json());
-}
-
-export function UseAllTransaction(customer) {
+export function GetAllTransaction(customer) {
   const [loading, setLoading] = useState(true);
   const [transaction, setTransaction] = useState([]);
-  const [error1, setError] = useState(null);
-
+  const [error, setError] = useState(null);
+  const endpoint = `http://localhost:8088/api/customer/transaction/all?customerId=${customer.data.userId}&currencyName=AUD`;
   useEffect(() => {
-    console.log(customer);
-    getAllTransaction(customer)
-      .then((res) => {
-        setLoading(false);
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(endpoint, {
+          headers: {
+            Authorization: localStorage.getItem("Customer"),
+          },
+        });
         setTransaction(res.data);
-      })
-      .catch((e) => {
-        setError(e);
-        setLoading(false);
-      });
-  }, []);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    };
+
+    getData();
+  }, [endpoint]);
   return {
     loading,
     transaction,
-    error1,
+    error,
   };
 }
 
