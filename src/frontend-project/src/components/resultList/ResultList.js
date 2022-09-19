@@ -3,26 +3,42 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { GetBookings } from "../../API/CustomerApi";
 import Booking from "../../components/bookings/Booking";
+import { GetAllTransaction } from "../../API/CustomerApi";
 
 const ResultList = (customer) => {
-  const { booking, loading, error } = GetBookings(customer.item);
+  const { loading, transaction, error } = GetAllTransaction(customer.item);
 
-  if (booking.msg === "User Not Exist.") {
+  if (transaction.length === 0) {
     return <div>loading</div>;
   } else {
+    const priorBooking = [];
+    const futureBooking = [];
+    for (const item of transaction.data) {
+      if (item.statusCode === 1) {
+        futureBooking.push(item);
+      } else {
+        priorBooking.push(item);
+      }
+    }
     return (
       <div>
-        {console.log(booking)}
         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
           <Tab eventKey="profile" title="Profile">
             My profile
           </Tab>
-          <Tab eventKey="booking" title="My Booking">
-            {/* <div>
-              {booking.data.map((item) => (
+          <Tab eventKey="prior" title="Prior Booking">
+            <div>
+              {priorBooking.map((item) => (
                 <Booking item={item} key={item.id} />
               ))}
-            </div> */}
+            </div>
+          </Tab>
+          <Tab eventKey="future" title="Future Booking">
+            <div>
+              {futureBooking.map((item) => (
+                <Booking item={item} key={item.id} />
+              ))}
+            </div>
           </Tab>
         </Tabs>
       </div>

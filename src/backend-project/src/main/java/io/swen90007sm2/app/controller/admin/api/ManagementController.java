@@ -116,5 +116,15 @@ public class ManagementController {
         return R.ok();
     }
 
+    // get hoteliers by page
+    @HandlesRequest(path = "/hotelier/all", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R getHoteliers(@QueryParam(value = "pageNo") int pageNo, @QueryParam(value = "pageSize") int pageSize) {
+        PageBean<Hotelier> hoteliersByPage = managementBlo.getHoteliersByPage(pageNo, pageSize);
+
+        return R.ok().setData(hoteliersByPage);
+    }
+
+
 
 }

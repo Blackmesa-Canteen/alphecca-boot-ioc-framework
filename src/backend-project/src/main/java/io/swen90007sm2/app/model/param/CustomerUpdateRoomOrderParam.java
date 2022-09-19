@@ -7,7 +7,7 @@ public class CustomerUpdateRoomOrderParam {
     String transactionId;
     @NotNull(message = "roomOrderId should not be null")
     String roomOrderId;
-    @NotNull(message = "day should not be null")
+    @NotNull(message = "room quantity should not be null")
     int newQuantity;
 
     public CustomerUpdateRoomOrderParam() {

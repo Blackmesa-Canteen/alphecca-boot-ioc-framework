@@ -7,38 +7,27 @@ const headers = {
   Authorization: localStorage.getItem("Customer"),
 };
 
-// get customer information
-function getInfo() {
-  const endpoint = BASE_URL + `customer`;
-  return fetch(endpoint, {
-    method: "GET",
-    headers: {
-      Authorization: localStorage.getItem("Customer"),
-    },
-  }).then((res) => res.json());
-}
-
 export function CustomerInfo() {
   const [loading, setLoading] = useState(true);
   const [customer, setCustomer] = useState([]);
   const [error, setError] = useState(null);
+  const endpoint = BASE_URL + `customer?userId=edisonTest1@gmail.com`;
   useEffect(() => {
-    getInfo()
-      .then((res) => {
-        setLoading(false);
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(endpoint);
         setCustomer(res.data);
-      })
-      .catch((e) => {
-        setLoading(false);
-        setError(e);
-      });
-  }, []);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    };
 
-  return {
-    loading,
-    customer,
-    error,
-  };
+    getData();
+  }, [endpoint]);
+
+  return { loading, customer, error };
 }
 
 const useFetch = (url) => {
@@ -74,6 +63,7 @@ const useFetch = (url) => {
   return { data, loading, error, reFetch };
 };
 
+
 //get owned hotel room
 function getOwnedTransaction(customer) {
   const endpoint = BASE_URL+`customer/transaction/all?customerId=${customer.userId}&currencyName=AUD`;
@@ -83,27 +73,60 @@ function getOwnedTransaction(customer) {
       Authorization: localStorage.getItem("Customer"),
     },
   }).then((res) => res.json());
-}
 
-export function GetBookings(customer) {
+export function GetAllTransaction(customer) {
   const [loading, setLoading] = useState(true);
-  const [booking, setBooking] = useState([]);
+  const [transaction, setTransaction] = useState([]);
   const [error, setError] = useState(null);
+  const endpoint = `http://localhost:8088/api/customer/transaction/all?customerId=${customer.data.userId}&currencyName=AUD`;
   useEffect(() => {
-    getOwnedTransaction(customer)
-      .then((res) => {
-        setBooking(res);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setError(e);
-        setLoading(false);
-      });
-  }, []);
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(endpoint, {
+          headers: {
+            Authorization: localStorage.getItem("Customer"),
+          },
+        });
+        setTransaction(res.data);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    };
+
+    getData();
+  }, [endpoint]);
   return {
     loading,
-    booking,
+    transaction,
+    error,
+  };
+
+}
+
+export function GetHotel(id) {
+  const [loading, setLoading] = useState(true);
+  const [hotel, setHotel] = useState("");
+  const [error, setError] = useState(null);
+  const endpoint = `http://localhost:8088/api/shared/hotel/query?hotelId=${id}&currency=AUD`;
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(endpoint);
+        setHotel(res.data.data);
+      } catch (err) {
+        setError(err);
+      }
+      setLoading(false);
+    };
+
+    getData();
+  }, [endpoint]);
+  return {
+    hotel,
+    loading,
     error,
   };
 }
