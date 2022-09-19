@@ -26,7 +26,7 @@ import {
   OptionBtn,
 } from "./HeaderElements";
 
-const Header = ({ type }) => {
+const Header = (props) => {
   const [hotelName, setHotelName] = useState("");
   const [postcode, setPostCode] = useState("");
   const [openDate, setOpenDate] = useState(false);
@@ -65,9 +65,10 @@ const Header = ({ type }) => {
   const handleClick = () => {
     navigate("/login");
   };
+  
   return (
     <HeaderWrap>
-      {type === "list" ? (
+      {props.type === "list" ? (
         <div></div>
       ) : (
         <HeaderContainer>
@@ -76,7 +77,7 @@ const Header = ({ type }) => {
             Get ready for thousands of amazing hotels here - unlock premium
             services with a free Alphecca account
           </HeaderP>
-          <HeaderBtn onClick={handleClick}>Sign in / Sign up</HeaderBtn>
+          {(typeof props.item==='undefined')&&<HeaderBtn onClick={handleClick}>Sign in / Sign up</HeaderBtn>}
           <HeaderSearch>
             <HeaderSearchItem>
               <SearchIcon icon={faBed} />

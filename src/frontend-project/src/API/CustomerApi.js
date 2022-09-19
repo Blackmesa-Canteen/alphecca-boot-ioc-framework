@@ -6,26 +6,28 @@ const headers = {
   "Content-Type": "application/json",
   Authorization: localStorage.getItem("Customer"),
 };
-
+// CustomerInfo
+async function getInfo() {
+  const endpoint = BASE_URL + `customer`;
+  return fetch(endpoint, { method: "GET", headers: headers }).then((res) =>
+    res.json()
+  );
+}
 export function CustomerInfo() {
   const [loading, setLoading] = useState(true);
   const [customer, setCustomer] = useState([]);
   const [error, setError] = useState(null);
-  const endpoint = BASE_URL + `customer?userId=edisonTest1@gmail.com`;
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(endpoint);
+    getInfo()
+      .then((res) => {
+        setLoading(false);
         setCustomer(res.data);
-      } catch (err) {
-        setError(err);
-      }
-      setLoading(false);
-    };
-
-    getData();
-  }, [endpoint]);
+      })
+      .catch((e) => {
+        setLoading(true);
+        setError(e);
+      });
+  }, []);
 
   return { loading, customer, error };
 }
@@ -63,22 +65,16 @@ const useFetch = (url) => {
   return { data, loading, error, reFetch };
 };
 
-
 //get owned hotel room
-function getOwnedTransaction(customer) {
-  const endpoint = BASE_URL+`customer/transaction/all?customerId=${customer.userId}&currencyName=AUD`;
-  return fetch(endpoint, {
-    method: "GET",
-    headers: {
-      Authorization: localStorage.getItem("Customer"),
-    },
-  }).then((res) => res.json());
-
-export function GetAllTransaction(customer) {
+export function GetAllTransaction(userId) {
   const [loading, setLoading] = useState(true);
   const [transaction, setTransaction] = useState([]);
   const [error, setError] = useState(null);
-  const endpoint = `http://localhost:8088/api/customer/transaction/all?customerId=${customer.data.userId}&currencyName=AUD`;
+  const endpoint =
+    BASE_URL +
+    `customer/transaction/all?customerId=${encodeURIComponent(
+      userId
+    )}&currencyName=AUD`;
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
@@ -102,14 +98,88 @@ export function GetAllTransaction(customer) {
     transaction,
     error,
   };
-
+}
+//get rooms by hotelid
+async function getRooms(hotelId) {
+  const endpoint =
+    BASE_URL + `shared/room/query/?hotelId=${encodeURIComponent(hotelId)}`;
+  return fetch(endpoint).then((res) => res.json());
+}
+export function HotelRooms(hotelId) {
+  const [loading, setLoading] = useState(false);
+  const [rooms, setRooms] = useState([]);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    getRooms(hotelId)
+      .then((res) => {
+        setLoading(false);
+        console.log(res);
+        setRooms(res.data);
+      })
+      .catch((e) => {
+        setError(e);
+        setLoading(false);
+      });
+  }, []);
+  return {
+    loading,
+    rooms,
+    error,
+  };
+}
+//bookHotel
+export async function bookHotel(id) {
+  const endpoint = BASE_URL + `customer/transaction`;
+  axios({
+    url: endpoint,
+    method: "POST",
+    headers: headers,
+    data: JSON.stringify(id),
+  })
+    .then((res) => {
+      alert("successfully reserved");
+    })
+    .catch((e) => {
+      alert("failed to book, please try later");
+      console.log(e);
+    });
 }
 
+//cancel Transaction
+export async function cancelTransac(id) {
+  const endpoint =
+    BASE_URL +
+    `customer/transaction/cancel/?transactionId=${encodeURIComponent(id)}`;
+  return fetch(endpoint, { method: "GET", headers: headers }).then((res) => {
+    alert("Booking canceled");
+    window.location = "/customer";
+  });
+}
+
+//update roomOrder
+export async function updateOrder(info) {
+  const endpoint = BASE_URL + `customer/transaction/update`;
+  axios({
+    url: endpoint,
+    method: "POST",
+    headers: headers,
+    data: JSON.stringify(info),
+  })
+    .then((res) => {
+      console.log(res);
+      window.location="/customer"
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
+
+//get Hotel
 export function GetHotel(id) {
   const [loading, setLoading] = useState(true);
   const [hotel, setHotel] = useState("");
   const [error, setError] = useState(null);
-  const endpoint = `http://localhost:8088/api/shared/hotel/query?hotelId=${id}&currency=AUD`;
+  const endpoint = BASE_URL + `shared/hotel/query?hotelId=${id}&currency=AUD`;
   useEffect(() => {
     const getData = async () => {
       setLoading(true);

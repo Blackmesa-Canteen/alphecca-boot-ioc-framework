@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const BASE_URL = "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
+export const BASE_URL =
+  "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
 
 //customer signup
 export async function signup(user) {
@@ -78,7 +79,9 @@ export async function Login(user) {
     .then((res) => {
       localStorage.setItem(role, res.data.data.token);
       alert("successfully logged in");
-      window.location = "/" + role.toLowerCase();
+      role === "Customer"
+        ? (window.location = "/"+`${userId}`)
+        : (window.location = "/" + role.toLowerCase());
       return;
     })
     .catch((e) => {

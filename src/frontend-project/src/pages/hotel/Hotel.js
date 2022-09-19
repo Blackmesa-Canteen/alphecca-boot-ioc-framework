@@ -1,4 +1,4 @@
-import { HomeNavBar } from "../../components/navbar/NavBar";
+import { CustomerNavBar, HomeNavBar } from "../../components/navbar/NavBar";
 import Header from "../../components/header/Header";
 import Mail from "../../components/mail/Mail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,6 +35,7 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { Rooms } from "./Room";
 
 const Hotel = () => {
   const images = [
@@ -88,10 +89,10 @@ const Hotel = () => {
   const HandleClick = () => {
     setOpenPage(true);
   };
-
+  const customer = localStorage.getItem("Customer");
   return (
     <div>
-      <HomeNavBar />
+      {(typeof customer ==="undefined"||customer===null)?<HomeNavBar />:<CustomerNavBar/>}
       <Header type="list" />
       {loading ? (
         "loading"
@@ -115,7 +116,7 @@ const Hotel = () => {
           )}
 
           <HotelWrapper>
-            <BookBtn>Book Now</BookBtn>
+            
             <HotelTitle>{data.name}</HotelTitle>
             <HotelAddress>
               <FontAwesomeIcon icon={faLocationDot} />
@@ -137,15 +138,10 @@ const Hotel = () => {
             </HotelImgContainer>
             <HotelDetailContainer>
               <DetailText>
-                <HotelTitle>Room Description</HotelTitle>
-                <HotelDescription>
-                  A detailed description of this room!
-                </HotelDescription>
-                <HotelDescription>Bla bla bla bla bla bla bla</HotelDescription>
+              <HotelTitle>Room Description</HotelTitle>
+                <Rooms id={data.hotelId}/>
               </DetailText>
-              <DetailPrice>
-                <DetailPriceBtn onClick={HandleClick}>Book Now!</DetailPriceBtn>
-              </DetailPrice>
+             
             </HotelDetailContainer>
           </HotelWrapper>
           <Mail />

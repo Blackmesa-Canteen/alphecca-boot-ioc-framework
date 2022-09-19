@@ -4,10 +4,10 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { AlpheccaLogo } from "../common/CustomerStyle";
 import { Logout } from "../../API/CommonApi";
 
-export function CustomerNavBar() {
+export function CustomerNavBar(props) {
   return (
     <Navbar bg="black" variant="dark">
-      <Navbar.Brand href="/">
+      <Navbar.Brand href={"/"+`${props.value}`}>
         <AlpheccaLogo />
       </Navbar.Brand>
       <Nav style={{ position: "absolute", right: "1%" }}>
@@ -20,7 +20,7 @@ export function CustomerNavBar() {
             Log out
           </Button>
         </div>
-        <IoPersonCircleSharp color="white" fontSize="50" />
+        <IoPersonCircleSharp color="white" fontSize="50" onClick={()=>{window.location="/customer"}}/>
       </Nav>
     </Navbar>
   );

@@ -24,7 +24,6 @@ export const Text = styled.div`
   text-align: center;
   align-items: center;
   text-overflow: ellipsis;
-  
 `;
 export default function HotelTransaction() {
   const { id } = useParams();
@@ -57,7 +56,9 @@ export default function HotelTransaction() {
           <Text>Start Date</Text>
           <Text>End Date</Text>
           <Text>Ordered Rooms</Text>
-          <Text style={{ marginRight: 40 }}>Total Price</Text>
+          
+          <Text>Total Price</Text>
+          <Text style={{ marginRight: 40 }}>Status</Text>
         </TransacDetail>
         {transaction.length != 0 &&
           transaction.map((trans) => {
@@ -69,6 +70,7 @@ export default function HotelTransaction() {
 }
 function OneTransc(props) {
   const transc = props.value;
+  console.log(transc.statusCode);
   const startDate = new Date(transc.startDate).toUTCString().slice(0, 17);
   const endDate = new Date(transc.endDate).toUTCString().slice(0, 17);
   return (
@@ -81,7 +83,12 @@ function OneTransc(props) {
       <Text>
         ${transc.roomOrders[0].orderedCount * transc.roomOrders[0].pricePerRoom}
       </Text>
-      <RiDeleteBin5Fill style={{ marginRight: 10 }} size="30" color="red" />
+      {transc.statusCode === 1 ? (
+        <Text style={{ color: "green" }}>Process</Text>
+      ) : (
+        <Text style={{ color: "red" }}>Cancel</Text>
+      )}
+      <RiDeleteBin5Fill style={{ marginRight: 10 }} size="30" />
     </TransacDetail>
   );
 }
