@@ -25,7 +25,7 @@ Expedia, the business operates as a search engine and booking system for hotel s
 ## Sprint Releases
 :one: [Part 1 Release](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/releases/tag/SWEN90007_2022_Part1_Alphecca_v.2)
 
-:two: [Part 2 Release](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/releases/tag/SWEN90007_2022_Part2_Alphecca_v.2)
+:two: [Part 2 Release](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/releases/tag/SWEN90007_2022_Part2_Alphecca)
 
 ## Heroku Deployment Repositories
 #### Front-end Deployment
