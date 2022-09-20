@@ -120,7 +120,7 @@ export function HotelRooms(hotelId) {
         setError(e);
         setLoading(false);
       });
-  }, []);
+  }, [hotelId]);
   return {
     loading,
     rooms,

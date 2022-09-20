@@ -35,7 +35,7 @@ export function ViewAllCustomer(info) {
         setError(e);
         setLoading(false);
       });
-  }, []);
+  }, [info]);
   return {
     loading,
     customers,
@@ -117,7 +117,7 @@ export function ViewAllHotels(info) {
         setError(e);
         setLoading(false);
       });
-  }, []);
+  }, [info]);
   return {
     loading,
     hotels,
@@ -170,7 +170,7 @@ export function ViewHotelierGroup(info) {
         setError(e);
         setLoading(false);
       });
-  }, []);
+  }, [info]);
   return {
     loading,
     hoteliers,
@@ -227,7 +227,7 @@ export function ViewAllhotelier(info) {
         setError(e);
         setLoading(false);
       });
-  }, []);
+  }, [info]);
   return {
     loading,
     hoteliers,

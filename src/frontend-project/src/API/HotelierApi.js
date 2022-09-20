@@ -242,7 +242,7 @@ export function RoomDetail(id) {
         setError(e);
         setLoading(false);
       });
-  }, []);
+  }, [id]);
   return {
     loading,
     rooms,
@@ -278,7 +278,7 @@ export function UseAllTransaction(hotelier) {
         setError(e);
         setLoading(false);
       });
-  }, []);
+  }, [hotelier]);
   return {
     loading,
     transaction,

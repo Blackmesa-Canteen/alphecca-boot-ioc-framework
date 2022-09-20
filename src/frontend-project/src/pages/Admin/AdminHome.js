@@ -8,6 +8,10 @@ export default function AllCustomers() {
     pageNo: 1,
     pageSize: 12,
   });
+  const admin = localStorage.getItem("Admin")
+  if(typeof admin ==="undefined" || admin===null){
+    window.location="/adminLogin"
+  }
   if (loading) {
     return (
       <div>

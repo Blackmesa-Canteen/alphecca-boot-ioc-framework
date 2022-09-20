@@ -7,9 +7,7 @@ import { GetHotel, cancelTransac, updateOrder } from "../../API/CustomerApi";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Form from "react-bootstrap/Form";
 import {
-  DetailText,
-  DetailPriceBtn,
-  HotelDescription,
+  
   HotelTitle,
 } from "../../pages/hotel/HotelElements";
 import {
@@ -23,7 +21,11 @@ const Booking = (item) => {
   const endDate = new Date(item.item.endDate);
   const { hotel, loading, error } = GetHotel(item.item.hotelId);
   const [editWd, setEditwd] = useState(false);
-  //console.log(item.item)
+  if(loading){
+    return<h1>loading</h1>
+  }else if(error){
+    return<h1>something went wrong</h1>
+  }
   if (item.item.statusCode === 1) {
     return (
       <div>
