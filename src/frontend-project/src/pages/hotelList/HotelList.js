@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BASE_URL } from "../../API/CommonApi";
-import { CustomerNavBar } from "../../components/navbar/NavBar";
+import {HomeNavBar, CustomerNavBar } from "../../components/navbar/NavBar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
 import SearchItem from "../../components/search/Search";
@@ -44,10 +44,10 @@ const List = () => {
       );
     }
   };
-
+  const customer = localStorage.getItem("Customer");
   return (
     <div>
-      <CustomerNavBar />
+      {(typeof customer ==="undefined"||customer===null)?<HomeNavBar />:<CustomerNavBar/>}
       <Header type="list" />
       <ListContainer>
         <ListWrapper>
