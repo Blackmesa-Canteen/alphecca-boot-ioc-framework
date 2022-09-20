@@ -60,7 +60,7 @@ export default function HotelTransaction() {
           <Text>Total Price</Text>
           <Text style={{ marginRight: 40 }}>Status</Text>
         </TransacDetail>
-        {transaction.length != 0 &&
+        {transaction.length !== 0 &&
           transaction.map((trans) => {
             return <OneTransc value={trans} key={trans.id} />;
           })}

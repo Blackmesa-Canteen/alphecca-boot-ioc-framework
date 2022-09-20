@@ -80,7 +80,7 @@ export async function Login(user) {
       localStorage.setItem(role, res.data.data.token);
       alert("successfully logged in");
       role === "Customer"
-        ? (window.location = "/"+`${userId}`)
+        ? (window.location = "/" + `${userId}`)
         : (window.location = "/" + role.toLowerCase());
       return;
     })
@@ -111,7 +111,9 @@ export async function Logout(role) {
       console.log(res);
       localStorage.removeItem(role);
       alert("Successfully logged out");
-      window.location = "/";
+      role === "Admin"
+        ? (window.location = "/adminLogin")
+        : (window.location = "/");
     })
     .catch((e) => {
       console.log(e);

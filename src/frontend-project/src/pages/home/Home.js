@@ -8,7 +8,6 @@ import { HomeNavBar,CustomerNavBar } from "../../components/navbar/NavBar";
 import { HomeContainer, HomeTitle } from "./HomeElements";
 
 export default function HomePage() {
-  const customer = localStorage.getItem("Customer");
   const {id} = useParams();
   console.log(id)
   return (
