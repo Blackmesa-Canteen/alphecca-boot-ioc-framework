@@ -51,7 +51,7 @@ public class HotelController {
     /**
      * Exclusively edit owned hotel
      */
-    @HandlesRequest(path = "/management", method = RequestMethod.PUT)
+    @HandlesRequest(path = "/editing", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R editOwnedHotelWithLock(HttpServletRequest request, @RequestJsonBody @Valid HotelParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
@@ -66,7 +66,7 @@ public class HotelController {
     /**
      * Exclusively edit owned hotel. It is used to render the editing form
      */
-    @HandlesRequest(path = "/management", method = RequestMethod.GET)
+    @HandlesRequest(path = "/editing", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
     public R getOwnedHotelWithLock(HttpServletRequest request) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
