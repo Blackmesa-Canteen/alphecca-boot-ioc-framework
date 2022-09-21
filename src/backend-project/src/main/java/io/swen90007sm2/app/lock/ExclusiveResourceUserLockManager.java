@@ -2,6 +2,7 @@ package io.swen90007sm2.app.lock;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
+import io.swen90007sm2.app.lock.constant.LockConstant;
 import io.swen90007sm2.app.lock.dao.IResourceUserLockDao;
 import io.swen90007sm2.app.lock.entity.ResourceUserLock;
 import io.swen90007sm2.app.lock.exception.ResourceConflictException;
@@ -11,14 +12,14 @@ import io.swen90007sm2.app.lock.exception.ResourceConflictException;
  * @description exclusive Read Write lock for multiple user shared resource
  * @create 2022-09-20 16:38
  */
-@Component
+@Component(beanName = LockConstant.EXCLUSIVE_LOCK_MANAGER)
 public class ExclusiveResourceUserLockManager implements IResourceUserLockManager {
 
     @AutoInjected
     IResourceUserLockDao resourceUserLockDao;
 
     @Override
-    public synchronized void acquire(int resourceId, String userId) throws ResourceConflictException {
+    public synchronized void acquire(String resourceId, String userId) throws ResourceConflictException {
         ResourceUserLock existingLock = resourceUserLockDao.findOneLockByResourceId(resourceId);
         if (existingLock != null) {
             throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
@@ -33,7 +34,7 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
     }
 
     @Override
-    public synchronized void release(int resourceId, String userId) throws ResourceConflictException{
+    public synchronized void release(String resourceId, String userId) throws ResourceConflictException{
         resourceUserLockDao.deleteOneByResourceId(resourceId);
     }
 }

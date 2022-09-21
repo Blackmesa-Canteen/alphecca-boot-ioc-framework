@@ -27,6 +27,8 @@ import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.dao.impl.HotelierDao;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
+import io.swen90007sm2.app.lock.IResourceUserLockManager;
+import io.swen90007sm2.app.lock.constant.LockConstant;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 import io.swen90007sm2.app.model.entity.Hotelier;
@@ -57,6 +59,101 @@ public class HotelBlo implements IHotelBlo {
     @AutoInjected
     @Qualifier(name = CacheConstant.OBJECT_CACHE_BEAN)
     ICacheStorage<String, Object> cache;
+
+    @AutoInjected
+    @Qualifier(name = LockConstant.EXCLUSIVE_LOCK_MANAGER)
+    IResourceUserLockManager exclusiveLockManager;
+
+    @Override
+    public void editOwnedHotelWithLock(String hotelierId, HotelParam hotelParam) {
+        Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+        String hotelId = currentHotelier.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        try {
+            IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+            // atom operation
+            synchronized (this) {
+                Hotel hotel = getHotelEntityByHotelId(hotelId);
+
+                if (hotel == null) {
+                    throw new RequestException(
+                            StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                            StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+                    );
+                }
+                // update hotel
+                if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
+                if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
+                if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
+                if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getDescription());
+                if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
+
+                UnitOfWorkHelper.getCurrent().registerDirty(
+                        hotel,
+                        hotelDao,
+                        CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId
+                );
+
+                // update amenity (atom update the associate table)
+                hotelAmenityBlo.updateAmenityIdsForHotel(hotelParam.getAmenityIds(), hotelId);
+
+                // clean up cache
+                cache.remove(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
+                cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
+            }
+        } finally {
+            // make sure to release the lock
+            exclusiveLockManager.release(hotelId, hotelierId);
+        }
+    }
+
+    @Override
+    public HotelVo getHotelInfoByOwnerHotelierIdWithLock(String hotelierId, String currencyName, Boolean showNotSale) {
+        HotelVo hotelVo;
+        Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+        String hotelId = currentHotelier.getHotelId();
+        if (StringUtils.isEmpty(hotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        // Exclusive lock logic
+        // if there are someone is editing and already acquired the lock, raise exception
+        exclusiveLockManager.acquire(hotelId, hotelierId);
+
+        Hotel hotel = getHotelEntityByHotelId(hotelId);
+        if (hotel == null || (!showNotSale && !hotel.getOnSale())) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        // generate hotel vo
+        hotelVo = new HotelVo();
+        // copy properties
+        BeanUtil.copyProperties(hotel, hotelVo);
+
+        // embedded value
+        Money money = new Money();
+        money.setCurrency(currencyName);
+        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
+        hotelVo.setMoney(money);
+
+        // list amenities
+        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotelId);
+        hotelVo.setAmenities(amenities);
+
+        return hotelVo;
+    }
 
     public void doCreateHotel(String hotelierId, HotelParam hotelParam) {
 

@@ -9,10 +9,7 @@ import io.swen90007sm2.app.lock.constant.LockConstant;
  */
 public class ResourceUserLock {
 
-    /**
-     * These 2 field need to use Compose Unique index in the database
-     */
-    Integer resourceId;
+    String resourceId;
 
     String userId;
 
@@ -22,26 +19,26 @@ public class ResourceUserLock {
     public ResourceUserLock() {
     }
 
-    public ResourceUserLock(Integer resourceId) {
+    public ResourceUserLock(String resourceId) {
         this.resourceId = resourceId;
     }
 
-    public ResourceUserLock(Integer resourceId, String userId) {
+    public ResourceUserLock(String resourceId, String userId) {
         this.resourceId = resourceId;
         this.userId = userId;
     }
 
-    public ResourceUserLock(Integer resourceId, String userId, Integer lockType) {
+    public ResourceUserLock(String resourceId, String userId, Integer lockType) {
         this.resourceId = resourceId;
         this.userId = userId;
         this.lockType = lockType;
     }
 
-    public Integer getResourceId() {
+    public String getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(Integer resourceId) {
+    public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
     }
 

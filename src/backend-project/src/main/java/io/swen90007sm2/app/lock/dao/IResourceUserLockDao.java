@@ -4,11 +4,11 @@ import io.swen90007sm2.app.lock.entity.ResourceUserLock;
 
 public interface IResourceUserLockDao {
 
-    ResourceUserLock findOneLockByResourceId(Integer resourceId);
+    ResourceUserLock findOneLockByResourceId(String resourceId);
 
     int insertOne(ResourceUserLock entity);
 
-    int deleteOneByResourceId(Integer resourceId);
+    int deleteOneByResourceId(String resourceId);
 
-    int deleteOneByResourceAndUser(Integer resourceId, String userId);
+    int deleteOneByResourceAndUser(String resourceId, String userId);
 }

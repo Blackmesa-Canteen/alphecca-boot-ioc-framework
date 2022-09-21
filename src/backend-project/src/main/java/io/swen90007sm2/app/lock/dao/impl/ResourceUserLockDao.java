@@ -3,10 +3,8 @@ package io.swen90007sm2.app.lock.dao.impl;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.app.db.resolver.BeanResultSetResolver;
-import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.lock.dao.IResourceUserLockDao;
 import io.swen90007sm2.app.lock.entity.ResourceUserLock;
-import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +26,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceUserLockDao.class);
 
     @Override
-    public ResourceUserLock findOneLockByResourceId(Integer resourceId) {
+    public ResourceUserLock findOneLockByResourceId(String resourceId) {
         String sql = "SELECT * FROM resource_user_lock WHERE resource_id = ?";
         Object[] params = {resourceId};
 
@@ -89,7 +87,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
     }
 
     @Override
-    public int deleteOneByResourceId(Integer resourceId) {
+    public int deleteOneByResourceId(String resourceId) {
         String sql = "DELETE FROM resource_user_lock WHERE resource_id = ?";
         Object[] params = {resourceId};
 
@@ -114,7 +112,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
     }
 
     @Override
-    public int deleteOneByResourceAndUser(Integer resourceId, String userId) {
+    public int deleteOneByResourceAndUser(String resourceId, String userId) {
         String sql = "DELETE FROM resource_user_lock WHERE resource_id = ? and user_id = ?";
         Object[] params = {resourceId, userId};
 

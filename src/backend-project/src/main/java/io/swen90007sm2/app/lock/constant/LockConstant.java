@@ -6,6 +6,9 @@ package io.swen90007sm2.app.lock.constant;
  * @create 2022-09-21 10:46
  */
 public interface LockConstant {
+
+    String EXCLUSIVE_LOCK_MANAGER = "ex-lm";
+    String READ_WRITE_LOCK_MANAGER = "rw-lm";
     Integer EXCLUSIVE_LOCK = 0;
     Integer SHARED_READ_LOCK = 1;
     Integer SHARED_WRITE_LOCK = 2;
