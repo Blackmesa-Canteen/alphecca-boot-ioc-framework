@@ -1,18 +1,15 @@
 package io.swen90007sm2.app.db.helper;
 
-import cn.hutool.core.collection.ConcurrentHashSet;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.common.util.Assert;
 import io.swen90007sm2.app.dao.IBaseDao;
 import io.swen90007sm2.app.db.bean.UowBean;
-import io.swen90007sm2.app.db.factory.DaoFactory;
 import io.swen90007sm2.app.model.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * unit of work helper, handles dirty jobs.
@@ -36,9 +33,9 @@ public class UnitOfWorkHelper {
 
     public UnitOfWorkHelper(ICacheStorage<String, Object> cacheRef) {
         // no need to have ConcurrentSet, because this Uow Helper is thread local
-        newUowBeans = new HashSet<>();
-        dirtyUowBeans = new HashSet<>();
-        deletedUowBeans = new HashSet<>();
+        newUowBeans = new LinkedHashSet<>();
+        dirtyUowBeans = new LinkedHashSet<>();
+        deletedUowBeans = new LinkedHashSet<>();
         this.cacheRef = cacheRef;
     }
 
@@ -114,7 +111,6 @@ public class UnitOfWorkHelper {
     /**
      * parform CUD to database
      * <br/>
-     * IMPORTANT: make sure DaoFactory contains all existing Dao!
      */
     public void commit() {
         // class lock to guarantee CRUD Atomicity for one request
@@ -155,6 +151,15 @@ public class UnitOfWorkHelper {
             }
 
             LOGGER.info("Unit of work committed.");
+            newUowBeans.clear();
+            deletedUowBeans.clear();
+            dirtyUowBeans.clear();
         }
+    }
+
+    public void rollback() {
+        newUowBeans.clear();
+        deletedUowBeans.clear();
+        dirtyUowBeans.clear();
     }
 }
