@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.lock.entity;
 
+import io.swen90007sm2.app.lock.constant.LockConstant;
+
 /**
  * @author 996Worker
  * @description
@@ -14,13 +16,25 @@ public class ResourceUserLock {
 
     String userId;
 
+    Integer lockType = LockConstant.EXCLUSIVE_LOCK;
+
 
     public ResourceUserLock() {
+    }
+
+    public ResourceUserLock(Integer resourceId) {
+        this.resourceId = resourceId;
     }
 
     public ResourceUserLock(Integer resourceId, String userId) {
         this.resourceId = resourceId;
         this.userId = userId;
+    }
+
+    public ResourceUserLock(Integer resourceId, String userId, Integer lockType) {
+        this.resourceId = resourceId;
+        this.userId = userId;
+        this.lockType = lockType;
     }
 
     public Integer getResourceId() {
@@ -37,5 +51,13 @@ public class ResourceUserLock {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Integer getLockType() {
+        return lockType;
+    }
+
+    public void setLockType(Integer lockType) {
+        this.lockType = lockType;
     }
 }

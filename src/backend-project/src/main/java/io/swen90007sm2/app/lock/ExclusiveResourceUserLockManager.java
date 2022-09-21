@@ -19,9 +19,14 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
 
     @Override
     public synchronized void acquire(int resourceId, String userId) throws ResourceConflictException {
+        ResourceUserLock existingLock = resourceUserLockDao.findOneLockByResourceId(resourceId);
+        if (existingLock != null) {
+            throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
+                    "please try again later");
+        }
+
         ResourceUserLock lock = new ResourceUserLock(
-                resourceId,
-                userId
+                resourceId
         );
 
         resourceUserLockDao.insertOne(lock);
@@ -29,6 +34,6 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
 
     @Override
     public synchronized void release(int resourceId, String userId) throws ResourceConflictException{
-        resourceUserLockDao.deleteOne(resourceId, userId);
+        resourceUserLockDao.deleteOneByResourceId(resourceId);
     }
 }
