@@ -32,9 +32,18 @@ public class UnitOfWorkInterceptor extends AbstractInterceptor {
 
     @Override
     public Object intercept(MethodCalling methodCalling) {
-        UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
-        Object result = methodCalling.proceed();
-        UnitOfWorkHelper.getCurrent().commit();
-        return result;
+        try {
+            UnitOfWorkHelper.init(CacheUtil.getObjectCacheInstance());
+            Object result = methodCalling.proceed();
+            UnitOfWorkHelper.getCurrent().commit();
+            return result;
+
+        } catch (Exception e) {
+            UnitOfWorkHelper.getCurrent().rollback();
+            throw e;
+
+        } finally {
+            UnitOfWorkHelper.setCurrent(null);
+        }
     }
 }
