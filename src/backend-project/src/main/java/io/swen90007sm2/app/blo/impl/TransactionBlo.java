@@ -19,6 +19,7 @@ import io.swen90007sm2.app.dao.ITransactionDao;
 import io.swen90007sm2.app.dao.impl.RoomOrderDao;
 import io.swen90007sm2.app.dao.impl.TransactionDao;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
+import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import io.swen90007sm2.app.model.entity.*;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.pojo.RoomBookingBean;
@@ -59,7 +60,7 @@ public class TransactionBlo implements ITransactionBlo {
 
     @Override
     public void doMakeBooking(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap) {
-
+        // TODO need hotel and room lock
         // pre generate transactionId
         Long newTransactionId = IdFactory.genSnowFlakeId();
         // pre define total price for transaction
@@ -147,20 +148,29 @@ public class TransactionBlo implements ITransactionBlo {
 
     @Override
     public void doUpdateBooking(String transactionId, String roomOrderId, int newQuanity) {
-        Transaction transaction = getTransactionEntityByTransactionId(transactionId);
-        int statusCode = transaction.getStatusCode();
-        if (statusCode != CommonConstant.TRANSACTION_CONFIRMED) {
-            throw new RequestException(StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getMessage()
-                    , StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getCode());
-        }
-        String hotelId = transaction.getHotelId();
-        Date start = transaction.getStartDate();
-        Date end = transaction.getEndDate();
+
         RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
-        RoomOrder modifiedRoomOrder = roomOrderDao.findOneByBusinessId(roomOrderId);
-        String targetRoomId = modifiedRoomOrder.getRoomId();
-        int orderedCount = modifiedRoomOrder.getOrderedCount();
         synchronized (this) {
+            Transaction transaction = getTransactionEntityByTransactionId(transactionId);
+            int statusCode = transaction.getStatusCode();
+            if (statusCode != CommonConstant.TRANSACTION_CONFIRMED) {
+                throw new RequestException(StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getMessage()
+                        , StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getCode());
+            }
+            String hotelId = transaction.getHotelId();
+            Date start = transaction.getStartDate();
+            Date end = transaction.getEndDate();
+
+            // track the original update time for optimistic lock
+            Date transactionUpdateTime = transaction.getUpdateTime();
+
+            RoomOrder modifiedRoomOrder = roomOrderDao.findOneByBusinessId(roomOrderId);
+            String targetRoomId = modifiedRoomOrder.getRoomId();
+            int orderedCount = modifiedRoomOrder.getOrderedCount();
+
+            // track the original update time for optimistic lock
+            Date roomOrderUpdateTime = modifiedRoomOrder.getUpdateTime();
+
             // get the existing room orders for this hotel at this date range
             List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
                     hotelId, start, end, CommonConstant.TRANSACTION_CANCELLED);
@@ -168,6 +178,8 @@ public class TransactionBlo implements ITransactionBlo {
 
             Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
             int totalCount = room.getVacantNum();
+            // track the original update time for optimistic lock
+            Date roomUpdateTime = room.getUpdateTime();
 
             for (RoomOrder roomOrder : existingRoomOrders) {
                 if (roomOrder.getRoomId().equals(targetRoomId)) {
@@ -188,6 +200,7 @@ public class TransactionBlo implements ITransactionBlo {
             BeanUtil.copyProperties(modifiedRoomOrder, newModifiedRoomOrder);
             newModifiedRoomOrder.setOrderedCount(newQuanity);
 //            roomOrderDao.updateOne(newModifiedRoomOrder);
+
             UnitOfWorkHelper.getCurrent().registerDirty(
                     newModifiedRoomOrder,
                     roomOrderDao,
@@ -209,24 +222,37 @@ public class TransactionBlo implements ITransactionBlo {
                     transactionDao,
                     CacheConstant.ENTITY_TRANSACTION_KEY_PREFIX + transactionId
             );
-        }
 
+            // check modify time before commit
+            Transaction transaction_latest = getTransactionEntityByTransactionId(transactionId);
+            RoomOrder roomOrder_latest = roomOrderDao.findOneByBusinessId(roomOrderId);
+            Room room_latest = roomBlo.getRoomEntityByRoomId(targetRoomId);
+
+            if (!transaction_latest.getUpdateTime().equals(transactionUpdateTime) ||
+            !roomOrder_latest.getUpdateTime().equals(roomOrderUpdateTime) ||
+            !room_latest.getUpdateTime().equals(roomUpdateTime)) {
+                UnitOfWorkHelper.getCurrent().rollback();
+                throw new ResourceConflictException("Optimistic Lock: conflict detected before commit on doUpdateBooking. Please try again later.");
+            }
+        }
     }
 
     @Override
     public void doCancelBooking(String transactionId) {
-        Transaction transaction = getTransactionEntityByTransactionId(transactionId);
-        Transaction newTransaction = new Transaction();
-        BeanUtil.copyProperties(transaction, newTransaction);
-        newTransaction.setStatusCode(CommonConstant.TRANSACTION_CANCELLED);
+        synchronized (this) {
+            Transaction transaction = getTransactionEntityByTransactionId(transactionId);
+            Transaction newTransaction = new Transaction();
+            BeanUtil.copyProperties(transaction, newTransaction);
+            newTransaction.setStatusCode(CommonConstant.TRANSACTION_CANCELLED);
 
-        TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+            TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
 //        transactionDao.updateOne(transaction);
-        UnitOfWorkHelper.getCurrent().registerDirty(
-                newTransaction,
-                transactionDao,
-                CacheConstant.ENTITY_TRANSACTION_KEY_PREFIX + transactionId
-        );
+            UnitOfWorkHelper.getCurrent().registerDirty(
+                    newTransaction,
+                    transactionDao,
+                    CacheConstant.ENTITY_TRANSACTION_KEY_PREFIX + transactionId
+            );
+        }
     }
 
     @Override

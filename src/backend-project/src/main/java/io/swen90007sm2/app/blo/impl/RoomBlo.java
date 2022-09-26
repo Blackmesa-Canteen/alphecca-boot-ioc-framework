@@ -111,6 +111,7 @@ public class RoomBlo implements IRoomBlo {
         }
     }
 
+    // TODO need room lock
     @Override
     public void doUpdateRoom(UpdateRoomParam param) {
         String roomId = param.getRoomId();
