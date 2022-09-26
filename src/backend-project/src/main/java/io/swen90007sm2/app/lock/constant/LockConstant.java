@@ -12,4 +12,7 @@ public interface LockConstant {
     Integer EXCLUSIVE_LOCK = 0;
     Integer SHARED_READ_LOCK = 1;
     Integer SHARED_WRITE_LOCK = 2;
+
+    // resource lock will expire in 2 minute to prevent deadlock
+    Integer LOCK_EXPIRE_MS = 2 * 60 * 1000;
 }

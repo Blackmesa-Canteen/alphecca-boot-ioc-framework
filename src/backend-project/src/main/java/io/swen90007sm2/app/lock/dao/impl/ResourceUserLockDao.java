@@ -2,6 +2,7 @@ package io.swen90007sm2.app.lock.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
 import io.swen90007sm2.alpheccaboot.exception.InternalException;
+import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.db.resolver.BeanResultSetResolver;
 import io.swen90007sm2.app.lock.dao.IResourceUserLockDao;
 import io.swen90007sm2.app.lock.entity.ResourceUserLock;
@@ -62,8 +63,9 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
 
     @Override
     public int insertOne(ResourceUserLock entity) {
-        String sql = "INSERT INTO resource_user_lock (resource_id, user_id, lock_type) values (?, ?, ?)";
-        Object[] params = {entity.getResourceId(), entity.getUserId(), entity.getLockType()};
+        String sql = "INSERT INTO resource_user_lock (resource_id, user_id, lock_type, create_time) values (?, ?, ?, ?)";
+        Object[] params = {entity.getResourceId(), entity.getUserId(), entity.getLockType(),
+                new java.sql.Date(TimeUtil.now().getTime())};
 
         Connection conn = null;
         PreparedStatement preparedStatement = null;

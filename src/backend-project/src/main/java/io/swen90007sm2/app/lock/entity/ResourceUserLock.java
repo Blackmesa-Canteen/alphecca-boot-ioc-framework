@@ -2,6 +2,8 @@ package io.swen90007sm2.app.lock.entity;
 
 import io.swen90007sm2.app.lock.constant.LockConstant;
 
+import java.util.Date;
+
 /**
  * @author 996Worker
  * @description
@@ -14,6 +16,9 @@ public class ResourceUserLock {
     String userId;
 
     Integer lockType = LockConstant.EXCLUSIVE_LOCK;
+
+    // date is used to prevent deadlock
+    private Date createTime;
 
 
     public ResourceUserLock() {
@@ -56,5 +61,13 @@ public class ResourceUserLock {
 
     public void setLockType(Integer lockType) {
         this.lockType = lockType;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

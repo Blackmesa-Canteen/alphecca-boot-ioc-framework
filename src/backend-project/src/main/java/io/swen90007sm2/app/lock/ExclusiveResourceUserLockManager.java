@@ -2,10 +2,14 @@ package io.swen90007sm2.app.lock;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Component;
+import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.lock.constant.LockConstant;
 import io.swen90007sm2.app.lock.dao.IResourceUserLockDao;
 import io.swen90007sm2.app.lock.entity.ResourceUserLock;
 import io.swen90007sm2.app.lock.exception.ResourceConflictException;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 996Worker
@@ -22,8 +26,18 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
     public synchronized void acquire(String resourceId, String userId) throws ResourceConflictException {
         ResourceUserLock existingLock = resourceUserLockDao.findOneLockByResourceId(resourceId);
         if (existingLock != null) {
-            throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
-                    "please try again later");
+
+            // check expire time
+            Date now = TimeUtil.now();
+            Date lockCreateTime = existingLock.getCreateTime();
+            if (TimeUtil.getDeltaBetweenDate(now, lockCreateTime, TimeUnit.MILLISECONDS) > LockConstant.LOCK_EXPIRE_MS) {
+
+                // the lock is expired, remove it to prevent deadlock
+                resourceUserLockDao.deleteOneByResourceId(resourceId);
+                throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
+                        "please try again later");
+            }
+
         }
 
         ResourceUserLock lock = new ResourceUserLock(
