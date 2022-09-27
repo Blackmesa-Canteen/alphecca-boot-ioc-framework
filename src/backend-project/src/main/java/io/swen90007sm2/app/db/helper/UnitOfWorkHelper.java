@@ -167,6 +167,9 @@ public class UnitOfWorkHelper {
         }
     }
 
+    /**
+     * perform rollback logic
+     */
     public void rollback() {
 
         // rollback additions
@@ -203,6 +206,7 @@ public class UnitOfWorkHelper {
             }
         }
 
+        LOGGER.info("Unit of work has rollback changes.");
         newUowBeans.clear();
         deletedUowBeans.clear();
         dirtyUowBeans.clear();
