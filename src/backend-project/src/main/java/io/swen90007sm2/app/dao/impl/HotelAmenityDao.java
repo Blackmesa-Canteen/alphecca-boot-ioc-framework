@@ -2,6 +2,7 @@ package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.app.dao.IHotelAmenityDao;
 import io.swen90007sm2.app.db.bean.BatchBean;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
@@ -38,6 +39,11 @@ public class HotelAmenityDao implements IHotelAmenityDao {
                 entity.getDescription(),
                 entity.getId()
         );
+    }
+
+    @Override
+    public void throwConcurrencyException(HotelAmenity entity) {
+        throw new NotImplementedException();
     }
 
     @Override

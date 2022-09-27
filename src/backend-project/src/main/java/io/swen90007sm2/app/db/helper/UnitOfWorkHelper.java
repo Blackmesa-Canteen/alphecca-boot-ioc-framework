@@ -8,7 +8,9 @@ import io.swen90007sm2.app.model.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,6 +29,7 @@ public class UnitOfWorkHelper {
 
     private final Set<UowBean> newUowBeans;
     private final Set<UowBean> dirtyUowBeans;
+    private final Map<String, BaseEntity> backupOldBeanMap;
     private final Set<UowBean> deletedUowBeans;
 
     private final ICacheStorage<String, Object> cacheRef;
@@ -35,6 +38,7 @@ public class UnitOfWorkHelper {
         // no need to have ConcurrentSet, because this Uow Helper is thread local
         newUowBeans = new LinkedHashSet<>();
         dirtyUowBeans = new LinkedHashSet<>();
+        backupOldBeanMap = new LinkedHashMap<>();
         deletedUowBeans = new LinkedHashSet<>();
         this.cacheRef = cacheRef;
     }
@@ -127,8 +131,14 @@ public class UnitOfWorkHelper {
             for (UowBean bean : dirtyUowBeans) {
                 IBaseDao dao = bean.getEntityDao();
                 try {
+                    // record the old one from identity map
+                    if (cacheRef.get(bean.getCacheKey()).isPresent()) {
+                        backupOldBeanMap.put(bean.getCacheKey(),(BaseEntity) cacheRef.get(bean.getCacheKey()).get());
+                    }
+
                     // update db
                     dao.updateOne(bean.getEntity());
+
                     // Cache evict model
                     // clean the cache after update the db
                     cacheRef.remove(bean.getCacheKey());
@@ -158,8 +168,44 @@ public class UnitOfWorkHelper {
     }
 
     public void rollback() {
+
+        // rollback additions
+        for (UowBean bean : newUowBeans) {
+            IBaseDao dao = bean.getEntityDao();
+            try {
+                dao.deleteOne(bean.getEntity());
+            } catch (Exception e) {
+                LOGGER.error("Uow rollback insertion error: ", e);
+            }
+        }
+
+        // rollback changes
+        for (UowBean bean : dirtyUowBeans) {
+            IBaseDao dao = bean.getEntityDao();
+            try {
+                if (backupOldBeanMap.containsKey(bean.getCacheKey())) {
+                    dao.updateOne(backupOldBeanMap.get(bean.getCacheKey()));
+                }
+
+                cacheRef.remove(bean.getCacheKey());
+            } catch (Exception e) {
+                LOGGER.error("Uow rollback updating error: ", e);
+            }
+        }
+
+        // rollback deletions
+        for (UowBean bean : deletedUowBeans) {
+            IBaseDao dao = bean.getEntityDao();
+            try {
+                dao.insertOne(bean.getEntity());
+            } catch (Exception e) {
+                LOGGER.error("Uow rollback deletion error: ", e);
+            }
+        }
+
         newUowBeans.clear();
         deletedUowBeans.clear();
         dirtyUowBeans.clear();
+        backupOldBeanMap.clear();
     }
 }

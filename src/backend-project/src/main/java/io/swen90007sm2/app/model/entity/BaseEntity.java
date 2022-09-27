@@ -21,6 +21,8 @@ public abstract class BaseEntity implements Serializable {
 
     private Boolean isDeleted;
 
+    private Integer version = 1;
+
     public BaseEntity() {
     }
 
@@ -60,6 +62,14 @@ public abstract class BaseEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override

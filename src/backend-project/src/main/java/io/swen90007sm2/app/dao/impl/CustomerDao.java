@@ -2,10 +2,14 @@ package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
+import io.swen90007sm2.alpheccaboot.exception.ResourceNotFoundException;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.ICustomerDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
+import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import io.swen90007sm2.app.model.entity.Customer;
+import io.swen90007sm2.app.model.pojo.VersionInfoBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,14 +68,21 @@ public class CustomerDao implements ICustomerDao {
     @Override
     public int updateOne(Customer customer) {
         int row = CRUDTemplate.executeNonQuery(
-                "UPDATE customer SET password = ?, description=?, user_name=?, avatar_url=?, update_time=? WHERE id = ?",
+                "UPDATE customer SET password = ?, description=?, user_name=?, avatar_url=?, update_time=?, version=? " +
+                        "WHERE id = ? and version = ?",
                 customer.getPassword(),
                 customer.getDescription(),
                 customer.getUserName(),
                 customer.getAvatarUrl(),
                 new java.sql.Date(TimeUtil.now().getTime()),
-                customer.getId()
+                customer.getVersion() + 1,
+                customer.getId(),
+                customer.getVersion()
         );
+
+        if (row == 0) {
+            throwConcurrencyException(customer);
+        }
 
         return row;
     }
@@ -87,6 +98,38 @@ public class CustomerDao implements ICustomerDao {
         );
 
         return row;
+    }
+
+    @Override
+    public void throwConcurrencyException(Customer entity) {
+        VersionInfoBean currentVersion = CRUDTemplate.executeQueryWithOneRes(
+                VersionInfoBean.class,
+                "SELECT version, update_time FROM customer WHERE id = ?",
+                entity.getId()
+        );
+
+        if (currentVersion == null) {
+            throw new ResourceNotFoundException(
+                    "customer " + entity.getId() + " has been deleted"
+            );
+        }
+
+        if (currentVersion.getVersion() == null) {
+            throw new InternalException(
+                    "Missing version info for optimistic concurrency control in customer"
+            );
+        }
+
+        if (currentVersion.getVersion() > entity.getVersion()) {
+            throw new ResourceConflictException(
+                    "Rejected: customer " + entity.getId() + " has been modified by others at "
+                            + currentVersion.getUpdateTime()
+            );
+        } else {
+            throw new InternalException(
+                    "unexpected error in throwConcurrencyException for customer " + entity.getId()
+            );
+        }
     }
 
     @Override

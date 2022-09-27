@@ -1,6 +1,7 @@
 package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IPhotoDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
@@ -66,6 +67,11 @@ public class PhotoDao implements IPhotoDao {
         );
 
         return row;
+    }
+
+    @Override
+    public void throwConcurrencyException(Photo entity) {
+        throw new NotImplementedException();
     }
 
     @Override

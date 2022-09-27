@@ -2,12 +2,16 @@ package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
+import io.swen90007sm2.alpheccaboot.exception.ResourceNotFoundException;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IHotelierDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
+import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import io.swen90007sm2.app.model.entity.*;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Hotelier;
+import io.swen90007sm2.app.model.pojo.VersionInfoBean;
 
 import java.util.List;
 
@@ -44,16 +48,54 @@ public class HotelierDao implements IHotelierDao {
         int row = CRUDTemplate.executeNonQuery(
                 "UPDATE hotelier SET password = ?, description = ?, " +
                         "user_name = ?, update_time=?, avatar_url = ?, " +
-                        "hotel_id = ? WHERE id = ?",
+                        "hotel_id = ?, version=? WHERE id = ? and version = ?",
                 entity.getPassword(),
                 entity.getDescription(),
                 entity.getUserName(),
                 new java.sql.Date(TimeUtil.now().getTime()),
                 entity.getAvatarUrl(),
                 entity.getHotelId(),
+                entity.getVersion() + 1,
+                entity.getId(),
+                entity.getVersion()
+        );
+
+        if (row == 0) {
+            throwConcurrencyException(entity);
+        }
+        return row;
+    }
+
+    @Override
+    public void throwConcurrencyException(Hotelier entity) {
+        VersionInfoBean currentVersion = CRUDTemplate.executeQueryWithOneRes(
+                VersionInfoBean.class,
+                "SELECT version, update_time FROM hotelier WHERE id = ?",
                 entity.getId()
         );
-        return row;
+
+        if (currentVersion == null) {
+            throw new ResourceNotFoundException(
+                    "hotelier " + entity.getId() + " has been deleted"
+            );
+        }
+
+        if (currentVersion.getVersion() == null) {
+            throw new InternalException(
+                    "Missing version info for optimistic concurrency control in hotelier"
+            );
+        }
+
+        if (currentVersion.getVersion() > entity.getVersion()) {
+            throw new ResourceConflictException(
+                    "Rejected: hotelier " + entity.getId() + " has been modified by others at "
+                            + currentVersion.getUpdateTime()
+            );
+        } else {
+            throw new InternalException(
+                    "unexpected error in throwConcurrencyException for hotelier " + entity.getId()
+            );
+        }
     }
 
     @Override
