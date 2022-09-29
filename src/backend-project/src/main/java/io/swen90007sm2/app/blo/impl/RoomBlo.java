@@ -23,6 +23,8 @@ import io.swen90007sm2.app.dao.IRoomDao;
 import io.swen90007sm2.app.dao.impl.RoomAmenityDao;
 import io.swen90007sm2.app.dao.impl.RoomDao;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
+import io.swen90007sm2.app.lock.IResourceUserLockManager;
+import io.swen90007sm2.app.lock.constant.LockConstant;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Room;
@@ -59,6 +61,88 @@ public class RoomBlo implements IRoomBlo {
 
     @AutoInjected
     IRoomAmenityBlo roomAmenityBlo;
+
+    @AutoInjected
+    @Qualifier(name = LockConstant.EXCLUSIVE_LOCK_MANAGER)
+    IResourceUserLockManager exclusiveLockManager;
+
+    @Override
+    public void doUpdateRoomWithLock(UpdateRoomParam param) {
+        String roomId = param.getRoomId();
+        try {
+            // calc absolute AUD price
+            BigDecimal audPrice = CurrencyUtil.convertCurrencyToAUD(param.getCurrency(), param.getPricePerNight());
+
+            IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
+
+            synchronized (this) {
+                Room roomObj = getRoomEntityByRoomId(roomId);
+
+
+
+
+                roomObj.setName(param.getName());
+                roomObj.setDescription(param.getDescription());
+                roomObj.setPricePerNight(audPrice);
+                roomObj.setCurrency(CommonConstant.AUD_CURRENCY);
+                roomObj.setSleepsNum(param.getSleepsNum());
+                roomObj.setVacantNum(param.getVacantNum());
+                roomObj.setOnSale(param.getOnSale());
+//            roomDao.updateOne(newRoomObj);
+                UnitOfWorkHelper.getCurrent().registerDirty(
+                        roomObj,
+                        roomDao,
+                        CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId
+                );
+                roomAmenityBlo.updateAmenityIdsForRoom(param.getAmenityIds(), roomId);
+
+                cache.remove(CacheConstant.VO_ROOM_KEY_PREFIX + roomId);
+                cache.remove(CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId);
+
+                // hotel min price update
+                // only update once the room is on sale
+                if (param.getOnSale()) {
+                    hotelBlo.editeHotelMinPriceByHotelId(roomObj.getHotelId(), CommonConstant.AUD_CURRENCY, audPrice);
+                }
+            }
+        } finally {
+            exclusiveLockManager.release(roomId, null);
+        }
+    }
+
+    @Override
+    public Room getRoomEntityByRoomIdWithLock(String roomId) {
+        exclusiveLockManager.acquire(roomId, null);
+        Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId);
+        Room room = null;
+        if (cacheItem.isEmpty()) {
+            synchronized (this) {
+                cacheItem = cache.get(CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId);
+                if (cacheItem.isEmpty()) {
+                    IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
+                    room = roomDao.findOneByBusinessId(roomId);
+                    if (room == null) {
+                        throw new RequestException(
+                                "room not found",
+                                StatusCodeEnume.RESOURCE_NOT_FOUND_EXCEPTION.getCode());
+                    }
+
+                    cache.put(
+                            CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId,
+                            room,
+                            RandomUtil.randomLong(CacheConstant.CACHE_NORMAL_EXPIRATION_PERIOD_MAX),
+                            TimeUnit.MILLISECONDS
+                    );
+                } else {
+                    room = (Room) cacheItem.get();
+                }
+            }
+        } else {
+            room = (Room) cacheItem.get();
+        }
+
+        return room;
+    }
 
     @Override
     public void doCreateRoomToHotel(CreateRoomParam param) {

@@ -68,14 +68,13 @@ public class HotelBlo implements IHotelBlo {
     public void editOwnedHotelWithLock(String hotelierId, HotelParam hotelParam) {
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
         String hotelId = currentHotelier.getHotelId();
-        if (StringUtils.isEmpty(hotelId)) {
-            throw new RequestException(
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
-            );
-        }
-
         try {
+            if (StringUtils.isEmpty(hotelId)) {
+                throw new RequestException(
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+                );
+            }
             IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
             // atom operation
             synchronized (this) {

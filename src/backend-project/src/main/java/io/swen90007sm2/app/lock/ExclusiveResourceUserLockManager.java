@@ -35,7 +35,7 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
                 // the lock is expired, remove it to prevent deadlock
                 resourceUserLockDao.deleteOneByResourceId(resourceId);
                 throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
-                        "please try again later");
+                        "please refresh page， and try again later");
             }
 
         }

@@ -224,16 +224,16 @@ public class TransactionBlo implements ITransactionBlo {
             );
 
             // check modify time before commit
-            Transaction transaction_latest = getTransactionEntityByTransactionId(transactionId);
-            RoomOrder roomOrder_latest = roomOrderDao.findOneByBusinessId(roomOrderId);
-            Room room_latest = roomBlo.getRoomEntityByRoomId(targetRoomId);
-
-            if (!transaction_latest.getUpdateTime().equals(transactionUpdateTime) ||
-            !roomOrder_latest.getUpdateTime().equals(roomOrderUpdateTime) ||
-            !room_latest.getUpdateTime().equals(roomUpdateTime)) {
-                UnitOfWorkHelper.getCurrent().rollback();
-                throw new ResourceConflictException("Optimistic Lock: conflict detected before commit on doUpdateBooking. Please try again later.");
-            }
+//            Transaction transaction_latest = getTransactionEntityByTransactionId(transactionId);
+//            RoomOrder roomOrder_latest = roomOrderDao.findOneByBusinessId(roomOrderId);
+//            Room room_latest = roomBlo.getRoomEntityByRoomId(targetRoomId);
+//
+//            if (!transaction_latest.getUpdateTime().equals(transactionUpdateTime) ||
+//            !roomOrder_latest.getUpdateTime().equals(roomOrderUpdateTime) ||
+//            !room_latest.getUpdateTime().equals(roomUpdateTime)) {
+//                UnitOfWorkHelper.getCurrent().rollback();
+//                throw new ResourceConflictException("Optimistic Lock: conflict detected before commit on doUpdateBooking. Please try again later.");
+//            }
         }
     }
 
