@@ -54,6 +54,20 @@ const Header = (props) => {
     });
   };
 
+  const handleDateClick = () => {
+    setOpenDate(!openDate);
+    if (openOptions === true) {
+      setOpenOptions(false);
+    }
+  };
+
+  const handleOptionClick = () => {
+    setOpenOptions(!openOptions);
+    if (openDate === true) {
+      setOpenDate(false);
+    }
+  };
+
   const handleSearch = () => {
     if (postcode === "" && hotelName === "") {
       alert("please enter a postcode or hotel name");
@@ -65,7 +79,7 @@ const Header = (props) => {
   const handleClick = () => {
     navigate("/login");
   };
-  
+
   return (
     <HeaderWrap>
       {props.type === "list" ? (
@@ -77,7 +91,9 @@ const Header = (props) => {
             Get ready for thousands of amazing hotels here - unlock premium
             services with a free Alphecca account
           </HeaderP>
-          {(typeof props.item==='undefined')&&<HeaderBtn onClick={handleClick}>Sign in / Sign up</HeaderBtn>}
+          {typeof props.item === "undefined" && (
+            <HeaderBtn onClick={handleClick}>Sign in / Sign up</HeaderBtn>
+          )}
           <HeaderSearch>
             <HeaderSearchItem>
               <SearchIcon icon={faBed} />
@@ -99,11 +115,10 @@ const Header = (props) => {
             </HeaderSearchItem>
             <HeaderSearchItem>
               <SearchIcon icon={faCalendarDays} />
-              <SearchSpan onClick={() => setOpenDate(!openDate)}>{`${format(
+              <SearchSpan onClick={handleDateClick}>{`${format(
                 date[0].startDate,
                 "MM/dd/yyyy"
               )} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</SearchSpan>
-
               {openDate && (
                 <HeaderDate
                   editableDateInputs={true}
@@ -116,7 +131,7 @@ const Header = (props) => {
             </HeaderSearchItem>
             <HeaderSearchItem>
               <SearchIcon icon={faPerson} />
-              <SearchSpan onClick={() => setOpenOptions(!openOptions)}>
+              <SearchSpan onClick={handleOptionClick}>
                 {`${options.people} people · ${options.room} room`}
               </SearchSpan>
               {openOptions && (
@@ -136,21 +151,6 @@ const Header = (props) => {
                       </OptionBtn>
                     </OptionCounter>
                   </OptionItem>
-                  {/* <OptionItem>
-                    <span>Children</span>
-                    <OptionCounter>
-                      <OptionBtn
-                        disabled={options.children <= 0}
-                        onClick={() => handleOption("children", "d")}
-                      >
-                        -
-                      </OptionBtn>
-                      <span>{options.children}</span>
-                      <OptionBtn onClick={() => handleOption("children", "i")}>
-                        +
-                      </OptionBtn>
-                    </OptionCounter>
-                  </OptionItem> */}
                   <OptionItem>
                     <span>Room</span>
                     <OptionCounter>

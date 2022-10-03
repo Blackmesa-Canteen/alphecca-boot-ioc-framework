@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormContainer,
   SubmitButton,
@@ -17,9 +17,14 @@ import { BsArrowLeft } from "react-icons/bs";
 import { Login } from "../API/CommonApi";
 
 export default function Rolepage() {
+  // scroll to the top of the page after every render
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [selectedRole, setRole] = useState("");
 
-  //differenct loginform based on the role they selected
+  //different login form based on the role they selected
   function LoginForm(props) {
     const [userId, setUserId] = useState("");
     const [password, setPwd] = useState("");

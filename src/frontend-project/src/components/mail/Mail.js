@@ -1,14 +1,26 @@
 import React from "react";
-import { MailButton, MailContainer, MailInput } from "./MailElements";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { MailButton, MailContainer } from "./MailElements";
 
 const Mail = () => {
+  const { id } = useParams();
+  console.log(id);
+
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (id === undefined) {
+      navigate("/signup");
+    } else {
+      alert("You have sign in already!");
+    }
+  };
   return (
     <MailContainer>
       <h1 className="mailTitle">Make Hotel Booking Easy!</h1>
       <span className="mailDesc">Sign up and get the best price!</span>
       <div>
-        <MailInput type="text" placeholder="Your Email" />
-        <MailButton>Subscribe</MailButton>
+        <MailButton onClick={handleClick}>Sign Up</MailButton>
       </div>
     </MailContainer>
   );

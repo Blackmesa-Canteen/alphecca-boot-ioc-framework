@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BASE_URL } from "../../API/CommonApi";
-import {HomeNavBar, CustomerNavBar } from "../../components/navbar/NavBar";
+import { HomeNavBar, CustomerNavBar } from "../../components/navbar/NavBar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
 import SearchItem from "../../components/search/Search";
@@ -8,9 +8,15 @@ import useFetch from "../../API/CustomerApi";
 import { ListContainer, ListWrapper, ListResult } from "./HotelListElements";
 
 const List = () => {
+  // scroll to the top of the page after every render
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const location = useLocation();
   const [postcode, setPostcode] = useState(location.state.postcode);
   const [hotelName, setHotelName] = useState(location.state.hotelName);
+  const customer = localStorage.getItem("Customer");
 
   const GetUrl = () => {
     if (postcode === "") {
@@ -33,7 +39,11 @@ const List = () => {
       return <p>loading</p>;
     }
     if (data.length === 0) {
-      return <p>no results</p>;
+      if (postcode === "") {
+        return <p>Sorry, Hotel {hotelName} is not available</p>;
+      } else {
+        return <p>Sorry, no hotels available in postcode {postcode} area</p>;
+      }
     } else {
       return (
         <div>
@@ -44,10 +54,9 @@ const List = () => {
       );
     }
   };
-  const customer = localStorage.getItem("Customer");
   return (
     <div>
-      {(typeof customer ==="undefined"||customer===null)?<HomeNavBar />:<CustomerNavBar/>}
+      {customer === null ? <HomeNavBar /> : <CustomerNavBar />}
       <Header type="list" />
       <ListContainer>
         <ListWrapper>

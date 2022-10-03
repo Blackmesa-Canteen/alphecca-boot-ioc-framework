@@ -3,11 +3,12 @@ import { Nav, Navbar, Button } from "react-bootstrap";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { AlpheccaLogo } from "../common/CustomerStyle";
 import { Logout } from "../../API/CommonApi";
+import { useNavigate } from "react-router-dom";
 
 export function CustomerNavBar(props) {
   return (
     <Navbar bg="black" variant="dark">
-      <Navbar.Brand href={"/"+`${props.value}`}>
+      <Navbar.Brand href={"/" + `${props.value}`}>
         <AlpheccaLogo />
       </Navbar.Brand>
       <Nav style={{ position: "absolute", right: "1%" }}>
@@ -20,7 +21,13 @@ export function CustomerNavBar(props) {
             Log out
           </Button>
         </div>
-        <IoPersonCircleSharp color="white" fontSize="50" onClick={()=>{window.location="/customer"}}/>
+        <IoPersonCircleSharp
+          color="white"
+          fontSize="50"
+          onClick={() => {
+            window.location = "/customer";
+          }}
+        />
       </Nav>
     </Navbar>
   );
@@ -73,18 +80,14 @@ export function AdminNavBar() {
 }
 
 export function HomeNavBar() {
+  const navigate = useNavigate();
+
   return (
     <Navbar bg="black" variant="dark" sticky="top" expand="sm" collapseOnSelect>
       <Navbar.Brand href="/">
         <AlpheccaLogo />
       </Navbar.Brand>
       <Navbar.Toggle />
-      <Navbar.Collapse>
-        <Nav>
-          <Nav.Link href="/about">About Us</Nav.Link>
-          <Nav.Link href="/contact">Contact</Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
     </Navbar>
   );
 }

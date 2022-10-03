@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormContainer,
   SubmitButton,
@@ -9,11 +9,16 @@ import {
 } from "../components/common/CustomerStyle";
 
 import { Form } from "react-bootstrap";
-import { CustomerNavBar } from "../components/navbar/NavBar";
+import { HomeNavBar } from "../components/navbar/NavBar";
 import AlpheccaIcon from "../Picture/5Star.png";
 import { signup } from "../API/CommonApi";
 
 export default function Signuppage() {
+  // scroll to the top of the page after every render
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   function SignupForm() {
     const [user, setUser] = useState({
       userName: "",
@@ -135,7 +140,7 @@ export default function Signuppage() {
 
   return (
     <div>
-      <CustomerNavBar />
+      <HomeNavBar />
       <center>
         <SignupForm />
         <IconContainer>
