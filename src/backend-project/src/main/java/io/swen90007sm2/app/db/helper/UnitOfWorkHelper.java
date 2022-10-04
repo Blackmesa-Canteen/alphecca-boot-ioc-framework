@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.db.helper;
 
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.common.util.Assert;
 import io.swen90007sm2.app.dao.IBaseDao;
@@ -8,6 +9,7 @@ import io.swen90007sm2.app.model.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -55,6 +57,10 @@ public class UnitOfWorkHelper {
         }
 
         LOGGER.info("Unit of work loaded.");
+        // init database connection
+        DbHelper.initConnection();
+        LOGGER.info("database connection established for this request");
+
         return current.get();
     }
 
@@ -170,6 +176,16 @@ public class UnitOfWorkHelper {
             newUowBeans.clear();
             deletedUowBeans.clear();
             dirtyUowBeans.clear();
+
+            // commit the transaction
+            try {
+                DbHelper.getConnection().commit();
+            } catch (SQLException e) {
+                throw new InternalException(e.getMessage());
+            } finally {
+                DbHelper.closeConnection();
+                DbHelper.setConnection(null);
+            }
         }
     }
 
@@ -178,44 +194,18 @@ public class UnitOfWorkHelper {
      */
     public void rollback() {
 
-        // rollback additions
-        for (UowBean bean : newUowBeans) {
-            IBaseDao dao = bean.getEntityDao();
-            try {
-                dao.deleteOne(bean.getEntity());
-            } catch (Exception e) {
-                LOGGER.error("Uow rollback insertion error: ", e);
-            }
-        }
-
-        // rollback changes
-        for (UowBean bean : dirtyUowBeans) {
-            IBaseDao dao = bean.getEntityDao();
-            try {
-                if (backupOldBeanMap.containsKey(bean.getCacheKey())) {
-                    dao.updateOne(backupOldBeanMap.get(bean.getCacheKey()));
-                }
-
-                cacheRef.remove(bean.getCacheKey());
-            } catch (Exception e) {
-                LOGGER.error("Uow rollback updating error: ", e);
-            }
-        }
-
-        // rollback deletions
-        for (UowBean bean : deletedUowBeans) {
-            IBaseDao dao = bean.getEntityDao();
-            try {
-                dao.insertOne(bean.getEntity());
-            } catch (Exception e) {
-                LOGGER.error("Uow rollback deletion error: ", e);
-            }
-        }
-
         LOGGER.info("Unit of work has rollback changes.");
         newUowBeans.clear();
         deletedUowBeans.clear();
         dirtyUowBeans.clear();
         backupOldBeanMap.clear();
+        try {
+            DbHelper.getConnection().rollback();
+        } catch (SQLException e) {
+            throw new InternalException(e.getMessage());
+        } finally {
+            DbHelper.closeConnection();
+            DbHelper.setConnection(null);
+        }
     }
 }

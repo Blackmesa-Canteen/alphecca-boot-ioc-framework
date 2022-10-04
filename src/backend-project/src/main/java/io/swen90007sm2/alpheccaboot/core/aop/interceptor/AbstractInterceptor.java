@@ -3,6 +3,8 @@ package io.swen90007sm2.alpheccaboot.core.aop.interceptor;
 
 import io.swen90007sm2.alpheccaboot.bean.MethodCalling;
 
+import java.sql.SQLException;
+
 /**
  * interceptor super class
  *
