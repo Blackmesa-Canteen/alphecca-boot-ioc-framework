@@ -6,10 +6,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { GetHotel, cancelTransac, updateOrder } from "../../API/CustomerApi";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Form from "react-bootstrap/Form";
-import {
-  
-  HotelTitle,
-} from "../../pages/hotel/HotelElements";
+import { HotelTitle } from "../../pages/hotel/HotelElements";
+import { Spinner } from "react-bootstrap";
 import {
   ReserveBtn,
   ReserveCloseIcon,
@@ -21,10 +19,11 @@ const Booking = (item) => {
   const endDate = new Date(item.item.endDate);
   const { hotel, loading, error } = GetHotel(item.item.hotelId);
   const [editWd, setEditwd] = useState(false);
-  if(loading){
-    return<h1>loading</h1>
-  }else if(error){
-    return<h1>something went wrong</h1>
+
+  if (loading) {
+    return <Spinner animation="border" />;
+  } else if (error) {
+    return <h1>something went wrong</h1>;
   }
   if (item.item.statusCode === 1) {
     return (
@@ -153,20 +152,20 @@ function EditForm(props) {
     </ReserveContainer>
   );
 }
-function timeString(date){
+function timeString(date) {
   const year = date.getFullYear();
-  const month = date.getMonth()+1;
+  const month = date.getMonth() + 1;
   const day = date.getDate();
-  var s = year.toString()+"-"
-  if(month<10){
-    s=s+"0"+month.toString()+"-";
-  }else{
-    s=s+month.toString()+"-";
+  var s = year.toString() + "-";
+  if (month < 10) {
+    s = s + "0" + month.toString() + "-";
+  } else {
+    s = s + month.toString() + "-";
   }
-  if(day<10){
-    s=s+"0"+day.toString();
-  }else{
-    s=s+day.toString();
+  if (day < 10) {
+    s = s + "0" + day.toString();
+  } else {
+    s = s + day.toString();
   }
   return s;
 }

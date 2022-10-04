@@ -12,17 +12,9 @@ export const MailContainer = styled.div`
   padding: 50px;
 `;
 
-export const MailInput = styled.input`
-  width: 300px;
-  height: 30px;
-  padding: 10px;
-  border: none;
-  margin-right: 10px;
-  border-radius: 5px;
-`;
-
 export const MailButton = styled.button`
   height: 50px;
+  width: 200px;
   background-color: #008000;
   border-radius: 15px;
   color: white;
