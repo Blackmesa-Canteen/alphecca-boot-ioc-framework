@@ -31,7 +31,6 @@ public class UnitOfWorkHelper {
 
     private final Set<UowBean> newUowBeans;
     private final Set<UowBean> dirtyUowBeans;
-    private final Map<String, BaseEntity> backupOldBeanMap;
     private final Set<UowBean> deletedUowBeans;
 
     private final ICacheStorage<String, Object> cacheRef;
@@ -40,7 +39,6 @@ public class UnitOfWorkHelper {
         // no need to have ConcurrentSet, because this Uow Helper is thread local
         newUowBeans = new LinkedHashSet<>();
         dirtyUowBeans = new LinkedHashSet<>();
-        backupOldBeanMap = new LinkedHashMap<>();
         deletedUowBeans = new LinkedHashSet<>();
         this.cacheRef = cacheRef;
     }
@@ -142,11 +140,6 @@ public class UnitOfWorkHelper {
             for (UowBean bean : dirtyUowBeans) {
                 IBaseDao dao = bean.getEntityDao();
                 try {
-                    // record the old one from identity map
-                    if (cacheRef.get(bean.getCacheKey()).isPresent()) {
-                        backupOldBeanMap.put(bean.getCacheKey(),(BaseEntity) cacheRef.get(bean.getCacheKey()).get());
-                    }
-
                     // update db
                     dao.updateOne(bean.getEntity());
 
@@ -201,7 +194,6 @@ public class UnitOfWorkHelper {
         newUowBeans.clear();
         deletedUowBeans.clear();
         dirtyUowBeans.clear();
-        backupOldBeanMap.clear();
         try {
             // JDBC db transaction rollback
             DbHelper.getConnection().rollback();
