@@ -181,6 +181,7 @@ public class UnitOfWorkHelper {
 
             // commit the transaction
             try {
+                // JDBC db transaction commit
                 DbHelper.getConnection().commit();
                 LOGGER.info("Unit of work committed.");
             } catch (SQLException e) {
@@ -202,6 +203,7 @@ public class UnitOfWorkHelper {
         dirtyUowBeans.clear();
         backupOldBeanMap.clear();
         try {
+            // JDBC db transaction rollback
             DbHelper.getConnection().rollback();
             LOGGER.info("Unit of work has rollback changes in request transaction.");
         } catch (SQLException e) {
