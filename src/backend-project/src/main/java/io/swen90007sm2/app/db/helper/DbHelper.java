@@ -34,6 +34,8 @@ public class DbHelper {
 
     private static String dbUrlFromSystemEnv;
 
+    private static final ThreadLocal<Connection> currentDbConnection = new ThreadLocal<>();
+
 
     static {
         try {
@@ -81,31 +83,72 @@ public class DbHelper {
     }
 
     /**
+     * init thread private database connection
+     */
+    public static void initConnection() {
+        if (currentDbConnection.get() == null) {
+            try {
+                Class.forName(dbPoolDriverName);
+                if (StringUtils.isEmpty(dbUrlFromSystemEnv)) {
+                    // get connection from config file
+                    String dbUrl = "jdbc:postgresql://" + dbIp + "/" + dbDbName + "?currentSchema=" + dbSchemeName;
+                    // get connection
+                    Connection connection = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+                    // disable auto commit
+                    connection.setAutoCommit(false);
+                    setConnection(connection);
+                } else {
+                    // get connection
+                    Connection connection = DriverManager.getConnection(dbUrlFromSystemEnv, dbUserName, dbPassword);
+                    // disable auto commit
+                    connection.setAutoCommit(false);
+                    // get connection from system env, used for heroku server
+                    setConnection(connection);
+                }
+
+            } catch (Exception e) {
+                LOGGER.error("get database connection error. ", e);
+                throw new InternalException("get database connection error.");
+            }
+        }
+    }
+
+    /**
+     * set current connection
+     */
+    public static void setConnection(Connection connection) {
+        currentDbConnection.set(connection);
+    }
+
+    /**
      * get connection pool connection
      *
      * @return database connection
      */
     public static Connection getConnection() {
         // get connection from postgre connection pool
-        try {
-            Class.forName(dbPoolDriverName);
-            if (StringUtils.isEmpty(dbUrlFromSystemEnv)) {
-                // get connection from config file
-                String dbUrl = "jdbc:postgresql://" + dbIp + "/" + dbDbName + "?currentSchema=" + dbSchemeName;
-                return DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
-            } else {
-                // get connection from system env, used for heroku server
-                return DriverManager.getConnection(dbUrlFromSystemEnv, dbUserName, dbPassword);
-            }
-
-        } catch (Exception e) {
-            LOGGER.error("get database connection error. ", e);
-            throw new InternalException("get database connection error.");
-        }
+//        try {
+//            Class.forName(dbPoolDriverName);
+//            if (StringUtils.isEmpty(dbUrlFromSystemEnv)) {
+//                // get connection from config file
+//                String dbUrl = "jdbc:postgresql://" + dbIp + "/" + dbDbName + "?currentSchema=" + dbSchemeName;
+//                return DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+//            } else {
+//                // get connection from system env, used for heroku server
+//                return DriverManager.getConnection(dbUrlFromSystemEnv, dbUserName, dbPassword);
+//            }
+//
+//        } catch (Exception e) {
+//            LOGGER.error("get database connection error. ", e);
+//            throw new InternalException("get database connection error.");
+//        }
+        return currentDbConnection.get();
     }
 
     /**
-     * close db connection
+     * close db resource connection.
+     *
+     * It won't close db connection
      */
     public static void closeDbResource(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
@@ -115,11 +158,25 @@ public class DbHelper {
             if (pstmt != null) {
                 pstmt.close();
             }
-            if (conn != null) {
-                conn.close();
-            }
+//            if (conn != null) {
+//                conn.close();
+//            }
         } catch (SQLException e) {
-            LOGGER.error("Close db connection error: ", e);
+            LOGGER.error("Close db resource connection error: ", e);
+        }
+    }
+
+    /**
+     * close database connection
+     */
+    public static void closeConnection() {
+        if (currentDbConnection.get() != null) {
+            try {
+                currentDbConnection.get().close();
+                setConnection(null);
+            } catch (SQLException e) {
+                LOGGER.error("Close db connection error: ", e);
+            }
         }
     }
 
@@ -140,9 +197,9 @@ public class DbHelper {
                 }
             }
 
-            if (conn != null) {
-                conn.close();
-            }
+//            if (conn != null) {
+//                conn.close();
+//            }
         } catch (SQLException e) {
             LOGGER.error("Close db connection error: ", e);
         }

@@ -78,9 +78,6 @@ public class RoomBlo implements IRoomBlo {
             synchronized (this) {
                 Room roomObj = getRoomEntityByRoomId(roomId);
 
-
-
-
                 roomObj.setName(param.getName());
                 roomObj.setDescription(param.getDescription());
                 roomObj.setPricePerNight(audPrice);
