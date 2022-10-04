@@ -1,6 +1,7 @@
 package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IPhotoDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
@@ -61,11 +62,16 @@ public class PhotoDao implements IPhotoDao {
                 "UPDATE photo SET description=?, photo_url=?, update_time=? WHERE photo_id = ?",
                 photo.getDescription(),
                 photo.getPhotoUrl(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 photo.getPhotoId()
         );
 
         return row;
+    }
+
+    @Override
+    public void throwConcurrencyException(Photo entity) {
+        throw new NotImplementedException();
     }
 
     @Override

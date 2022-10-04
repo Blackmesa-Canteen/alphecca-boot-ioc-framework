@@ -22,7 +22,7 @@ EXPOSE $PORT
 
 # docker build -t hotel-booking-app:v1 .
 # docker run --name hotel-booking-app -p 0.0.0.0:8088:8088 hotel-booking-app:v1
-CMD java -jar app.jar -port $PORT
+CMD java -Xms128m -Xmx256m -XX:PermSize=64M -XX:MaxPermSize=128M -jar app.jar -port $PORT
 
 
 

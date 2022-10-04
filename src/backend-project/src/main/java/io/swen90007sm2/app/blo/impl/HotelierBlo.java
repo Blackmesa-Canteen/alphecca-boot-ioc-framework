@@ -129,6 +129,7 @@ public class HotelierBlo implements IHotelierBlo {
 
 
     @Override
+    // TODO need lock
     public void doUpdateUserPassword(String userId, String originalPassword, String newPassword) {
         Hotelier hotelierBean = getHotelierInfoByUserId(userId);
 

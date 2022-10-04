@@ -1,0 +1,192 @@
+2022-09-17 20:01:16  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-09-17 20:01:16  [ main:6 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-09-17 20:01:16  [ main:21 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-09-17 20:01:16  [ main:35 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-09-17 20:01:16  [ main:121 ] - [ INFO ]  Scanned 135 Classes and interfaces in total.
+2022-09-17 20:01:16  [ main:121 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-09-17 20:01:16  [ main:147 ] - [ INFO ]  Scanned 11 Blo Classes.
+2022-09-17 20:01:16  [ main:148 ] - [ INFO ]  Scanned 13 Controller Classes.
+2022-09-17 20:01:16  [ main:149 ] - [ INFO ]  Scanned 10 Dao Classes.
+2022-09-17 20:01:16  [ main:157 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-09-17 20:01:16  [ main:158 ] - [ INFO ]  Scanned 4 Component Classes.
+2022-09-17 20:01:16  [ main:377 ] - [ INFO ]  Instantiated 42 instances in the bean container.
+2022-09-17 20:01:16  [ main:378 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-09-17 20:01:16  [ main:599 ] - [ INFO ]  Reflections took 178 ms to scan 1 urls, producing 48 keys and 129 values
+2022-09-17 20:01:17  [ main:1209 ] - [ INFO ]  Instantiated 2 interceptors.
+2022-09-17 20:01:17  [ main:1210 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-09-17 20:01:17  [ main:1225 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.controller.hotelier.api.RoomController]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-09-17 20:01:17  [ main:1225 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.ManagementBlo] to [io.swen90007sm2.app.controller.admin.api.ManagementController]'s field [io.swen90007sm2.app.blo.IManagementBlo]
+2022-09-17 20:01:17  [ main:1230 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1241 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.AdminBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1242 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-09-17 20:01:17  [ main:1243 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1249 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-09-17 20:01:17  [ main:1249 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-09-17 20:01:17  [ main:1251 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomAmenityBlo] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.blo.IRoomAmenityBlo]
+2022-09-17 20:01:17  [ main:1252 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.controller.shared.api.RoomController]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-09-17 20:01:17  [ main:1253 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-09-17 20:01:17  [ main:1254 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelAmenityBlo] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.blo.IHotelAmenityBlo]
+2022-09-17 20:01:17  [ main:1255 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-09-17 20:01:17  [ main:1262 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1263 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-09-17 20:01:17  [ main:1265 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-09-17 20:01:17  [ main:1266 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-09-17 20:01:17  [ main:1266 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1267 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-09-17 20:01:17  [ main:1270 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-09-17 20:01:17  [ main:1270 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-09-17 20:01:17  [ main:1272 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-09-17 20:01:17  [ main:1273 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomOrderBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IRoomOrderBlo]
+2022-09-17 20:01:17  [ main:1274 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-09-17 20:01:17  [ main:1275 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.AdminBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.IAdminBlo]
+2022-09-17 20:01:17  [ main:1280 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1283 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.controller.shared.api.HotelController]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-09-17 20:01:17  [ main:1283 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.TransactionBlo] to [io.swen90007sm2.app.controller.customer.api.TransactionController]'s field [io.swen90007sm2.app.blo.ITransactionBlo]
+2022-09-17 20:01:17  [ main:1284 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelAmenityBlo] to [io.swen90007sm2.app.controller.shared.api.AmenityController]'s field [io.swen90007sm2.app.blo.IHotelAmenityBlo]
+2022-09-17 20:01:17  [ main:1285 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomAmenityBlo] to [io.swen90007sm2.app.controller.shared.api.AmenityController]'s field [io.swen90007sm2.app.blo.IRoomAmenityBlo]
+2022-09-17 20:01:17  [ main:1286 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelAmenityBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1288 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1289 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1292 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.TransactionBlo] to [io.swen90007sm2.app.controller.hotelier.api.TransactionController]'s field [io.swen90007sm2.app.blo.ITransactionBlo]
+2022-09-17 20:01:17  [ main:1294 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-09-17 20:01:17  [ main:1297 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1299 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelController]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-09-17 20:01:17  [ main:1300 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.RoomAmenityBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1302 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-09-17 20:01:17  [ main:1305 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-09-17 20:01:17  [ main:1305 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-09-17 20:01:17  [ main:1307 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-09-17 20:01:17  [ main:1307 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-09-17 20:01:17  [ main:1308 ] - [ INFO ]  Scanned 13 Controller Classes.
+2022-09-17 20:01:17  [ main:1333 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-09-17 20:01:17  [ main:1336 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.RoomController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-09-17 20:01:17  [ main:1470 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.RoomController$$EnhancerByCGLIB$$6f40e995] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1471 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.admin.api.ManagementController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1511 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.PhotoController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1515 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.RoomController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1522 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelierController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-09-17 20:01:17  [ main:1558 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelierController$$EnhancerByCGLIB$$9e59f142] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1559 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.admin.api.AdminController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1563 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.HotelController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1566 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.TransactionController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-09-17 20:01:17  [ main:1605 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.TransactionController$$EnhancerByCGLIB$$8c872ec2] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1606 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.AmenityController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1609 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.MainController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1612 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.TransactionController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-09-17 20:01:17  [ main:1614 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.TransactionController$$EnhancerByCGLIB$$8bd5eaae] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1615 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-09-17 20:01:17  [ main:1618 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelController$$EnhancerByCGLIB$$22d53620] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1618 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-09-17 20:01:17  [ main:1622 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController$$EnhancerByCGLIB$$4e6d31c2] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-09-17 20:01:17  [ main:1622 ] - [ INFO ]  IoC Container is ready to go.
+2022-09-17 20:01:17  [ main:1622 ] - [ INFO ]  Startup the web server...
+2022-09-17 20:01:18  [ main:2326 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
+2022-09-17 20:02:03  [ http-nio-8088-exec-1:47427 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:02:03  [ http-nio-8088-exec-1:47431 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:02:03  [ http-nio-8088-exec-1:47449 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:02:03  [ http-nio-8088-exec-1:47452 ] - [ INFO ]  Lazy loaded: [io.swen90007sm2.app.dao.impl.HotelDao]
+2022-09-17 20:02:03  [ http-nio-8088-exec-1:47457 ] - [ INFO ]  env db config is invalid, read db config from config file.
+2022-09-17 20:02:04  [ http-nio-8088-exec-1:48325 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:02:04  [ http-nio-8088-exec-1:48764 ] - [ INFO ]  Lazy loaded: [io.swen90007sm2.app.dao.impl.HotelAmenityDao]
+2022-09-17 20:02:05  [ http-nio-8088-exec-1:49426 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel_hotel_amenity INNER JOIN hotel_amenity USING (amenity_id) WHERE hotel_id = ?] with param [[1562766569625649152]]
+2022-09-17 20:02:06  [ http-nio-8088-exec-1:50204 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel_hotel_amenity INNER JOIN hotel_amenity USING (amenity_id) WHERE hotel_id = ?] with param [[1568874384719101952]]
+2022-09-17 20:02:06  [ http-nio-8088-exec-1:50300 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:02:06  [ http-nio-8088-exec-1:50470 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:02:15  [ http-nio-8088-exec-4:59372 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:02:15  [ http-nio-8088-exec-4:59377 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:02:15  [ http-nio-8088-exec-4:59386 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:02:15  [ http-nio-8088-exec-4:59387 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:02:16  [ http-nio-8088-exec-4:60026 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:02:16  [ http-nio-8088-exec-4:60122 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:02:16  [ http-nio-8088-exec-4:60125 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:02:30  [ http-nio-8088-exec-2:73971 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:02:30  [ http-nio-8088-exec-2:73982 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:02:30  [ http-nio-8088-exec-2:73988 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:02:30  [ http-nio-8088-exec-2:73988 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:02:30  [ http-nio-8088-exec-2:74647 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:02:30  [ http-nio-8088-exec-2:74745 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:02:30  [ http-nio-8088-exec-2:74747 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:04:00  [ http-nio-8088-exec-5:163906 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:04:00  [ http-nio-8088-exec-5:163908 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:04:00  [ http-nio-8088-exec-5:163910 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:04:00  [ http-nio-8088-exec-5:163910 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:04:00  [ http-nio-8088-exec-5:164534 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:04:00  [ http-nio-8088-exec-5:164629 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:04:00  [ http-nio-8088-exec-5:164631 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:04:06  [ http-nio-8088-exec-6:170712 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:04:06  [ http-nio-8088-exec-6:170715 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:04:06  [ http-nio-8088-exec-6:170719 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:04:06  [ http-nio-8088-exec-6:170729 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:04:06  [ http-nio-8088-exec-6:170738 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:04:14  [ http-nio-8088-exec-7:178852 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:04:14  [ http-nio-8088-exec-7:178854 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:04:15  [ http-nio-8088-exec-7:178859 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:04:15  [ http-nio-8088-exec-7:178859 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:04:15  [ http-nio-8088-exec-7:179478 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:04:15  [ http-nio-8088-exec-7:179579 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:04:15  [ http-nio-8088-exec-7:179582 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:05:12  [ http-nio-8088-exec-8:236282 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:05:12  [ http-nio-8088-exec-8:236304 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:05:12  [ http-nio-8088-exec-8:236308 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:05:12  [ http-nio-8088-exec-8:236308 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:05:13  [ http-nio-8088-exec-8:236936 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:05:13  [ http-nio-8088-exec-8:237055 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:05:13  [ http-nio-8088-exec-8:237059 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:05:36  [ http-nio-8088-exec-9:260372 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:05:36  [ http-nio-8088-exec-9:260375 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:05:36  [ http-nio-8088-exec-9:260376 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:05:36  [ http-nio-8088-exec-9:260380 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:05:37  [ http-nio-8088-exec-9:260999 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:05:37  [ http-nio-8088-exec-9:261100 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:05:37  [ http-nio-8088-exec-9:261118 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:05:44  [ http-nio-8088-exec-10:268047 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:05:44  [ http-nio-8088-exec-10:268048 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:05:44  [ http-nio-8088-exec-10:268053 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:05:44  [ http-nio-8088-exec-10:268054 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:05:44  [ http-nio-8088-exec-10:268056 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:07:08  [ http-nio-8088-exec-4:352470 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:07:08  [ http-nio-8088-exec-4:352474 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:07:08  [ http-nio-8088-exec-4:352482 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:07:08  [ http-nio-8088-exec-4:352483 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:07:09  [ http-nio-8088-exec-4:353132 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:07:09  [ http-nio-8088-exec-4:353251 ] - [ WARN ]  cache key:[ca-am-fo-ho-1562766569625649152] expired. 
+2022-09-17 20:07:10  [ http-nio-8088-exec-4:353894 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel_hotel_amenity INNER JOIN hotel_amenity USING (amenity_id) WHERE hotel_id = ?] with param [[1562766569625649152]]
+2022-09-17 20:07:10  [ http-nio-8088-exec-4:354006 ] - [ WARN ]  cache key:[ca-am-fo-ho-1568874384719101952] expired. 
+2022-09-17 20:07:10  [ http-nio-8088-exec-4:354621 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel_hotel_amenity INNER JOIN hotel_amenity USING (amenity_id) WHERE hotel_id = ?] with param [[1568874384719101952]]
+2022-09-17 20:07:10  [ http-nio-8088-exec-4:354715 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:07:10  [ http-nio-8088-exec-4:354722 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:07:56  [ http-nio-8088-exec-2:400121 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:07:56  [ http-nio-8088-exec-2:400122 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:07:56  [ http-nio-8088-exec-2:400123 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:07:56  [ http-nio-8088-exec-2:400123 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:07:56  [ http-nio-8088-exec-2:400759 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:07:56  [ http-nio-8088-exec-2:400854 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:07:56  [ http-nio-8088-exec-2:400855 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:08:13  [ http-nio-8088-exec-3:417460 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:08:13  [ http-nio-8088-exec-3:417473 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:08:13  [ http-nio-8088-exec-3:417476 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:08:13  [ http-nio-8088-exec-3:417477 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:08:14  [ http-nio-8088-exec-3:418123 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:08:14  [ http-nio-8088-exec-3:418225 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:08:14  [ http-nio-8088-exec-3:418227 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:09:45  [ http-nio-8088-exec-6:509555 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:09:45  [ http-nio-8088-exec-6:509560 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:09:45  [ http-nio-8088-exec-6:509563 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:09:45  [ http-nio-8088-exec-6:509564 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:09:46  [ http-nio-8088-exec-6:510199 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:09:46  [ http-nio-8088-exec-6:510291 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:09:46  [ http-nio-8088-exec-6:510292 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:09:50  [ http-nio-8088-exec-7:514394 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:09:50  [ http-nio-8088-exec-7:514395 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:09:50  [ http-nio-8088-exec-7:514396 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:09:50  [ http-nio-8088-exec-7:514396 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:09:50  [ http-nio-8088-exec-7:514398 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search
+2022-09-17 20:10:05  [ http-nio-8088-exec-8:529298 ] - [ INFO ]  Incoming request: [GET] /api/shared/hotel/search
+2022-09-17 20:10:05  [ http-nio-8088-exec-8:529299 ] - [ INFO ]  Controller Mapping: Controller [io.swen90007sm2.app.controller.shared.api.HotelController], method [searchOnSaleHotels]
+2022-09-17 20:10:05  [ http-nio-8088-exec-8:529301 ] - [ INFO ]  Unit of work loaded.
+2022-09-17 20:10:05  [ http-nio-8088-exec-8:529301 ] - [ WARN ]  cache key:[mc-searchHotelsByPageByPostCode305110] expired. 
+2022-09-17 20:10:06  [ http-nio-8088-exec-8:529923 ] - [ INFO ]  Execute non query SQL [SELECT * FROM hotel WHERE on_sale = ? AND post_code = ? ORDER BY rank DESC] with param [[true, 3051]]
+2022-09-17 20:10:06  [ http-nio-8088-exec-8:530017 ] - [ INFO ]  Unit of work committed.
+2022-09-17 20:10:06  [ http-nio-8088-exec-8:530019 ] - [ INFO ]  Finished handling request: [GET] /api/shared/hotel/search

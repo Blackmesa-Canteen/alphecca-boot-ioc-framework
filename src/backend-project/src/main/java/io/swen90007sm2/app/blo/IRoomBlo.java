@@ -17,12 +17,16 @@ public interface IRoomBlo {
 
     void doUpdateRoom(UpdateRoomParam param);
 
+    void doUpdateRoomWithLock(UpdateRoomParam param);
+
     void doDeleteRoomByRoomId(String RoomId);
 
     /**
      * get room entity
      */
     Room getRoomEntityByRoomId(String roomId);
+
+    Room getRoomEntityByRoomIdWithLock(String roomId);
 
     /**
      * get room vo

@@ -39,8 +39,9 @@ public enum StatusCodeEnume {
 
     ROOM_IS_OCCUPIED(18001, "the room is occupied"),
     TRANSACTION_NOT_FOUND(18002, "transaction not found"),
-    TRANSACTION_ALREADY_CANCELLED(18003, "transaction already cancelled")
+    TRANSACTION_ALREADY_CANCELLED(18003, "transaction already cancelled"),
 
+    CONCURRENCY_EXCEPTION(20001, "Concurrency issue: Resource conflicts.")
 
     ;
     private final Integer code;

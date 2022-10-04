@@ -24,4 +24,6 @@ public interface IBaseDao<T extends BaseEntity> {
      * deletion
      */
     int deleteOne(T entity);
+
+    void throwConcurrencyException(T entity);
 }
