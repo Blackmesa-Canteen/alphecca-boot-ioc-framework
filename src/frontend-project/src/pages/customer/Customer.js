@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomerNavBar } from "../../components/navbar/NavBar";
 import { CustomerInfo } from "../../API/CustomerApi";
-import ResultList from "../../components/resultList/ResultList";
+import ResultList from "../../components/customerPortal/resultList/ResultList";
 
 const Customer = () => {
   const { loading, customer, error } = CustomerInfo();
@@ -12,7 +12,7 @@ const Customer = () => {
     return (
       <div>
         <CustomerNavBar />
-        <ResultList item={customer.userId}/>
+        <ResultList item={customer.userId} />
       </div>
     );
   }

@@ -1,9 +1,8 @@
 import React from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { GetBookings } from "../../API/CustomerApi";
-import Booking from "../../components/bookings/Booking";
-import { GetAllTransaction } from "../../API/CustomerApi";
+import Booking from "../../bookings/Booking";
+import { GetAllTransaction } from "../../../API/CustomerApi";
 
 const ResultList = (props) => {
   const { loading, transaction, error } = GetAllTransaction(props.item);
@@ -23,7 +22,6 @@ const ResultList = (props) => {
     return (
       <div>
         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-        
           <Tab eventKey="profile" title="Profile">
             My profile
           </Tab>

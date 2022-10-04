@@ -113,7 +113,6 @@ export function HotelRooms(hotelId) {
     getRooms(hotelId)
       .then((res) => {
         setLoading(false);
-        console.log(res);
         setRooms(res.data);
       })
       .catch((e) => {
@@ -167,7 +166,7 @@ export async function updateOrder(info) {
   })
     .then((res) => {
       console.log(res);
-      window.location="/customer"
+      window.location = "/customer";
     })
     .catch((e) => {
       console.log(e);

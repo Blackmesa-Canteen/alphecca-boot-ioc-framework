@@ -5,7 +5,6 @@ import { MailButton, MailContainer } from "./MailElements";
 
 const Mail = () => {
   const { id } = useParams();
-  console.log(id);
 
   const navigate = useNavigate();
   const handleClick = () => {
