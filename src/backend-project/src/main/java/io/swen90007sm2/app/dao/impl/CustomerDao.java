@@ -74,7 +74,7 @@ public class CustomerDao implements ICustomerDao {
                 customer.getDescription(),
                 customer.getUserName(),
                 customer.getAvatarUrl(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 customer.getVersion() + 1,
                 customer.getId(),
                 customer.getVersion()
@@ -93,7 +93,7 @@ public class CustomerDao implements ICustomerDao {
         int row = CRUDTemplate.executeNonQuery(
                 "UPDATE customer SET password=?, update_time=? WHERE user_id = ?",
                 newCypher,
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 customerId
         );
 

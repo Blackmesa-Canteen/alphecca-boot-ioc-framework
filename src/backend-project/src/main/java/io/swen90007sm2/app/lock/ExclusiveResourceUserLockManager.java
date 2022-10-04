@@ -34,6 +34,9 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
 
                 // the lock is expired, remove it to prevent deadlock
                 resourceUserLockDao.deleteOneByResourceId(resourceId);
+
+            } else {
+                // if the lock is valid and exist, throw concurrency exception
                 throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
                         "please refresh page， and try again later");
             }
@@ -48,7 +51,7 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
     }
 
     @Override
-    public synchronized void release(String resourceId, String userId) throws ResourceConflictException{
+    public synchronized void release(String resourceId, String userId) throws ResourceConflictException {
         resourceUserLockDao.deleteOneByResourceId(resourceId);
     }
 }

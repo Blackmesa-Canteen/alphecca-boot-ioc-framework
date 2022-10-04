@@ -74,7 +74,7 @@ public class RoomOrderDao implements IRoomOrderDao {
                 entity.getOrderedCount(),
                 entity.getPricePerRoom(),
                 entity.getCurrency(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 entity.getId()
         );
     }
@@ -172,8 +172,8 @@ public class RoomOrderDao implements IRoomOrderDao {
 
     @Override
     public List<RoomOrder> findRoomOrdersByHotelIdAndDateRange(String hotelId, Date startDate, Date endDate, int statusCode) {
-        java.sql.Date sqlDateStart = new java.sql.Date(startDate.getTime());
-        java.sql.Date sqlDateEnd = new java.sql.Date(endDate.getTime());
+        java.sql.Timestamp sqlDateStart = new java.sql.Timestamp(startDate.getTime());
+        java.sql.Timestamp sqlDateEnd = new java.sql.Timestamp(endDate.getTime());
 
         return CRUDTemplate.executeQueryWithMultiRes(
                 RoomOrder.class,

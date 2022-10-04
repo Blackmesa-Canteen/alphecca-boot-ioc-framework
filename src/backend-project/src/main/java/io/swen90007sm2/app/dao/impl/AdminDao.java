@@ -50,7 +50,7 @@ public class AdminDao implements IAdminDao {
                 admin.getDescription(),
                 admin.getUserName(),
                 admin.getAvatarUrl(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 admin.getVersion() + 1,
                 admin.getId(),
                 admin.getVersion()

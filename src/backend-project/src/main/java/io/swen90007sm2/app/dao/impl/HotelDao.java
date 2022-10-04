@@ -57,7 +57,7 @@ public class HotelDao implements IHotelDao{
                 entity.getMinPrice(),
                 entity.getRank(),
                 entity.getCurrency(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 entity.getVersion() + 1,
                 entity.getId(),
                 entity.getVersion()

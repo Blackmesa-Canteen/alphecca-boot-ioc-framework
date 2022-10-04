@@ -125,6 +125,8 @@ public class UnitOfWorkHelper {
                     dao.insertOne(bean.getEntity());
                 } catch (Exception e) {
                     LOGGER.error("Uow insertion error: ", e);
+                    // continue throw e to upper
+                    throw e;
                 }
             }
 
@@ -144,6 +146,8 @@ public class UnitOfWorkHelper {
                     cacheRef.remove(bean.getCacheKey());
                 } catch (Exception e) {
                     LOGGER.error("Uow update error: ", e);
+                    // continue throw e to upper
+                    throw e;
                 }
             }
 
@@ -157,6 +161,8 @@ public class UnitOfWorkHelper {
                     cacheRef.remove(bean.getCacheKey());
                 } catch (Exception e) {
                     LOGGER.error("Uow deletion error: ", e);
+                    // continue throw e to upper
+                    throw e;
                 }
             }
 

@@ -62,7 +62,7 @@ public class PhotoDao implements IPhotoDao {
                 "UPDATE photo SET description=?, photo_url=?, update_time=? WHERE photo_id = ?",
                 photo.getDescription(),
                 photo.getPhotoUrl(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 photo.getPhotoId()
         );
 

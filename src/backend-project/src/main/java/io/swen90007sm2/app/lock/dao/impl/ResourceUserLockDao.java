@@ -65,7 +65,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
     public int insertOne(ResourceUserLock entity) {
         String sql = "INSERT INTO resource_user_lock (resource_id, user_id, lock_type, create_time) values (?, ?, ?, ?)";
         Object[] params = {entity.getResourceId(), entity.getUserId(), entity.getLockType(),
-                new java.sql.Date(TimeUtil.now().getTime())};
+                new java.sql.Timestamp(TimeUtil.now().getTime())};
 
         Connection conn = null;
         PreparedStatement preparedStatement = null;

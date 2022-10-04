@@ -52,7 +52,7 @@ public class HotelierDao implements IHotelierDao {
                 entity.getPassword(),
                 entity.getDescription(),
                 entity.getUserName(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 entity.getAvatarUrl(),
                 entity.getHotelId(),
                 entity.getVersion() + 1,

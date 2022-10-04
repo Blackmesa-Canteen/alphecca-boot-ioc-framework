@@ -25,8 +25,8 @@ public class TransactionDao implements ITransactionDao {
 
     @Override
     public int insertOne(Transaction entity) {
-        java.sql.Date sqlStartDate = new java.sql.Date(entity.getStartDate().getTime());
-        java.sql.Date sqlEndDate = new java.sql.Date(entity.getEndDate().getTime());
+        java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(entity.getStartDate().getTime());
+        java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(entity.getEndDate().getTime());
         return CRUDTemplate.executeNonQuery(
                 "INSERT INTO transaction (id, transaction_id, customer_id, " +
                         "hotel_id, status_code, start_date, " +
@@ -54,7 +54,7 @@ public class TransactionDao implements ITransactionDao {
                 entity.getEndDate(),
                 entity.getTotalPrice(),
                 entity.getCurrency(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 entity.getId()
         );
     }
@@ -196,8 +196,8 @@ public class TransactionDao implements ITransactionDao {
 
     @Override
     public List<Transaction> findTransactionByHotelIdByDateRange(String hotelId, Date startDate, Date endDate) {
-        java.sql.Date startSqlDate = new java.sql.Date(startDate.getTime());
-        java.sql.Date endSqlDate = new java.sql.Date(endDate.getTime());
+        java.sql.Timestamp startSqlDate = new java.sql.Timestamp(startDate.getTime());
+        java.sql.Timestamp endSqlDate = new java.sql.Timestamp(endDate.getTime());
 
         return CRUDTemplate.executeQueryWithMultiRes(
                 Transaction.class,
