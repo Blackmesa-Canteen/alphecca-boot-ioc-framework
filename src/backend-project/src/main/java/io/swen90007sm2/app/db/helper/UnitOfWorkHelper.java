@@ -53,6 +53,9 @@ public class UnitOfWorkHelper {
         if (current.get() == null) {
             setCurrent(new UnitOfWorkHelper(cacheRef));
             LOGGER.info("Unit of work loaded.");
+            // init database connection
+            DbHelper.initConnection();
+            LOGGER.info("database connection established for this request");
             return current.get();
         }
 
@@ -172,7 +175,6 @@ public class UnitOfWorkHelper {
                 }
             }
 
-            LOGGER.info("Unit of work committed.");
             newUowBeans.clear();
             deletedUowBeans.clear();
             dirtyUowBeans.clear();
@@ -180,6 +182,7 @@ public class UnitOfWorkHelper {
             // commit the transaction
             try {
                 DbHelper.getConnection().commit();
+                LOGGER.info("Unit of work committed.");
             } catch (SQLException e) {
                 throw new InternalException(e.getMessage());
             } finally {
@@ -194,13 +197,13 @@ public class UnitOfWorkHelper {
      */
     public void rollback() {
 
-        LOGGER.info("Unit of work has rollback changes.");
         newUowBeans.clear();
         deletedUowBeans.clear();
         dirtyUowBeans.clear();
         backupOldBeanMap.clear();
         try {
             DbHelper.getConnection().rollback();
+            LOGGER.info("Unit of work has rollback changes in request transaction.");
         } catch (SQLException e) {
             throw new InternalException(e.getMessage());
         } finally {
