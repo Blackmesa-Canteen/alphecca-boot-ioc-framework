@@ -1,9 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Nav, Navbar, Button } from "react-bootstrap";
-import { IoPersonCircleSharp } from "react-icons/io5";
 import { AlpheccaLogo } from "../common/CustomerStyle";
 import { Logout } from "../../API/CommonApi";
 import { useNavigate } from "react-router-dom";
+import { UserIcon } from "./NavBarElements";
 
 export function CustomerNavBar(props) {
   return (
@@ -21,7 +21,7 @@ export function CustomerNavBar(props) {
             Log out
           </Button>
         </div>
-        <IoPersonCircleSharp
+        <UserIcon
           color="white"
           fontSize="50"
           onClick={() => {
@@ -49,7 +49,7 @@ export function HotelierNavBar(props) {
             Log out
           </Button>
         </div>
-        <IoPersonCircleSharp color="white" fontSize="50" />
+        <UserIcon color="white" fontSize="50" />
       </Nav>
     </Navbar>
   );

@@ -1,14 +1,17 @@
 import React from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import Booking from "../../bookings/Booking";
-import { GetAllTransaction } from "../../../API/CustomerApi";
+import { Spinner } from "react-bootstrap";
+import { GetAllTransaction } from "../../API/CustomerApi";
+import Profile from "./profile/Profile";
+import FutureBooking from "./future/FutureBooking";
+import PriorBooking from "./prior/PriorBooking";
 
-const ResultList = (props) => {
+const CustomerPortal = (props) => {
   const { loading, transaction, error } = GetAllTransaction(props.item);
 
   if (transaction.length === 0) {
-    return <div>loading</div>;
+    return <Spinner animation="border" />;
   } else {
     const priorBooking = [];
     const futureBooking = [];
@@ -23,21 +26,13 @@ const ResultList = (props) => {
       <div>
         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
           <Tab eventKey="profile" title="Profile">
-            My profile
+            <Profile />
           </Tab>
           <Tab eventKey="prior" title="Prior Booking">
-            <div>
-              {priorBooking.map((item) => (
-                <Booking item={item} key={item.id} />
-              ))}
-            </div>
+            <PriorBooking item={priorBooking} />
           </Tab>
           <Tab eventKey="future" title="Future Booking">
-            <div>
-              {futureBooking.map((item) => (
-                <Booking item={item} key={item.id} />
-              ))}
-            </div>
+            <FutureBooking item={futureBooking} />
           </Tab>
         </Tabs>
       </div>
@@ -45,4 +40,4 @@ const ResultList = (props) => {
   }
 };
 
-export default ResultList;
+export default CustomerPortal;
