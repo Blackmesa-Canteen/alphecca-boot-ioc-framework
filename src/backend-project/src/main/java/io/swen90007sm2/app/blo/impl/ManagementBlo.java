@@ -27,6 +27,7 @@ import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
 import io.swen90007sm2.app.model.param.AdminRemoveHotelierParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
+import io.swen90007sm2.app.model.param.UserUpdateParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.util.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -229,5 +230,15 @@ public class ManagementBlo implements IManagementBlo {
     @Override
     public PageBean<Hotelier> getHoteliersByPage(int pageNo, int pageSize) {
         return hotelierBlo.getHotelierByPage(pageNo, pageSize);
+    }
+
+    @Override
+    public void updateCustomerInfo(String userId, UserUpdateParam param) {
+        customerBlo.doUpdateUserExceptPassword(userId, param);
+    }
+
+    @Override
+    public void updateHotelierInfo(String userId, UserUpdateParam param) {
+        hotelierBlo.doUpdateUserExceptPassword(userId, param);
     }
 }

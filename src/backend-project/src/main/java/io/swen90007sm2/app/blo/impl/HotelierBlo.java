@@ -23,6 +23,7 @@ import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.param.LoginParam;
 import io.swen90007sm2.app.model.param.UserRegisterParam;
+import io.swen90007sm2.app.model.param.UserUpdateParam;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.AuthRole;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -257,5 +258,21 @@ public class HotelierBlo implements IHotelierBlo {
         pageBean.setBeans(res);
 
         return pageBean;
+    }
+
+    @Override
+    public void doUpdateUserExceptPassword(String userId, UserUpdateParam param) {
+        // get record
+        // cache result bean as the Identity map
+        // use random expiration time to prevent Cache avalanche
+        Hotelier hotelierBean = getHotelierInfoByUserId(userId);
+        // set new value
+        if (param.getDescription() != null) hotelierBean.setDescription(param.getDescription());
+        if (param.getUserName() != null) hotelierBean.setUserName(param.getUserName());
+        if (param.getAvatarUrl() != null) hotelierBean.setAvatarUrl(param.getAvatarUrl());
+
+        // unit of work helper
+        IHotelierDao hotelierDao = BeanManager.getLazyBeanByClass(HotelierDao.class);
+        UnitOfWorkHelper.getCurrent().registerDirty(hotelierBean, hotelierDao, CacheConstant.ENTITY_USER_KEY_PREFIX + userId);
     }
 }
