@@ -124,20 +124,16 @@ public class ManagementController {
 
     @HandlesRequest(path = "/customer/update", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
-    public R updateCustomerInfo(HttpServletRequest request, @RequestJsonBody @Valid UserUpdateParam userUpdateParam) {
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
+    public R updateCustomerInfo(HttpServletRequest request, @RequestJsonBody @Valid AdminUpdateUserParam userUpdateParam) {
+        String userId = userUpdateParam.getUserId();
         managementBlo.updateCustomerInfo(userId, userUpdateParam);
         return R.ok();
     }
 
     @HandlesRequest(path = "/hotelier/update", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
-    public R updateHotelierInfo(HttpServletRequest request, @RequestJsonBody @Valid UserUpdateParam userUpdateParam) {
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
+    public R updateHotelierInfo(HttpServletRequest request, @RequestJsonBody @Valid AdminUpdateUserParam userUpdateParam) {
+        String userId = userUpdateParam.getUserId();
         managementBlo.updateHotelierInfo(userId, userUpdateParam);
         return R.ok();
     }
