@@ -30,7 +30,7 @@ Expedia, the business operates as a search engine and booking system for hotel s
 ## Heroku Deployment Repositories
 #### Front-end Deployment
 [Link to Front-end in Heroku](https://swen90007-alphecca-frontend.herokuapp.com/)
-#### Back-end Deployment
+#### Back-end Deployment & API Documentation
 [Link to Back-end in Heroku](https://swen90007-alphecca-backend-app.herokuapp.com/)
 #### Admin Login Repository
 [Link to Admin Login](https://swen90007-alphecca-frontend.herokuapp.com/adminLogin/)
