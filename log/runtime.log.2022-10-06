@@ -1,0 +1,89 @@
+2022-10-06 14:18:46  [ main:0 ] - [ INFO ]  ----------  SWEN90007 AlpheccaBoot Ioc web Api Supporter  ----------
+2022-10-06 14:18:46  [ main:1 ] - [ INFO ]  Start to run the IoC Web Api Application.
+2022-10-06 14:18:46  [ main:8 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.config.ConfigFileManager loaded.
+2022-10-06 14:18:46  [ main:9 ] - [ INFO ]  Scanning project base package: [io.swen90007sm2.app]
+2022-10-06 14:18:46  [ main:42 ] - [ INFO ]  Scanned 140 Classes and interfaces in total.
+2022-10-06 14:18:46  [ main:43 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.ClassManager loaded.
+2022-10-06 14:18:46  [ main:49 ] - [ INFO ]  Scanned 11 Blo Classes.
+2022-10-06 14:18:46  [ main:50 ] - [ INFO ]  Scanned 13 Controller Classes.
+2022-10-06 14:18:46  [ main:50 ] - [ INFO ]  Scanned 11 Dao Classes.
+2022-10-06 14:18:46  [ main:51 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-10-06 14:18:46  [ main:51 ] - [ INFO ]  Scanned 5 Component Classes.
+2022-10-06 14:18:46  [ main:116 ] - [ INFO ]  Instantiated 44 instances in the bean container.
+2022-10-06 14:18:46  [ main:116 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.BeanManager loaded.
+2022-10-06 14:18:46  [ main:182 ] - [ INFO ]  Reflections took 56 ms to scan 1 urls, producing 51 keys and 130 values
+2022-10-06 14:18:46  [ main:286 ] - [ INFO ]  Instantiated 2 interceptors.
+2022-10-06 14:18:46  [ main:286 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.aop.InterceptorManager loaded.
+2022-10-06 14:18:46  [ main:290 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.RoomAmenityBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:290 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelAmenityBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:290 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelierBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.controller.hotelier.api.RoomController]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelAmenityBlo] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.blo.IHotelAmenityBlo]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.lock.ExclusiveResourceUserLockManager] to [io.swen90007sm2.app.blo.impl.HotelBlo]'s field [io.swen90007sm2.app.lock.IResourceUserLockManager]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-10-06 14:18:46  [ main:291 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-10-06 14:18:46  [ main:292 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-10-06 14:18:46  [ main:292 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomOrderBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IRoomOrderBlo]
+2022-10-06 14:18:46  [ main:292 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-10-06 14:18:46  [ main:292 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.lock.ExclusiveResourceUserLockManager] to [io.swen90007sm2.app.blo.impl.TransactionBlo]'s field [io.swen90007sm2.app.lock.IResourceUserLockManager]
+2022-10-06 14:18:46  [ main:292 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.CustomerBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomBlo] to [io.swen90007sm2.app.controller.shared.api.RoomController]'s field [io.swen90007sm2.app.blo.IRoomBlo]
+2022-10-06 14:18:46  [ main:293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.TransactionBlo] to [io.swen90007sm2.app.controller.hotelier.api.TransactionController]'s field [io.swen90007sm2.app.blo.ITransactionBlo]
+2022-10-06 14:18:46  [ main:293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.controller.shared.api.HotelController]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-10-06 14:18:46  [ main:293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelAmenityBlo] to [io.swen90007sm2.app.controller.shared.api.AmenityController]'s field [io.swen90007sm2.app.blo.IHotelAmenityBlo]
+2022-10-06 14:18:46  [ main:293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomAmenityBlo] to [io.swen90007sm2.app.controller.shared.api.AmenityController]'s field [io.swen90007sm2.app.blo.IRoomAmenityBlo]
+2022-10-06 14:18:46  [ main:293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.lock.dao.impl.ResourceUserLockDao] to [io.swen90007sm2.app.lock.ExclusiveResourceUserLockManager]'s field [io.swen90007sm2.app.lock.dao.IResourceUserLockDao]
+2022-10-06 14:18:46  [ main:293 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.LoginUserAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:294 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:294 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-10-06 14:18:46  [ main:294 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-10-06 14:18:46  [ main:294 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.RoomAmenityBlo] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.blo.IRoomAmenityBlo]
+2022-10-06 14:18:46  [ main:294 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.lock.ExclusiveResourceUserLockManager] to [io.swen90007sm2.app.blo.impl.RoomBlo]'s field [io.swen90007sm2.app.lock.IResourceUserLockManager]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.ManagementBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.CustomerBlo] to [io.swen90007sm2.app.controller.customer.api.CustomerController]'s field [io.swen90007sm2.app.blo.ICustomerBlo]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelierBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelierController]'s field [io.swen90007sm2.app.blo.IHotelierBlo]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.HotelBlo] to [io.swen90007sm2.app.controller.hotelier.api.HotelController]'s field [io.swen90007sm2.app.blo.IHotelBlo]
+2022-10-06 14:18:46  [ main:295 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.HotelierAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:296 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.dao.impl.PhotoDao] to [io.swen90007sm2.app.blo.impl.PhotoBlo]'s field [io.swen90007sm2.app.dao.IPhotoDao]
+2022-10-06 14:18:46  [ main:296 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.CustomerAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:296 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.TransactionBlo] to [io.swen90007sm2.app.controller.customer.api.TransactionController]'s field [io.swen90007sm2.app.blo.ITransactionBlo]
+2022-10-06 14:18:46  [ main:296 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.blo.impl.AdminBlo]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:296 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.PhotoBlo] to [io.swen90007sm2.app.controller.shared.api.PhotoController]'s field [io.swen90007sm2.app.blo.IPhotoBlo]
+2022-10-06 14:18:46  [ main:296 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.AdminBlo] to [io.swen90007sm2.app.controller.admin.api.AdminController]'s field [io.swen90007sm2.app.blo.IAdminBlo]
+2022-10-06 14:18:46  [ main:296 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.security.filter.AdminAuthFilter]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:297 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryObjectCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:297 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.cache.MemoryStringCache] to [io.swen90007sm2.app.cache.util.CacheUtil]'s field [io.swen90007sm2.app.cache.ICacheStorage]
+2022-10-06 14:18:46  [ main:297 ] - [ INFO ]  Dependency Injection: Bean [io.swen90007sm2.app.blo.impl.ManagementBlo] to [io.swen90007sm2.app.controller.admin.api.ManagementController]'s field [io.swen90007sm2.app.blo.IManagementBlo]
+2022-10-06 14:18:46  [ main:297 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.ioc.InjectionHelper loaded.
+2022-10-06 14:18:46  [ main:297 ] - [ INFO ]  Scanned 4 Filter Classes.
+2022-10-06 14:18:46  [ main:297 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.web.filter.FilterManager loaded.
+2022-10-06 14:18:46  [ main:297 ] - [ INFO ]  Scanned 13 Controller Classes.
+2022-10-06 14:18:46  [ main:305 ] - [ INFO ]  context io.swen90007sm2.alpheccaboot.core.mvc.ControllerManager loaded.
+2022-10-06 14:18:46  [ main:305 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.RoomController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-10-06 14:18:46  [ main:346 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.RoomController$$EnhancerByCGLIB$$6f40e995] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:346 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.RoomController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:348 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.TransactionController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-10-06 14:18:46  [ main:349 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.TransactionController$$EnhancerByCGLIB$$8bd5eaae] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:349 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.HotelController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:351 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.AmenityController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:352 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-10-06 14:18:46  [ main:354 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.CustomerController$$EnhancerByCGLIB$$4e6d31c2] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:354 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.MainController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:355 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelierController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-10-06 14:18:46  [ main:357 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelierController$$EnhancerByCGLIB$$9e59f142] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:357 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-10-06 14:18:46  [ main:358 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.hotelier.api.HotelController$$EnhancerByCGLIB$$22d53620] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:358 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.TransactionController] with interceptor [io.swen90007sm2.alpheccaboot.core.aop.interceptor.validation.JSR303ValidationInterceptor]
+2022-10-06 14:18:46  [ main:360 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.customer.api.TransactionController$$EnhancerByCGLIB$$8c872ec2] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:360 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.shared.api.PhotoController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:361 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.admin.api.AdminController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:362 ] - [ INFO ]  AOP enhanced [io.swen90007sm2.app.controller.admin.api.ManagementController] with interceptor [io.swen90007sm2.app.db.aop.UnitOfWorkInterceptor]
+2022-10-06 14:18:46  [ main:363 ] - [ INFO ]  IoC Container is ready to go.
+2022-10-06 14:18:46  [ main:363 ] - [ INFO ]  Startup the web server...
+2022-10-06 14:18:46  [ main:577 ] - [ INFO ]  Web API App is running at localhost:8088. Good luck no bugs mate :)
