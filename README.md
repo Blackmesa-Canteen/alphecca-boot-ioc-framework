@@ -49,7 +49,7 @@ For the purpose of part two, simple and basic data samples for the Cutsomer, Hot
 	* Password: 123456
 
 
-
+**As for backend API Documentation, visit the backend server with a browser: [Link to Backend in Heroku](https://swen90007-alphecca-backend-app.herokuapp.com/)**
 
 # License
 ```
