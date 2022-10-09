@@ -11,6 +11,7 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.app.blo.IRoomBlo;
+import io.swen90007sm2.app.model.entity.Room;
 import io.swen90007sm2.app.model.param.CreateRoomParam;
 import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.model.vo.RoomVo;
@@ -58,5 +59,22 @@ public class RoomController {
         String userId = authToken.getUserId();
         List<RoomVo> roomVos = roomBlo.getOwnedHotelRoomVos(userId);
         return R.ok().setData(roomVos);
+    }
+
+    // edit with lock
+    @HandlesRequest(path = "/editing", method = RequestMethod.PUT)
+    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
+    public R editRoomWithLock(@RequestJsonBody @Valid UpdateRoomParam param) {
+        param.setCurrency(param.getCurrency().toUpperCase());
+        roomBlo.doUpdateRoomWithLock(param);
+        return R.ok();
+    }
+
+    // get with lock
+    @HandlesRequest(path = "/editing", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
+    public R editRoomWithLock(@QueryParam(value = "roomId") String roomId) {
+        Room roomEntity = roomBlo.getRoomEntityByRoomIdWithLock(roomId);
+        return R.ok().setData(roomEntity);
     }
 }

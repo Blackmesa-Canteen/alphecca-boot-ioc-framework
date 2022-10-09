@@ -2,10 +2,14 @@ package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
+import io.swen90007sm2.alpheccaboot.exception.ResourceNotFoundException;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.ITransactionDao;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
+import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import io.swen90007sm2.app.model.entity.Transaction;
+import io.swen90007sm2.app.model.pojo.VersionInfoBean;
 
 import java.util.Date;
 import java.util.List;
@@ -21,8 +25,8 @@ public class TransactionDao implements ITransactionDao {
 
     @Override
     public int insertOne(Transaction entity) {
-        java.sql.Date sqlStartDate = new java.sql.Date(entity.getStartDate().getTime());
-        java.sql.Date sqlEndDate = new java.sql.Date(entity.getEndDate().getTime());
+        java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(entity.getStartDate().getTime());
+        java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(entity.getEndDate().getTime());
         return CRUDTemplate.executeNonQuery(
                 "INSERT INTO transaction (id, transaction_id, customer_id, " +
                         "hotel_id, status_code, start_date, " +
@@ -50,9 +54,41 @@ public class TransactionDao implements ITransactionDao {
                 entity.getEndDate(),
                 entity.getTotalPrice(),
                 entity.getCurrency(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 entity.getId()
         );
+    }
+
+    @Override
+    public void throwConcurrencyException(Transaction entity) {
+        VersionInfoBean currentVersion = CRUDTemplate.executeQueryWithOneRes(
+                VersionInfoBean.class,
+                "SELECT version, update_time FROM transaction WHERE id = ?",
+                entity.getId()
+        );
+
+        if (currentVersion == null) {
+            throw new ResourceNotFoundException(
+                    "transaction " + entity.getId() + " has been deleted"
+            );
+        }
+
+        if (currentVersion.getVersion() == null) {
+            throw new InternalException(
+                    "Missing version info for optimistic concurrency control in transaction"
+            );
+        }
+
+        if (currentVersion.getVersion() > entity.getVersion()) {
+            throw new ResourceConflictException(
+                    "Rejected: transaction " + entity.getId() + " has been modified by others at "
+                            + currentVersion.getUpdateTime()
+            );
+        } else {
+            throw new InternalException(
+                    "unexpected error in throwConcurrencyException for transaction" + entity.getId()
+            );
+        }
     }
 
     @Override
@@ -160,8 +196,8 @@ public class TransactionDao implements ITransactionDao {
 
     @Override
     public List<Transaction> findTransactionByHotelIdByDateRange(String hotelId, Date startDate, Date endDate) {
-        java.sql.Date startSqlDate = new java.sql.Date(startDate.getTime());
-        java.sql.Date endSqlDate = new java.sql.Date(endDate.getTime());
+        java.sql.Timestamp startSqlDate = new java.sql.Timestamp(startDate.getTime());
+        java.sql.Timestamp endSqlDate = new java.sql.Timestamp(endDate.getTime());
 
         return CRUDTemplate.executeQueryWithMultiRes(
                 Transaction.class,

@@ -24,9 +24,7 @@ import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.Hotelier;
-import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
-import io.swen90007sm2.app.model.param.AdminRemoveHotelierParam;
-import io.swen90007sm2.app.model.param.UserRegisterParam;
+import io.swen90007sm2.app.model.param.*;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.util.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -229,5 +227,23 @@ public class ManagementBlo implements IManagementBlo {
     @Override
     public PageBean<Hotelier> getHoteliersByPage(int pageNo, int pageSize) {
         return hotelierBlo.getHotelierByPage(pageNo, pageSize);
+    }
+
+    @Override
+    public void updateCustomerInfo(String userId, AdminUpdateUserParam param) {
+        String userName = param.getUserName();
+        String description = param.getDescription();
+        String avatarUrl = param.getAvatarUrl();
+        UserUpdateParam updateParam = new UserUpdateParam(userName, description, avatarUrl);
+        customerBlo.doUpdateUserExceptPassword(userId, updateParam);
+    }
+
+    @Override
+    public void updateHotelierInfo(String userId, AdminUpdateUserParam param) {
+        String userName = param.getUserName();
+        String description = param.getDescription();
+        String avatarUrl = param.getAvatarUrl();
+        UserUpdateParam updateParam = new UserUpdateParam(userName, description, avatarUrl);
+        hotelierBlo.doUpdateUserExceptPassword(userId, updateParam);
     }
 }

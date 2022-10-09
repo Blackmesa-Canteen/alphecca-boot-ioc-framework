@@ -13,7 +13,11 @@ public interface ITransactionBlo {
 
     void doMakeBooking(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap);
 
-    void doUpdateBooking(String transactionId, String roomOrderId, int day);
+    void doMakeBookingWithLock(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap);
+
+    void doUpdateBooking(String transactionId, String roomOrderId, int newQuantity);
+
+    void doUpdateBookingWithLock(String transactionId, String roomOrderId, int newQuantity);
 
     void doCancelBooking(String transactionId);
 
