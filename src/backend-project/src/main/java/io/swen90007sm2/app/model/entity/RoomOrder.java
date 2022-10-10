@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.app.model.pojo.Money;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -22,6 +24,8 @@ public class RoomOrder extends BaseEntity{
 
     // in database it is always AUD
     private String currency;
+
+    private Money money;
 
     public RoomOrder() {
     }
@@ -111,6 +115,14 @@ public class RoomOrder extends BaseEntity{
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public void setMoney(Money money) {
+        this.money = money;
     }
 
     @Override

@@ -1,9 +1,14 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.common.constant.CommonConstant;
+import io.swen90007sm2.app.dao.impl.RoomOrderDao;
+import io.swen90007sm2.app.model.pojo.Money;
+import io.swen90007sm2.app.model.vo.RoomOrderVo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 996Worker
@@ -29,6 +34,9 @@ public class Transaction extends BaseEntity {
 
     // in database it is always AUD
     private String currency = CommonConstant.AUD_CURRENCY;
+
+    private Money money;
+    private List<RoomOrder> roomOrders;
 
     public Transaction() {
     }
@@ -132,6 +140,27 @@ public class Transaction extends BaseEntity {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public void setMoney(Money money) {
+        this.money = money;
+    }
+
+    public List<RoomOrder> getRoomOrders() {
+        if (roomOrders == null) {
+            RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+            roomOrders = roomOrderDao.findRoomOrdersByTransactionId(getTransactionId());
+        }
+
+        return roomOrders;
+    }
+
+    public void setRoomOrders(List<RoomOrder> roomOrders) {
+        this.roomOrders = roomOrders;
     }
 
     @Override

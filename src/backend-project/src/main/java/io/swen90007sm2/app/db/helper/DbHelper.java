@@ -142,6 +142,10 @@ public class DbHelper {
 //            LOGGER.error("get database connection error. ", e);
 //            throw new InternalException("get database connection error.");
 //        }
+        Connection connection = currentDbConnection.get();
+        if (connection == null) {
+            initConnection();
+        }
         return currentDbConnection.get();
     }
 
