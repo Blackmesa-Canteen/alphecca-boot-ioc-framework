@@ -1,11 +1,15 @@
 package io.swen90007sm2.app.db.resolver;
 
 import com.google.common.base.CaseFormat;
+import io.swen90007sm2.app.db.util.CRUDTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * resolve ResultSet into a java bean
@@ -13,6 +17,8 @@ import java.sql.ResultSet;
  * @author xiaotian
  */
 public class BeanResultSetResolver<T> implements IResultSetResolver<T>{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BeanResultSetResolver.class);
 
     private final Class<T> clazz;
 
@@ -37,8 +43,15 @@ public class BeanResultSetResolver<T> implements IResultSetResolver<T>{
                 // change java bean field camel type to database lower underscore type
                 String lowerUnderscoreName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, descriptor.getName());
 
-                Object resultSetObject = resultSet.getObject(lowerUnderscoreName);
-                descriptor.getWriteMethod().invoke(beanObject, resultSetObject);
+                try{
+                    Object resultSetObject = resultSet.getObject(lowerUnderscoreName);
+                    if (resultSetObject != null) {
+                        descriptor.getWriteMethod().invoke(beanObject, resultSetObject);
+                    }
+                } catch (SQLException e) {
+                    LOGGER.warn("resolve result set exeception: " + e);
+                }
+
             }
 
             return beanObject;

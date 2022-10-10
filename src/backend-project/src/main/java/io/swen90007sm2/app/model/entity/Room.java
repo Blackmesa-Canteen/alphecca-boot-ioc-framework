@@ -1,9 +1,14 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.common.constant.CommonConstant;
+import io.swen90007sm2.app.dao.IRoomAmenityDao;
+import io.swen90007sm2.app.dao.impl.RoomAmenityDao;
+import io.swen90007sm2.app.model.pojo.Money;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 public class Room extends BaseEntity {
@@ -27,6 +32,9 @@ public class Room extends BaseEntity {
     private Integer vacantNum = 1;
 
     private Boolean onSale = false;
+
+    private Money money;
+    private List<RoomAmenity> amenities;
 
     public Room() {
     }
@@ -142,6 +150,26 @@ public class Room extends BaseEntity {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public void setMoney(Money money) {
+        this.money = money;
+    }
+
+    public List<RoomAmenity> getAmenities() {
+        if (amenities == null) {
+            IRoomAmenityDao amenityDao = BeanManager.getLazyBeanByClass(RoomAmenityDao.class);
+            amenities = amenityDao.findAllAmenitiesByRoomId(roomId);
+        }
+        return amenities;
+    }
+
+    public void setAmenities(List<RoomAmenity> amenities) {
+        this.amenities = amenities;
     }
 
     @Override

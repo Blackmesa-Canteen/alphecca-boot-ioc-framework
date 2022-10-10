@@ -294,20 +294,20 @@ public class RoomBlo implements IRoomBlo {
                         }
                     }
 
-                    // generate hotel vo
-                    roomVo = new RoomVo();
-                    // copy properties
-                    BeanUtil.copyProperties(room, roomVo);
-
                     // embedded value
                     Money money = new Money();
                     money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, room.getPricePerNight()));
                     money.setCurrency(currencyName);
-                    roomVo.setMoney(money);
+                    room.setMoney(money);
 
-                    // list amenities
-                    List<RoomAmenity> amenities = roomAmenityBlo.getAllAmenitiesByRoomId(roomId);
-                    roomVo.setAmenities(amenities);
+                    // amenities are lazy loaded
+                    List<RoomAmenity> amenities = room.getAmenities();
+                    room.setAmenities(amenities);
+
+                    // generate hotel vo based on domain
+                    roomVo = new RoomVo();
+                    // copy properties
+                    BeanUtil.copyProperties(room, roomVo);
 
                     // use random expiration time to prevent Cache Avalanche
                     cache.put(

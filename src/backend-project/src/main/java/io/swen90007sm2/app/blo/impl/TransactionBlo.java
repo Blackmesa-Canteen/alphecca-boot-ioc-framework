@@ -453,13 +453,16 @@ public class TransactionBlo implements ITransactionBlo {
         if (transaction == null) {
             throw new RequestException(StatusCodeEnume.TRANSACTION_NOT_FOUND.getMessage(), StatusCodeEnume.TRANSACTION_NOT_FOUND.getCode());
         }
-        TransactionVo transactionVo = new TransactionVo();
-        BeanUtil.copyProperties(transaction, transactionVo);
 
+
+        // embed value
         Money money = new Money();
         money.setCurrency(currencyName);
-        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, transactionVo.getTotalPrice()));
-        transactionVo.setMoney(money);
+        money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, transaction.getTotalPrice()));
+        transaction.setMoney(money);
+
+        TransactionVo transactionVo = new TransactionVo();
+        BeanUtil.copyProperties(transaction, transactionVo);
 
         return transactionVo;
 
@@ -501,7 +504,7 @@ public class TransactionBlo implements ITransactionBlo {
 
             RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
             List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
-            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            List<RoomOrder> roomOrderVos = new LinkedList<>();
             for (RoomOrder roomOrder : roomOrders) {
                 Money roomMoney = new Money();
                 roomMoney.setCurrency(currencyName);
@@ -541,7 +544,7 @@ public class TransactionBlo implements ITransactionBlo {
 
             RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
             List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
-            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            List<RoomOrder> roomOrderVos = new LinkedList<>();
             for (RoomOrder roomOrder : roomOrders) {
                 Money roomMoney = new Money();
                 roomMoney.setCurrency(currencyName);
@@ -579,7 +582,7 @@ public class TransactionBlo implements ITransactionBlo {
 
             RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
             List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
-            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            List<RoomOrder> roomOrderVos = new LinkedList<>();
             for (RoomOrder roomOrder : roomOrders) {
                 Money roomMoney = new Money();
                 roomMoney.setCurrency(currencyName);
@@ -623,7 +626,7 @@ public class TransactionBlo implements ITransactionBlo {
 
             RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
             List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
-            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            List<RoomOrder> roomOrderVos = new LinkedList<>();
             for (RoomOrder roomOrder : roomOrders) {
                 Money roomMoney = new Money();
                 roomMoney.setCurrency(currencyName);
@@ -673,7 +676,7 @@ public class TransactionBlo implements ITransactionBlo {
 
             RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
             List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
-            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            List<RoomOrder> roomOrderVos = new LinkedList<>();
             for (RoomOrder roomOrder : roomOrders) {
                 Money roomMoney = new Money();
                 roomMoney.setCurrency(currencyName);
@@ -723,7 +726,7 @@ public class TransactionBlo implements ITransactionBlo {
 
             RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
             List<RoomOrder> roomOrders = roomOrderDao.findRoomOrdersByTransactionId(transactionVo.getTransactionId());
-            List<RoomOrderVo> roomOrderVos = new LinkedList<>();
+            List<RoomOrder> roomOrderVos = new LinkedList<>();
             for (RoomOrder roomOrder : roomOrders) {
                 Money roomMoney = new Money();
                 roomMoney.setCurrency(currencyName);

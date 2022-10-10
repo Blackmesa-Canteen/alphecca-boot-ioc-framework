@@ -1,7 +1,16 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
+import io.swen90007sm2.app.dao.IHotelAmenityDao;
+import io.swen90007sm2.app.dao.IRoomDao;
+import io.swen90007sm2.app.dao.impl.HotelAmenityDao;
+import io.swen90007sm2.app.dao.impl.HotelDao;
+import io.swen90007sm2.app.dao.impl.RoomDao;
+import io.swen90007sm2.app.model.pojo.Money;
+
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Hotel extends BaseEntity{
     private String hotelId;
@@ -18,6 +27,11 @@ public class Hotel extends BaseEntity{
 
     private Integer rank = 3;
     private Boolean onSale = false;
+
+    private Money money;
+    private List<HotelAmenity> amenities;
+
+    private List<Room> rooms;
 
     public Hotel() {
     }
@@ -122,6 +136,40 @@ public class Hotel extends BaseEntity{
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public void setMoney(Money money) {
+        this.money = money;
+    }
+
+    public void setAmenities(List<HotelAmenity> amenities) {
+        this.amenities = amenities;
+    }
+
+    public List<Room> getRooms() {
+        if (rooms == null) {
+            IRoomDao mapper = BeanManager.getLazyBeanByClass(RoomDao.class);
+            rooms = mapper.findRoomsByHotelId(hotelId);
+        }
+
+        return rooms;
+    }
+
+    public List<HotelAmenity> getAmenities() {
+        if (amenities == null) {
+            IHotelAmenityDao mapper = BeanManager.getLazyBeanByClass(HotelAmenityDao.class);
+            amenities = mapper.findAllAmenitiesByHotelId(hotelId);
+        }
+
+        return amenities;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     @Override
