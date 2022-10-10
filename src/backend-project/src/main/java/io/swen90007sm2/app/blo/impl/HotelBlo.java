@@ -136,20 +136,19 @@ public class HotelBlo implements IHotelBlo {
             );
         }
 
-        // generate hotel vo
-        hotelVo = new HotelVo();
-        // copy properties
-        BeanUtil.copyProperties(hotel, hotelVo);
-
-        // embedded value
+        // embedded value for hotel domain
         Money money = new Money();
         money.setCurrency(currencyName);
         money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
-        hotelVo.setMoney(money);
+        hotel.setMoney(money);
 
-        // list amenities
-        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotelId);
-        hotelVo.setAmenities(amenities);
+        // amenities field of the hotel is using lazy loading, calling get will fetch the database get the field
+        List<HotelAmenity> amenities = hotel.getAmenities();
+
+        // generate hotel vo based on domain
+        hotelVo = new HotelVo();
+        // copy properties
+        BeanUtil.copyProperties(hotel, hotelVo);
 
         return hotelVo;
     }
@@ -232,20 +231,19 @@ public class HotelBlo implements IHotelBlo {
             );
         }
 
-        // generate hotel vo
-        hotelVo = new HotelVo();
-        // copy properties
-        BeanUtil.copyProperties(hotel, hotelVo);
-
-        // embedded value
+        // embedded value for hotel domain
         Money money = new Money();
         money.setCurrency(currencyName);
         money.setAmount(CurrencyUtil.convertAUDtoCurrency(currencyName, hotel.getMinPrice()));
-        hotelVo.setMoney(money);
+        hotel.setMoney(money);
 
-        // list amenities
-        List<HotelAmenity> amenities = hotelAmenityBlo.getAllAmenitiesByHotelId(hotelId);
-        hotelVo.setAmenities(amenities);
+        // amenities field of the hotel is using lazy loading, calling get will fetch the database get the field
+        List<HotelAmenity> amenities = hotel.getAmenities();
+
+        // generate hotel vo based on domain
+        hotelVo = new HotelVo();
+        // copy properties
+        BeanUtil.copyProperties(hotel, hotelVo);
 
         return hotelVo;
     }

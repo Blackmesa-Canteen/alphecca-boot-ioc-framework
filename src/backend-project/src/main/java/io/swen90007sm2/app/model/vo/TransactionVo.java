@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.model.vo;
 
+import io.swen90007sm2.app.model.entity.RoomOrder;
 import io.swen90007sm2.app.model.entity.Transaction;
 import io.swen90007sm2.app.model.pojo.Money;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class TransactionVo extends Transaction {
 
     private Money money;
-    private List<RoomOrderVo> roomOrders;
+    private List<RoomOrder> roomOrders;
 
     public TransactionVo() {
     }
@@ -43,11 +44,11 @@ public class TransactionVo extends Transaction {
         this.money = money;
     }
 
-    public List<RoomOrderVo> getRoomOrders() {
+    public List<RoomOrder> getRoomOrders() {
         return roomOrders;
     }
 
-    public void setRoomOrders(List<RoomOrderVo> roomOrders) {
+    public void setRoomOrders(List<RoomOrder> roomOrders) {
         this.roomOrders = roomOrders;
     }
 }
