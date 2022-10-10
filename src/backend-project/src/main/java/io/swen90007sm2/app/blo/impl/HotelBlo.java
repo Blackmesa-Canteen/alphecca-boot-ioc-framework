@@ -90,7 +90,7 @@ public class HotelBlo implements IHotelBlo {
                 if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
                 if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
                 if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
-                if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getDescription());
+                if (hotelParam.getDescription() != null) hotel.setDescription(hotelParam.getDescription());
                 if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
 
                 UnitOfWorkHelper.getCurrent().registerDirty(
@@ -276,7 +276,7 @@ public class HotelBlo implements IHotelBlo {
             if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
             if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
             if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
-            if (hotelParam.getDescription() != null) hotel.setName(hotelParam.getDescription());
+            if (hotelParam.getDescription() != null) hotel.setDescription(hotelParam.getDescription());
             if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
 //            hotelDao.updateOne(hotel);
             UnitOfWorkHelper.getCurrent().registerDirty(
