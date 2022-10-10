@@ -146,26 +146,26 @@ public class Hotel extends BaseEntity{
         this.money = money;
     }
 
-    public List<HotelAmenity> getAmenities() {
-        if (amenities == null) {
-            IHotelAmenityDao amenityDao = BeanManager.getLazyBeanByClass(HotelAmenityDao.class);
-            amenities = amenityDao.findAllAmenitiesByHotelId(hotelId);
-        }
-
-        return amenities;
-    }
-
     public void setAmenities(List<HotelAmenity> amenities) {
         this.amenities = amenities;
     }
 
     public List<Room> getRooms() {
         if (rooms == null) {
-            IRoomDao roomDao = BeanManager.getLazyBeanByClass(RoomDao.class);
-            rooms = roomDao.findRoomsByHotelId(hotelId);
+            IRoomDao mapper = BeanManager.getLazyBeanByClass(RoomDao.class);
+            rooms = mapper.findRoomsByHotelId(hotelId);
         }
 
         return rooms;
+    }
+
+    public List<HotelAmenity> getAmenities() {
+        if (amenities == null) {
+            IHotelAmenityDao mapper = BeanManager.getLazyBeanByClass(HotelAmenityDao.class);
+            amenities = mapper.findAllAmenitiesByHotelId(hotelId);
+        }
+
+        return amenities;
     }
 
     public void setRooms(List<Room> rooms) {
