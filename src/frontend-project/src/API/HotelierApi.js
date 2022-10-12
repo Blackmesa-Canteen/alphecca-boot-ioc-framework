@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { BASE_URL } from "./CommonApi";
+import { BASE_URL, checkMsg } from "./CommonApi";
 
 const headers = {
   "Content-Type": "application/json",
@@ -87,10 +87,7 @@ export function HotelDetailwithLock() {
     getOwnedHotelLoked()
       .then((res) => {
         console.log(res)
-        if(res.msg!=="Ok"){
-          alert(res.msg)
-          throw new Error(res.msg)
-        }
+        checkMsg(res.msg)
         setHotel(res.data);
         setLoading(false);
       })
@@ -341,10 +338,7 @@ export function GetOneRoom(id){
   useEffect(() => {
     LockedEdit(id)
       .then((res) => {
-        if(res.msg!=="Ok"){
-          alert(res.msg)
-          throw new Error(res.msg)
-        }
+        checkMsg(res.msg)
         setLoading(false);
         setRoom(res.data);
       })

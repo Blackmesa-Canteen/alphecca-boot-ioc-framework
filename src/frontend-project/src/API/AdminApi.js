@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { BASE_URL } from "./CommonApi";
+import { BASE_URL, checkMsg } from "./CommonApi";
 
 const headers = {
   "Content-Type": "application/json",
@@ -80,6 +80,7 @@ export async function groupHotelier(info) {
     }),
   })
     .then((res) => {
+      checkMsg(res.data.msg);
       alert("Hotelier added");
       window.location = "/admin/hotels";
       return;
@@ -138,6 +139,7 @@ export async function changeHotelStatus(info) {
     }),
   })
     .then((res) => {
+      checkMsg(res.data.msg);
       window.location = "/admin/hotels";
       return;
     })
@@ -164,6 +166,7 @@ export function ViewHotelierGroup(info) {
   useEffect(() => {
     getHotelierGroup(info)
       .then((res) => {
+
         setHoteliers(res.data);
         setLoading(false);
       })
@@ -190,6 +193,7 @@ export async function removeHotelier(info) {
     }),
   })
     .then((res) => {
+      checkMsg(res.data.msg);
       alert("Hotelier removed");
       window.location = "/admin/hotels";
       return;
@@ -237,7 +241,7 @@ export function ViewAllhotelier(info) {
 }
 //update hotelier info
 export async function updateHotelier(data) {
-  const endpoint = BASE_URL + ADD_PATH + "/hotelier/update";
+  const endpoint = BASE_URL + ADD_PATH + "hotelier/update";
   await axios({
     url: endpoint,
     method: "PUT",
@@ -245,7 +249,7 @@ export async function updateHotelier(data) {
     data: JSON.stringify(data)
   })
     .then((res) => {
-      console.log(res)
+      checkMsg(res.data.msg);
       alert("info updated");
       window.location = "/admin/hoteliers"
     })
@@ -257,7 +261,7 @@ export async function updateHotelier(data) {
 
 //update customer info
 export async function updateCustomer(data) {
-  const endpoint = BASE_URL + ADD_PATH + "/customer/update";
+  const endpoint = BASE_URL + ADD_PATH + "customer/update";
   await axios({
     url: endpoint,
     method: "PUT",
@@ -265,7 +269,8 @@ export async function updateCustomer(data) {
     data: JSON.stringify(data)
   })
     .then((res) => {
-      console.log(res)
+      checkMsg(res.data.msg);
+      console.log(res.data)
       alert("info updated");
       window.location="/admin"
     })
