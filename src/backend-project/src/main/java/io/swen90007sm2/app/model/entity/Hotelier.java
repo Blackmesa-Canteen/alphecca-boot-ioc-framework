@@ -1,5 +1,7 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.app.db.annotation.Transient;
+
 import java.util.Date;
 
 public class Hotelier extends BaseUser {

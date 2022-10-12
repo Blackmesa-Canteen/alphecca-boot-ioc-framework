@@ -3,6 +3,7 @@ package io.swen90007sm2.app.model.entity;
 import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.dao.impl.RoomOrderDao;
+import io.swen90007sm2.app.db.annotation.Transient;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.vo.RoomOrderVo;
 
@@ -19,9 +20,14 @@ public class Transaction extends BaseEntity {
 
     private String transactionId;
 
-    private String customerId;
+    @Transient
+    private List<RoomOrder> roomOrders;
 
-    private String hotelId;
+    @Transient
+    private Customer customer;
+
+    @Transient
+    private Hotel hotel;
 
     private Integer statusCode = CommonConstant.TRANSACTION_PENDING;
 
@@ -36,7 +42,10 @@ public class Transaction extends BaseEntity {
     private String currency = CommonConstant.AUD_CURRENCY;
 
     private Money money;
-    private List<RoomOrder> roomOrders;
+
+    private String customerId;
+
+    private String hotelId;
 
     public Transaction() {
     }
@@ -148,6 +157,22 @@ public class Transaction extends BaseEntity {
 
     public void setMoney(Money money) {
         this.money = money;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public List<RoomOrder> getRoomOrders() {
