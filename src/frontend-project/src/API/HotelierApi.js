@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { BASE_URL } from "./CommonApi";
+import { BASE_URL, checkMsg } from "./CommonApi";
 
 const headers = {
   "Content-Type": "application/json",
@@ -54,6 +54,40 @@ export function HotelDetail() {
   useEffect(() => {
     getOwnedHotel()
       .then((res) => {
+        console.log(res)
+        setHotel(res.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        setError(e);
+        setLoading(false);
+      });
+  }, []);
+  return {
+    loading1,
+    hotel,
+    error,
+  };
+}
+//get owned hotel info
+async function getOwnedHotelLoked() {
+  const endpoint = BASE_URL + `hotelier/owned_hotel/editing`;
+  return await fetch(endpoint, {
+    method: "GET",
+    headers: headers,
+  }).then((res) => res.json());
+}
+
+export function HotelDetailwithLock() {
+  const [loading1, setLoading] = useState(true);
+  const [hotel, setHotel] = useState([]);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    getOwnedHotelLoked()
+      .then((res) => {
+        console.log(res)
+        checkMsg(res.msg)
         setHotel(res.data);
         setLoading(false);
       })
@@ -100,7 +134,7 @@ export async function registerHotel(hotel) {
 
 //edit hotel facility (put)
 export async function editHotel(hotel) {
-  const endpoint = BASE_URL + `hotelier/owned_hotel`;
+  const endpoint = BASE_URL + `hotelier/owned_hotel/editing`;
   const { name, description, address, postCode, onSale, amenities } = hotel;
   axios({
     url: endpoint,
@@ -171,7 +205,7 @@ export function createRoomType(room) {
 }
 //edit room (put)
 export async function editRoom(room) {
-  const endpoint = BASE_URL + `hotelier/owned_hotel/room`;
+  const endpoint = BASE_URL + `hotelier/owned_hotel/room/editing`;
   const {
     hotelId,
     roomId,
@@ -214,7 +248,7 @@ export async function editRoom(room) {
 }
 //get owned hotel room
 function getOwnedRoom(id) {
-  const endpoint = BASE_URL + `hotelier/owned_hotel/room`;
+  const endpoint = BASE_URL + `hotelier/owned_hotel/room/`;
   return fetch(endpoint, {
     method: "GET",
     headers: headers,
@@ -234,6 +268,10 @@ export function RoomDetail(id) {
   useEffect(() => {
     getOwnedRoom(id)
       .then((res) => {
+        if(res.msg!=="Ok"){
+          alert(res.msg)
+          throw new Error(res.msg)
+        }
         setRoom(res.data);
         setLoading(false);
       })
@@ -242,7 +280,7 @@ export function RoomDetail(id) {
         setError(e);
         setLoading(false);
       });
-  }, [id]);
+  }, []);
   return {
     loading,
     rooms,
@@ -278,10 +316,40 @@ export function UseAllTransaction(hotelier) {
         setError(e);
         setLoading(false);
       });
-  }, [hotelier]);
+  }, []);
   return {
     loading,
     transaction,
     error1,
+  };
+}
+// get room with lock (for edit use)
+async function LockedEdit(id){
+  const endpoint = BASE_URL+`hotelier/owned_hotel/room/editing/?roomId=${id}`;
+  return await fetch(endpoint, {
+    method: "GET",
+    headers: headers,
+  }).then((res) => res.json());
+}
+export function GetOneRoom(id){
+  const [loading, setLoading] = useState(true);
+  const [room, setRoom] = useState([]);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    LockedEdit(id)
+      .then((res) => {
+        checkMsg(res.msg)
+        setLoading(false);
+        setRoom(res.data);
+      })
+      .catch((e) => {
+        setLoading(false);
+        setError(e);
+      });
+  }, []);
+  return {
+    loading,
+    room,
+    error,
   };
 }

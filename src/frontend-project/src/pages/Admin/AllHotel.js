@@ -22,7 +22,7 @@ const StatusButton = styled.div`
   align-items: center;
   text-overflow: ellipsis;
 `;
-const HGContainer = styled.div`
+export const HGContainer = styled.div`
   color: white;
   margin-left: 5%;
   margin-top: 5%;

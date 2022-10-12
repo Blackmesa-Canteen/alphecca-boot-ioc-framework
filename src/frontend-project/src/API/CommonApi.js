@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const BASE_URL = "http://localhost:8088/api/";
+export const BASE_URL = "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
 
 export const BASE_URL_Heroku =
-  "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
+  "http://localhost:8088/api/";
 
 //customer signup
 export async function signup(user) {
@@ -12,8 +12,7 @@ export async function signup(user) {
   role === "Customer"
     ? (endpoint = BASE_URL + `customer/`)
     : (endpoint = BASE_URL + `hotelier/`);
-  console.log(endpoint);
-  console.log(user);
+ 
   if (!userId) {
     alert("Please provide your email address");
     return;
@@ -120,4 +119,11 @@ export async function Logout(role) {
     .catch((e) => {
       console.log(e);
     });
+}
+
+export function checkMsg(msg){
+  if(msg!=="Ok"){
+    alert(msg)
+    throw new Error(msg);
+  }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_URL } from "./CommonApi";
+import { BASE_URL, checkMsg } from "./CommonApi";
 
 const headers = {
   "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const useFetch = (url) => {
       setLoading(false);
     };
     fetchData();
-  }, [url]);
+  }, []);
 
   const reFetch = async () => {
     setLoading(true);
@@ -92,7 +92,7 @@ export function GetAllTransaction(userId) {
     };
 
     getData();
-  }, [endpoint]);
+  }, []);
   return {
     loading,
     transaction,
@@ -136,6 +136,8 @@ export async function bookHotel(id) {
     data: JSON.stringify(id),
   })
     .then((res) => {
+      console.log(res)
+      checkMsg(res.data.msg)
       alert("successfully reserved");
     })
     .catch((e) => {
@@ -150,6 +152,9 @@ export async function cancelTransac(id) {
     BASE_URL +
     `customer/transaction/cancel/?transactionId=${encodeURIComponent(id)}`;
   return fetch(endpoint, { method: "GET", headers: headers }).then((res) => {
+    if(!res.ok){
+      alert("failed")
+    }
     alert("Booking canceled");
     window.location = "/customer";
   });
@@ -165,7 +170,7 @@ export async function updateOrder(info) {
     data: JSON.stringify(info),
   })
     .then((res) => {
-      console.log(res);
+      checkMsg(res.data.msg)
       window.location = "/customer";
     })
     .catch((e) => {
@@ -192,7 +197,7 @@ export function GetHotel(id) {
     };
 
     getData();
-  }, [endpoint]);
+  }, []);
   return {
     hotel,
     loading,

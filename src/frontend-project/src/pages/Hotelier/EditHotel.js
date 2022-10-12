@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Input } from "../../components/common/CustomerStyle";
-import { editHotel } from "../../API/HotelierApi";
+import { editHotel, HotelDetailwithLock } from "../../API/HotelierApi";
 import { amenities } from "./HotelElement";
 import styled from "styled-components";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -28,6 +28,7 @@ export const Text = styled.div`
 
 export function EditDetail(props) {
   //edit hotel info
+  const {loading, hotel, error} = HotelDetailwithLock();
   const hotelInfo = props.value;
   const [name, setName] = useState(hotelInfo.name);
   const [description, setDescription] = useState(hotelInfo.description);
@@ -78,6 +79,9 @@ export function EditDetail(props) {
         style={{ color: "white", width: 30, height: 30 }}
         onClick={closeHandler}
       />
+      {loading&&<h1>Loading</h1>}
+      {error&&<h1>{error.message}</h1>}
+      {!loading&&!error&&<div>
       <center>
         <h1 style={{ color: "white" }}>Edit</h1>
       </center>
@@ -186,6 +190,7 @@ export function EditDetail(props) {
           Submit
         </Button>
       </center>
+      </div>}
     </EditWd>
   );
 }

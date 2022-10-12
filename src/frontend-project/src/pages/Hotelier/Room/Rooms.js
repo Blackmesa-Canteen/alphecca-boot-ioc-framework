@@ -30,14 +30,12 @@ const RoomsDiv = styled.div`
 
 export function AllRooms(props) {
   const { loading, rooms, error } = RoomDetail(props.value);
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(null);
   const [addwd, setAddwd] = useState(false);
   if (loading) {
     return <h1>loading...</h1>;
   }
-  if (error) {
-    return <h1>{error}</h1>;
-  } else {
+  console.log(rooms)
     return (
       <WholeContainer>
         <div>
@@ -49,29 +47,31 @@ export function AllRooms(props) {
             + Add Room Type
           </Button>
         </div>
-        <RoomsDiv>
+        {error&&<h1>please refresh later</h1>}
+        {!error&&<RoomsDiv>
           {rooms.map((r) => {
             return (
-              <div>
+              <div  key={r.id}>
                 <Oneroom
                   value={r}
-                  key={r.id}
-                  onClick={() => {
-                    setEdit(true);
+                 
+                  onClick={(r) => {
+                    setEdit(r);
                   }}
                 />
-                {edit && (
-                  <EditRoomDetail
-                    value={r}
-                    hotel={props.value}
-                    onCancel={() => {
-                      setEdit(false);
-                    }}
-                  />
-                )}
+               
               </div>
             );
           })}
+           {edit && (
+                  <EditRoomDetail
+                    value={edit}
+                    hotel={props.value}
+                    onCancel={() => {
+                      setEdit(null);
+                    }}
+                  />
+                )}
           {addwd && (
             <AddRoom
               hotelId={props.value}
@@ -80,10 +80,10 @@ export function AllRooms(props) {
               }}
             />
           )}
-        </RoomsDiv>
+        </RoomsDiv>}
       </WholeContainer>
     );
-  }
+  
 }
 
 function Oneroom(props) {
@@ -116,7 +116,7 @@ function Oneroom(props) {
           <Title>Rooms Available: </Title> {props.value.vacantNum}
         </div>
 
-        <Button onClick={props.onClick}>Edit</Button>
+        <Button onClick={()=>{props.onClick(props.value)}}>Edit</Button>
       </div>
     </RoomContainer>
   );
