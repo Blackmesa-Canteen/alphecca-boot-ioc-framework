@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.app.db.annotation.Transient;
 import io.swen90007sm2.app.model.pojo.Money;
 
 import java.math.BigDecimal;
@@ -9,13 +10,17 @@ public class RoomOrder extends BaseEntity{
 
     private String roomOrderId;
 
-    private String transactionId;
+    @Transient
+    private Transaction transaction;
 
-    private String roomId;
+    @Transient
+    private Room room;
 
-    private String hotelId;
+    @Transient
+    private Hotel hotel;
 
-    private String customerId;
+    @Transient
+    private Customer customer;
 
     private Integer orderedCount;
 
@@ -26,6 +31,14 @@ public class RoomOrder extends BaseEntity{
     private String currency;
 
     private Money money;
+
+    private String transactionId;
+
+    private String roomId;
+
+    private String hotelId;
+
+    private String customerId;
 
     public RoomOrder() {
     }
@@ -115,6 +128,38 @@ public class RoomOrder extends BaseEntity{
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Money getMoney() {

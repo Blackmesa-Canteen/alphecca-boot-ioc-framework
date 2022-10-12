@@ -4,6 +4,7 @@ import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.dao.IRoomAmenityDao;
 import io.swen90007sm2.app.dao.impl.RoomAmenityDao;
+import io.swen90007sm2.app.db.annotation.Transient;
 import io.swen90007sm2.app.model.pojo.Money;
 
 import java.math.BigDecimal;
@@ -15,7 +16,8 @@ public class Room extends BaseEntity {
 
     private String roomId;
 
-    private String hotelId;
+    @Transient
+    private List<RoomAmenity> amenities;
 
     private String name;
 
@@ -34,7 +36,8 @@ public class Room extends BaseEntity {
     private Boolean onSale = false;
 
     private Money money;
-    private List<RoomAmenity> amenities;
+
+    private String hotelId;
 
     public Room() {
     }

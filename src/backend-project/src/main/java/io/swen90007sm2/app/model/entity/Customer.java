@@ -1,6 +1,9 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.app.db.annotation.Transient;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Customer Database Entity
@@ -8,6 +11,10 @@ import java.util.Date;
  * @author xiaotian
  */
 public class Customer extends BaseUser {
+
+    // bookings
+    @Transient
+    List<Transaction> transactions;
 
     public Customer() {
     }

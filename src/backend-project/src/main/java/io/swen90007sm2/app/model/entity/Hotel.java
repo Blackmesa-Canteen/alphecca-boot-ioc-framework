@@ -6,6 +6,7 @@ import io.swen90007sm2.app.dao.IRoomDao;
 import io.swen90007sm2.app.dao.impl.HotelAmenityDao;
 import io.swen90007sm2.app.dao.impl.HotelDao;
 import io.swen90007sm2.app.dao.impl.RoomDao;
+import io.swen90007sm2.app.db.annotation.Transient;
 import io.swen90007sm2.app.model.pojo.Money;
 
 import java.math.BigDecimal;
@@ -14,6 +15,20 @@ import java.util.List;
 
 public class Hotel extends BaseEntity{
     private String hotelId;
+
+    @Transient
+    private List<HotelAmenity> amenities;
+
+    @Transient
+    private List<Room> rooms;
+
+    // managers
+    @Transient
+    private List<Hotelier> hoteliers;
+
+    @Transient
+    private List<Photo> photos;
+
     private String name;
     private String description;
     private String address;
@@ -29,9 +44,6 @@ public class Hotel extends BaseEntity{
     private Boolean onSale = false;
 
     private Money money;
-    private List<HotelAmenity> amenities;
-
-    private List<Room> rooms;
 
     public Hotel() {
     }
@@ -170,6 +182,14 @@ public class Hotel extends BaseEntity{
 
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public List<Hotelier> getHoteliers() {
+        return hoteliers;
+    }
+
+    public void setHoteliers(List<Hotelier> hoteliers) {
+        this.hoteliers = hoteliers;
     }
 
     @Override
