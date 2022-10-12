@@ -2,12 +2,16 @@ package io.swen90007sm2.app.dao.impl;
 
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Lazy;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Dao;
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
+import io.swen90007sm2.alpheccaboot.exception.ResourceNotFoundException;
 import io.swen90007sm2.app.common.util.TimeUtil;
 import io.swen90007sm2.app.dao.IRoomOrderDao;
 import io.swen90007sm2.app.db.bean.BatchBean;
 import io.swen90007sm2.app.db.util.CRUDTemplate;
+import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import io.swen90007sm2.app.model.entity.RoomOrder;
+import io.swen90007sm2.app.model.pojo.VersionInfoBean;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -70,9 +74,41 @@ public class RoomOrderDao implements IRoomOrderDao {
                 entity.getOrderedCount(),
                 entity.getPricePerRoom(),
                 entity.getCurrency(),
-                new java.sql.Date(TimeUtil.now().getTime()),
+                new java.sql.Timestamp(TimeUtil.now().getTime()),
                 entity.getId()
         );
+    }
+
+    @Override
+    public void throwConcurrencyException(RoomOrder entity) {
+        VersionInfoBean currentVersion = CRUDTemplate.executeQueryWithOneRes(
+                VersionInfoBean.class,
+                "SELECT version, update_time FROM room_order WHERE id = ?",
+                entity.getId()
+        );
+
+        if (currentVersion == null) {
+            throw new ResourceNotFoundException(
+                    "room_order " + entity.getId() + " has been deleted"
+            );
+        }
+
+        if (currentVersion.getVersion() == null) {
+            throw new InternalException(
+                    "Missing version info for optimistic concurrency control in room_order"
+            );
+        }
+
+        if (currentVersion.getVersion() > entity.getVersion()) {
+            throw new ResourceConflictException(
+                    "Rejected: room_order " + entity.getId() + " has been modified by others at "
+                            + currentVersion.getUpdateTime()
+            );
+        } else {
+            throw new InternalException(
+                    "unexpected error in throwConcurrencyException for room_order" + entity.getId()
+            );
+        }
     }
 
     @Override
@@ -136,8 +172,8 @@ public class RoomOrderDao implements IRoomOrderDao {
 
     @Override
     public List<RoomOrder> findRoomOrdersByHotelIdAndDateRange(String hotelId, Date startDate, Date endDate, int statusCode) {
-        java.sql.Date sqlDateStart = new java.sql.Date(startDate.getTime());
-        java.sql.Date sqlDateEnd = new java.sql.Date(endDate.getTime());
+        java.sql.Timestamp sqlDateStart = new java.sql.Timestamp(startDate.getTime());
+        java.sql.Timestamp sqlDateEnd = new java.sql.Timestamp(endDate.getTime());
 
         return CRUDTemplate.executeQueryWithMultiRes(
                 RoomOrder.class,

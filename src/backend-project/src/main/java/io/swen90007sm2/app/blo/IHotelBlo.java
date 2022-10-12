@@ -23,6 +23,8 @@ public interface IHotelBlo {
      */
     void editOwnedHotel(String hotelierId, HotelParam hotelParam);
 
+    void editOwnedHotelWithLock(String hotelierId, HotelParam hotelParam);
+
     /**
      * update a hotel info by hotel id
      */
@@ -48,6 +50,8 @@ public interface IHotelBlo {
      * get a hotel info by owner hotelier id
      */
     HotelVo getHotelInfoByOwnerHotelierId(String hotelierId, String currencyName, Boolean showNotSale);
+
+    HotelVo getHotelInfoByOwnerHotelierIdWithLock(String hotelierId, String currencyName, Boolean showNotSale);
 
     /**
      * returns hotel entity by hotelId

@@ -1,5 +1,6 @@
 package io.swen90007sm2.app.db.helper;
 
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.app.cache.ICacheStorage;
 import io.swen90007sm2.app.common.util.Assert;
 import io.swen90007sm2.app.dao.IBaseDao;
@@ -8,7 +9,10 @@ import io.swen90007sm2.app.model.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -47,10 +51,17 @@ public class UnitOfWorkHelper {
         if (current.get() == null) {
             setCurrent(new UnitOfWorkHelper(cacheRef));
             LOGGER.info("Unit of work loaded.");
+            // init database connection
+            DbHelper.initConnection();
+            LOGGER.info("database connection established for this request");
             return current.get();
         }
 
         LOGGER.info("Unit of work loaded.");
+        // init database connection
+        DbHelper.initConnection();
+        LOGGER.info("database connection established for this request");
+
         return current.get();
     }
 
@@ -121,6 +132,8 @@ public class UnitOfWorkHelper {
                     dao.insertOne(bean.getEntity());
                 } catch (Exception e) {
                     LOGGER.error("Uow insertion error: ", e);
+                    // continue throw e to upper
+                    throw e;
                 }
             }
 
@@ -129,11 +142,14 @@ public class UnitOfWorkHelper {
                 try {
                     // update db
                     dao.updateOne(bean.getEntity());
+
                     // Cache evict model
                     // clean the cache after update the db
                     cacheRef.remove(bean.getCacheKey());
                 } catch (Exception e) {
                     LOGGER.error("Uow update error: ", e);
+                    // continue throw e to upper
+                    throw e;
                 }
             }
 
@@ -147,19 +163,46 @@ public class UnitOfWorkHelper {
                     cacheRef.remove(bean.getCacheKey());
                 } catch (Exception e) {
                     LOGGER.error("Uow deletion error: ", e);
+                    // continue throw e to upper
+                    throw e;
                 }
             }
 
-            LOGGER.info("Unit of work committed.");
             newUowBeans.clear();
             deletedUowBeans.clear();
             dirtyUowBeans.clear();
+
+            // commit the transaction
+            try {
+                // JDBC db transaction commit
+                DbHelper.getConnection().commit();
+                LOGGER.info("Unit of work committed.");
+            } catch (SQLException e) {
+                throw new InternalException(e.getMessage());
+            } finally {
+                DbHelper.closeConnection();
+                DbHelper.setConnection(null);
+            }
         }
     }
 
+    /**
+     * perform rollback logic
+     */
     public void rollback() {
+
         newUowBeans.clear();
         deletedUowBeans.clear();
         dirtyUowBeans.clear();
+        try {
+            // JDBC db transaction rollback
+            DbHelper.getConnection().rollback();
+            LOGGER.info("Unit of work has rollback changes in request transaction.");
+        } catch (SQLException e) {
+            throw new InternalException(e.getMessage());
+        } finally {
+            DbHelper.closeConnection();
+            DbHelper.setConnection(null);
+        }
     }
 }

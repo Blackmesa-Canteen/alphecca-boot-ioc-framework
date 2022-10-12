@@ -12,10 +12,7 @@ import io.swen90007sm2.app.blo.IManagementBlo;
 import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.model.entity.Customer;
 import io.swen90007sm2.app.model.entity.Hotelier;
-import io.swen90007sm2.app.model.param.AdminGroupHotelierParam;
-import io.swen90007sm2.app.model.param.AdminChangeHotelStatusParam;
-import io.swen90007sm2.app.model.param.AdminRemoveHotelierParam;
-import io.swen90007sm2.app.model.param.UserRegisterParam;
+import io.swen90007sm2.app.model.param.*;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -123,6 +120,22 @@ public class ManagementController {
         PageBean<Hotelier> hoteliersByPage = managementBlo.getHoteliersByPage(pageNo, pageSize);
 
         return R.ok().setData(hoteliersByPage);
+    }
+
+    @HandlesRequest(path = "/customer/update", method = RequestMethod.PUT)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R updateCustomerInfo(HttpServletRequest request, @RequestJsonBody @Valid AdminUpdateUserParam userUpdateParam) {
+        String userId = userUpdateParam.getUserId();
+        managementBlo.updateCustomerInfo(userId, userUpdateParam);
+        return R.ok();
+    }
+
+    @HandlesRequest(path = "/hotelier/update", method = RequestMethod.PUT)
+    @AppliesFilter(filterNames = {SecurityConstant.ADMIN_ROLE_NAME})
+    public R updateHotelierInfo(HttpServletRequest request, @RequestJsonBody @Valid AdminUpdateUserParam userUpdateParam) {
+        String userId = userUpdateParam.getUserId();
+        managementBlo.updateHotelierInfo(userId, userUpdateParam);
+        return R.ok();
     }
 
 

@@ -250,6 +250,7 @@ public class CustomerBlo implements ICustomerBlo {
     }
 
     @Override
+    // TODO need lock
     public void doUpdateUserExceptPassword(String userId, UserUpdateParam param) {
         // get record
         // cache result bean as the Identity map

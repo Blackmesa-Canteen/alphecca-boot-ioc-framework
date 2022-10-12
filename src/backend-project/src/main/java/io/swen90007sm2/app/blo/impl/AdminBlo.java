@@ -5,6 +5,7 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
 import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
+import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
 import io.swen90007sm2.app.blo.IAdminBlo;
 import io.swen90007sm2.app.cache.ICacheStorage;
@@ -75,12 +76,12 @@ public class AdminBlo implements IAdminBlo {
 
     @Override
     public void doUpdateUserWithoutPassword(String userId, UserUpdateParam userUpdateParam) {
-
+        throw new NotImplementedException();
     }
 
     @Override
     public void doUpdateUserPassword(String userId, String originalPassword, String newPassword) {
-
+        throw new NotImplementedException();
     }
 
     @Override
