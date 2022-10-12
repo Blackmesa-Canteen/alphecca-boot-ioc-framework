@@ -7,6 +7,7 @@ const headers = {
   Authorization: localStorage.getItem("Admin"),
 };
 const ADD_PATH = "/admin/management/";
+
 // get all customer ~
 export async function getAllCustomer(info) {
   const endpoint =
@@ -15,7 +16,7 @@ export async function getAllCustomer(info) {
     `customer/?pageNo=${encodeURIComponent(
       info.pageNo
     )}&pageSize=${encodeURIComponent(info.pageSize)}`;
-  return fetch(endpoint, {
+  return await fetch(endpoint, {
     method: "GET",
     headers: headers,
   }).then((res) => res.json());
@@ -35,7 +36,7 @@ export function ViewAllCustomer(info) {
         setError(e);
         setLoading(false);
       });
-  }, [info]);
+  }, []);
   return {
     loading,
     customers,
@@ -45,7 +46,7 @@ export function ViewAllCustomer(info) {
 //register a new hotelier~
 export async function registerNewHotelier(hotelier) {
   const endpoint = BASE_URL + ADD_PATH + `hotelier/new`;
-  axios({
+  await axios({
     url: endpoint,
     method: "POST",
     headers: headers,
@@ -56,8 +57,8 @@ export async function registerNewHotelier(hotelier) {
     }),
   })
     .then((res) => {
-      alert("successfully registered")
-      window.location="/admin/hoteliers"
+      alert("successfully registered");
+      window.location = "/admin/hoteliers";
       return;
     })
     .catch((e) => {
@@ -66,10 +67,10 @@ export async function registerNewHotelier(hotelier) {
       return;
     });
 }
-//assign hotelier to a group 
+//assign hotelier to a group
 export async function groupHotelier(info) {
   const endpoint = BASE_URL + ADD_PATH + `hotelier/existing`;
-  axios({
+  await axios({
     url: endpoint,
     method: "POST",
     headers: headers,
@@ -80,7 +81,7 @@ export async function groupHotelier(info) {
   })
     .then((res) => {
       alert("Hotelier added");
-      window.location = "/admin/hotels"
+      window.location = "/admin/hotels";
       return;
     })
     .catch((e) => {
@@ -97,7 +98,7 @@ async function getAllHotel(info) {
     `hotel/?pageNo=${encodeURIComponent(
       info.pageNo
     )}&pageSize=${encodeURIComponent(info.pageSize)}`;
-  return fetch(endpoint, {
+  return await fetch(endpoint, {
     method: "GET",
     headers: headers,
   }).then((res) => res.json());
@@ -117,7 +118,7 @@ export function ViewAllHotels(info) {
         setError(e);
         setLoading(false);
       });
-  }, [info]);
+  }, []);
   return {
     loading,
     hotels,
@@ -128,7 +129,7 @@ export function ViewAllHotels(info) {
 //change hotel status ~
 export async function changeHotelStatus(info) {
   const endpoint = BASE_URL + ADD_PATH + `hotel`;
-  axios({
+  await axios({
     url: endpoint,
     method: "POST",
     headers: headers,
@@ -137,7 +138,7 @@ export async function changeHotelStatus(info) {
     }),
   })
     .then((res) => {
-      window.location = "/admin/hotels"
+      window.location = "/admin/hotels";
       return;
     })
     .catch((e) => {
@@ -170,7 +171,7 @@ export function ViewHotelierGroup(info) {
         setError(e);
         setLoading(false);
       });
-  }, [info]);
+  }, []);
   return {
     loading,
     hoteliers,
@@ -180,7 +181,7 @@ export function ViewHotelierGroup(info) {
 // remove hotelier from  hotel ~
 export async function removeHotelier(info) {
   const endpoint = BASE_URL + ADD_PATH + `hotelier/remove`;
-  axios({
+  await axios({
     url: endpoint,
     method: "POST",
     headers: headers,
@@ -190,7 +191,7 @@ export async function removeHotelier(info) {
   })
     .then((res) => {
       alert("Hotelier removed");
-      window.location = "/admin/hotels"
+      window.location = "/admin/hotels";
       return;
     })
     .catch((e) => {
@@ -227,10 +228,49 @@ export function ViewAllhotelier(info) {
         setError(e);
         setLoading(false);
       });
-  }, [info]);
+  }, []);
   return {
     loading,
     hoteliers,
     error,
   };
+}
+//update hotelier info
+export async function updateHotelier(data) {
+  const endpoint = BASE_URL + ADD_PATH + "/hotelier/update";
+  await axios({
+    url: endpoint,
+    method: "PUT",
+    headers: headers,
+    data: JSON.stringify(data)
+  })
+    .then((res) => {
+      console.log(res)
+      alert("info updated");
+      window.location = "/admin/hoteliers"
+    })
+    .catch((err) => {
+      console.log(err);
+      alert("something went wrong");
+    });
+}
+
+//update customer info
+export async function updateCustomer(data) {
+  const endpoint = BASE_URL + ADD_PATH + "/customer/update";
+  await axios({
+    url: endpoint,
+    method: "PUT",
+    headers: headers,
+    data: JSON.stringify(data)
+  })
+    .then((res) => {
+      console.log(res)
+      alert("info updated");
+      window.location="/admin"
+    })
+    .catch((err) => {
+      console.log(err);
+      alert("something went wrong");
+    });
 }

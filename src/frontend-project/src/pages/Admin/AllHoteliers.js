@@ -6,12 +6,11 @@ import { CContainer, OneCustomer, Text } from "./AdminElemt";
 import { EditWd } from "../Hotelier/EditHotel";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Input } from "../../components/common/CustomerStyle";
-
-
+import { EditInfoForm } from "./AdminElemt";
 export default function AllHoteliers() {
   const { loading, hoteliers, error } = ViewAllhotelier({
     pageNo: 0,
-    pageSize: 14,
+    pageSize: 100,
   });
   const [newHotelier, createNew] = useState({
     userId: "",
@@ -26,6 +25,16 @@ export default function AllHoteliers() {
     registerNewHotelier(newHotelier);
   };
   const [newWd, setNewWd] = useState(false);
+  const [editWd, setEditWd] = useState(null);
+  const editInfo = (props) => {
+    const info = {
+      name: props.userName,
+      description: props.description,
+      email: props.userId,
+      role: "Hotelier",
+    };
+    setEditWd(info);
+  };
   if (loading) {
     return (
       <div>
@@ -35,7 +44,7 @@ export default function AllHoteliers() {
   } else if (error) {
     return (
       <div>
-        <h1>somthing went wrong, please refresh the page</h1>
+        <h1>something went wrong, please refresh the page</h1>
       </div>
     );
   }
@@ -64,36 +73,36 @@ export default function AllHoteliers() {
               <h1 style={{ color: "white" }}>Edit</h1>
             </center>
 
-            <Text style={{ color: "white", marginLeft:"2%" }}>Name:</Text>
+            <Text style={{ color: "white", marginLeft: "2%" }}>Name:</Text>
             <center>
-            <Input
-              type="text"
-              name="userName"
-              value={userName}
-              placeholder="userName"
-              onChange={registerNew}
-            />
+              <Input
+                type="text"
+                name="userName"
+                value={userName}
+                placeholder="userName"
+                onChange={registerNew}
+              />
             </center>
-            <Text style={{ color: "white", marginLeft:"2%" }}>Email:</Text>
-           <center>
-           <Input
-              type="text"
-              name="userId"
-              value={userId}
-              placeholder="Email"
-              onChange={registerNew}
-            />
-           </center>
-           <Text style={{ color: "white", marginLeft:"2%" }}>Password:</Text>
-           <center>
-           <Input
-              type="password"
-              name="password"
-              value={password}
-              placeholder="password"
-              onChange={registerNew}
-            />
-           </center>
+            <Text style={{ color: "white", marginLeft: "2%" }}>Email:</Text>
+            <center>
+              <Input
+                type="text"
+                name="userId"
+                value={userId}
+                placeholder="Email"
+                onChange={registerNew}
+              />
+            </center>
+            <Text style={{ color: "white", marginLeft: "2%" }}>Password:</Text>
+            <center>
+              <Input
+                type="password"
+                name="password"
+                value={password}
+                placeholder="password"
+                onChange={registerNew}
+              />
+            </center>
 
             <center>
               <Button style={{ marginTop: "5%" }} onClick={onClick}>
@@ -122,9 +131,26 @@ export default function AllHoteliers() {
                 <span style={{ fontWeight: "bold" }}>Create Time: </span>{" "}
                 {new Date(h.createTime).toUTCString().slice(0, 17)}
               </Text>
+              <div style={{ marginLeft: "5%" }}>
+                <Button
+                  onClick={() => {
+                    editInfo(h);
+                  }}
+                >
+                  Edit
+                </Button>
+              </div>
             </OneCustomer>
           );
         })}
+        {editWd !== null && (
+          <EditInfoForm
+            value={editWd}
+            onCancel={() => {
+              setEditWd(null);
+            }}
+          />
+        )}
       </CContainer>
     </div>
   );

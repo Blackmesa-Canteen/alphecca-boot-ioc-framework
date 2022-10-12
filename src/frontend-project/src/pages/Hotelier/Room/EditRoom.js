@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
-import { editRoom } from "../../../API/HotelierApi";
+import { editRoom, GetOneRoom } from "../../../API/HotelierApi";
 import { EditInput, Text } from "../EditHotel";
 import styled from "styled-components";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -22,6 +22,7 @@ const EditWd = styled.div`
 export function EditRoomDetail(props) {
   //edit hotel info
   const roomInfo = props.value;
+  const {loading, room, error} = GetOneRoom(roomInfo.roomId);
   const [name, setName] = useState(roomInfo.name);
   const [description, setDescription] = useState(roomInfo.description);
   const [price, setPrice] = useState(roomInfo.pricePerNight);
@@ -31,7 +32,7 @@ export function EditRoomDetail(props) {
   function closeHandler() {
     props.onCancel();
   }
-
+  
   const onClick = () => {
     const newInfo = {
       hotelId: roomInfo.hotelId,
@@ -57,7 +58,9 @@ export function EditRoomDetail(props) {
       <center>
         <h1 style={{ color: "white" }}>Edit</h1>
       </center>
-      <Text>Name:</Text>
+      {loading&&<h1 style={{ color: "white" }}>Loading...</h1>}
+      {error&&<h1 style={{ color: "white" }}>{error.message}</h1>}
+      {!loading&&!error&&<div><Text>Name:</Text>
       <EditInput
         type="text"
         value={name}
@@ -109,7 +112,7 @@ export function EditRoomDetail(props) {
         <Button style={{ marginTop: "5%" }} onClick={onClick}>
           Submit
         </Button>
-      </center>
+      </center></div>}
     </EditWd>
   );
 }

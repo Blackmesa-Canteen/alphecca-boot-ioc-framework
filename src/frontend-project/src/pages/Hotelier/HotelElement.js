@@ -76,10 +76,10 @@ export function DisplayHotel(props) {
   if(loading){
     return<h1>loading....</h1>
   }
-  if(error){
-    return<h1>{error}</h1>
-  }
+  
   //show hotel info
+  console.log(hotel)
+  
   if (hotel.length === 0) {
     return;
   }
@@ -128,9 +128,11 @@ export function DisplayHotel(props) {
   return (
     <div>
       <WholeContainer>
-        <HotelName>{hotel.name}</HotelName>
-        <DevideLine />
-        <Content>
+        
+         <HotelName>{hotel.name}</HotelName>
+        <DevideLine/>
+        {error&&<h1>exclusive data is accessed by the other user, please refresh page， and try again later</h1>}
+        {!error&&<Content>
           <img src={hotelPhoto} width="50%" height="400" alt="icon"/>
           <Detail>
             <p>
@@ -151,7 +153,7 @@ export function DisplayHotel(props) {
               <Button style={{marginLeft:"5%", backgroundColor:"green"}}onClick={()=>{window.location="/hotelTransaction/"+props.value}}>Transactions</Button>
             </div>
           </Detail>
-        </Content>
+        </Content>}
         <DevideLine />
       </WholeContainer>
       {editwd && (

@@ -1,14 +1,28 @@
-import React from "react";
+import React, {useState}from "react";
+import { Button } from "react-bootstrap";
 import { ViewAllCustomer } from "../../API/AdminApi";
 import { AdminNavBar } from "../../components/navbar/NavBar";
-import { CContainer, OneCustomer, Text } from "./AdminElemt";
+import { CContainer, EditInfoForm, OneCustomer, Text } from "./AdminElemt";
+
+
+
 
 export default function AllCustomers() {
   const { loading, customers, error } = ViewAllCustomer({
     pageNo: 1,
-    pageSize: 12,
+    pageSize: 100,
   });
   const admin = localStorage.getItem("Admin")
+  const [editWd, setEditWd] = useState(null);
+  const editInfo=(props)=>{
+    const info = {
+      name: props.userName,
+      description:props.description,
+      email:props.userId,
+      role: "Customer"
+    }
+    setEditWd(info);
+  }
   if(typeof admin ==="undefined" || admin===null){
     window.location="/adminLogin"
   }
@@ -21,7 +35,7 @@ export default function AllCustomers() {
   } else if (error!=null) {
     return (
       <div>
-        <h1>somthing went wrong, please refresh the page</h1>
+        <h1>something went wrong, please refresh the page</h1>
       </div>
     );
   }
@@ -49,9 +63,11 @@ export default function AllCustomers() {
                 <span style={{ fontWeight: "bold" }}>Create Time: </span>{" "}
                 {new Date(c.createTime).toUTCString().slice(0, 17)}
               </Text>
+              <div style={{marginLeft:"5%"}}><Button onClick={()=>{editInfo(c)}}>Edit</Button></div>
             </OneCustomer>
           );
         })}
+        {editWd!==null&&<EditInfoForm value={editWd} onCancel={()=>{setEditWd(null)}}/>}
       </CContainer>
     </div>
   );

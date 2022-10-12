@@ -49,7 +49,7 @@ const useFetch = (url) => {
       setLoading(false);
     };
     fetchData();
-  }, [url]);
+  }, []);
 
   const reFetch = async () => {
     setLoading(true);
@@ -92,7 +92,7 @@ export function GetAllTransaction(userId) {
     };
 
     getData();
-  }, [endpoint]);
+  }, []);
   return {
     loading,
     transaction,
@@ -192,7 +192,7 @@ export function GetHotel(id) {
     };
 
     getData();
-  }, [endpoint]);
+  }, []);
   return {
     hotel,
     loading,
