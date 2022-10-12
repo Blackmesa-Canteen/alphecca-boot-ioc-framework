@@ -740,4 +740,97 @@ public class TransactionBlo implements ITransactionBlo {
 
         return transactionVos;
     }
+
+    @Override
+    public void doMakeBookingWithRoomLock(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap) {
+        // pre generate transactionId
+        Long newTransactionId = IdFactory.genSnowFlakeId();
+        Map.Entry<String, Integer> entry = roomIdNumberMap.entrySet().iterator().next();
+        String targetRoomId = entry.getKey();
+        Integer targetRoomBookedNumber = entry.getValue();
+        try {
+            double totalPrice = 0.0;
+
+            List<RoomOrder> newRoomOrders = new LinkedList<>();
+
+            RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+            TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+
+            // Atom operation: check Room rest number + make new room order
+            synchronized (this) {
+                // get the existing room orders for this hotel at this date range
+                List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
+                        hotelId, start, end, CommonConstant.TRANSACTION_CONFIRMED);
+
+                // check remain room: vacant_num - [(room_orders_of_this_hotel_and_date.ordered_count)] >= roomBooking.number ?
+
+
+
+                Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
+                int totalCount = room.getVacantNum();
+
+                for (RoomOrder roomOrder : existingRoomOrders) {
+                    if (roomOrder.getRoomId().equals(targetRoomId)) {
+                        totalCount = totalCount - roomOrder.getOrderedCount();
+                    }
+                }
+
+                totalCount = totalCount - targetRoomBookedNumber;
+                if (totalCount < 0) {
+                    throw new RequestException(
+                            String.format("Out of stock. Room name [%s] only have [%d] vacant rooms left.",
+                                    room.getName(), totalCount + targetRoomBookedNumber),
+                            StatusCodeEnume.ROOM_IS_OCCUPIED.getCode()
+                    );
+                }
+
+                // create room orders
+                RoomOrder roomOrder = new RoomOrder();
+                Long idLong = IdFactory.genSnowFlakeId();
+                roomOrder.setId(idLong);
+                roomOrder.setCustomerId(customerId);
+                roomOrder.setRoomOrderId(idLong.toString());
+                roomOrder.setRoomId(targetRoomId);
+                roomOrder.setHotelId(hotelId);
+                roomOrder.setOrderedCount(targetRoomBookedNumber);
+                roomOrder.setTransactionId(newTransactionId.toString());
+                roomOrder.setPricePerRoom(room.getPricePerNight());
+                roomOrder.setCurrency(CommonConstant.AUD_CURRENCY);
+
+                newRoomOrders.add(roomOrder);
+
+                // calc price for this room
+                long deltaDays = TimeUtil.getDeltaBetweenDate(start, end, TimeUnit.DAYS);
+                // change to * targetRoomBookedNumber because otherwise it would be the price for one room for that many days.
+                totalPrice += room.getPricePerNight().doubleValue() * deltaDays * targetRoomBookedNumber;
+
+
+                // batch insert new room orders
+                roomOrderDao.insertRoomOrderBatch(newRoomOrders);
+
+                Transaction transaction = new Transaction();
+                transaction.setId(newTransactionId);
+                transaction.setTransactionId(newTransactionId.toString());
+                // for simplify, once the order is made, it is confirmed
+                transaction.setStatusCode(CommonConstant.TRANSACTION_CONFIRMED);
+                transaction.setHotelId(hotelId);
+                transaction.setCustomerId(customerId);
+                transaction.setStartDate(start);
+                transaction.setEndDate(end);
+                transaction.setTotalPrice(BigDecimal.valueOf(totalPrice));
+                transaction.setCurrency(CommonConstant.AUD_CURRENCY);
+
+                // insert to db
+//            transactionDao.insertOne(transaction);
+                UnitOfWorkHelper.getCurrent().registerNew(
+                        transaction,
+                        transactionDao
+                );
+            }
+        } finally {
+            // release lock
+            exclusiveLockManager.release(targetRoomId, null);
+        }
+
+    }
 }
