@@ -77,14 +77,27 @@ public class TransactionBlo implements ITransactionBlo {
         String targetRoomId = entry.getKey();
         Integer targetRoomBookedNumber = entry.getValue();
 
-        
+
         // Check version, This is outside the try block, so if some other lock the room again, finally will
         // not run to release it.
         Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
+        if (room == null) {
+            throw new ResourceNotFoundException(
+                    "room" + targetRoomId + " not exist"
+            );
+        }
+
         int currentVersion = room.getVersion();
-            if (currentVersion != version) {
-                throwConcurrencyException(room);
-            }
+        if (currentVersion > version) {
+            throw new ResourceConflictException(
+                    "Rejected: room " + targetRoomId + " info has been modified by hotelier, please refresh" +
+                            "and check latest room information"
+            );
+        } else if (currentVersion < version) {
+            throw new RequestException(
+                    "requested version is too high for room " + targetRoomId
+            );
+        }
 
 
         try {
@@ -623,7 +636,6 @@ public class TransactionBlo implements ITransactionBlo {
     }
 
 
-
     @Override
     public List<TransactionVo> getAllTransactionsForCustomerId(String customerId, String currencyName) {
         Customer customer = customerBlo.getUserInfoBasedByUserId(customerId);
@@ -867,7 +879,6 @@ public class TransactionBlo implements ITransactionBlo {
             // check remain room: vacant_num - [(room_orders_of_this_hotel_and_date.ordered_count)] >= roomBooking.number ?
 
 
-
             Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
             int totalCount = room.getVacantNum();
 
@@ -937,7 +948,7 @@ public class TransactionBlo implements ITransactionBlo {
     }
 
 
-
+    @Deprecated
     public void throwConcurrencyException(Room entity) {
         VersionInfoBean currentVersion = CRUDTemplate.executeQueryWithOneRes(
                 VersionInfoBean.class,
