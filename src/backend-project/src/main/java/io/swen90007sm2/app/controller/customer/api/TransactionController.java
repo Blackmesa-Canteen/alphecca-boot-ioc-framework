@@ -113,4 +113,22 @@ public class TransactionController {
         return R.ok();
     }
 
+    @HandlesRequest(path = "/book_version_check", method = RequestMethod.POST)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R bookHotelWithVersionAndLock(HttpServletRequest request, @QueryParam(value = "version") Integer version, @Valid @RequestJsonBody CreateTransactionParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        transactionBlo.doMakeBookingWithRoomVersionAndLock(
+                version,
+                userId,
+                param.getHotelId(),
+                param.getStartDate(),
+                param.getEndDate(),
+                param.getRoomIdNumberMap()
+        );
+
+        return R.ok();
+    }
+
 }

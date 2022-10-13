@@ -7,8 +7,10 @@ import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Blo;
 import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
+import io.swen90007sm2.alpheccaboot.exception.InternalException;
 import io.swen90007sm2.alpheccaboot.exception.NotImplementedException;
 import io.swen90007sm2.alpheccaboot.exception.RequestException;
+import io.swen90007sm2.alpheccaboot.exception.ResourceNotFoundException;
 import io.swen90007sm2.app.blo.*;
 import io.swen90007sm2.app.cache.constant.CacheConstant;
 import io.swen90007sm2.app.common.constant.CommonConstant;
@@ -20,12 +22,14 @@ import io.swen90007sm2.app.dao.ITransactionDao;
 import io.swen90007sm2.app.dao.impl.RoomOrderDao;
 import io.swen90007sm2.app.dao.impl.TransactionDao;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
+import io.swen90007sm2.app.db.util.CRUDTemplate;
 import io.swen90007sm2.app.lock.IResourceUserLockManager;
 import io.swen90007sm2.app.lock.constant.LockConstant;
 import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import io.swen90007sm2.app.model.entity.*;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.pojo.RoomBookingBean;
+import io.swen90007sm2.app.model.pojo.VersionInfoBean;
 import io.swen90007sm2.app.model.vo.RoomOrderVo;
 import io.swen90007sm2.app.model.vo.TransactionVo;
 
@@ -64,6 +68,105 @@ public class TransactionBlo implements ITransactionBlo {
     @AutoInjected
     @Qualifier(name = LockConstant.EXCLUSIVE_LOCK_MANAGER)
     IResourceUserLockManager exclusiveLockManager;
+
+    @Override
+    public void doMakeBookingWithRoomVersionAndLock(Integer version, String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap) {
+        // pre generate transactionId
+        Long newTransactionId = IdFactory.genSnowFlakeId();
+        Map.Entry<String, Integer> entry = roomIdNumberMap.entrySet().iterator().next();
+        String targetRoomId = entry.getKey();
+        Integer targetRoomBookedNumber = entry.getValue();
+
+        
+        // Check version, This is outside the try block, so if some other lock the room again, finally will
+        // not run to release it.
+        Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
+        int currentVersion = room.getVersion();
+            if (currentVersion != version) {
+                throwConcurrencyException(room);
+            }
+
+
+        try {
+            // Version matched, acquire lock
+            exclusiveLockManager.acquire(targetRoomId, null);
+            double totalPrice = 0.0;
+
+            List<RoomOrder> newRoomOrders = new LinkedList<>();
+
+            RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+            TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+
+            // get the existing room orders for this hotel at this date range
+            List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
+                    hotelId, start, end, CommonConstant.TRANSACTION_CONFIRMED);
+
+            // check remain room: vacant_num - [(room_orders_of_this_hotel_and_date.ordered_count)] >= roomBooking.number ?
+            int totalCount = room.getVacantNum();
+
+            for (RoomOrder roomOrder : existingRoomOrders) {
+                if (roomOrder.getRoomId().equals(targetRoomId)) {
+                    totalCount = totalCount - roomOrder.getOrderedCount();
+                }
+            }
+
+            totalCount = totalCount - targetRoomBookedNumber;
+            if (totalCount < 0) {
+                throw new RequestException(
+                        String.format("Out of stock. Room name [%s] only have [%d] vacant rooms left.",
+                                room.getName(), totalCount + targetRoomBookedNumber),
+                        StatusCodeEnume.ROOM_IS_OCCUPIED.getCode()
+                );
+            }
+
+            // create room orders
+            RoomOrder roomOrder = new RoomOrder();
+            Long idLong = IdFactory.genSnowFlakeId();
+            roomOrder.setId(idLong);
+            roomOrder.setCustomerId(customerId);
+            roomOrder.setRoomOrderId(idLong.toString());
+            roomOrder.setRoomId(targetRoomId);
+            roomOrder.setHotelId(hotelId);
+            roomOrder.setOrderedCount(targetRoomBookedNumber);
+            roomOrder.setTransactionId(newTransactionId.toString());
+            roomOrder.setPricePerRoom(room.getPricePerNight());
+            roomOrder.setCurrency(CommonConstant.AUD_CURRENCY);
+
+            newRoomOrders.add(roomOrder);
+
+            // calc price for this room
+            long deltaDays = TimeUtil.getDeltaBetweenDate(start, end, TimeUnit.DAYS);
+            // change to * targetRoomBookedNumber because otherwise it would be the price for one room for that many days.
+            totalPrice += room.getPricePerNight().doubleValue() * deltaDays * targetRoomBookedNumber;
+
+
+            // batch insert new room orders
+            roomOrderDao.insertRoomOrderBatch(newRoomOrders);
+
+            Transaction transaction = new Transaction();
+            transaction.setId(newTransactionId);
+            transaction.setTransactionId(newTransactionId.toString());
+            // for simplify, once the order is made, it is confirmed
+            transaction.setStatusCode(CommonConstant.TRANSACTION_CONFIRMED);
+            transaction.setHotelId(hotelId);
+            transaction.setCustomerId(customerId);
+            transaction.setStartDate(start);
+            transaction.setEndDate(end);
+            transaction.setTotalPrice(BigDecimal.valueOf(totalPrice));
+            transaction.setCurrency(CommonConstant.AUD_CURRENCY);
+
+            // insert to db
+//            transactionDao.insertOne(transaction);
+            UnitOfWorkHelper.getCurrent().registerNew(
+                    transaction,
+                    transactionDao
+            );
+
+        } finally {
+            // release lock
+            exclusiveLockManager.release(targetRoomId, null);
+        }
+    }
 
     @Override
     public void doMakeBookingWithLock(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap) {
@@ -831,5 +934,38 @@ public class TransactionBlo implements ITransactionBlo {
             exclusiveLockManager.release(targetRoomId, null);
         }
 
+    }
+
+
+
+    public void throwConcurrencyException(Room entity) {
+        VersionInfoBean currentVersion = CRUDTemplate.executeQueryWithOneRes(
+                VersionInfoBean.class,
+                "SELECT version, update_time FROM room WHERE id = ?",
+                entity.getId()
+        );
+
+        if (currentVersion == null) {
+            throw new ResourceNotFoundException(
+                    "room" + entity.getId() + " has been deleted"
+            );
+        }
+
+        if (currentVersion.getVersion() == null) {
+            throw new InternalException(
+                    "Missing version info for optimistic concurrency control in room"
+            );
+        }
+
+        if (currentVersion.getVersion() > entity.getVersion()) {
+            throw new ResourceConflictException(
+                    "Rejected: room " + entity.getId() + " has been modified by others at "
+                            + currentVersion.getUpdateTime()
+            );
+        } else {
+            throw new InternalException(
+                    "unexpected error in throwConcurrencyException for room " + entity.getId()
+            );
+        }
     }
 }
