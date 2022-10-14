@@ -17,9 +17,6 @@ public class RoomOrder extends BaseEntity{
     private Room room;
 
     @Transient
-    private Hotel hotel;
-
-    @Transient
     private Customer customer;
 
     private Integer orderedCount;
@@ -144,14 +141,6 @@ public class RoomOrder extends BaseEntity{
 
     public void setRoom(Room room) {
         this.room = room;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
     }
 
     public Customer getCustomer() {

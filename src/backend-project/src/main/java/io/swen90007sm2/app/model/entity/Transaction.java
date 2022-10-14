@@ -24,9 +24,6 @@ public class Transaction extends BaseEntity {
     private List<RoomOrder> roomOrders;
 
     @Transient
-    private Customer customer;
-
-    @Transient
     private Hotel hotel;
 
     private Integer statusCode = CommonConstant.TRANSACTION_PENDING;
@@ -157,14 +154,6 @@ public class Transaction extends BaseEntity {
 
     public void setMoney(Money money) {
         this.money = money;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public Hotel getHotel() {
