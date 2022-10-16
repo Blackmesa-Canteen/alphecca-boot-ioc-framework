@@ -14,6 +14,8 @@ import io.swen90007sm2.app.common.constant.CommonConstant;
 import io.swen90007sm2.app.lock.IResourceUserLockManager;
 import io.swen90007sm2.app.lock.constant.LockConstant;
 import io.swen90007sm2.app.model.param.HotelParam;
+import io.swen90007sm2.app.model.param.UpdateHotelParam;
+import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -53,7 +55,7 @@ public class HotelController {
      */
     @HandlesRequest(path = "/editing", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
-    public R editOwnedHotelWithLock(HttpServletRequest request, @RequestJsonBody @Valid HotelParam param) {
+    public R editOwnedHotelWithLock(HttpServletRequest request, @RequestJsonBody @Valid UpdateHotelParam param) {
         String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
         AuthToken authToken = TokenHelper.parseAuthTokenString(token);
         String userId = authToken.getUserId();
@@ -64,7 +66,24 @@ public class HotelController {
     }
 
     /**
-     * Exclusively edit owned hotel. It is used to render the editing form
+     * edit an existing hotel
+     * optimistic lock is used
+     * the hotel is the one that this hotelier is managing
+     */
+    @HandlesRequest(path = "/", method = RequestMethod.PUT)
+    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
+    public R editOwnedHotel(HttpServletRequest request, @RequestJsonBody @Valid UpdateHotelParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+//        String userId = request.getHeader("UserId");
+        hotelBlo.editOwnedHotel(userId, param);
+
+        return R.ok();
+    }
+
+    /**
+     * Exclusively pessimistic edit owned hotel. It is used to render the editing form
      */
     @HandlesRequest(path = "/editing", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
@@ -77,21 +96,6 @@ public class HotelController {
                 CommonConstant.AUD_CURRENCY, true);
 
         return R.ok().setData(hotelVo);
-    }
-
-    /**
-     * edit an existing hotel
-     * the hotel is the one that this hotelier is managing
-     */
-    @HandlesRequest(path = "/", method = RequestMethod.PUT)
-    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
-    public R editOwnedHotel(HttpServletRequest request, @RequestJsonBody @Valid HotelParam param) {
-        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
-        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
-        String userId = authToken.getUserId();
-        hotelBlo.editOwnedHotel(userId, param);
-
-        return R.ok();
     }
 
     /**

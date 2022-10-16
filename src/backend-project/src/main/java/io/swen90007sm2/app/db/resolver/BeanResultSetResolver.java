@@ -47,6 +47,7 @@ public class BeanResultSetResolver<T> implements IResultSetResolver<T>{
             for(Field field : clazz.getDeclaredFields()){
                 String name = field.getName();
                 if (field.isAnnotationPresent(Transient.class)) {
+                    LOGGER.info("need to ignore field: " + field.getName() + " from class" + clazz.getName());
                     transientFieldNameSet.add(name);
                 }
             }

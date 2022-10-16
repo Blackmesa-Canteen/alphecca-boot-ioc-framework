@@ -35,6 +35,7 @@ import io.swen90007sm2.app.model.entity.Hotelier;
 import io.swen90007sm2.app.model.entity.Room;
 import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.param.UpdateHotelParam;
+import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.model.pojo.Money;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import org.apache.commons.lang3.StringUtils;
@@ -64,28 +65,76 @@ public class HotelBlo implements IHotelBlo {
     @Qualifier(name = LockConstant.EXCLUSIVE_LOCK_MANAGER)
     IResourceUserLockManager exclusiveLockManager;
 
+
+    /**
+     * optimistic lock solution
+     */
     @Override
-    public void editOwnedHotelWithLock(String hotelierId, HotelParam hotelParam) {
+    public void editOwnedHotel(String hotelierId, UpdateHotelParam hotelParam) {
+
+        String hotelId = hotelParam.getHotelId();
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+        Hotel hotel = getHotelEntityByHotelId(hotelId);
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
         Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
-        String hotelId = currentHotelier.getHotelId();
+        String currentOwnedHotelId = currentHotelier.getHotelId();
+        if (StringUtils.isEmpty(currentOwnedHotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        // update hotel
+        if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
+        if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
+        if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
+        if (hotelParam.getDescription() != null) hotel.setDescription(hotelParam.getDescription());
+        if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
+
+        UnitOfWorkHelper.getCurrent().registerDirty(
+                hotel,
+                hotelDao,
+                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId
+        );
+
+        // update amenity (atom update the associate table)
+        hotelAmenityBlo.updateAmenityIdsForHotel(hotelParam.getAmenityIds(), hotelId);
+    }
+
+    /**
+     * Exclusive pessimistic lock soluton
+     */
+    @Override
+    public void editOwnedHotelWithLock(String hotelierId, UpdateHotelParam hotelParam) {
+        String hotelId = hotelParam.getHotelId();
         try {
+            IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+            Hotel hotel = getHotelEntityByHotelId(hotelId);
+            if (hotel == null) {
+                throw new RequestException(
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+                );
+            }
+
+            Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+            String currentOwnedHotelId = currentHotelier.getHotelId();
             if (StringUtils.isEmpty(hotelId)) {
                 throw new RequestException(
                         StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
                         StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
                 );
             }
-            IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+
             // atom operation
             synchronized (this) {
-                Hotel hotel = getHotelEntityByHotelId(hotelId);
-
-                if (hotel == null) {
-                    throw new RequestException(
-                            StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
-                            StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
-                    );
-                }
                 // update hotel
                 if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
                 if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
@@ -249,53 +298,17 @@ public class HotelBlo implements IHotelBlo {
     }
 
     @Override
-    public void editOwnedHotel(String hotelierId, HotelParam hotelParam) {
-        Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
-        String hotelId = currentHotelier.getHotelId();
-        if (StringUtils.isEmpty(hotelId)) {
-            throw new RequestException(
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
-                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
-            );
-        }
-
-        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
-        // atom operation
-        synchronized (this) {
-            Hotel hotel = getHotelEntityByHotelId(hotelId);
-
-            if (hotel == null) {
-                throw new RequestException(
-                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
-                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
-                );
-            }
-            // update hotel
-            if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
-            if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
-            if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
-            if (hotelParam.getDescription() != null) hotel.setDescription(hotelParam.getDescription());
-            if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
-//            hotelDao.updateOne(hotel);
-            UnitOfWorkHelper.getCurrent().registerDirty(
-                    hotel,
-                    hotelDao,
-                    CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId
-            );
-
-            // update amenity (atom update the associate table)
-            hotelAmenityBlo.updateAmenityIdsForHotel(hotelParam.getAmenityIds(), hotelId);
-
-            // clean up cache
-            cache.remove(CacheConstant.VO_HOTEL_KEY_PREFIX + hotelId);
-            cache.remove(CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId);
-        }
-
-    }
-
-    @Override
     public void editHotelByHotelId(UpdateHotelParam updateHotelParam) {
         String hotelId = updateHotelParam.getHotelId();
+        Hotel hotel = getHotelEntityByHotelId(hotelId);
+
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
         if (StringUtils.isEmpty(hotelId)) {
             throw new RequestException(
                     StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
@@ -306,15 +319,6 @@ public class HotelBlo implements IHotelBlo {
         IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
         // atom operation
         synchronized (this) {
-            // update hotel
-            Hotel hotel = getHotelEntityByHotelId(hotelId);
-
-            if (hotel == null) {
-                throw new RequestException(
-                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
-                        StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
-                );
-            }
 
             if (updateHotelParam.getOnSale() != null) hotel.setOnSale(updateHotelParam.getOnSale());
             if (updateHotelParam.getAddress() != null) hotel.setAddress(updateHotelParam.getAddress());

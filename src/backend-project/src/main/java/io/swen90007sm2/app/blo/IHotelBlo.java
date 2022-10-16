@@ -3,6 +3,7 @@ package io.swen90007sm2.app.blo;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.param.UpdateHotelParam;
+import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 
 import java.math.BigDecimal;
@@ -21,9 +22,9 @@ public interface IHotelBlo {
      * edit a hotel of one hotelier
      * @param hotelierId hotelier person id
      */
-    void editOwnedHotel(String hotelierId, HotelParam hotelParam);
+    void editOwnedHotel(String hotelierId, UpdateHotelParam hotelParam);
 
-    void editOwnedHotelWithLock(String hotelierId, HotelParam hotelParam);
+    void editOwnedHotelWithLock(String hotelierId, UpdateHotelParam hotelParam);
 
     /**
      * update a hotel info by hotel id
