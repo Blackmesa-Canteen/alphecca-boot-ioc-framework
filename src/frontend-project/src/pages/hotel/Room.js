@@ -17,7 +17,7 @@ import {
 } from "../../components/reserve/ReserveElements";
 export function Rooms(props) {
   const { loading, rooms, error } = HotelRooms(props.id);
-  const [editWd, editOpen] = useState("");
+  const [editWd, editOpen] = useState(null);
   if (loading) {
     return <div>Loading...</div>;
   } else if (error) {
@@ -43,19 +43,19 @@ export function Rooms(props) {
               <HotelDescription>Description: {r.description}</HotelDescription>
               <HotelDescription> Price: $ {r.pricePerNight}</HotelDescription>
               <DetailPriceBtn
-                onClick={()=>{openBookwd(r.roomId)}}
+                onClick={()=>{openBookwd(r)}}
               >
                 Book Now!
               </DetailPriceBtn>
             </DetailText>
           );
         })}
-      {editWd !== "" && (
+      {editWd !== null && (
         <BookForm
           value={editWd}
           hotelId={props.id}
           onCancel={() => {
-            editOpen("");
+            editOpen(null);
           }}
         />
       )}
@@ -69,12 +69,13 @@ function BookForm(props) {
   const [numpeople, setNumpeople] = useState("");
   const submitBooking = () => {
     var roomMap = {};
-    roomMap[props.value] = numpeople;
+    roomMap[props.value.roomId] = numpeople;
     const bookingDetail = {
       startDate: Date.parse(movein),
       endDate: Date.parse(moveout),
       hotelId: props.hotelId,
       roomIdNumberMap: roomMap,
+      version:props.value.version
     };
     console.log(numpeople);
     console.log(bookingDetail);

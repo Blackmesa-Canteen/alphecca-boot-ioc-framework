@@ -113,6 +113,7 @@ export function HotelRooms(hotelId) {
     getRooms(hotelId)
       .then((res) => {
         setLoading(false);
+        console.log(res.data)
         setRooms(res.data);
       })
       .catch((e) => {
@@ -128,7 +129,7 @@ export function HotelRooms(hotelId) {
 }
 //bookHotel
 export async function bookHotel(id) {
-  const endpoint = BASE_URL + `customer/transaction`;
+  const endpoint = BASE_URL + `customer/transaction/book_version_check/`;
   axios({
     url: endpoint,
     method: "POST",
