@@ -45,14 +45,14 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
                 }
 
             }
-
-            ResourceUserLock lock = new ResourceUserLock(
-                    resourceId,
-                    userId
-            );
-
-            resourceUserLockDao.insertOne(lock);
         }
+
+        ResourceUserLock lock = new ResourceUserLock(
+                resourceId,
+                userId
+        );
+
+        resourceUserLockDao.insertOne(lock);
     }
 
     @Override
