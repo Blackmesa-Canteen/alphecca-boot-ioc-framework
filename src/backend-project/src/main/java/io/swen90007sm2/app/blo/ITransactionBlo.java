@@ -17,7 +17,7 @@ public interface ITransactionBlo {
 
     void doUpdateBooking(String transactionId, String roomOrderId, int newQuantity);
 
-    void doUpdateBookingWithLock(String transactionId, String roomOrderId, int newQuantity);
+//    void doUpdateBookingWithLock(String transactionId, String roomOrderId, int newQuantity);
 
     void doCancelBooking(String transactionId);
 

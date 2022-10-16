@@ -17,7 +17,7 @@ public interface IRoomBlo {
 
     void doUpdateRoom(UpdateRoomParam param);
 
-    void doUpdateRoomWithLock(UpdateRoomParam param);
+    void doUpdateRoomWithLock(UpdateRoomParam param, String userId);
 
     void doDeleteRoomByRoomId(String RoomId);
 
@@ -26,7 +26,7 @@ public interface IRoomBlo {
      */
     Room getRoomEntityByRoomId(String roomId);
 
-    Room getRoomEntityByRoomIdWithLock(String roomId);
+    Room getRoomEntityByRoomIdWithLock(String roomId, String userId);
 
     /**
      * get room vo

@@ -36,22 +36,31 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
                 resourceUserLockDao.deleteOneByResourceId(resourceId);
 
             } else {
-                // if the lock is valid and exist, throw concurrency exception
-                throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
-                        "please refresh page， and try again later");
+                if (existingLock.getUserId() == null || !existingLock.getUserId().equals(userId)) {
+                    // if the lock is valid and exist,
+                    // and the lock does not belong to this user,
+                    // throw concurrency exception
+                    throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
+                            "please refresh page， and try again later");
+                }
+
             }
 
+            ResourceUserLock lock = new ResourceUserLock(
+                    resourceId,
+                    userId
+            );
+
+            resourceUserLockDao.insertOne(lock);
         }
-
-        ResourceUserLock lock = new ResourceUserLock(
-                resourceId
-        );
-
-        resourceUserLockDao.insertOne(lock);
     }
 
     @Override
     public synchronized void release(String resourceId, String userId) throws ResourceConflictException {
-        resourceUserLockDao.deleteOneByResourceId(resourceId);
+        if (userId != null) {
+            resourceUserLockDao.deleteOneByResourceAndUser(resourceId, userId);
+        } else {
+            resourceUserLockDao.deleteOneByResourceId(resourceId);
+        }
     }
 }

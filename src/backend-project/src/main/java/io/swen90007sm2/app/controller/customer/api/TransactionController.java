@@ -92,8 +92,11 @@ public class TransactionController {
 
     @HandlesRequest(path = "/book", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
-    public R bookHotelWithLock(@QueryParam(value = "roomId") String roomId) {
-        Room roomEntity = roomBlo.getRoomEntityByRoomIdWithLock(roomId);
+    public R bookHotelWithLock(HttpServletRequest request, @QueryParam(value = "roomId") String roomId) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        Room roomEntity = roomBlo.getRoomEntityByRoomIdWithLock(roomId, userId);
         return R.ok().setData(roomEntity);
     }
 

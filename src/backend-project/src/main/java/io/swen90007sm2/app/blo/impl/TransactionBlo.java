@@ -102,7 +102,7 @@ public class TransactionBlo implements ITransactionBlo {
 
         try {
             // Version matched, acquire lock
-            exclusiveLockManager.acquire(targetRoomId, null);
+            exclusiveLockManager.acquire(targetRoomId, customerId);
             double totalPrice = 0.0;
 
             List<RoomOrder> newRoomOrders = new LinkedList<>();
@@ -177,7 +177,7 @@ public class TransactionBlo implements ITransactionBlo {
 
         } finally {
             // release lock
-            exclusiveLockManager.release(targetRoomId, null);
+            exclusiveLockManager.release(targetRoomId, customerId);
         }
     }
 
@@ -198,7 +198,7 @@ public class TransactionBlo implements ITransactionBlo {
             try {
 
                 // try to acquire lock before booking a hotel
-                exclusiveLockManager.acquire(hotelId, null);
+                exclusiveLockManager.acquire(hotelId, customerId);
 
                 // get the existing room orders for this hotel at this date range
                 List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
@@ -207,7 +207,7 @@ public class TransactionBlo implements ITransactionBlo {
                 // check remain room: vacant_num - [(room_orders_of_this_hotel_and_date.ordered_count)] >= roomBooking.number ?
                 for (String targetRoomId : roomIdNumberMap.keySet()) {
                     // try to acquire target room lock
-                    exclusiveLockManager.acquire(targetRoomId, null);
+                    exclusiveLockManager.acquire(targetRoomId, customerId);
 
                     Integer targetRoomBookedNumber = roomIdNumberMap.get(targetRoomId);
 
@@ -273,10 +273,10 @@ public class TransactionBlo implements ITransactionBlo {
                 );
             } finally {
                 // release hotel lock
-                exclusiveLockManager.release(hotelId, null);
+                exclusiveLockManager.release(hotelId, customerId);
                 // release all room lock
                 for (String targetRoomId : roomIdNumberMap.keySet()) {
-                    exclusiveLockManager.release(targetRoomId, null);
+                    exclusiveLockManager.release(targetRoomId, customerId);
                 }
             }
 
@@ -453,91 +453,91 @@ public class TransactionBlo implements ITransactionBlo {
         }
     }
 
-    @Override
-    public void doUpdateBookingWithLock(String transactionId, String roomOrderId, int newQuanity) {
-        RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
-        synchronized (this) {
-            String targetRoomId = null;
-            String hotelId = null;
-            try {
-                Transaction transaction = getTransactionEntityByTransactionId(transactionId);
-                int statusCode = transaction.getStatusCode();
-                if (statusCode != CommonConstant.TRANSACTION_CONFIRMED) {
-                    throw new RequestException(StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getMessage()
-                            , StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getCode());
-                }
-                hotelId = transaction.getHotelId();
-                Date start = transaction.getStartDate();
-                Date end = transaction.getEndDate();
-
-                // try to aquire target hotel lock
-                exclusiveLockManager.acquire(hotelId, null);
-
-                RoomOrder modifiedRoomOrder = roomOrderDao.findOneByBusinessId(roomOrderId);
-                targetRoomId = modifiedRoomOrder.getRoomId();
-
-                // try to acquire target room lock
-                exclusiveLockManager.acquire(targetRoomId, null);
-
-                int orderedCount = modifiedRoomOrder.getOrderedCount();
-
-                // get the existing room orders for this hotel at this date range
-                List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
-                        hotelId, start, end, CommonConstant.TRANSACTION_CANCELLED);
-
-
-                Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
-                int totalCount = room.getVacantNum();
-
-                for (RoomOrder roomOrder : existingRoomOrders) {
-                    if (roomOrder.getRoomId().equals(targetRoomId)) {
-                        totalCount = totalCount - roomOrder.getOrderedCount();
-                    }
-                }
-                // check remain room: vacant_num - [(room_orders_of_this_hotel_and_date.ordered_count)] +
-                // we assume this initial order does not exist >= roomBooking.number ?
-                totalCount = totalCount + orderedCount - newQuanity;
-                if (totalCount < 0) {
-                    throw new RequestException(
-                            String.format("Out of stock. Room name [%s] only have [%d] vacant rooms left.",
-                                    room.getName(), totalCount + newQuanity),
-                            StatusCodeEnume.ROOM_IS_OCCUPIED.getCode()
-                    );
-                }
-                RoomOrder newModifiedRoomOrder = new RoomOrder();
-                BeanUtil.copyProperties(modifiedRoomOrder, newModifiedRoomOrder);
-                newModifiedRoomOrder.setOrderedCount(newQuanity);
-
-                UnitOfWorkHelper.getCurrent().registerDirty(
-                        newModifiedRoomOrder,
-                        roomOrderDao,
-                        CacheConstant.ENTITY_ROOM_ORDER_KEY_PREFIX + newModifiedRoomOrder.getRoomOrderId()
-                );
-                long deltaDays = TimeUtil.getDeltaBetweenDate(start, end, TimeUnit.DAYS);
-                // calc price for this room type = Total price - old price + new price
-                double totalPrice = transaction.getTotalPrice().doubleValue();
-                double oldPrice = newModifiedRoomOrder.getPricePerRoom().doubleValue() * orderedCount * deltaDays;
-                double newPrice = newModifiedRoomOrder.getPricePerRoom().doubleValue() * newQuanity * deltaDays;
-
-                Transaction newTransaction = new Transaction();
-                BeanUtil.copyProperties(transaction, newTransaction);
-                newTransaction.setTotalPrice(BigDecimal.valueOf(totalPrice - oldPrice + newPrice));
-                TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
-//            transactionDao.updateOne(newTransaction);
-                UnitOfWorkHelper.getCurrent().registerDirty(
-                        newTransaction,
-                        transactionDao,
-                        CacheConstant.ENTITY_TRANSACTION_KEY_PREFIX + transactionId
-                );
-            } finally {
-                // try to release target hotel lock
-                exclusiveLockManager.release(hotelId, null);
-                // release target room lock
-                exclusiveLockManager.release(targetRoomId, null);
-            }
-
-        }
-    }
+//    @Override
+//    public void doUpdateBookingWithLock(String transactionId, String roomOrderId, int newQuanity) {
+//        RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+//        synchronized (this) {
+//            String targetRoomId = null;
+//            String hotelId = null;
+//            try {
+//                Transaction transaction = getTransactionEntityByTransactionId(transactionId);
+//                int statusCode = transaction.getStatusCode();
+//                if (statusCode != CommonConstant.TRANSACTION_CONFIRMED) {
+//                    throw new RequestException(StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getMessage()
+//                            , StatusCodeEnume.TRANSACTION_ALREADY_CANCELLED.getCode());
+//                }
+//                hotelId = transaction.getHotelId();
+//                Date start = transaction.getStartDate();
+//                Date end = transaction.getEndDate();
+//
+//                // try to aquire target hotel lock
+//                exclusiveLockManager.acquire(hotelId, null);
+//
+//                RoomOrder modifiedRoomOrder = roomOrderDao.findOneByBusinessId(roomOrderId);
+//                targetRoomId = modifiedRoomOrder.getRoomId();
+//
+//                // try to acquire target room lock
+//                exclusiveLockManager.acquire(targetRoomId, null);
+//
+//                int orderedCount = modifiedRoomOrder.getOrderedCount();
+//
+//                // get the existing room orders for this hotel at this date range
+//                List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
+//                        hotelId, start, end, CommonConstant.TRANSACTION_CANCELLED);
+//
+//
+//                Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
+//                int totalCount = room.getVacantNum();
+//
+//                for (RoomOrder roomOrder : existingRoomOrders) {
+//                    if (roomOrder.getRoomId().equals(targetRoomId)) {
+//                        totalCount = totalCount - roomOrder.getOrderedCount();
+//                    }
+//                }
+//                // check remain room: vacant_num - [(room_orders_of_this_hotel_and_date.ordered_count)] +
+//                // we assume this initial order does not exist >= roomBooking.number ?
+//                totalCount = totalCount + orderedCount - newQuanity;
+//                if (totalCount < 0) {
+//                    throw new RequestException(
+//                            String.format("Out of stock. Room name [%s] only have [%d] vacant rooms left.",
+//                                    room.getName(), totalCount + newQuanity),
+//                            StatusCodeEnume.ROOM_IS_OCCUPIED.getCode()
+//                    );
+//                }
+//                RoomOrder newModifiedRoomOrder = new RoomOrder();
+//                BeanUtil.copyProperties(modifiedRoomOrder, newModifiedRoomOrder);
+//                newModifiedRoomOrder.setOrderedCount(newQuanity);
+//
+//                UnitOfWorkHelper.getCurrent().registerDirty(
+//                        newModifiedRoomOrder,
+//                        roomOrderDao,
+//                        CacheConstant.ENTITY_ROOM_ORDER_KEY_PREFIX + newModifiedRoomOrder.getRoomOrderId()
+//                );
+//                long deltaDays = TimeUtil.getDeltaBetweenDate(start, end, TimeUnit.DAYS);
+//                // calc price for this room type = Total price - old price + new price
+//                double totalPrice = transaction.getTotalPrice().doubleValue();
+//                double oldPrice = newModifiedRoomOrder.getPricePerRoom().doubleValue() * orderedCount * deltaDays;
+//                double newPrice = newModifiedRoomOrder.getPricePerRoom().doubleValue() * newQuanity * deltaDays;
+//
+//                Transaction newTransaction = new Transaction();
+//                BeanUtil.copyProperties(transaction, newTransaction);
+//                newTransaction.setTotalPrice(BigDecimal.valueOf(totalPrice - oldPrice + newPrice));
+//                TransactionDao transactionDao = BeanManager.getLazyBeanByClass(TransactionDao.class);
+////            transactionDao.updateOne(newTransaction);
+//                UnitOfWorkHelper.getCurrent().registerDirty(
+//                        newTransaction,
+//                        transactionDao,
+//                        CacheConstant.ENTITY_TRANSACTION_KEY_PREFIX + transactionId
+//                );
+//            } finally {
+//                // try to release target hotel lock
+//                exclusiveLockManager.release(hotelId, null);
+//                // release target room lock
+//                exclusiveLockManager.release(targetRoomId, null);
+//            }
+//
+//        }
+//    }
 
     @Override
     public void doCancelBooking(String transactionId) {
@@ -864,7 +864,7 @@ public class TransactionBlo implements ITransactionBlo {
         String targetRoomId = entry.getKey();
         Integer targetRoomBookedNumber = entry.getValue();
         try {
-            exclusiveLockManager.acquire(targetRoomId, null);
+            exclusiveLockManager.acquire(targetRoomId, customerId);
             double totalPrice = 0.0;
 
             List<RoomOrder> newRoomOrders = new LinkedList<>();
@@ -942,7 +942,7 @@ public class TransactionBlo implements ITransactionBlo {
 
         } finally {
             // release lock
-            exclusiveLockManager.release(targetRoomId, null);
+            exclusiveLockManager.release(targetRoomId, customerId);
         }
 
     }

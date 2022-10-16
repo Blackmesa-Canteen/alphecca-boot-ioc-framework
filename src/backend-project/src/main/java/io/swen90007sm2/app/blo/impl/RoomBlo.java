@@ -67,7 +67,7 @@ public class RoomBlo implements IRoomBlo {
     IResourceUserLockManager exclusiveLockManager;
 
     @Override
-    public void doUpdateRoomWithLock(UpdateRoomParam param) {
+    public void doUpdateRoomWithLock(UpdateRoomParam param, String userId) {
         String roomId = param.getRoomId();
         try {
             // calc absolute AUD price
@@ -103,13 +103,13 @@ public class RoomBlo implements IRoomBlo {
                 }
             }
         } finally {
-            exclusiveLockManager.release(roomId, null);
+            exclusiveLockManager.release(roomId, userId);
         }
     }
 
     @Override
-    public Room getRoomEntityByRoomIdWithLock(String roomId) {
-        exclusiveLockManager.acquire(roomId, null);
+    public Room getRoomEntityByRoomIdWithLock(String roomId, String userId) {
+        exclusiveLockManager.acquire(roomId, userId);
         Optional<Object> cacheItem = cache.get(CacheConstant.ENTITY_ROOM_KEY_PREFIX + roomId);
         Room room = null;
         if (cacheItem.isEmpty()) {
