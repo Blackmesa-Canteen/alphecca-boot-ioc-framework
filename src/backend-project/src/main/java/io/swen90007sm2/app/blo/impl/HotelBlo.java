@@ -126,7 +126,7 @@ public class HotelBlo implements IHotelBlo {
 
             Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
             String currentOwnedHotelId = currentHotelier.getHotelId();
-            if (StringUtils.isEmpty(hotelId)) {
+            if (StringUtils.isEmpty(currentOwnedHotelId)) {
                 throw new RequestException(
                         StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
                         StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
