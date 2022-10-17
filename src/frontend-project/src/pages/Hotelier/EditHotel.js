@@ -28,7 +28,7 @@ export const Text = styled.div`
 
 export function EditDetail(props) {
   //edit hotel info
-  const {loading, hotel, error} = HotelDetailwithLock();
+
   const hotelInfo = props.value;
   const [name, setName] = useState(hotelInfo.name);
   const [description, setDescription] = useState(hotelInfo.description);
@@ -42,6 +42,7 @@ export function EditDetail(props) {
   function closeHandler() {
     props.onCancel();
   }
+ 
   const isOnsale = (e) => {
     if (onsaleT || !onsaleF) {
       setOnsaleT(false);
@@ -56,13 +57,16 @@ export function EditDetail(props) {
   };
   const onClick = () => {
     const newInfo = {
+      hotelId: hotelInfo.hotelId,
       name: name,
       description: description,
       address: address,
       postCode: postCode,
       onSale: onSale,
-      amenities: amenityArray.sort(),
+      amenityIds: amenityArray.sort(),
+      version:hotelInfo.version
     };
+    
     editHotel(newInfo);
   };
 
@@ -79,9 +83,9 @@ export function EditDetail(props) {
         style={{ color: "white", width: 30, height: 30 }}
         onClick={closeHandler}
       />
-      {loading&&<h1>Loading</h1>}
-      {error&&<h1>{error.message}</h1>}
-      {!loading&&!error&&<div>
+
+     
+      {<div>
       <center>
         <h1 style={{ color: "white" }}>Edit</h1>
       </center>

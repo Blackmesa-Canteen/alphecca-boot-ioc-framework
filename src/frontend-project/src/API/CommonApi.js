@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const BASE_URL = "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
 
 export const BASE_URL_Heroku =
@@ -48,7 +49,7 @@ export async function signup(user) {
     })
     .catch((e) => {
       console.log(e);
-      alert("An error occured");
+      alert("An error occurred");
     });
 }
 
@@ -74,7 +75,7 @@ export async function Login(user) {
         userId: userId,
         password: password,
       },
-      { withCrednetials: true }
+      { withCredentials: true }
     ),
   })
     .then((res) => {
