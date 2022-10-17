@@ -28,7 +28,7 @@ export const Text = styled.div`
 
 export function EditDetail(props) {
   //edit hotel info
- 
+
   const hotelInfo = props.value;
   const [name, setName] = useState(hotelInfo.name);
   const [description, setDescription] = useState(hotelInfo.description);
@@ -83,6 +83,7 @@ export function EditDetail(props) {
         style={{ color: "white", width: 30, height: 30 }}
         onClick={closeHandler}
       />
+
      
       {<div>
       <center>

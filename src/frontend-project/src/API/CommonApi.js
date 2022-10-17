@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const BASE_URL =  "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
+
+export const BASE_URL = "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
 
 export const BASE_URL_Heroku =
   "http://localhost:8088/api/";
