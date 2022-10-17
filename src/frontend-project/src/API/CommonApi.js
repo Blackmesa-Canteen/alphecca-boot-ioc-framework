@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const BASE_URL =  "http://localhost:8088/api/";
+export const BASE_URL =  "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
 
 export const BASE_URL_Heroku =
-  "https://swen90007-alphecca-backend-app.herokuapp.com/api/";
+  "http://localhost:8088/api/";
 
 //customer signup
 export async function signup(user) {
@@ -125,5 +125,7 @@ export function checkMsg(msg){
   if(msg!=="Ok"){
     alert(msg)
     throw new Error(msg);
+    return false;
   }
+  return true;
 }

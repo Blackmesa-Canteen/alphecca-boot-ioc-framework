@@ -54,7 +54,7 @@ export function HotelDetail() {
   useEffect(() => {
     getOwnedHotel()
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setHotel(res.data);
         setLoading(false);
       })
@@ -86,8 +86,8 @@ export function HotelDetailwithLock() {
   useEffect(() => {
     getOwnedHotelLoked()
       .then((res) => {
-        console.log(res)
-        checkMsg(res.msg)
+        console.log(res);
+        checkMsg(res.msg);
         setHotel(res.data);
         setLoading(false);
       })
@@ -135,15 +135,12 @@ export async function registerHotel(hotel) {
 //edit hotel facility (put)
 export async function editHotel(hotel) {
   const endpoint = BASE_URL + `hotelier/owned_hotel/v`;
-  
+
   axios({
     url: endpoint,
     method: "PUT",
     headers: headers,
-    data: JSON.stringify(
-      hotel,
-      { withCrednetials: true }
-    ),
+    data: JSON.stringify(hotel, { withCrednetials: true }),
   })
     .then((res) => {
       checkMsg(res.data.msg);
@@ -262,9 +259,9 @@ export function RoomDetail(id) {
   useEffect(() => {
     getOwnedRoom(id)
       .then((res) => {
-        if(res.msg!=="Ok"){
-          alert(res.msg)
-          throw new Error(res.msg)
+        if (res.msg !== "Ok") {
+          alert(res.msg);
+          throw new Error(res.msg);
         }
         setRoom(res.data);
         setLoading(false);
@@ -304,7 +301,6 @@ export function UseAllTransaction(hotelier) {
       .then((res) => {
         setLoading(false);
         setTransaction(res.data);
-        
       })
       .catch((e) => {
         setError(e);
@@ -318,23 +314,42 @@ export function UseAllTransaction(hotelier) {
   };
 }
 // get room with lock (for edit use)
-async function LockedEdit(id){
-  const endpoint = BASE_URL+`hotelier/owned_hotel/room/editing/?roomId=${id}`;
+async function LockedEdit(id) {
+  const endpoint = BASE_URL + `hotelier/owned_hotel/room/editing/?roomId=${id}`;
   return await fetch(endpoint, {
     method: "GET",
     headers: headers,
   }).then((res) => res.json());
 }
-export function GetOneRoom(id){
+export function GetOneRoom(id) {
   const [loading, setLoading] = useState(true);
   const [room, setRoom] = useState([]);
   const [error, setError] = useState(null);
   useEffect(() => {
     LockedEdit(id)
       .then((res) => {
-        checkMsg(res.msg)
-        setLoading(false);
-        setRoom(res.data);
+        if (res.msg !== "Ok") {
+          alert(
+            "other hotelier is editing, the request will be processed again after 2min"
+          );
+          var intervalTimerId = setInterval(() => {
+            LockedEdit(id)
+            .then((r)=>{res=r;})
+            console.log(res)
+          if (res.msg === "Ok"){alert(
+            "you can edit now"
+            
+          );
+          setLoading(false);
+          setRoom(res.data);
+          clearInterval(intervalTimerId);}}, 60000);
+          
+        }else{
+          setLoading(false);
+          setRoom(res.data);
+        }
+        
+       
       })
       .catch((e) => {
         setLoading(false);
