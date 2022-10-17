@@ -3,7 +3,6 @@ package io.swen90007sm2.app.blo;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.param.UpdateHotelParam;
-import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 
 import java.math.BigDecimal;
@@ -91,6 +90,8 @@ public interface IHotelBlo {
      * page query, used in search page. postCode string match.
      */
     List<HotelVo> searchHotelsByPageByPostCode(String currencyName, Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order);
+
+    void editOwnedHotelV(String hotelierId, UpdateHotelParam hotelParam);
 
     /**
      * get all hotels, may be used in admin

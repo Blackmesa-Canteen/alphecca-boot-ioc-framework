@@ -2,7 +2,6 @@ package io.swen90007sm2.app.controller.hotelier.api;
 
 import io.swen90007sm2.alpheccaboot.annotation.filter.AppliesFilter;
 import io.swen90007sm2.alpheccaboot.annotation.ioc.AutoInjected;
-import io.swen90007sm2.alpheccaboot.annotation.ioc.Qualifier;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.Controller;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.HandlesRequest;
 import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
@@ -11,11 +10,8 @@ import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
 import io.swen90007sm2.app.blo.IHotelBlo;
 import io.swen90007sm2.app.common.constant.CommonConstant;
-import io.swen90007sm2.app.lock.IResourceUserLockManager;
-import io.swen90007sm2.app.lock.constant.LockConstant;
 import io.swen90007sm2.app.model.param.HotelParam;
 import io.swen90007sm2.app.model.param.UpdateHotelParam;
-import io.swen90007sm2.app.model.param.UpdateRoomParam;
 import io.swen90007sm2.app.model.vo.HotelVo;
 import io.swen90007sm2.app.security.bean.AuthToken;
 import io.swen90007sm2.app.security.constant.SecurityConstant;
@@ -96,6 +92,17 @@ public class HotelController {
                 CommonConstant.AUD_CURRENCY, true);
 
         return R.ok().setData(hotelVo);
+    }
+
+    @HandlesRequest(path = "/v", method = RequestMethod.PUT)
+    @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
+    public R editOwnedHotelV(HttpServletRequest request, @RequestJsonBody @Valid UpdateHotelParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        hotelBlo.editOwnedHotelV(userId, param);
+
+        return R.ok();
     }
 
     /**

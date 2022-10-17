@@ -29,6 +29,7 @@ import io.swen90007sm2.app.db.bean.PageBean;
 import io.swen90007sm2.app.db.helper.UnitOfWorkHelper;
 import io.swen90007sm2.app.lock.IResourceUserLockManager;
 import io.swen90007sm2.app.lock.constant.LockConstant;
+import io.swen90007sm2.app.lock.exception.ResourceConflictException;
 import io.swen90007sm2.app.model.entity.Hotel;
 import io.swen90007sm2.app.model.entity.HotelAmenity;
 import io.swen90007sm2.app.model.entity.Hotelier;
@@ -1029,6 +1030,56 @@ public class HotelBlo implements IHotelBlo {
         } else {
             return hotelVos.subList(startRow, totalRowNum);
         }
+    }
+
+    @Override
+    public void editOwnedHotelV(String hotelierId, UpdateHotelParam hotelParam) {
+        String hotelId = hotelParam.getHotelId();
+        int formVersion = hotelParam.getVersion();
+        IHotelDao hotelDao = BeanManager.getLazyBeanByClass(HotelDao.class);
+        Hotel hotel = getHotelEntityByHotelId(hotelId);
+        if (hotel == null) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+        int currentVersion = hotel.getVersion();
+        if (currentVersion > formVersion) {
+            throw new ResourceConflictException(
+                    "Rejected: room " + hotelId + " info has been modified by hotelier, please refresh" +
+                            "and check latest room information"
+            );
+        } else if (currentVersion < formVersion) {
+            throw new RequestException(
+                    "requested version is too high for room " + hotelId
+            );
+        }
+
+        Hotelier currentHotelier = hotelierBlo.getHotelierInfoByUserId(hotelierId);
+        String currentOwnedHotelId = currentHotelier.getHotelId();
+        if (StringUtils.isEmpty(currentOwnedHotelId)) {
+            throw new RequestException(
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getMessage(),
+                    StatusCodeEnume.HOTELIER_NOT_HAS_HOTEL.getCode()
+            );
+        }
+
+        // update hotel
+        if (hotelParam.getOnSale() != null) hotel.setOnSale(hotelParam.getOnSale());
+        if (hotelParam.getAddress() != null) hotel.setAddress(hotelParam.getAddress());
+        if (hotelParam.getName() != null) hotel.setName(hotelParam.getName());
+        if (hotelParam.getDescription() != null) hotel.setDescription(hotelParam.getDescription());
+        if (hotelParam.getPostCode() != null) hotel.setPostCode(hotelParam.getPostCode());
+
+        UnitOfWorkHelper.getCurrent().registerDirty(
+                hotel,
+                hotelDao,
+                CacheConstant.ENTITY_HOTEL_KEY_PREFIX + hotelId
+        );
+
+        // update amenity (atom update the associate table)
+        hotelAmenityBlo.updateAmenityIdsForHotel(hotelParam.getAmenityIds(), hotelId);
     }
 
     @Override
