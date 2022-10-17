@@ -63,7 +63,8 @@ export function EditDetail(props) {
       address: address,
       postCode: postCode,
       onSale: onSale,
-      amenities: amenityArray.sort(),
+      amenityIds: amenityArray.sort(),
+      version:hotelInfo.version
     };
     
     editHotel(newInfo);

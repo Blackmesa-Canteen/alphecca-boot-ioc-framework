@@ -134,22 +134,14 @@ export async function registerHotel(hotel) {
 
 //edit hotel facility (put)
 export async function editHotel(hotel) {
-  const endpoint = BASE_URL + `hotelier/owned_hotel/editing`;
-  const { hotelId, name, description, address, postCode, onSale, amenities } = hotel;
+  const endpoint = BASE_URL + `hotelier/owned_hotel/v`;
+  
   axios({
     url: endpoint,
     method: "PUT",
     headers: headers,
     data: JSON.stringify(
-      {
-        hotelId:hotelId,
-        name: name,
-        description: description,
-        address: address,
-        postCode: postCode,
-        onSale: onSale,
-        amenityIds: amenities,
-      },
+      hotel,
       { withCrednetials: true }
     ),
   })
