@@ -42,8 +42,12 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
                     // throw concurrency exception
                     throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
                             "please refresh page， and try again later");
+                } else {
+                    // if the lock belongs to the user, no need for blocking, but renew the lock
+                    // before renew the lock, delete previous one.
+                    // The acquire method is synchronized, this delete lock will not attract problems
+                    resourceUserLockDao.deleteOneByResourceAndUser(resourceId, userId);
                 }
-
             }
         }
 
