@@ -17,6 +17,7 @@ import java.util.List;
  * <br/>
  * supports: PostgreSql
  * https://www.jianshu.com/p/3e2535700159
+ *
  * @author xiaotian
  */
 
@@ -67,7 +68,7 @@ public class DbHelper {
     /**
      * get db info from config file
      */
-    private static void getDbInfoFromConfigFile(){
+    private static void getDbInfoFromConfigFile() {
         dbPoolDriverName = ConfigFileManager.getDbDriver();
         Assert.hasText(dbPoolDriverName, "configuration DbDriver field missing!");
         dbIp = ConfigFileManager.getDbIp();
@@ -151,7 +152,7 @@ public class DbHelper {
 
     /**
      * close db resource connection.
-     *
+     * <p>
      * It won't close db connection
      */
     public static void closeDbResource(Connection conn, PreparedStatement pstmt, ResultSet rs) {
@@ -190,7 +191,7 @@ public class DbHelper {
     public static void closeDbResourceBatch(Connection conn, List<PreparedStatement> pstmtList, List<ResultSet> rsList) {
         try {
             if (rsList != null) {
-                for (ResultSet rs: rsList) {
+                for (ResultSet rs : rsList) {
                     if (rs != null) rs.close();
                 }
             }
@@ -206,6 +207,39 @@ public class DbHelper {
 //            }
         } catch (SQLException e) {
             LOGGER.error("Close db connection error: ", e);
+        }
+    }
+
+    public static Connection getAutoCommitConnection() {
+        try {
+            Class.forName(dbPoolDriverName);
+            if (StringUtils.isEmpty(dbUrlFromSystemEnv)) {
+                // get connection from config file
+                String dbUrl = "jdbc:postgresql://" + dbIp + "/" + dbDbName + "?currentSchema=" + dbSchemeName;
+                // get connection
+                Connection connection = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+                connection.setAutoCommit(true);
+                return connection;
+            } else {
+                // get connection
+                Connection connection = DriverManager.getConnection(dbUrlFromSystemEnv, dbUserName, dbPassword);
+                connection.setAutoCommit(true);
+                return connection;
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("get database connection error. ", e);
+            throw new InternalException("get database connection error.");
+        }
+    }
+
+    public static void releaseConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                LOGGER.error("Close db connection error: ", e);
+            }
         }
     }
 }
