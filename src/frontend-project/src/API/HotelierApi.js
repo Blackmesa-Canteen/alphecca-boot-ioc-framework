@@ -6,6 +6,8 @@ const headers = {
   "Content-Type": "application/json",
   Authorization: localStorage.getItem("Hotelier"),
 };
+
+var intervalTimerId=null;
 // get hotelier user information
 function getInfo() {
   const endpoint = BASE_URL + `hotelier`;
@@ -134,7 +136,6 @@ export async function registerHotel(hotel) {
 
 //edit hotel facility (put)
 export async function editHotel(hotel) {
-
   const endpoint = BASE_URL + `hotelier/owned_hotel/v`;
   axios({
     url: endpoint,
@@ -230,6 +231,9 @@ export async function editRoom(room) {
     ),
   })
     .then(() => {
+     if(intervalTimerId){
+      clearInterval(intervalTimerId);
+     }
       console.log("success");
       window.location = "/hotelier";
     })
@@ -329,27 +333,18 @@ export function GetOneRoom(id) {
     LockedEdit(id)
       .then((res) => {
         if (res.msg !== "Ok") {
-          alert(
-            "other hotelier is editing, the request will be processed again after 2min"
-          );
-          var intervalTimerId = setInterval(() => {
-            LockedEdit(id)
-            .then((r)=>{res=r;})
-            console.log(res)
-          if (res.msg === "Ok"){alert(
-            "you can edit now"
-            
-          );
-          setLoading(false);
-          setRoom(res.data);
-          clearInterval(intervalTimerId);}}, 60000);
-          
-        }else{
+          alert("Some one is editing please wait");
+        } else {
+          intervalTimerId = setInterval(() => {
+            LockedEdit(id).then((r) => {
+              res = r;
+            });
+            console.log(res);
+          }, 60000);
+
           setLoading(false);
           setRoom(res.data);
         }
-        
-       
       })
       .catch((e) => {
         setLoading(false);
