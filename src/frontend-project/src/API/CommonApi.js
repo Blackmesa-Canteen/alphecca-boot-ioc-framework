@@ -126,5 +126,7 @@ export function checkMsg(msg){
   if(msg!=="Ok"){
     alert(msg)
     throw new Error(msg);
+    return false;
   }
+  return true;
 }
