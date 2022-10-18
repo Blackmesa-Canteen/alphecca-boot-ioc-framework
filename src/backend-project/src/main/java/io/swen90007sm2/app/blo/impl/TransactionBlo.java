@@ -391,7 +391,7 @@ public class TransactionBlo implements ITransactionBlo {
 
             // get the existing room orders for this hotel at this date range
             List<RoomOrder> existingRoomOrders = roomOrderBlo.getRoomOrdersByHotelIdAndDateRange(
-                    hotelId, start, end, CommonConstant.TRANSACTION_CANCELLED);
+                    hotelId, start, end, CommonConstant.TRANSACTION_CONFIRMED);
 
 
             Room room = roomBlo.getRoomEntityByRoomId(targetRoomId);
