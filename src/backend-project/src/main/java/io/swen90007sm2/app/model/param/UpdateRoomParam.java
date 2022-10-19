@@ -115,4 +115,6 @@ public class UpdateRoomParam {
     public void setOnSale(Boolean onSale) {
         this.onSale = onSale;
     }
+
+
 }

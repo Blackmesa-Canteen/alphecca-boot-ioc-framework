@@ -9,7 +9,10 @@ import io.swen90007sm2.alpheccaboot.annotation.mvc.RequestJsonBody;
 import io.swen90007sm2.alpheccaboot.annotation.validation.Validated;
 import io.swen90007sm2.alpheccaboot.bean.R;
 import io.swen90007sm2.alpheccaboot.common.constant.RequestMethod;
+import io.swen90007sm2.app.blo.IRoomBlo;
 import io.swen90007sm2.app.blo.ITransactionBlo;
+import io.swen90007sm2.app.model.entity.Room;
+import io.swen90007sm2.app.model.param.CrateTransactionParamV2;
 import io.swen90007sm2.app.model.param.CreateTransactionParam;
 import io.swen90007sm2.app.model.param.CustomerUpdateRoomOrderParam;
 import io.swen90007sm2.app.model.vo.TransactionVo;
@@ -27,6 +30,9 @@ public class TransactionController {
 
     @AutoInjected
     ITransactionBlo transactionBlo;
+
+    @AutoInjected
+    IRoomBlo roomBlo;
 
     @HandlesRequest(path = "/", method = RequestMethod.POST)
     @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
@@ -82,6 +88,51 @@ public class TransactionController {
     public R getAllTransactionsWithStatusCode( @QueryParam(value = "customerId") String customerId, @QueryParam(value = "statusCode") int statusCode, @QueryParam(value = "currencyName") String currencyName) {
         List<TransactionVo> transactions = transactionBlo.getAllTransactionsForCustomerIdWithStatusCode(customerId, statusCode, currencyName);
         return R.ok().setData(transactions);
+    }
+
+    @HandlesRequest(path = "/book", method = RequestMethod.GET)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R bookHotelWithLock(HttpServletRequest request, @QueryParam(value = "roomId") String roomId) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        Room roomEntity = roomBlo.getRoomEntityByRoomIdWithLock(roomId, userId);
+        return R.ok().setData(roomEntity);
+    }
+
+    @HandlesRequest(path = "/book", method = RequestMethod.POST)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R bookHotelWithLock(HttpServletRequest request, @Valid @RequestJsonBody CreateTransactionParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        transactionBlo.doMakeBookingWithRoomLock(
+                userId,
+                param.getHotelId(),
+                param.getStartDate(),
+                param.getEndDate(),
+                param.getRoomIdNumberMap()
+        );
+
+        return R.ok();
+    }
+
+    @HandlesRequest(path = "/book_version_check", method = RequestMethod.POST)
+    @AppliesFilter(filterNames = {SecurityConstant.CUSTOMER_ROLE_NAME})
+    public R bookHotelWithVersionAndLock(HttpServletRequest request, @Valid @RequestJsonBody CrateTransactionParamV2 param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        transactionBlo.doMakeBookingWithRoomVersionAndLock(
+                param.getVersion(),
+                userId,
+                param.getHotelId(),
+                param.getStartDate(),
+                param.getEndDate(),
+                param.getRoomIdNumberMap()
+        );
+
+        return R.ok();
     }
 
 }

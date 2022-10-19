@@ -17,7 +17,7 @@ public interface ITransactionBlo {
 
     void doUpdateBooking(String transactionId, String roomOrderId, int newQuantity);
 
-    void doUpdateBookingWithLock(String transactionId, String roomOrderId, int newQuantity);
+//    void doUpdateBookingWithLock(String transactionId, String roomOrderId, int newQuantity);
 
     void doCancelBooking(String transactionId);
 
@@ -37,4 +37,8 @@ public interface ITransactionBlo {
     List<TransactionVo> getAllTransactionsForHotelierId(String hotelierId, String currencyName);
 
     List<TransactionVo> getAllTransactionsForHotelierIdWithStatusCode(String hotelierId, Integer statusCode, String currencyName);
+
+    void doMakeBookingWithRoomLock(String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap);
+
+    void doMakeBookingWithRoomVersionAndLock(Integer version, String customerId, String hotelId, Date start, Date end, Map<String, Integer> roomIdNumberMap);
 }

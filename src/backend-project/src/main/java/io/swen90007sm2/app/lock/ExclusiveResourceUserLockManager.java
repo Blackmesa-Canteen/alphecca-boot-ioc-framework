@@ -36,15 +36,24 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
                 resourceUserLockDao.deleteOneByResourceId(resourceId);
 
             } else {
-                // if the lock is valid and exist, throw concurrency exception
-                throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
-                        "please refresh page， and try again later");
+                if (existingLock.getUserId() == null || !existingLock.getUserId().equals(userId)) {
+                    // if the lock is valid and exist,
+                    // and the lock does not belong to this user,
+                    // throw concurrency exception
+                    throw new ResourceConflictException("Resource Lock: the public exclusive data is accessed by the other user, " +
+                            "please refresh page， and try again later");
+                } else {
+                    // if the lock belongs to the user, no need for blocking, but renew the lock
+                    // before renew the lock, delete previous one.
+                    // The acquire method is synchronized, this delete lock will not attract problems
+                    resourceUserLockDao.deleteOneByResourceAndUser(resourceId, userId);
+                }
             }
-
         }
 
         ResourceUserLock lock = new ResourceUserLock(
-                resourceId
+                resourceId,
+                userId
         );
 
         resourceUserLockDao.insertOne(lock);
@@ -52,6 +61,10 @@ public class ExclusiveResourceUserLockManager implements IResourceUserLockManage
 
     @Override
     public synchronized void release(String resourceId, String userId) throws ResourceConflictException {
-        resourceUserLockDao.deleteOneByResourceId(resourceId);
+        if (userId != null) {
+            resourceUserLockDao.deleteOneByResourceAndUser(resourceId, userId);
+        } else {
+            resourceUserLockDao.deleteOneByResourceId(resourceId);
+        }
     }
 }

@@ -64,17 +64,23 @@ public class RoomController {
     // edit with lock
     @HandlesRequest(path = "/editing", method = RequestMethod.PUT)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
-    public R editRoomWithLock(@RequestJsonBody @Valid UpdateRoomParam param) {
+    public R editRoomWithLock(HttpServletRequest request, @RequestJsonBody @Valid UpdateRoomParam param) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
         param.setCurrency(param.getCurrency().toUpperCase());
-        roomBlo.doUpdateRoomWithLock(param);
+        roomBlo.doUpdateRoomWithLock(param, userId);
         return R.ok();
     }
 
     // get with lock
     @HandlesRequest(path = "/editing", method = RequestMethod.GET)
     @AppliesFilter(filterNames = {SecurityConstant.HOTELIER_ROLE_NAME})
-    public R editRoomWithLock(@QueryParam(value = "roomId") String roomId) {
-        Room roomEntity = roomBlo.getRoomEntityByRoomIdWithLock(roomId);
+    public R getRoomWithLock(HttpServletRequest request, @QueryParam(value = "roomId") String roomId) {
+        String token = request.getHeader(SecurityConstant.JWT_HEADER_NAME);
+        AuthToken authToken = TokenHelper.parseAuthTokenString(token);
+        String userId = authToken.getUserId();
+        Room roomEntity = roomBlo.getRoomEntityByRoomIdWithLock(roomId, userId);
         return R.ok().setData(roomEntity);
     }
 }

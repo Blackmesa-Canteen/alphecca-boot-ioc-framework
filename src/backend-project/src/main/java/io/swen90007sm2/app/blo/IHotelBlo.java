@@ -21,9 +21,9 @@ public interface IHotelBlo {
      * edit a hotel of one hotelier
      * @param hotelierId hotelier person id
      */
-    void editOwnedHotel(String hotelierId, HotelParam hotelParam);
+    void editOwnedHotel(String hotelierId, UpdateHotelParam hotelParam);
 
-    void editOwnedHotelWithLock(String hotelierId, HotelParam hotelParam);
+    void editOwnedHotelWithLock(String hotelierId, UpdateHotelParam hotelParam);
 
     /**
      * update a hotel info by hotel id
@@ -90,6 +90,8 @@ public interface IHotelBlo {
      * page query, used in search page. postCode string match.
      */
     List<HotelVo> searchHotelsByPageByPostCode(String currencyName, Integer pageNum, Integer pageSize, String postCode, Integer sortBy, Integer order);
+
+    void editOwnedHotelV(String hotelierId, UpdateHotelParam hotelParam);
 
     /**
      * get all hotels, may be used in admin

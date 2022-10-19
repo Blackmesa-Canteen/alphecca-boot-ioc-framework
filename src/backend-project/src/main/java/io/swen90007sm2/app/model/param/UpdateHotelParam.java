@@ -32,6 +32,8 @@ public class UpdateHotelParam {
     @NotNull(message = "Hotel amenity list should be not null")
     private List<String> amenityIds;
 
+    private Integer version;
+
     public UpdateHotelParam() {
     }
 
@@ -98,5 +100,13 @@ public class UpdateHotelParam {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

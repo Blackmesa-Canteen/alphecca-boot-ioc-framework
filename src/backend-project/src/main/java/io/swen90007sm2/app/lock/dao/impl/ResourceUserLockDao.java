@@ -14,8 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static io.swen90007sm2.app.db.helper.DbHelper.closeDbResource;
-import static io.swen90007sm2.app.db.helper.DbHelper.getConnection;
+import static io.swen90007sm2.app.db.helper.DbHelper.*;
 
 /**
  * @author 996Worker
@@ -70,7 +69,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = getConnection();
+            conn = getAutoCommitConnection();
             preparedStatement = conn.prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
                 // parameterIndex – the first parameter is 1, the second is 2, ...
@@ -85,6 +84,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
                     "please try again later");
         } finally {
             closeDbResource(conn, preparedStatement, null);
+            releaseConnection(conn);
         }
     }
 
@@ -96,7 +96,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = getConnection();
+            conn = getAutoCommitConnection();
             preparedStatement = conn.prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
                 // parameterIndex – the first parameter is 1, the second is 2, ...
@@ -110,6 +110,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
             throw new InternalException("Can not release the resource user lock.");
         } finally {
             closeDbResource(conn, preparedStatement, null);
+            releaseConnection(conn);
         }
     }
 
@@ -121,7 +122,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = getConnection();
+            conn = getAutoCommitConnection();
             preparedStatement = conn.prepareStatement(sql);
             for (int i = 0; i < params.length; i++) {
                 // parameterIndex – the first parameter is 1, the second is 2, ...
@@ -135,6 +136,7 @@ public class ResourceUserLockDao implements IResourceUserLockDao {
             throw new InternalException("Can not release the resource user lock.");
         } finally {
             closeDbResource(conn, preparedStatement, null);
+            releaseConnection(conn);
         }
     }
 }

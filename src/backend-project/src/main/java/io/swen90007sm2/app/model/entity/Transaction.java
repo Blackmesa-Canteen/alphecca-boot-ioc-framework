@@ -1,9 +1,15 @@
 package io.swen90007sm2.app.model.entity;
 
+import io.swen90007sm2.alpheccaboot.core.ioc.BeanManager;
 import io.swen90007sm2.app.common.constant.CommonConstant;
+import io.swen90007sm2.app.dao.impl.RoomOrderDao;
+import io.swen90007sm2.app.db.annotation.Transient;
+import io.swen90007sm2.app.model.pojo.Money;
+import io.swen90007sm2.app.model.vo.RoomOrderVo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 996Worker
@@ -14,9 +20,11 @@ public class Transaction extends BaseEntity {
 
     private String transactionId;
 
-    private String customerId;
+    @Transient
+    private List<RoomOrder> roomOrders;
 
-    private String hotelId;
+    @Transient
+    private Hotel hotel;
 
     private Integer statusCode = CommonConstant.TRANSACTION_PENDING;
 
@@ -29,6 +37,12 @@ public class Transaction extends BaseEntity {
 
     // in database it is always AUD
     private String currency = CommonConstant.AUD_CURRENCY;
+
+    private Money money;
+
+    private String customerId;
+
+    private String hotelId;
 
     public Transaction() {
     }
@@ -132,6 +146,35 @@ public class Transaction extends BaseEntity {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public Money getMoney() {
+        return money;
+    }
+
+    public void setMoney(Money money) {
+        this.money = money;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+    public List<RoomOrder> getRoomOrders() {
+        if (roomOrders == null) {
+            RoomOrderDao roomOrderDao = BeanManager.getLazyBeanByClass(RoomOrderDao.class);
+            roomOrders = roomOrderDao.findRoomOrdersByTransactionId(getTransactionId());
+        }
+
+        return roomOrders;
+    }
+
+    public void setRoomOrders(List<RoomOrder> roomOrders) {
+        this.roomOrders = roomOrders;
     }
 
     @Override
