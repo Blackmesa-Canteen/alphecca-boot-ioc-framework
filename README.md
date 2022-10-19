@@ -27,6 +27,8 @@ Expedia, the business operates as a search engine and booking system for hotel s
 
 :two: [Part 2 Release](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/releases/tag/SWEN90007_2022_Part2_Alphecca)
 
+:three: [Part 3 Release](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/releases/tag/SWEN90007_2022_Part3_Alphecca)
+
 ## Heroku Deployment Repositories
 #### Front-end Deployment
 [Link to Front-end in Heroku](https://swen90007-alphecca-frontend.herokuapp.com/)
@@ -36,7 +38,7 @@ Expedia, the business operates as a search engine and booking system for hotel s
 [Link to Admin Login](https://swen90007-alphecca-frontend.herokuapp.com/adminLogin/)
 
 ## Data Samples
-For the purpose of part two, simple and basic data samples for the Cutsomer, Hotelier and Admin have been created under [here](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/tree/main/docs/data-samples). You can find the credential details of each of the role in the three documents listed below:
+For the purpose testing the system, simple and basic data samples for the Cutsomer, Hotelier and Admin have been created under [here](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/tree/main/docs/data-samples). You can find the credential details of each of the role in the three documents listed below:
 
 * [customer.doc](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/blob/main/docs/data-samples/customer.doc)
 	* User Id: edisontest1@gmail.com
