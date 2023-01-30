@@ -18,6 +18,8 @@ Click [here](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/tree/main/
 
 ## Run
 Please use Java 11 to run `io.swen90007sm2.app.HotelBookingApplication`, which is located in `SWEN90007-2022-Alphecca/src/backend-project/`.
+
+**WARNING**: Since the database is now invalid, please configure the correct database connection in the configuration file of the backend project.
  
 
 ## Project Overview
