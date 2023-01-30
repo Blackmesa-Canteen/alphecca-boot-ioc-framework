@@ -1,16 +1,26 @@
-# SWEN90007- 2022
+
 # Alphecca Hotel Booking System
- 
-## Team Members
-Xiaotian Li 1141181 xiaotian4@student.unimelb.edu.au
-
-Haimo Lu 1053789 haimol@student.unimelb.edu.au
-
-Edison Yang 1048372 lishuny@student.unimelb.edu.au
-
-Yifei Wang 1025048 yifewang2@student.unimelb.edu.au
 
 ## Intro
+This project introduced an IoC backend framework Alphecca Boot, which is inspired by Spring Boot Framework.
+The backend framework supports:
+- Tomcat server embedded as an object. Don't need to configure web container while development.
+- NIO Dispatcher Servlet.
+- IoC singleton bean container, class scan. Dependency injection with @AutoInjected annotation.
+- Injection qualifier to inject specific bean you have defined.
+- RESTful API support, can also support basic HttpServletRequest or HttpServletResponse.
+- Annotation support for MVC: @Controller, @Blo, @Dao.
+- JSR303 Validation for Json Body parameter.
+- Filter for request, helpful in authorization.
+- Demo Configuration file support.
+
+Click [here](https://github.com/SWEN900072022/SWEN90007-2022-Alphecca/tree/main/src/backend-project) to jump to the backend part of the project.
+
+## Run
+Please use Java 11 to run `io.swen90007sm2.app.HotelBookingApplication`, which is located in `SWEN90007-2022-Alphecca/src/backend-project/`.
+ 
+
+## Project Overview
 
 An implementation of an online hotel booking application that allows Customers to book stays at hotels.
 The application would aggregate properties from different Hoteliers and display them to Customers. Similar to
